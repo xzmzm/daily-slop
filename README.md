@@ -10,3 +10,4 @@ See [`AGENTS.md`](./AGENTS.md) for the full workflow / stack rules.
 | Date | Project | Stack | Built by |
 | --- | --- | --- | --- |
 | 2026-07-24 | [tiny-worlds](./2026-07-24-tiny-worlds/) — generative-art toy, seeded procedural landscapes | Vanilla HTML/CSS/JS | GLM-5.2 |
+| 2026-07-25 | [nodal-sand](./2026-07-25-nodal-sand/) — interactive Chladni plate; sand settles on standing-wave nodes | Vanilla HTML/CSS/JS | Grok 4.5 |
