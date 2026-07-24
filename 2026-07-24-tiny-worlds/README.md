@@ -7,6 +7,7 @@ celestial reflection, the occasional sailboat or gull — rendered to a `<canvas
 Every world is just a **seed** (a short string). The same seed always produces
 the same world, so worlds are shareable: the URL carries `#seed=...`.
 
+> *Built by GLM-5.2.*
 > Part of [daily-slop](../README.md) — one small original project a day.
 
 ## Stack

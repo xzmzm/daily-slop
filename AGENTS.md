@@ -55,6 +55,20 @@ Every project `README.md` must include a **"How to run"** section. Examples:
 - FastAPI: `python3 -m uvicorn main:app --reload` then open `http://localhost:8000`.
 - Framework: `pnpm install && pnpm dev`.
 
+## Model attribution
+
+When you know **which model** built a project (i.e. you know your own model
+identity), record it:
+
+- **Top-level `README.md` index:** add a **`Built by`** column naming the model
+  (e.g. `GLM-5.2`).
+- **Per-project `README.md`:** add a short `Built by <model>` line near the top.
+
+Keep the name short and consistent across days (`GLM-5.2`, not the full
+internal id like `builtin:zai-coding-plan/GLM-5.2`). If the model identity is
+genuinely unknown, omit it rather than guess — the column/line is optional, not
+mandatory.
+
 ## Daily workflow (for the agent)
 
 1. **Note today's date.**

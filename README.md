@@ -7,6 +7,6 @@ See [`AGENTS.md`](./AGENTS.md) for the full workflow / stack rules.
 
 ## Index
 
-| Date | Project | Stack |
-| --- | --- | --- |
-| 2026-07-24 | [tiny-worlds](./2026-07-24-tiny-worlds/) — generative-art toy, seeded procedural landscapes | Vanilla HTML/CSS/JS |
+| Date | Project | Stack | Built by |
+| --- | --- | --- | --- |
+| 2026-07-24 | [tiny-worlds](./2026-07-24-tiny-worlds/) — generative-art toy, seeded procedural landscapes | Vanilla HTML/CSS/JS | GLM-5.2 |
