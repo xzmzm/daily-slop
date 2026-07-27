@@ -10,7 +10,8 @@ This workspace is a **daily-build playground**: one small, original web app ship
 - **Self-contained:** every project must run locally with zero paid / external
   API keys. All data and procedural generation stays local.
 - **Keep it tidy:** each project lives in its own folder with its own
-  `README.md` describing what it is and how to run it. The top-level
+  `README.md` describing what it is and how to run it, plus a `NOTES.md`
+  with the story behind it (see "Per-project docs" below). The top-level
   `README.md` is an index linking to every day's project.
 
 ## Originality (the only hard rule that matters)
@@ -44,16 +45,41 @@ Rules of thumb:
 ```
 YYYY-MM-DD-<name>/
 ├── README.md          # what it is + how to run
+├── NOTES.md           # why / how / interesting notes (see below)
 ├── index.html         # or framework entrypoint
 ├── (style / app code)
 └── main.py            # only if there's a FastAPI backend
 ```
 
-Every project `README.md` must include a **"How to run"** section. Examples:
+## Per-project docs
+
+Each project ships **two** markdown files:
+
+### `README.md` — the user-facing card
+
+Short and practical: what it is, and a **"How to run"** section. Examples:
 
 - Vanilla: `open index.html` (or `python3 -m http.server` then visit the URL).
 - FastAPI: `python3 -m uvicorn main:app --reload` then open `http://localhost:8000`.
 - Framework: `pnpm install && pnpm dev`.
+
+### `NOTES.md` — the story behind the build
+
+The interesting part. Written the same day, while it's fresh. Suggested
+sections (adapt freely, but cover the spirit of each):
+
+- **Why this project?** — where the idea came from: the news item, trend,
+  itch, or accident that sparked it, and why it beat the other candidates.
+- **How it works** — the core mechanism/algorithm in plain language: the
+  math, the data structure, the trick that makes it tick. Enough that a
+  reader could re-implement it.
+- **Interesting notes** — anything worth remembering: dead ends and rewrites,
+  surprising behavior, tuning constants that mattered, things learned,
+  ideas deliberately left out of scope.
+
+Keep it honest and specific — "the shadow math was wrong for 20 minutes
+because I mixed up azimuth conventions" is exactly the kind of note that
+belongs here. A `NOTES.md` that could describe any project is a fail.
 
 ## Model attribution
 
@@ -77,7 +103,9 @@ mandatory.
 4. **Pick one concept** that's doable in ~1 hour and unlike prior days.
 5. **Build it** following the stack policy above.
 6. **Make sure it runs** — actually verify it, don't assume.
-7. **Add it to the top-level `README.md` index.**
+7. **Write the docs** — `README.md` (what + how to run) and `NOTES.md`
+   (why / how it works / interesting notes), same day.
+8. **Add it to the top-level `README.md` index.**
 
 ## File / delete policy
 

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Morphogen — an interactive Gray-Scott reaction-diffusion petri dish. Paint to seed two chemicals and watch Turing patterns grow."
+    />
+    <meta name="theme-color" content="#04121a" />
+    <title>Morphogen · a reaction-diffusion petri dish</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="stage">
+      <header class="titlebar">
+        <h1>Morphogen</h1>
+        <p>A living petri dish. Two chemicals, one Laplacian, Turing’s patterns.</p>
+      </header>
+
+      <div class="dish-wrap">
+        <canvas id="dish" width="200" height="200" aria-label="Reaction-diffusion petri dish"></canvas>
+        <p class="hint" id="hint">Drag on the dish to inoculate. Patterns bloom outward.</p>
+      </div>
+
+      <aside class="panel" aria-label="Controls">
+        <section class="group">
+          <div class="group-head">
+            <span>RECIPE</span>
+            <small id="recipe-name">Corals</small>
+          </div>
+          <div class="recipes" id="recipes"></div>
+        </section>
+
+        <section class="group">
+          <div class="group-head"><span>CHEMISTRY</span></div>
+          <label class="slider">
+            <span>feed <b id="feed-val">0.0545</b></span>
+            <input id="feed" type="range" min="0.010" max="0.090" step="0.0005" value="0.0545" />
+          </label>
+          <label class="slider">
+            <span>kill <b id="kill-val">0.0620</b></span>
+            <input id="kill" type="range" min="0.040" max="0.075" step="0.0005" value="0.0620" />
+          </label>
+          <label class="slider">
+            <span>brush <b id="brush-val">10</b></span>
+            <input id="brush" type="range" min="3" max="28" step="1" value="10" />
+          </label>
+        </section>
+
+        <section class="group">
+          <div class="group-head"><span>PALETTE</span></div>
+          <div class="palettes" id="palettes"></div>
+        </section>
+
+        <section class="group actions">
+          <button id="play" class="primary" type="button">⏸ Pause</button>
+          <div class="btn-row">
+            <button id="seed" type="button">✦ Reseed</button>
+            <button id="clear" type="button">✧ Clear</button>
+          </div>
+          <p class="keys">
+            <kbd>Space</kbd> play · <kbd>R</kbd> reseed · <kbd>C</kbd> clear · <kbd>N</kbd> recipe
+          </p>
+        </section>
+      </aside>
+    </div>
+
+    <footer class="site-footer">
+      <span>Morphogen · 2026-07-28</span>
+      <span>Gray–Scott reaction–diffusion · runs entirely in your browser</span>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
