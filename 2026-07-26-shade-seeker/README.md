@@ -54,6 +54,9 @@ python3 -m http.server 8000
 - Below 15° altitude the scene gets a golden-hour tint; below the horizon,
   night falls and *everything* is shade.
 
+See [`NOTES.md`](./NOTES.md) for why this project, the offscreen-mask trick,
+and the dead ends.
+
 ## Files
 
 | File | Purpose |
