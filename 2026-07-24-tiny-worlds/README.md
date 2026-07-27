@@ -48,6 +48,9 @@ python3 -m http.server 8000
 - Everything is drawn to a 960×540 canvas with gradients, silhouettes, and a
   subtle vignette + grain pass for cohesion.
 
+See [`NOTES.md`](./NOTES.md) for why this project, the deterministic-seed
+design, and the gotchas.
+
 ## Files
 
 | File | Purpose |
