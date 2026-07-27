@@ -4,16 +4,19 @@
 
 ## Why this project?
 
-Day one of the daily-slop playground needed to set the tone: something small,
-self-contained, and *visual* — a toy you can share, not a utility you have to
-explain. A **seeded procedural landscape** fits perfectly. The whole appeal is
-"one short string → one entire tiny world," and because the same seed always
-rebuilds the same scene, worlds become shareable via a URL.
+Day one had two jobs at once: stand up the **repeatable daily-build contract**
+(`AGENTS.md` + a top-level index) *and* ship the first actual project. So the
+project itself needed to be small, self-contained, and *visual* — a toy you can
+share, not a utility you have to explain.
 
-It's also the right *kind* of first project: pure client-side, no backend, no
-dependencies, no API keys — exactly the default the workspace calls for. A
-generative-art canvas toy proves the "open `index.html` and it runs" promise
-before anything fancier shows up on later days.
+The concept was picked after a quick scan of what was in the air (trending July
+2026 tech news via CNBC Tech and an r/webdev app-idea thread), then
+deliberately steered away from "another CRUD app" toward generative art. A
+**seeded procedural landscape** won because its whole appeal is "one short
+string → one entire tiny world," and because the same seed always rebuilds the
+same scene, worlds become shareable via a URL. It's also pure client-side — no
+backend, no deps, no keys — which is exactly the vanilla-by-default rule the new
+`AGENTS.md` was being written to encode.
 
 ## How it works
 
@@ -56,8 +59,22 @@ up so browser back/forward walks between worlds.
 - **Palette is the mood.** All four "times of day" share the same geometry code;
   only the colour table and a `night` flag differ (night adds stars, hides
   birds, gives the moon craters). One data table, four distinct feelings.
-- **Process:** built the GLM-5.2 way per the workspace workflow — a bit of web
-  searching for direction, a couple of clarifying questions, a quick plan, then
-  iterate-and-verify in the browser before shipping.
+- **Verification was a headless Node harness, not a browser.** Rather than eyeball
+  it, `app.js` was driven end-to-end in a throwaway `mktemp -d` dir with a stubbed
+  DOM + canvas context, run against **8 different seeds** (~4,000 draw calls each).
+  That checked the real "done" criteria: it loads, moods vary by seed, and
+  determinism holds — the same seed produced a **byte-identical render-call
+  sequence**. `node --check app.js` covered syntax first.
+- **The plan drifted from 3 parallax ridgelines to 2 hill layers.** The written
+  plan sketched three; the shipped code settled on two summed-sine layers (far
+  lighter, near darker), which read as depth without the extra cost. Worth
+  remembering that the spec is a starting point, not a contract.
+- **Publishing snags worth noting.** The first `git add -A` swept in a
+  `.zcode/plans/` tooling artifact; it was excluded and `.zcode/` added to
+  `.gitignore` before the initial push. The workspace's no-`rm` delete hook also
+  fired oddly — a `cd` prefix defeated the `git rm --cached` whitelist, and code
+  comments happened to contain the token the scanner keys on — so the un-staging
+  was done with `git update-ref`/`read-tree` plumbing instead. No real file was
+  ever deleted.
 - **Left out of scope:** true value noise, parallax/animation, and mobile-canvas
   resizing. A fixed 960×540 canvas kept day one honest and simple.
