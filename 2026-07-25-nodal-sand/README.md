@@ -59,3 +59,9 @@ python3 -m http.server 8000
 | `index.html` | Markup: canvas + controls |
 | `style.css` | Dark plate lab theme |
 | `app.js` | Particle sim, field viz, Web Audio |
+
+## Notes
+
+See [`NOTES.md`](./NOTES.md) for the story behind the build — why a Chladni
+plate followed the seeded landscapes, the `A²` kick trick that pools sand on the
+nodal lines, and the offscreen-field caching that keeps 10k grains at 60fps.

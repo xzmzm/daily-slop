@@ -51,3 +51,9 @@ record. A print stylesheet isolates the generated card.
 | `index.html` | Semantic intake form and museum card |
 | `style.css` | Responsive editorial layout and print treatment |
 | `app.js` | Seeded local catalog generator and interactions |
+
+## Notes
+
+See [`NOTES.md`](./NOTES.md) for the story behind the build — the archaeology
+headlines that inspired it, the hash → PRNG → template engine, and why the
+humor lives in the corpus rather than the code.
