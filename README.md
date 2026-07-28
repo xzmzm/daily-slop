@@ -5,6 +5,26 @@ One small, original web app shipped per day. Each project lives in a
 
 See [`AGENTS.md`](./AGENTS.md) for the full workflow / stack rules.
 
+## Gallery
+
+A visual showcase of every daily project, with screenshots, a click-to-play
+viewer, and each project's `NOTES.md` / `README.md` behind an ⓘ button:
+
+```
+python3 -m http.server        # from the repo root
+```
+
+then open <http://localhost:8000>. The gallery is generated — after adding a
+new daily project, rebuild it with:
+
+```
+python3 tools/build_gallery.py
+```
+
+This rescans the project folders, re-parses the docs, and re-captures
+screenshots via headless Chrome (falls back to placeholders without Chrome).
+Use `--no-shots` to skip the screenshot pass.
+
 ## Index
 
 | Date | Project | Stack | Built by |

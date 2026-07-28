@@ -106,6 +106,10 @@ mandatory.
 7. **Write the docs** — `README.md` (what + how to run) and `NOTES.md`
    (why / how it works / interesting notes), same day.
 8. **Add it to the top-level `README.md` index.**
+9. **Rebuild the gallery** — `python3 tools/build_gallery.py`. This regenerates
+   `gallery/manifest.js` and the screenshots in `gallery/shots/` from the
+   project folders; the root `index.html` showcase and `view.html` notes
+   viewer need no manual edits.
 
 ## File / delete policy
 

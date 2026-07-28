@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>daily-slop — viewer</title>
+<link rel="stylesheet" href="gallery/gallery.css">
+</head>
+<body class="viewer-page">
+  <iframe id="frame" title="project"></iframe>
+
+  <a id="back-btn" class="float-btn" href="index.html" title="back to gallery">&larr;</a>
+  <button id="info-btn" class="float-btn" title="notes &amp; readme" aria-expanded="false">&#9432;</button>
+
+  <aside id="panel" aria-hidden="true">
+    <div class="panel-head">
+      <div class="panel-tabs" role="tablist">
+        <button class="tab active" data-tab="notes" role="tab">NOTES</button>
+        <button class="tab" data-tab="readme" role="tab">README</button>
+      </div>
+      <button id="panel-close" title="close">&times;</button>
+    </div>
+    <div id="panel-body" class="md"></div>
+  </aside>
+  <div id="scrim"></div>
+
+  <script src="gallery/manifest.js"></script>
+  <script src="gallery/md.js"></script>
+  <script src="gallery/viewer.js"></script>
+</body>
+</html>
