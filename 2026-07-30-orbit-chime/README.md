@@ -1,5 +1,7 @@
 # Orbit Chime
 
+Built by Qwen3.8-Max-Preview
+
 An orbital polyrhythm music box. Planets ride concentric orbits whose periods
 are locked to integer ratios (2:3:4:5…, primes, odds, fibonacci). Every time a
 planet sweeps past the 12-o'clock meridian it chimes one note of a scale —
