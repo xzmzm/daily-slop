@@ -42,5 +42,8 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=dailyslop --branch=${{ github.ref_name }} --commit-hash=${{ github.sha }}
+          # Cloudflare Pages is configured with `main` as its production branch.
+          # The repository can stay on `master`; this flag routes the upload to
+          # the production deployment instead of creating a master preview.
+          command: pages deploy dist --project-name=dailyslop --branch=main --commit-hash=${{ github.sha }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
