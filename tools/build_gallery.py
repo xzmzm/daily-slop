@@ -12,18 +12,22 @@ Usage:  python3 tools/build_gallery.py [--no-shots] [--strict-shots]
 """
 
 import functools
+import base64
 import http.server
 import json
 import os
 import re
+import secrets
 import shutil
 import socket
+import struct
 import subprocess
 import sys
 import threading
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+from urllib.request import urlopen
 
 ROOT = Path(__file__).resolve().parent.parent
 GALLERY = ROOT / "gallery"
@@ -134,6 +138,135 @@ def start_server():
     return httpd, port
 
 
+def find_free_port():
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.bind(("127.0.0.1", 0))
+        return s.getsockname()[1]
+
+
+def wait_for_devtools(port, proc, timeout):
+    """Wait for Chrome's local DevTools HTTP endpoint and return a page socket URL."""
+    endpoint = f"http://127.0.0.1:{port}/json/list"
+    deadline = time.time() + timeout
+    last_error = None
+    while time.time() < deadline:
+        if proc.poll() is not None:
+            raise RuntimeError(f"Chrome exited before DevTools started (exit {proc.returncode})")
+        try:
+            with urlopen(endpoint, timeout=1) as response:
+                targets = json.load(response)
+            for target in targets:
+                if target.get("type") == "page" and target.get("webSocketDebuggerUrl"):
+                    return target["webSocketDebuggerUrl"]
+        except (OSError, ValueError) as exc:
+            last_error = exc
+        time.sleep(0.1)
+    raise TimeoutError(f"DevTools did not start on port {port}: {last_error or 'timeout'}")
+
+
+class DevToolsConnection:
+    """Small stdlib-only WebSocket client for the Chrome DevTools Protocol."""
+
+    def __init__(self, websocket_url):
+        from urllib.parse import urlparse
+
+        parsed = urlparse(websocket_url)
+        self.sock = socket.create_connection(
+            (parsed.hostname, parsed.port or 80), timeout=WAIT_S
+        )
+        key = base64.b64encode(secrets.token_bytes(16)).decode("ascii")
+        host = parsed.hostname if not parsed.port else f"{parsed.hostname}:{parsed.port}"
+        request = (
+            f"GET {parsed.path} HTTP/1.1\r\n"
+            f"Host: {host}\r\n"
+            "Upgrade: websocket\r\n"
+            "Connection: Upgrade\r\n"
+            f"Sec-WebSocket-Key: {key}\r\n"
+            "Sec-WebSocket-Version: 13\r\n"
+            "Origin: http://127.0.0.1\r\n\r\n"
+        )
+        self.sock.sendall(request.encode("ascii"))
+        response = bytearray()
+        while b"\r\n\r\n" not in response:
+            chunk = self.sock.recv(4096)
+            if not chunk:
+                raise ConnectionError("Chrome closed the DevTools handshake")
+            response.extend(chunk)
+        if not response.startswith(b"HTTP/1.1 101"):
+            raise ConnectionError(response.decode("utf-8", errors="replace"))
+        self.next_id = 0
+
+    def _read_exact(self, size):
+        data = bytearray()
+        while len(data) < size:
+            chunk = self.sock.recv(size - len(data))
+            if not chunk:
+                raise ConnectionError("Chrome closed the DevTools socket")
+            data.extend(chunk)
+        return bytes(data)
+
+    def _send_frame(self, payload, opcode=1):
+        payload = payload if isinstance(payload, bytes) else payload.encode("utf-8")
+        length = len(payload)
+        if length < 126:
+            header = bytes([0x80 | opcode, 0x80 | length])
+        elif length < 65536:
+            header = bytes([0x80 | opcode, 0x80 | 126]) + struct.pack("!H", length)
+        else:
+            header = bytes([0x80 | opcode, 0x80 | 127]) + struct.pack("!Q", length)
+        mask = secrets.token_bytes(4)
+        masked = bytes(value ^ mask[i % 4] for i, value in enumerate(payload))
+        self.sock.sendall(header + mask + masked)
+
+    def _receive_frame(self, timeout):
+        self.sock.settimeout(timeout)
+        first, second = self._read_exact(2)
+        opcode = first & 0x0F
+        masked = bool(second & 0x80)
+        length = second & 0x7F
+        if length == 126:
+            length = struct.unpack("!H", self._read_exact(2))[0]
+        elif length == 127:
+            length = struct.unpack("!Q", self._read_exact(8))[0]
+        mask = self._read_exact(4) if masked else None
+        payload = bytearray(self._read_exact(length))
+        if mask:
+            for i in range(length):
+                payload[i] ^= mask[i % 4]
+        return opcode, bytes(payload)
+
+    def command(self, method, params=None, timeout=WAIT_S):
+        self.next_id += 1
+        command_id = self.next_id
+        message = {"id": command_id, "method": method}
+        if params:
+            message["params"] = params
+        self._send_frame(json.dumps(message, separators=(",", ":")))
+        deadline = time.time() + timeout
+        while time.time() < deadline:
+            opcode, payload = self._receive_frame(max(.1, deadline - time.time()))
+            if opcode == 0x9:
+                self._send_frame(payload, opcode=0xA)
+                continue
+            if opcode == 0x8:
+                raise ConnectionError("Chrome closed the DevTools connection")
+            if opcode != 0x1:
+                continue
+            response = json.loads(payload.decode("utf-8"))
+            if response.get("id") != command_id:
+                continue
+            if "error" in response:
+                raise RuntimeError(response["error"])
+            return response.get("result", {})
+        raise TimeoutError(f"Timed out waiting for DevTools command {method}")
+
+    def close(self):
+        try:
+            self.sock.close()
+        except OSError:
+            pass
+
+
 def placeholder_svg(project):
     hue = sum(project["dir"].encode()) % 360
     return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{SHOT_W}" height="{SHOT_H}" viewBox="0 0 {SHOT_W} {SHOT_H}">
@@ -157,40 +290,55 @@ def capture(chrome, port, project, tmp_dir, strict=False):
         tmp_png = capture_dir / "screenshot.png"
         log_path = capture_dir / "chrome.log"
         ci_flags = ["--no-sandbox", "--disable-dev-shm-usage"] if os.environ.get("CI") else []
+        debug_port = find_free_port()
         cmd = [
             chrome, "--headless", "--disable-gpu", "--hide-scrollbars",
             "--mute-audio", "--disable-extensions", "--no-first-run",
             *ci_flags,
             f"--user-data-dir={capture_dir / 'chrome-profile'}",
-            f"--window-size={SHOT_W},{SHOT_H}",
-            # capture SETTLE_MS after load so animations have drawn something
-            f"--timeout={SETTLE_MS}",
-            "--screenshot", url,
+            "--remote-allow-origins=*",
+            "--remote-debugging-address=127.0.0.1",
+            f"--remote-debugging-port={debug_port}",
+            url,
         ]
         return_code = None
+        proc = None
+        devtools = None
+        log = None
         try:
-            # Chrome writes the screenshot in cwd and can keep an rAF loop
-            # alive afterward, so poll the file separately from the process.
-            # Keep its output so CI failures include the actual browser error.
-            with log_path.open("w", encoding="utf-8") as log:
-                proc = subprocess.Popen(
-                    cmd,
-                    cwd=str(capture_dir),
-                    stdout=log,
-                    stderr=subprocess.STDOUT,
-                )
-                deadline = time.time() + WAIT_S
-                size = -1
-                while time.time() < deadline:
-                    if tmp_png.exists():
-                        current_size = tmp_png.stat().st_size
-                        if current_size > 0 and current_size == size:
-                            break  # file present and stable
-                        size = current_size
-                    if proc.poll() is not None:
-                        break  # Chrome exited without producing a file
-                    time.sleep(0.25)
-
+            log = log_path.open("w", encoding="utf-8")
+            proc = subprocess.Popen(
+                cmd,
+                cwd=str(capture_dir),
+                stdout=log,
+                stderr=subprocess.STDOUT,
+            )
+            websocket_url = wait_for_devtools(debug_port, proc, WAIT_S)
+            devtools = DevToolsConnection(websocket_url)
+            devtools.command("Page.enable")
+            devtools.command(
+                "Emulation.setDeviceMetricsOverride",
+                {
+                    "width": SHOT_W,
+                    "height": SHOT_H,
+                    "deviceScaleFactor": 1,
+                    "mobile": False,
+                },
+            )
+            devtools.command("Page.navigate", {"url": url})
+            # Let animations settle before asking the page for its bitmap.
+            time.sleep(SETTLE_MS / 1000)
+            result = devtools.command(
+                "Page.captureScreenshot",
+                {"format": "png", "fromSurface": True},
+            )
+            tmp_png.write_bytes(base64.b64decode(result["data"]))
+        except Exception as e:
+            print(f"  ! capture failed for {project['dir']}: {e}")
+        finally:
+            if devtools:
+                devtools.close()
+            if proc:
                 if proc.poll() is None:
                     proc.terminate()
                 try:
@@ -198,35 +346,33 @@ def capture(chrome, port, project, tmp_dir, strict=False):
                 except subprocess.TimeoutExpired:
                     proc.kill()
                     return_code = proc.wait(timeout=5)
+            if log:
+                log.close()
 
-            if tmp_png.exists() and tmp_png.stat().st_size > 0:
-                shutil.move(str(tmp_png), png)
-                # downscale in place to keep the repo light (macOS sips)
-                if shutil.which("sips"):
-                    subprocess.run(
-                        ["sips", "--resampleWidth", str(THUMB_W), str(png)],
-                        capture_output=True,
-                    )
-                svg.unlink(missing_ok=True)
-                return f"shots/{png.name}"
+        if tmp_png.exists() and tmp_png.stat().st_size > 0:
+            shutil.move(str(tmp_png), png)
+            # downscale in place to keep the repo light (macOS sips)
+            if shutil.which("sips"):
+                subprocess.run(
+                    ["sips", "--resampleWidth", str(THUMB_W), str(png)],
+                    capture_output=True,
+                )
+            svg.unlink(missing_ok=True)
+            return f"shots/{png.name}"
 
-            details = ""
-            if log_path.exists():
-                lines = log_path.read_text(encoding="utf-8", errors="replace").splitlines()
-                if lines:
-                    details = "\n".join("    " + line for line in lines[-8:])
-            print(
-                f"  ! capture produced no png for {project['dir']} "
-                f"(Chrome exit {return_code})"
-            )
-            if details:
-                print(f"  ! Chrome output:\n{details}")
-            if strict:
-                return None
-        except (subprocess.SubprocessError, OSError) as e:
-            print(f"  ! capture failed for {project['dir']}: {e}")
-            if strict:
-                return None
+        details = ""
+        if log_path.exists():
+            lines = log_path.read_text(encoding="utf-8", errors="replace").splitlines()
+            if lines:
+                details = "\n".join("    " + line for line in lines[-8:])
+        print(
+            f"  ! capture produced no png for {project['dir']} "
+            f"(Chrome exit {return_code})"
+        )
+        if details:
+            print(f"  ! Chrome output:\n{details}")
+        if strict:
+            return None
 
     if strict:
         return None
