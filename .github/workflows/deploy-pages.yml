@@ -3,7 +3,7 @@ name: Deploy gallery to Cloudflare Pages
 on:
   push:
     branches:
-      - master
+      - main
   workflow_dispatch:
 
 permissions:
@@ -42,7 +42,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          # Omitting --branch makes this a production deployment. The source
-          # repository can stay on `master`; Pages owns the production branch.
+          # The workflow runs from `main`, which is Cloudflare Pages' production
+          # branch. Omitting --branch keeps this as a production deployment.
           command: pages deploy dist --project-name=dailyslop --commit-hash=${{ github.sha }}
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
