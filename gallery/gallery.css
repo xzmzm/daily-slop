@@ -102,6 +102,39 @@ body {
 }
 .card .byline b { color: var(--ink); font-weight: 600; }
 
+.site-header .header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.repo-link {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border: 1px solid var(--edge);
+  border-radius: 50%;
+  color: var(--dim);
+  text-decoration: none;
+  transition: border-color .15s ease, color .15s ease, transform .15s ease;
+}
+.repo-link:hover {
+  border-color: var(--acc);
+  color: var(--acc);
+  transform: scale(1.06);
+}
+.repo-link:focus-visible {
+  outline: 2px solid var(--acc);
+  outline-offset: 3px;
+}
+.repo-link svg {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+}
+
 .site-footer {
   max-width: 1180px;
   margin: 0 auto;
