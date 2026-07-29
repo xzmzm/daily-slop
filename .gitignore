@@ -5,5 +5,8 @@ __pycache__/
 .venv/
 .env
 
+# Generated deployment bundle
+dist/
+
 # ZCode tooling state
 .zcode/

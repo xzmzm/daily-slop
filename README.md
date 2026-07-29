@@ -29,6 +29,10 @@ This rescans the project folders, re-parses the docs, and re-captures
 screenshots via headless Chrome (falls back to placeholders without Chrome).
 Use `--no-shots` to skip the screenshot pass.
 
+The GitHub Actions deploy rebuilds the manifest and screenshots with Chrome,
+then generates the ignored `dist/` upload bundle before deploying it to
+Cloudflare Pages.
+
 ## Index
 
 | Date | Project | Stack | Built by |

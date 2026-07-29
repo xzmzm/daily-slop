@@ -24,8 +24,16 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Rebuild gallery manifest
-        run: python tools/build_gallery.py --no-shots
+      - name: Set up Chrome for gallery screenshots
+        uses: browser-actions/setup-chrome@v2
+        with:
+          chrome-version: stable
+
+      - name: Verify Chrome
+        run: chrome --version
+
+      - name: Rebuild gallery manifest and screenshots
+        run: python tools/build_gallery.py
 
       - name: Build upload bundle
         run: python tools/build_dist.py

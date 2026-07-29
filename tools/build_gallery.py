@@ -33,8 +33,11 @@ PROJECT_RE = re.compile(r"^\d{4}-\d{2}-\d{2}-[a-z0-9][a-z0-9-]*$")
 CHROME_CANDIDATES = [
     "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
     "/Applications/Chromium.app/Contents/MacOS/Chromium",
+    shutil.which("chrome") or "",
+    shutil.which("google-chrome-stable") or "",
     shutil.which("google-chrome") or "",
     shutil.which("chromium") or "",
+    shutil.which("chromium-browser") or "",
 ]
 
 SHOT_W, SHOT_H = 1280, 800     # capture size
