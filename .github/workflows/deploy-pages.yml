@@ -1,0 +1,46 @@
+name: Deploy gallery to Cloudflare Pages
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  deployments: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Rebuild gallery manifest
+        run: python tools/build_gallery.py --no-shots
+
+      - name: Build upload bundle
+        run: python tools/build_dist.py
+
+      - name: Verify upload bundle
+        run: |
+          test -f dist/index.html
+          test -f dist/view.html
+          test -f dist/gallery/manifest.js
+          test -f dist/2026-07-29-backrooms/index.html
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=dailyslop --branch=${{ github.ref_name }} --commit-hash=${{ github.sha }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}

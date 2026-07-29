@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nodal Sand — Chladni plate</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="wrap">
+      <header class="head">
+        <h1>Nodal Sand <span class="dim">∿</span></h1>
+        <p class="tag">
+          A living Chladni plate. Sand flees the peaks of a standing wave and
+          gathers on the quiet nodal lines — pure resonance, no physics lab required.
+        </p>
+      </header>
+
+      <figure class="stage">
+        <canvas
+          id="plate"
+          width="720"
+          height="720"
+          aria-label="Chladni plate with sand particles forming nodal patterns"
+        ></canvas>
+        <figcaption class="meta" id="meta">mode (1, 1) · 0 Hz</figcaption>
+      </figure>
+
+      <div class="controls">
+        <label class="field">
+          <span>mode n</span>
+          <input id="modeN" type="range" min="1" max="8" step="1" value="2" />
+          <output id="modeNOut" for="modeN">2</output>
+        </label>
+        <label class="field">
+          <span>mode m</span>
+          <input id="modeM" type="range" min="1" max="8" step="1" value="3" />
+          <output id="modeMOut" for="modeM">3</output>
+        </label>
+        <label class="field">
+          <span>drive</span>
+          <input id="drive" type="range" min="0" max="100" step="1" value="55" />
+          <output id="driveOut" for="drive">55</output>
+        </label>
+        <label class="field">
+          <span>damping</span>
+          <input id="damping" type="range" min="0" max="100" step="1" value="72" />
+          <output id="dampingOut" for="damping">72</output>
+        </label>
+      </div>
+
+      <div class="controls actions">
+        <button id="reshuffle" class="btn primary" type="button">✦ Reseed sand</button>
+        <button id="scatter" class="btn" type="button">✧ Scatter</button>
+        <button id="preset" class="btn" type="button">⟳ Next pattern</button>
+        <button id="audio" class="btn" type="button" aria-pressed="false">♪ Sound off</button>
+      </div>
+
+      <p class="hint">
+        Drag on the plate to brush sand. Higher modes carve finer lattices.
+        Sound is a soft sine at the plate’s driving frequency.
+      </p>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

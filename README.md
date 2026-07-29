@@ -3,7 +3,11 @@
 One small, original web app shipped per day. Each project lives in a
 `YYYY-MM-DD-<name>/` folder and is self-contained.
 
+**Live gallery:** [dailyslop.pages.dev](https://dailyslop.pages.dev/)
+
 See [`AGENTS.md`](./AGENTS.md) for the full workflow / stack rules.
+
+Released under the [MIT License](./LICENSE).
 
 ## Gallery
 

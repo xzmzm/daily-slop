@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>daily-slop — one small web app per day</title>
+<link rel="stylesheet" href="gallery/gallery.css">
+</head>
+<body class="gallery-page">
+  <header class="site-header">
+    <h1>daily<span class="tilde">-</span>slop</h1>
+    <p class="strap">one small, original web app shipped per day — click a card to play it</p>
+  </header>
+
+  <main id="grid" class="grid" aria-label="daily projects"></main>
+
+  <footer class="site-footer">
+    <span id="build-info"></span>
+    <span>· rebuilt by <code>tools/build_gallery.py</code></span>
+  </footer>
+
+  <script src="gallery/manifest.js"></script>
+  <script src="gallery/gallery.js"></script>
+</body>
+</html>
