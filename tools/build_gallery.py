@@ -8,12 +8,13 @@ gallery/manifest.js consumed by the root index.html + view.html.
 Zero dependencies beyond the Python stdlib. Chrome is optional — if it
 is missing (or a capture fails) an SVG placeholder is generated instead.
 
-Usage:  python3 tools/build_gallery.py [--no-shots]
+Usage:  python3 tools/build_gallery.py [--no-shots] [--strict-shots]
 """
 
 import functools
 import http.server
 import json
+import os
 import re
 import shutil
 import socket
@@ -145,41 +146,59 @@ def placeholder_svg(project):
 """
 
 
-def capture(chrome, port, project, tmp_dir):
+def capture(chrome, port, project, tmp_dir, strict=False):
     """Screenshot one project; return shot filename relative to gallery/."""
     png = SHOTS / f"{project['dir']}.png"
     svg = SHOTS / f"{project['dir']}.svg"
     if chrome:
         url = f"http://127.0.0.1:{port}/{project['dir']}/index.html"
-        tmp_png = tmp_dir / f"{project['dir']}.png"
+        capture_dir = tmp_dir / "captures" / project["dir"]
+        capture_dir.mkdir(parents=True, exist_ok=True)
+        tmp_png = capture_dir / "screenshot.png"
+        log_path = capture_dir / "chrome.log"
+        ci_flags = ["--no-sandbox", "--disable-dev-shm-usage"] if os.environ.get("CI") else []
         cmd = [
-            chrome, "--headless=new", "--disable-gpu", "--hide-scrollbars",
+            chrome, "--headless", "--disable-gpu", "--hide-scrollbars",
             "--mute-audio", "--disable-extensions", "--no-first-run",
-            f"--user-data-dir={tmp_dir / 'chrome-profile' / project['dir']}",
+            *ci_flags,
+            f"--user-data-dir={capture_dir / 'chrome-profile'}",
             f"--window-size={SHOT_W},{SHOT_H}",
             # capture SETTLE_MS after load so animations have drawn something
             f"--timeout={SETTLE_MS}",
-            f"--screenshot={tmp_png}", url,
+            "--screenshot", url,
         ]
+        return_code = None
         try:
-            # Chrome writes the png but often never exits on pages with an
-            # endless rAF loop — so poll for the file, then kill the process.
-            proc = subprocess.Popen(
-                cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
-            )
-            deadline = time.time() + WAIT_S
-            size = -1
-            while time.time() < deadline:
-                if tmp_png.exists():
-                    s = tmp_png.stat().st_size
-                    if s > 0 and s == size:
-                        break  # file present and stable
-                    size = s
-                if proc.poll() is not None and tmp_png.exists():
-                    break
-                time.sleep(0.5)
-            proc.kill()
-            proc.wait(timeout=10)
+            # Chrome writes the screenshot in cwd and can keep an rAF loop
+            # alive afterward, so poll the file separately from the process.
+            # Keep its output so CI failures include the actual browser error.
+            with log_path.open("w", encoding="utf-8") as log:
+                proc = subprocess.Popen(
+                    cmd,
+                    cwd=str(capture_dir),
+                    stdout=log,
+                    stderr=subprocess.STDOUT,
+                )
+                deadline = time.time() + WAIT_S
+                size = -1
+                while time.time() < deadline:
+                    if tmp_png.exists():
+                        current_size = tmp_png.stat().st_size
+                        if current_size > 0 and current_size == size:
+                            break  # file present and stable
+                        size = current_size
+                    if proc.poll() is not None:
+                        break  # Chrome exited without producing a file
+                    time.sleep(0.25)
+
+                if proc.poll() is None:
+                    proc.terminate()
+                try:
+                    return_code = proc.wait(timeout=5)
+                except subprocess.TimeoutExpired:
+                    proc.kill()
+                    return_code = proc.wait(timeout=5)
+
             if tmp_png.exists() and tmp_png.stat().st_size > 0:
                 shutil.move(str(tmp_png), png)
                 # downscale in place to keep the repo light (macOS sips)
@@ -190,9 +209,27 @@ def capture(chrome, port, project, tmp_dir):
                     )
                 svg.unlink(missing_ok=True)
                 return f"shots/{png.name}"
-            print(f"  ! capture produced no png for {project['dir']}")
+
+            details = ""
+            if log_path.exists():
+                lines = log_path.read_text(encoding="utf-8", errors="replace").splitlines()
+                if lines:
+                    details = "\n".join("    " + line for line in lines[-8:])
+            print(
+                f"  ! capture produced no png for {project['dir']} "
+                f"(Chrome exit {return_code})"
+            )
+            if details:
+                print(f"  ! Chrome output:\n{details}")
+            if strict:
+                return None
         except (subprocess.SubprocessError, OSError) as e:
             print(f"  ! capture failed for {project['dir']}: {e}")
+            if strict:
+                return None
+
+    if strict:
+        return None
     if not png.exists():
         svg.write_text(placeholder_svg(project), encoding="utf-8")
         return f"shots/{svg.name}"
@@ -201,6 +238,7 @@ def capture(chrome, port, project, tmp_dir):
 
 def main():
     take_shots = "--no-shots" not in sys.argv
+    strict_shots = "--strict-shots" in sys.argv
     SHOTS.mkdir(parents=True, exist_ok=True)
 
     print("scanning projects…")
@@ -214,11 +252,18 @@ def main():
         import tempfile
         with tempfile.TemporaryDirectory() as td:
             tmp_dir = Path(td)
+            failed = []
             for p in projects:
                 t0 = time.time()
-                p["shot"] = capture(chrome, port, p, tmp_dir)
+                p["shot"] = capture(chrome, port, p, tmp_dir, strict=strict_shots)
+                if p["shot"] is None:
+                    failed.append(p["dir"])
                 print(f"  {p['dir']} -> {p['shot']} ({time.time() - t0:.1f}s)")
         httpd.shutdown()
+        if failed:
+            raise SystemExit(
+                "screenshot generation failed for: " + ", ".join(failed)
+            )
     else:
         for p in projects:
             png = SHOTS / f"{p['dir']}.png"

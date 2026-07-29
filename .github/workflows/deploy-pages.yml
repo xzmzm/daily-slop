@@ -33,7 +33,7 @@ jobs:
         run: chrome --version
 
       - name: Rebuild gallery manifest and screenshots
-        run: python tools/build_gallery.py
+        run: python tools/build_gallery.py --strict-shots
 
       - name: Build upload bundle
         run: python tools/build_dist.py
