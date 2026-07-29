@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Orbit Chime — an orbital polyrhythm music box. Planets on integer-ratio orbits chime a pentatonic note each time they cross the meridian."
+    />
+    <meta name="theme-color" content="#050510" />
+    <title>Orbit Chime · an orbital polyrhythm music box</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="stage">
+      <header class="titlebar">
+        <h1>Orbit Chime</h1>
+        <p>Planets on integer-ratio orbits. Each meridian crossing is a note. Polyrhythm, drawn.</p>
+      </header>
+
+      <div class="sky-wrap">
+        <canvas id="sky" aria-label="Orbital polyrhythm visualizer"></canvas>
+        <p class="hint" id="hint">Press play, then click a planet's orbit to mute it.</p>
+      </div>
+
+      <aside class="panel" aria-label="Controls">
+        <section class="group">
+          <button id="play" class="primary" type="button">▶ Play</button>
+        </section>
+
+        <section class="group">
+          <div class="group-head"><span>CLOCK</span></div>
+          <label class="slider">
+            <span>cycle <b id="cycle-val">6.0s</b></span>
+            <input id="cycle" type="range" min="3" max="14" step="0.5" value="6" />
+          </label>
+          <label class="slider">
+            <span>planets <b id="count-val">6</b></span>
+            <input id="count" type="range" min="2" max="9" step="1" value="6" />
+          </label>
+        </section>
+
+        <section class="group">
+          <div class="group-head"><span>PERIODS</span><small id="ratio-name">2 : 3 : 4 : 5 : 6 : 7</small></div>
+          <div class="choices" id="ratios"></div>
+        </section>
+
+        <section class="group">
+          <div class="group-head"><span>SCALE</span></div>
+          <div class="choices" id="scales"></div>
+        </section>
+
+        <section class="group">
+          <p class="keys">
+            <kbd>Space</kbd> play · <kbd>1</kbd>–<kbd>9</kbd> mute planet · <kbd>S</kbd> scale · <kbd>P</kbd> periods
+          </p>
+        </section>
+      </aside>
+    </div>
+
+    <footer class="site-footer">
+      <span>Orbit Chime · 2026-07-30</span>
+      <span>Web Audio polyrhythm sequencer · runs entirely in your browser</span>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
