@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perseid Vigil — 2026 shower simulator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="sky"></canvas>
+
+<header id="hud">
+  <h1>Perseid Vigil</h1>
+  <p class="sub">the 2026 shower, night by night</p>
+</header>
+
+<aside id="readout">
+  <div class="stat"><span id="ro-date">—</span><label>sim clock, 22:00 → 04:30</label></div>
+  <div class="stat"><span id="ro-zhr">—</span><label>ZHR at peak of night</label></div>
+  <div class="stat"><span id="ro-rate">—</span><label>visible/hr right now</label></div>
+  <div class="stat"><span id="ro-radiant">—</span><label>radiant altitude</label></div>
+  <div class="stat"><span id="ro-moon">—</span><label>moon</label></div>
+</aside>
+
+<footer id="controls">
+  <div id="curve-wrap">
+    <canvas id="curve" width="640" height="56"></canvas>
+    <input id="night" type="range" min="0" max="38" step="1" value="14"
+           aria-label="night of the shower">
+  </div>
+  <div id="ctl-row">
+    <span id="night-label">—</span>
+    <button id="btn-tonight" type="button">tonight</button>
+    <button id="btn-peak" type="button">peak night</button>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
