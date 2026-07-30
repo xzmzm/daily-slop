@@ -1,5 +1,7 @@
 # NOTES — Perseid Vigil
 
+*2026-07-31 · Built by Qwen3.8-Max-Preview*
+
 ## Why this project?
 
 Today's web scout landed straight on the Perseids: the shower has been active

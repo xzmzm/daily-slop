@@ -1,5 +1,7 @@
 # ☄️ Perseid Vigil (2026-07-31)
 
+Built by Qwen3.8-Max-Preview
+
 A **night-by-night simulator of the 2026 Perseid meteor shower** — the one
 happening right now (active Jul 17 → Aug 24, peaking Aug 12–13 under a new
 moon). An all-sky fisheye view replays each night from 22:00 to 04:30:
