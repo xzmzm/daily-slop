@@ -46,3 +46,4 @@ Cloudflare Pages.
 | 2026-07-29 | [backrooms](./2026-07-29-backrooms/) — endless procedural liminal-space walker; raycast yellow rooms, flickering lights, a hum, doorways that only go down | Vanilla HTML/CSS/JS | Kimi K3 |
 | 2026-07-30 | [orbit-chime](./2026-07-30-orbit-chime/) — orbital polyrhythm music box; planets on integer-ratio orbits chime pentatonic notes at the meridian | Vanilla HTML/CSS/JS | Qwen3.8-Max-Preview |
 | 2026-07-31 | [perseid-vigil](./2026-07-31-perseid-vigil/) — night-by-night simulator of the 2026 Perseid shower; real radiant geometry, ZHR activity curve, moonlight washout | Vanilla HTML/CSS/JS | Qwen3.8-Max-Preview |
+| 2026-08-01 | [eclipse-chaser](./2026-08-01-eclipse-chaser/) — the Aug 12 2026 total eclipse from anywhere; NASA path data, click the map for your totality duration, magnitude and a phase-by-phase sun animation | Vanilla HTML/CSS/JS | DeepSeek-V4-Flash |

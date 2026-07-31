@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eclipse Chaser — Aug 12 2026, from anywhere</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header id="top">
+  <h1>Eclipse&nbsp;Chaser</h1>
+  <p class="sub">the Aug 12 2026 total solar eclipse, from anywhere in Europe</p>
+  <p id="countdown">—</p>
+</header>
+
+<main id="stage">
+  <section id="map-wrap">
+    <canvas id="map" width="760" height="560"></canvas>
+    <p class="hint">click the map — or pick a city below — to see the eclipse from there</p>
+    <div id="chips"></div>
+  </section>
+
+  <aside id="panel">
+    <div id="sun-wrap">
+      <canvas id="sun" width="300" height="300"></canvas>
+      <div id="phase-label">—</div>
+    </div>
+
+    <div id="readout">
+      <div class="stat big"><span id="ro-place">—</span><label>your spot</label></div>
+      <div class="stat"><span id="ro-type">—</span><label>what you get</label></div>
+      <div class="stat"><span id="ro-max">—</span><label>maximum eclipse (local)</label></div>
+      <div class="stat"><span id="ro-mag">—</span><label>magnitude / obscuration</label></div>
+      <div class="stat"><span id="ro-tot">—</span><label>totality</label></div>
+      <div class="stat"><span id="ro-sun">—</span><label>sun at maximum</label></div>
+      <div class="stat"><span id="ro-contacts">—</span><label>contacts (local)</label></div>
+      <div class="stat"><span id="ro-note">—</span><label>note</label></div>
+    </div>
+
+    <div id="timeline">
+      <input id="scrub" type="range" min="0" max="1000" step="1" value="0" aria-label="eclipse timeline">
+      <div id="scrub-row">
+        <span id="tl-left">—</span>
+        <button id="btn-play" type="button">▶ play</button>
+        <button id="btn-max" type="button">max</button>
+        <span id="tl-right">—</span>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<footer id="foot">
+  <p>approximate geometry — enough to know where to stand, not for eclipse navigation ·
+  path data: NASA TRACK.GOO + Wikipedia city table · <span id="built">Built by DeepSeek-V4-Flash</span></p>
+</footer>
+
+<script src="path.js"></script>
+<script src="coast.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
