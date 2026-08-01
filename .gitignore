@@ -10,6 +10,7 @@ dist/
 
 # Generated gallery screenshots
 gallery/shots/*.png
+gallery/shots/.daily-slop-trash/
 
 # ZCode tooling state
 .zcode/

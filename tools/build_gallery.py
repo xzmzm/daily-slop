@@ -23,6 +23,7 @@ import socket
 import struct
 import subprocess
 import sys
+import tempfile
 import threading
 import time
 from datetime import datetime, timezone
@@ -49,6 +50,25 @@ SHOT_W, SHOT_H = 1280, 800     # capture size
 THUMB_W = 800                  # downscaled width kept in the repo
 SETTLE_MS = 6000               # let animations run this long before the shot
 WAIT_S = 30                    # max real time to wait for the png to appear
+
+
+def recoverable_discard(path):
+    """Move an obsolete artifact somewhere recoverable instead of deleting it."""
+    path = Path(path)
+    if not path.exists() and not path.is_symlink():
+        return
+
+    trash_command = shutil.which("trash")
+    if trash_command:
+        subprocess.run([trash_command, str(path)], check=True)
+        return
+
+    # CI images do not provide the macOS `trash` command. Keep the artifact on
+    # the same filesystem in a hidden quarantine directory for the job's life.
+    quarantine = path.parent / ".daily-slop-trash"
+    quarantine.mkdir(exist_ok=True)
+    destination = quarantine / f"{path.name}.{secrets.token_hex(8)}"
+    path.rename(destination)
 
 
 def find_chrome():
@@ -350,14 +370,15 @@ def capture(chrome, port, project, tmp_dir, strict=False):
                 log.close()
 
         if tmp_png.exists() and tmp_png.stat().st_size > 0:
-            shutil.move(str(tmp_png), png)
+            recoverable_discard(png)
+            shutil.copy2(tmp_png, png)
             # downscale in place to keep the repo light (macOS sips)
             if shutil.which("sips"):
                 subprocess.run(
                     ["sips", "--resampleWidth", str(THUMB_W), str(png)],
                     capture_output=True,
                 )
-            svg.unlink(missing_ok=True)
+            recoverable_discard(svg)
             return f"shots/{png.name}"
 
         details = ""
@@ -377,7 +398,8 @@ def capture(chrome, port, project, tmp_dir, strict=False):
     if strict:
         return None
     if not png.exists():
-        svg.write_text(placeholder_svg(project), encoding="utf-8")
+        if not svg.exists():
+            svg.write_text(placeholder_svg(project), encoding="utf-8")
         return f"shots/{svg.name}"
     return f"shots/{png.name}"  # keep a stale png over a placeholder
 
@@ -395,9 +417,8 @@ def main():
     if take_shots:
         print(f"screenshots via: {chrome or 'placeholder SVGs (no Chrome found)'}")
         httpd, port = start_server()
-        import tempfile
-        with tempfile.TemporaryDirectory() as td:
-            tmp_dir = Path(td)
+        tmp_dir = Path(tempfile.mkdtemp(prefix="daily-slop-gallery-"))
+        try:
             failed = []
             for p in projects:
                 t0 = time.time()
@@ -405,7 +426,9 @@ def main():
                 if p["shot"] is None:
                     failed.append(p["dir"])
                 print(f"  {p['dir']} -> {p['shot']} ({time.time() - t0:.1f}s)")
-        httpd.shutdown()
+        finally:
+            httpd.shutdown()
+            recoverable_discard(tmp_dir)
         if failed:
             raise SystemExit(
                 "screenshot generation failed for: " + ", ".join(failed)
@@ -421,8 +444,10 @@ def main():
     # prune shots of removed projects
     live = {p["shot"].split("/", 1)[1] for p in projects}
     for f in SHOTS.iterdir():
+        if f.name.startswith("."):
+            continue
         if f.name not in live:
-            f.unlink()
+            recoverable_discard(f)
             print(f"  pruned stale shot {f.name}")
 
     manifest = {

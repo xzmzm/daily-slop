@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#eee3ca">
+    <meta
+      name="description"
+      content="A ten-dinner game about Richard Feynman's restaurant stopping problem: explore a new table or return to your favorite."
+    >
+    <title>Feynman’s Menu — explore or return?</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="paper-grain" aria-hidden="true"></div>
+
+    <div class="app-shell">
+      <header class="masthead">
+        <div class="brand-lockup">
+          <p class="edition">Daily slop · 02 Aug 2026</p>
+          <h1>Feynman’s Menu</h1>
+          <p class="tagline">How many good dinners can one perfect rule buy?</p>
+        </div>
+
+        <div class="run-controls">
+          <fieldset class="night-picker" aria-label="Trip length">
+            <legend>Dinners in town</legend>
+            <button type="button" data-nights="7" aria-pressed="false">7</button>
+            <button type="button" data-nights="10" class="is-active" aria-pressed="true">10</button>
+            <button type="button" data-nights="14" aria-pressed="false">14</button>
+          </fieldset>
+          <button type="button" class="new-town" id="new-town">
+            <span>New town</span>
+            <span class="button-mark" aria-hidden="true">↻</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="game-layout">
+        <section class="game-card" aria-labelledby="dinner-heading">
+          <header class="game-card__header">
+            <div>
+              <p class="section-label">Your reservation</p>
+              <h2 id="dinner-heading">Dinner <span id="next-night">2</span> of <span id="total-nights">10</span></h2>
+            </div>
+            <div class="town-stamp" id="town-stamp">Town 8026</div>
+          </header>
+
+          <div class="table-scene">
+            <article class="receipt" id="receipt" aria-live="polite">
+              <div class="receipt__topline">
+                <span id="receipt-night">Dinner 01</span>
+                <span>Paid</span>
+              </div>
+              <div class="receipt__rule"></div>
+              <p class="restaurant-type" id="restaurant-type">Levantine · eight tables</p>
+              <h3 id="restaurant-name">The Copper Fig</h3>
+              <p class="restaurant-note" id="restaurant-note">The kind of table you remember.</p>
+              <div class="receipt__score">
+                <span>Taste percentile</span>
+                <strong id="restaurant-score">74.2</strong>
+              </div>
+              <div class="receipt__rule receipt__rule--short"></div>
+              <p class="receipt__footer">One visit reveals its true quality.</p>
+            </article>
+
+            <div class="favorite-card">
+              <p class="section-label">Best so far</p>
+              <div class="favorite-score" id="favorite-score">74.2</div>
+              <h3 id="favorite-name">The Copper Fig</h3>
+              <p id="favorite-detail">1 visit · discovered tonight</p>
+
+              <div class="running-total">
+                <span>Your average</span>
+                <strong id="average-score">74.2</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="decision-copy">
+            <p class="section-label">Choose tonight</p>
+            <p id="decision-question">Risk dinner on an unknown table, or return to your favorite?</p>
+          </div>
+
+          <div class="actions" aria-label="Dinner decision">
+            <button type="button" class="action action--explore" id="explore">
+              <span class="key" aria-hidden="true">E</span>
+              <span>
+                <strong>Try somewhere new</strong>
+                <small>A fresh score from 0–100</small>
+              </span>
+              <span class="action-arrow" aria-hidden="true">↗</span>
+            </button>
+
+            <button type="button" class="action action--return" id="return">
+              <span class="key" aria-hidden="true">R</span>
+              <span>
+                <strong>Return to the favorite</strong>
+                <small id="return-detail">Bank 74.2 points tonight</small>
+              </span>
+              <span class="action-arrow" aria-hidden="true">↙</span>
+            </button>
+          </div>
+
+          <div class="ledger-wrap">
+            <div class="ledger-heading">
+              <span>Dinner ledger</span>
+              <span id="running-points">74.2 pts</span>
+            </div>
+            <ol class="ledger" id="ledger" aria-label="Dinner history"></ol>
+          </div>
+
+          <section class="result-panel" id="result-panel" hidden aria-labelledby="result-title">
+            <button type="button" class="result-close" id="result-close" aria-label="Close results">×</button>
+            <p class="section-label">The bill arrives</p>
+            <h2 id="result-title">A very good run.</h2>
+            <p class="result-summary" id="result-summary"></p>
+
+            <div class="score-comparison">
+              <div>
+                <span>You</span>
+                <strong id="player-result">0</strong>
+                <small>points</small>
+              </div>
+              <div class="score-comparison__rule" aria-hidden="true"></div>
+              <div>
+                <span>Napkin rule</span>
+                <strong id="optimal-result">0</strong>
+                <small>same town</small>
+              </div>
+            </div>
+
+            <p class="result-footnote" id="result-footnote"></p>
+            <button type="button" class="again-button" id="play-again">Try another town <span aria-hidden="true">↻</span></button>
+          </section>
+        </section>
+
+        <aside class="strategy-card" aria-labelledby="strategy-heading">
+          <header>
+            <p class="section-label">The napkin rule</p>
+            <h2 id="strategy-heading">Stay above the line.<br>Stray below it.</h2>
+          </header>
+
+          <div class="recommendation" id="recommendation">
+            <div class="recommendation__verb" id="recommendation-verb">Explore</div>
+            <p id="recommendation-copy">Your favorite is below tonight’s stopping line.</p>
+          </div>
+
+          <div class="threshold-readout">
+            <div>
+              <span>Favorite</span>
+              <strong id="meter-best">74.2</strong>
+            </div>
+            <div>
+              <span>Tonight’s line</span>
+              <strong id="meter-threshold">76.0</strong>
+            </div>
+          </div>
+
+          <div class="meter" aria-hidden="true">
+            <div class="meter__track">
+              <div class="meter__best" id="meter-best-line"></div>
+              <div class="meter__threshold" id="meter-threshold-line"></div>
+            </div>
+            <div class="meter__labels"><span>0</span><span>50</span><span>100</span></div>
+          </div>
+
+          <div class="curve-block">
+            <div class="curve-heading">
+              <span>Stopping line</span>
+              <span>Dinners left →</span>
+            </div>
+            <div class="threshold-chart" id="threshold-chart" aria-label="Feynman's stopping threshold by dinners remaining"></div>
+          </div>
+
+          <div class="formula-card">
+            <div class="formula" aria-label="t sub n equals square root of n divided by square root of n plus one">
+              t<sub>n</sub> = <span class="fraction"><span>√n</span><span>√n + 1</span></span>
+            </div>
+            <p>
+              With <em>n</em> dinners left, return only when your best meal beats this percentile.
+              The line falls as time runs out.
+            </p>
+          </div>
+
+          <details>
+            <summary>Why does this work?</summary>
+            <p>
+              Every unseen table is an independent draw from 0–100. Early discoveries can pay off
+              for many nights, so the rule starts choosy. On the last night, the line is 50: the
+              average unknown meal.
+            </p>
+          </details>
+        </aside>
+      </main>
+
+      <footer class="site-footer">
+        <p>
+          A tiny playable version of
+          <a href="https://doi.org/10.1073/pnas.2509612123" target="_blank" rel="noreferrer">Feynman’s restaurant problem</a>.
+          Scores are percentiles, not restaurant reviews.
+        </p>
+        <p>Use <kbd>E</kbd> to explore · <kbd>R</kbd> to return · <kbd>N</kbd> for a new town</p>
+      </footer>
+    </div>
+
+    <div class="sr-only" id="announcer" aria-live="assertive"></div>
+    <script src="app.js?v=20260802d"></script>
+  </body>
+</html>
