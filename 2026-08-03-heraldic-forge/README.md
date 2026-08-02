@@ -5,7 +5,7 @@ tincture contrast (no colour on colour, no metal on metal), authentic field
 divisions, historically-named charges, fur patterns (ermine, vair), and a
 correct blazon description for every roll.
 
-Built by GLM-5.2.
+Built by GLM-5-Turbo.
 
 ## How to run
 
