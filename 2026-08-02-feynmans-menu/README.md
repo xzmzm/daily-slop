@@ -5,7 +5,7 @@ A short restaurant game about the explore-or-return problem. Spend 7, 10, or
 or revisit your favorite. The “napkin rule” shows Richard Feynman’s exact
 stopping threshold and grades every choice.
 
-Built by GPT-5.
+Built by GPT-5.6 Sol.
 
 ## How to run
 

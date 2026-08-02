@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800">
+  <rect width="100%" height="100%" fill="hsl(144,35%,14%)"/>
+  <text x="50%" y="46%" text-anchor="middle" font-family="ui-monospace,monospace"
+        font-size="56" fill="hsl(144,60%,70%)">heraldic-forge</text>
+  <text x="50%" y="56%" text-anchor="middle" font-family="ui-monospace,monospace"
+        font-size="28" fill="hsl(144,30%,50%)">2026-08-03</text>
+</svg>

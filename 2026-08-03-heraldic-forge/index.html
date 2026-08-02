@@ -1,0 +1,1588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heraldic Forge — Procedural Coat of Arms</title>
+<style>
+  :root {
+    --bg: #1a1a1a;
+    --fg: #e8e0d4;
+    --muted: #8a8070;
+    --accent: #c9a84c;
+    --card: #252218;
+    --border: #3a3530;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Georgia', 'Times New Roman', serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  h1 {
+    color: var(--accent);
+    font-size: 2rem;
+    margin-bottom: 4px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .subtitle {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-bottom: 24px;
+    font-style: italic;
+  }
+  .workspace {
+    display: flex;
+    gap: 30px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .shield-container {
+    position: relative;
+    cursor: pointer;
+  }
+  .shield-container canvas {
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.6));
+  }
+  .shield-label {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.75rem;
+    margin-top: 8px;
+    font-style: italic;
+  }
+  .controls {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    max-width: 320px;
+    width: 100%;
+  }
+  .controls h2 {
+    color: var(--accent);
+    font-size: 1rem;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+  }
+  .blazon {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px;
+    margin-bottom: 16px;
+    font-style: italic;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    min-height: 60px;
+    color: var(--fg);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .blazon:hover { background: #2a2520; }
+  .blazon-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--muted);
+    margin-bottom: 6px;
+    font-style: normal;
+  }
+  .parts-section {
+    margin-bottom: 14px;
+  }
+  .parts-section h3 {
+    font-size: 0.8rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .part-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+  }
+  .part-btn {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--fg);
+    padding: 5px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.8rem;
+    transition: all 0.15s;
+  }
+  .part-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(201,168,76,0.08);
+  }
+  .new-btn {
+    width: 100%;
+    padding: 12px;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: all 0.15s;
+  }
+  .new-btn:hover { background: #d4b35a; }
+  .new-btn:active { transform: scale(0.98); }
+  .tincture-swatch {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 2px;
+    border: 1px solid rgba(255,255,255,0.2);
+    vertical-align: middle;
+    margin-right: 4px;
+  }
+  .hint {
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-top: 10px;
+    text-align: center;
+  }
+  .charge-info {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+</style>
+</head>
+<body>
+<h1>⚔ Heraldic Forge ⚔</h1>
+<p class="subtitle">Procedural coat of arms with proper heraldic rules</p>
+
+<div class="workspace">
+  <div>
+    <div class="shield-container">
+      <canvas id="shield" width="500" height="600"></canvas>
+    </div>
+    <p class="shield-label">Click a region to re-roll it</p>
+  </div>
+  <div class="controls">
+    <div>
+      <div class="blazon-label">Blazon</div>
+      <div class="blazon" id="blazon" title="Click to copy blazon"></div>
+    </div>
+    <div class="parts-section">
+      <h3>Re-roll parts</h3>
+      <div class="part-row">
+        <button class="part-btn" onclick="reroll('field')">Field</button>
+        <button class="part-btn" onclick="reroll('charge')">Charge</button>
+        <button class="part-btn" onclick="reroll('border')">Border</button>
+        <button class="part-btn" onclick="reroll('crest')">Crest</button>
+        <button class="part-btn" onclick="reroll('motto')">Motto</button>
+      </div>
+    </div>
+    <div class="parts-section">
+      <h3>Parts</h3>
+      <div id="partInfo" class="charge-info">Generating...</div>
+    </div>
+    <button class="new-btn" onclick="generate()">Forge New Arms</button>
+    <p class="hint">Press <kbd>N</kbd> for new · <kbd>F</kbd> field · <kbd>C</kbd> charge · <kbd>B</kbd> border</p>
+  </div>
+</div>
+
+<script>
+// ─── Heraldic constants ───────────────────────────────────────────────
+const TINCTURES = {
+  // Metals
+  or:      { name: 'Or',      hex: '#FFD700', type: 'metal' },
+  argent:  { name: 'Argent',  hex: '#F0F0F0', type: 'metal' },
+  // Colors
+  gules:   { name: 'Gules',   hex: '#CC1111', type: 'color' },
+  azure:   { name: 'Azure',   hex: '#1A3F8F', type: 'color' },
+  sable:   { name: 'Sable',   hex: '#1A1A1A', type: 'color' },
+  vert:    { name: 'Vert',    hex: '#1A7A2E', type: 'color' },
+  purpure: { name: 'Purpure', hex: '#6A1B6D', type: 'color' },
+  // Furs (treated as metals for tincture rule)
+  ermine:      { name: 'Ermine',      hex: null, type: 'metal', pattern: 'ermine' },
+  erminois:    { name: 'Erminois',    hex: null, type: 'metal', pattern: 'erminois' },
+  vair:        { name: 'Vair',        hex: null, type: 'metal', pattern: 'vair' },
+  counterVair: { name: 'Counter-Vair', hex: null, type: 'metal', pattern: 'counterVair' },
+};
+
+const TINCTURE_KEYS = Object.keys(TINCTURES);
+const METALS = TINCTURE_KEYS.filter(k => TINCTURES[k].type === 'metal');
+const COLORS = TINCTURE_KEYS.filter(k => TINCTURES[k].type === 'color');
+const SOLIDS = TINCTURE_KEYS.filter(k => !!TINCTURES[k].hex);
+
+function randomTincture(avoid) {
+  let choices = avoid ? TINCTURE_KEYS.filter(k => k !== avoid) : TINCTURE_KEYS;
+  return choices[Math.floor(Math.random() * choices.length)];
+}
+
+function tinctureContrasting(first) {
+  const type = TINCTURES[first]?.type || 'color';
+  const pool = type === 'metal' ? COLORS : METALS;
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+// ─── Divisions ────────────────────────────────────────────────────────
+const DIVISIONS = [
+  { id: 'none',         name: 'per fess dancetty' },  // placeholder, renamed below
+  { id: 'perFess',      name: 'per fess' },
+  { id: 'perPale',      name: 'per pale' },
+  { id: 'perBend',      name: 'per bend' },
+  { id: 'perBendSinister', name: 'per bend sinister' },
+  { id: 'perSaltire',   name: 'per saltire' },
+  { id: 'quarterly',    name: 'quarterly' },
+  { id: 'gyronny',      name: 'gyronny of eight' },
+  { id: 'perChevron',   name: 'per chevron' },
+  { id: 'perPile',      name: 'per pile' },
+  { id: 'paly',         name: 'paly of six' },
+  { id: 'barry',        name: 'barry of six' },
+  { id: 'chequy',       name: 'chequy' },
+];
+
+const CHARGES = [
+  { id: 'none',           name: '(none)' },
+  { id: 'lionRampant',    name: 'a lion rampant' },
+  { id: 'eagleDisplayed', name: 'an eagle displayed' },
+  { id: 'fleurDeLis',     name: 'a fleur-de-lis' },
+  { id: 'star',           name: 'a mullet of six points' },
+  { id: 'crescent',       name: 'a crescent' },
+  { id: 'cross',          name: 'a cross' },
+  { id: 'escarbuncle',    name: 'an escarbuncle' },
+  { id: 'sword',          name: 'a sword in pale' },
+  { id: 'horseshoe',      name: 'a horseshoe' },
+  { id: 'tower',          name: 'a tower' },
+  { id: 'tree',           name: 'a tree eradicated' },
+  { id: 'rose',           name: 'a rose' },
+  { id: 'martlet',        name: 'a martlet' },
+  { id: 'sunInSplendour', name: 'a sun in splendour' },
+  { id: 'annulet',        name: 'an annulet' },
+  { id: 'key',            name: 'a key' },
+  { id: 'bezier',         name: 'a dragon passant' },
+  { id: 'pellet',         name: 'a pellet' },
+];
+
+const BORDERS = [
+  { id: 'none',   name: '' },
+  { id: 'simple', name: 'a bordure' },
+  { id: 'engrailed', name: 'a bordure engrailed' },
+  { id: 'invected', name: 'a bordure invected' },
+  { id: 'indented', name: 'a bordure indented' },
+  { id: 'wavy',    name: 'a bordure wavy' },
+  { id: 'double',  name: 'a double tressure' },
+  { id: 'fleury',  name: 'a bordure fleury' },
+];
+
+const MOTTOES = [
+  'Fortis et Fidelis', 'Virtus et Honor', 'Semper Fidelis',
+  'Nemo Me Impune Lacessit', 'Dieu et Mon Droit', 'Honi Soit Qui Mal Y Pense',
+  'In Hoc Signo Vinces', 'Audax et Fortis', 'Fide et Virtute',
+  'Per Aspera Ad Astra', 'Nisi Dominus Frustra', 'Toujours Prêt',
+  'Spes Mea in Deo', 'Dum Spiro Spero', 'Veritas et Lux',
+  'Nil Desperandum', 'Vigilans et Paratus', 'Esperanza y Fe',
+  'Lux in Tenebris', 'Fortuna Audaces Iuvat', 'Crux Mihi Certa',
+  'Pro Patria', 'In Magna Silentia', 'Nocte et Die',
+  'Ferro et Igni', 'Altum Petere', 'Paratus et Fidelis',
+];
+
+const CRESTS = [
+  { id: 'none', name: '' },
+  { id: 'crown', name: 'On a wreath, a crown' },
+  { id: 'helmet', name: 'A helm affronty' },
+  { id: 'eagle', name: 'On a wreath, an eagle rising' },
+  { id: 'lion', name: 'On a wreath, a lion statant' },
+  { id: 'plume', name: 'Three ostrich plumes' },
+  { id: 'star', name: 'On a wreath, a mullet of six points' },
+];
+
+// ─── State ──────────────────────────────────────────────────────────────
+let arms = null;
+
+function initArms() {
+  const t1 = randomTincture();
+  const t2 = tinctureContrasting(t1);
+  const chargeTincture = tinctureContrasting(t1);
+  arms = {
+    division: DIVISIONS[Math.floor(Math.random() * DIVISIONS.length)],
+    tincture1: t1,
+    tincture2: t2,
+    charge: CHARGES[Math.floor(Math.random() * CHARGES.length)],
+    chargeTincture: chargeTincture,
+    border: BORDERS[Math.floor(Math.random() * BORDERS.length)],
+    borderTincture: tinctureContrasting(t1),
+    crest: CRESTS[Math.floor(Math.random() * CRESTS.length)],
+    crestTincture: tinctureContrasting(t1),
+    motto: MOTTOES[Math.floor(Math.random() * MOTTOES.length)],
+    chargeCount: 1,
+    chargePosition: 'center',
+  };
+  // Some charges look better in groups
+  if (['star','crescent','pellet','rose','annulet','martlet'].includes(arms.charge.id)) {
+    const counts = [1, 2, 3];
+    arms.chargeCount = counts[Math.floor(Math.random() * counts.length)];
+  }
+}
+
+function generate() {
+  initArms();
+  render();
+  updateUI();
+}
+
+function reroll(part) {
+  if (!arms) return;
+  const t1 = arms.tincture1;
+  switch(part) {
+    case 'field':
+      arms.division = DIVISIONS[Math.floor(Math.random() * DIVISIONS.length)];
+      arms.tincture1 = randomTincture();
+      arms.tincture2 = tinctureContrasting(arms.tincture1);
+      arms.borderTincture = tinctureContrasting(arms.tincture1);
+      arms.chargeTincture = tinctureContrasting(arms.tincture1);
+      arms.crestTincture = tinctureContrasting(arms.tincture1);
+      break;
+    case 'charge':
+      arms.charge = CHARGES[Math.floor(Math.random() * CHARGES.length)];
+      arms.chargeTincture = tinctureContrasting(arms.tincture1);
+      arms.chargeCount = 1;
+      if (['star','crescent','pellet','rose','annulet','martlet'].includes(arms.charge.id)) {
+        const counts = [1, 2, 3];
+        arms.chargeCount = counts[Math.floor(Math.random() * counts.length)];
+      }
+      break;
+    case 'border':
+      arms.border = BORDERS[Math.floor(Math.random() * BORDERS.length)];
+      arms.borderTincture = tinctureContrasting(arms.tincture1);
+      break;
+    case 'crest':
+      arms.crest = CRESTS[Math.floor(Math.random() * CRESTS.length)];
+      arms.crestTincture = tinctureContrasting(arms.tincture1);
+      break;
+    case 'motto':
+      arms.motto = MOTTOES[Math.floor(Math.random() * MOTTOES.length)];
+      break;
+  }
+  render();
+  updateUI();
+}
+
+// ─── Shield shape path ─────────────────────────────────────────────────
+function shieldPath(ctx, x, y, w, h) {
+  const hw = w / 2;
+  const topR = w * 0.06;
+  ctx.beginPath();
+  ctx.moveTo(x + topR, y);
+  ctx.lineTo(x + w - topR, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + topR);
+  ctx.lineTo(x + w, y + h * 0.65);
+  ctx.quadraticCurveTo(x + w, y + h * 0.82, x + hw, y + h);
+  ctx.quadraticCurveTo(x, y + h * 0.82, x, y + h * 0.65);
+  ctx.lineTo(x, y + topR);
+  ctx.quadraticCurveTo(x, y, x + topR, y);
+  ctx.closePath();
+}
+
+function clipShield(ctx, x, y, w, h) {
+  shieldPath(ctx, x, y, w, h);
+  ctx.clip();
+}
+
+// ─── Fur patterns ──────────────────────────────────────────────────────
+function fillFur(ctx, x, y, w, h, patternType) {
+  const base = { ermine: '#F0F0F0', erminois: '#FFD700', vair: '#4A6FA5', counterVair: '#F0F0F0' };
+  const spot = { ermine: '#1A1A1A', erminois: '#1A1A1A', vair: '#F0F0F0', counterVair: '#4A6FA5' };
+  ctx.fillStyle = base[patternType];
+  ctx.fillRect(x, y, w, h);
+
+  if (patternType === 'ermine' || patternType === 'erminois') {
+    // Draw ermine spots (small tear-drop shapes)
+    ctx.fillStyle = spot[patternType];
+    const cols = 8, rows = 10;
+    const sx = w / cols, sy = h / rows;
+    for (let r = 0; r < rows; r++) {
+      const offset = (r % 2) * sx * 0.5;
+      for (let c = 0; c < cols; c++) {
+        const cx = x + offset + c * sx + sx * 0.5;
+        const cy = y + r * sy + sy * 0.5;
+        ctx.beginPath();
+        ctx.ellipse(cx, cy, sx * 0.15, sy * 0.25, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(cx, cy - sy * 0.25);
+        ctx.lineTo(cx - sx * 0.15, cy - sy * 0.45);
+        ctx.lineTo(cx + sx * 0.15, cy - sy * 0.45);
+        ctx.fill();
+      }
+    }
+  } else if (patternType === 'vair' || patternType === 'counterVair') {
+    // Draw vair (bell-shaped shields)
+    const cols = 4, rows = 6;
+    const sx = w / cols, sy = h / rows;
+    ctx.fillStyle = spot[patternType];
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        if ((r + c) % 2 === 0) continue;
+        const vx = x + c * sx;
+        const vy = y + r * sy;
+        ctx.beginPath();
+        ctx.moveTo(vx, vy);
+        ctx.lineTo(vx + sx, vy);
+        ctx.lineTo(vx + sx, vy + sy * 0.5);
+        ctx.quadraticCurveTo(vx + sx * 0.5, vy + sy * 0.9, vx, vy + sy * 0.5);
+        ctx.closePath();
+        ctx.fill();
+      }
+    }
+  }
+}
+
+function tinctureFill(ctx, x, y, w, h, key) {
+  const t = TINCTURES[key];
+  if (t.pattern) {
+    fillFur(ctx, x, y, w, h, t.pattern);
+  } else {
+    ctx.fillStyle = t.hex;
+    ctx.fillRect(x, y, w, h);
+  }
+}
+
+function tinctureColor(key) {
+  return TINCTURES[key]?.hex || '#666';
+}
+
+// ─── Division drawing ──────────────────────────────────────────────────
+function drawDivision(ctx, x, y, w, h) {
+  const d = arms.division.id;
+  clipShield(ctx, x, y, w, h);
+
+  if (d === 'none') {
+    tinctureFill(ctx, x, y, w, h, arms.tincture1);
+  } else if (d === 'perFess') {
+    tinctureFill(ctx, x, y, w, h/2, arms.tincture1);
+    tinctureFill(ctx, x, y+h/2, w, h/2, arms.tincture2);
+  } else if (d === 'perPale') {
+    tinctureFill(ctx, x, y, w/2, h, arms.tincture1);
+    tinctureFill(ctx, x+w/2, y, w/2, h, arms.tincture2);
+  } else if (d === 'perBend') {
+    tinctureFill(ctx, x, y, w, h, arms.tincture1);
+    ctx.fillStyle = tinctureColor(arms.tincture2);
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(x, y + h);
+    ctx.lineTo(x + w, y);
+    ctx.closePath();
+    ctx.fill();
+  } else if (d === 'perBendSinister') {
+    tinctureFill(ctx, x, y, w, h, arms.tincture1);
+    ctx.fillStyle = tinctureColor(arms.tincture2);
+    ctx.beginPath();
+    ctx.moveTo(x + w, y);
+    ctx.lineTo(x + w, y + h);
+    ctx.lineTo(x, y);
+    ctx.closePath();
+    ctx.fill();
+  } else if (d === 'perSaltire') {
+    tinctureFill(ctx, x, y, w, h, arms.tincture1);
+    ctx.fillStyle = tinctureColor(arms.tincture2);
+    // Top-left triangle
+    ctx.beginPath();
+    ctx.moveTo(x, y); ctx.lineTo(x + w/2, y + h/2); ctx.lineTo(x, y + h); ctx.closePath(); ctx.fill();
+    // Bottom-right triangle
+    ctx.beginPath();
+    ctx.moveTo(x + w, y); ctx.lineTo(x + w/2, y + h/2); ctx.lineTo(x + w, y + h); ctx.closePath(); ctx.fill();
+  } else if (d === 'quarterly') {
+    tinctureFill(ctx, x, y, w/2, h/2, arms.tincture1);
+    tinctureFill(ctx, x+w/2, y, w/2, h/2, arms.tincture2);
+    tinctureFill(ctx, x, y+h/2, w/2, h/2, arms.tincture2);
+    tinctureFill(ctx, x+w/2, y+h/2, w/2, h/2, arms.tincture1);
+  } else if (d === 'gyronny') {
+    tinctureFill(ctx, x, y, w, h, arms.tincture1);
+    const cx = x + w/2, cy = y + h * 0.45;
+    ctx.fillStyle = tinctureColor(arms.tincture2);
+    for (let i = 0; i < 8; i++) {
+      const a1 = (Math.PI * 2 / 8) * i - Math.PI/2;
+      const a2 = (Math.PI * 2 / 8) * (i + 1) - Math.PI/2;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      const r = Math.max(w, h) * 1.5;
+      ctx.lineTo(cx + Math.cos(a1) * r, cy + Math.sin(a1) * r);
+      ctx.lineTo(cx + Math.cos(a2) * r, cy + Math.sin(a2) * r);
+      ctx.closePath();
+      ctx.fill();
+    }
+  } else if (d === 'perChevron') {
+    tinctureFill(ctx, x, y, w, h, arms.tincture1);
+    ctx.fillStyle = tinctureColor(arms.tincture2);
+    ctx.beginPath();
+    ctx.moveTo(x, y + h * 0.45);
+    ctx.lineTo(x + w/2, y + h * 0.25);
+    ctx.lineTo(x + w, y + h * 0.45);
+    ctx.lineTo(x + w, y + h);
+    ctx.lineTo(x, y + h);
+    ctx.closePath();
+    ctx.fill();
+  } else if (d === 'perPile') {
+    tinctureFill(ctx, x, y, w, h, arms.tincture1);
+    ctx.fillStyle = tinctureColor(arms.tincture2);
+    ctx.beginPath();
+    ctx.moveTo(x + w * 0.35, y);
+    ctx.lineTo(x + w * 0.65, y);
+    ctx.lineTo(x + w/2, y + h);
+    ctx.closePath();
+    ctx.fill();
+  } else if (d === 'paly') {
+    const stripes = 6;
+    const sw = w / stripes;
+    for (let i = 0; i < stripes; i++) {
+      tinctureFill(ctx, x + i * sw, y, sw + 1, h, i % 2 === 0 ? arms.tincture1 : arms.tincture2);
+    }
+  } else if (d === 'barry') {
+    const bars = 6;
+    const sh = h / bars;
+    for (let i = 0; i < bars; i++) {
+      tinctureFill(ctx, x, y + i * sh, w, sh + 1, i % 2 === 0 ? arms.tincture1 : arms.tincture2);
+    }
+  } else if (d === 'chequy') {
+    const size = 5;
+    const cw = w / size, ch = h / size;
+    for (let r = 0; r < size; r++) {
+      for (let c = 0; c < size; c++) {
+        tinctureFill(ctx, x + c * cw, y + r * ch, cw + 1, ch + 1, (r + c) % 2 === 0 ? arms.tincture1 : arms.tincture2);
+      }
+    }
+  }
+
+  ctx.restore();
+}
+
+// ─── Color helpers ──────────────────────────────────────────────────────
+function adjustColor(hex, amount) {
+  let c = hex.replace('#', '');
+  if (c.length === 3) c = c[0]+c[0]+c[1]+c[1]+c[2]+c[2];
+  const num = parseInt(c, 16);
+  let r = Math.max(0, Math.min(255, ((num >> 16) & 0xff) + amount));
+  let g = Math.max(0, Math.min(255, ((num >> 8) & 0xff) + amount));
+  let b = Math.max(0, Math.min(255, (num & 0xff) + amount));
+  return `rgb(${r},${g},${b})`;
+}
+
+// ─── Charge drawing ────────────────────────────────────────────────────
+function drawChargeAt(ctx, cx, cy, scale, id) {
+  const s = scale;
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.scale(s, s);
+
+  switch(id) {
+    case 'lionRampant':
+      drawLion(ctx);
+      break;
+    case 'eagleDisplayed':
+      drawEagle(ctx);
+      break;
+    case 'fleurDeLis':
+      drawFleurDeLis(ctx);
+      break;
+    case 'star':
+      drawStar(ctx);
+      break;
+    case 'crescent':
+      drawCrescent(ctx);
+      break;
+    case 'cross':
+      drawCross(ctx);
+      break;
+    case 'escarbuncle':
+      drawEscarbuncle(ctx);
+      break;
+    case 'sword':
+      drawSword(ctx);
+      break;
+    case 'horseshoe':
+      drawHorseshoe(ctx);
+      break;
+    case 'tower':
+      drawTower(ctx);
+      break;
+    case 'tree':
+      drawTree(ctx);
+      break;
+    case 'rose':
+      drawRose(ctx);
+      break;
+    case 'martlet':
+      drawMartlet(ctx);
+      break;
+    case 'sunInSplendour':
+      drawSun(ctx);
+      break;
+    case 'annulet':
+      drawAnnulet(ctx);
+      break;
+    case 'key':
+      drawKey(ctx);
+      break;
+    case 'bezier':
+      drawDragon(ctx);
+      break;
+    case 'pellet':
+      drawPellet(ctx);
+      break;
+  }
+
+  ctx.restore();
+}
+
+function drawLion(ctx) {
+  ctx.fillStyle = ctx._chargeColor || '#FFD700';
+  ctx.strokeStyle = ctx._chargeColor || '#FFD700';
+  ctx.lineWidth = 3;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  // Simplified rampant lion silhouette
+  ctx.beginPath();
+  // Body
+  ctx.moveTo(-10, 20);
+  ctx.quadraticCurveTo(-5, 5, 0, -5);
+  ctx.quadraticCurveTo(10, -15, 15, -25);
+  // Head
+  ctx.quadraticCurveTo(18, -35, 12, -40);
+  ctx.quadraticCurveTo(5, -42, 3, -35);
+  // Jaw
+  ctx.quadraticCurveTo(0, -30, -2, -25);
+  // Mane / back
+  ctx.quadraticCurveTo(-8, -20, -15, -15);
+  ctx.quadraticCurveTo(-25, -10, -20, 0);
+  // Hind leg
+  ctx.quadraticCurveTo(-22, 5, -25, 15);
+  ctx.quadraticCurveTo(-28, 25, -20, 30);
+  ctx.quadraticCurveTo(-15, 32, -12, 28);
+  // Back to body
+  ctx.quadraticCurveTo(-10, 25, -10, 20);
+  ctx.closePath();
+  ctx.fill();
+  // Front legs
+  ctx.beginPath();
+  ctx.moveTo(-5, 5);
+  ctx.quadraticCurveTo(0, 15, 5, 25);
+  ctx.lineTo(8, 30);
+  ctx.quadraticCurveTo(6, 25, 2, 20);
+  ctx.quadraticCurveTo(0, 12, -3, 5);
+  ctx.closePath();
+  ctx.fill();
+  // Tail
+  ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.moveTo(-18, 5);
+  ctx.quadraticCurveTo(-30, 10, -35, -5);
+  ctx.quadraticCurveTo(-38, -15, -32, -20);
+  ctx.stroke();
+  // Eye
+  ctx.fillStyle = '#1A1A1A';
+  ctx.beginPath();
+  ctx.arc(10, -34, 2, 0, Math.PI * 2);
+  ctx.fill();
+  // Tongue
+  ctx.strokeStyle = '#CC1111';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(5, -30);
+  ctx.quadraticCurveTo(3, -25, 0, -22);
+  ctx.stroke();
+}
+
+function drawEagle(ctx) {
+  ctx.fillStyle = ctx._chargeColor || '#FFD700';
+  ctx.strokeStyle = ctx._chargeColor || '#FFD700';
+  ctx.lineWidth = 2.5;
+  ctx.lineCap = 'round';
+  // Body
+  ctx.beginPath();
+  ctx.moveTo(0, -15);
+  ctx.quadraticCurveTo(10, -5, 8, 10);
+  ctx.quadraticCurveTo(5, 20, 0, 25);
+  ctx.quadraticCurveTo(-5, 20, -8, 10);
+  ctx.quadraticCurveTo(-10, -5, 0, -15);
+  ctx.fill();
+  // Wings spread
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(-8, -5);
+  ctx.quadraticCurveTo(-25, -20, -40, -10);
+  ctx.quadraticCurveTo(-50, 0, -45, 5);
+  ctx.quadraticCurveTo(-35, -5, -25, 5);
+  ctx.quadraticCurveTo(-18, 10, -12, 8);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(8, -5);
+  ctx.quadraticCurveTo(25, -20, 40, -10);
+  ctx.quadraticCurveTo(50, 0, 45, 5);
+  ctx.quadraticCurveTo(35, -5, 25, 5);
+  ctx.quadraticCurveTo(18, 10, 12, 8);
+  ctx.stroke();
+  // Head
+  ctx.beginPath();
+  ctx.arc(0, -20, 6, 0, Math.PI * 2);
+  ctx.fill();
+  // Beak
+  ctx.fillStyle = '#CC8800';
+  ctx.beginPath();
+  ctx.moveTo(0, -17);
+  ctx.lineTo(5, -15);
+  ctx.lineTo(0, -12);
+  ctx.closePath();
+  ctx.fill();
+  // Eye
+  ctx.fillStyle = '#1A1A1A';
+  ctx.beginPath();
+  ctx.arc(-1, -21, 1.5, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(2, -21, 1.5, 0, Math.PI * 2);
+  ctx.fill();
+  // Talons
+  ctx.strokeStyle = ctx._chargeColor || '#FFD700';
+  ctx.lineWidth = 2;
+  [-8, 8].forEach(dx => {
+    ctx.beginPath();
+    ctx.moveTo(dx, 25);
+    ctx.lineTo(dx - 3, 32);
+    ctx.moveTo(dx, 25);
+    ctx.lineTo(dx + 3, 32);
+    ctx.moveTo(dx, 25);
+    ctx.lineTo(dx, 33);
+    ctx.stroke();
+  });
+}
+
+function drawFleurDeLis(ctx) {
+  ctx.fillStyle = ctx._chargeColor || '#FFD700';
+  // Center petal
+  ctx.beginPath();
+  ctx.moveTo(0, -35);
+  ctx.quadraticCurveTo(-6, -25, -5, -15);
+  ctx.lineTo(-2, -5);
+  ctx.lineTo(2, -5);
+  ctx.lineTo(5, -15);
+  ctx.quadraticCurveTo(6, -25, 0, -35);
+  ctx.fill();
+  // Left petal
+  ctx.beginPath();
+  ctx.moveTo(-3, -10);
+  ctx.quadraticCurveTo(-20, -25, -18, -10);
+  ctx.quadraticCurveTo(-16, 0, -8, 5);
+  ctx.lineTo(-5, 0);
+  ctx.lineTo(-3, -10);
+  ctx.fill();
+  // Right petal
+  ctx.beginPath();
+  ctx.moveTo(3, -10);
+  ctx.quadraticCurveTo(20, -25, 18, -10);
+  ctx.quadraticCurveTo(16, 0, 8, 5);
+  ctx.lineTo(5, 0);
+  ctx.lineTo(3, -10);
+  ctx.fill();
+  // Cross bar
+  ctx.fillRect(-12, -2, 24, 4);
+  // Base
+  ctx.beginPath();
+  ctx.moveTo(-5, 2);
+  ctx.lineTo(-8, 25);
+  ctx.lineTo(-3, 20);
+  ctx.lineTo(0, 30);
+  ctx.lineTo(3, 20);
+  ctx.lineTo(8, 25);
+  ctx.lineTo(5, 2);
+  ctx.closePath();
+  ctx.fill();
+}
+
+function drawStar(ctx) {
+  ctx.fillStyle = ctx._chargeColor || '#FFD700';
+  ctx.beginPath();
+  for (let i = 0; i < 6; i++) {
+    const outerA = (Math.PI * 2 / 6) * i - Math.PI / 2;
+    const innerA = outerA + Math.PI / 6;
+    const ox = Math.cos(outerA) * 18, oy = Math.sin(outerA) * 18;
+    const ix = Math.cos(innerA) * 8, iy = Math.sin(innerA) * 8;
+    if (i === 0) ctx.moveTo(ox, oy);
+    else ctx.lineTo(ox, oy);
+    ctx.lineTo(ix, iy);
+  }
+  ctx.closePath();
+  ctx.fill();
+}
+
+function drawCrescent(ctx) {
+  const color = ctx._chargeColor || '#FFD700';
+  ctx.fillStyle = color;
+  // Draw crescent using arc subtraction manually
+  ctx.beginPath();
+  ctx.arc(0, 0, 16, 0, Math.PI * 2);
+  // Inner cutout: trace the inner circle in reverse
+  ctx.moveTo(8 + 13, -2);
+  ctx.arc(8, -2, 13, 0, Math.PI * 2, true);
+  ctx.fill('evenodd');
+  // Outline for clarity
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.arc(0, 0, 16, 0, Math.PI * 2);
+  ctx.moveTo(8 + 13, -2);
+  ctx.arc(8, -2, 13, 0, Math.PI * 2, true);
+  ctx.stroke();
+}
+
+function drawCross(ctx) {
+  ctx.fillStyle = ctx._chargeColor || '#FFD700';
+  // Latin cross
+  ctx.fillRect(-6, -20, 12, 50);
+  ctx.fillRect(-16, -5, 32, 10);
+}
+
+function drawEscarbuncle(ctx) {
+  ctx.strokeStyle = ctx._chargeColor || '#FFD700';
+  ctx.lineWidth = 3;
+  ctx.lineCap = 'round';
+  // Central boss
+  ctx.beginPath();
+  ctx.arc(0, 0, 5, 0, Math.PI * 2);
+  ctx.stroke();
+  // Radiating bands
+  for (let i = 0; i < 8; i++) {
+    const a = (Math.PI * 2 / 8) * i;
+    ctx.beginPath();
+    ctx.moveTo(Math.cos(a) * 6, Math.sin(a) * 6);
+    ctx.lineTo(Math.cos(a) * 22, Math.sin(a) * 22);
+    ctx.stroke();
+    // Small curl at tip
+    const tx = Math.cos(a) * 22, ty = Math.sin(a) * 22;
+    ctx.beginPath();
+    ctx.arc(tx, ty, 3, 0, Math.PI * 2);
+    ctx.stroke();
+  }
+  // Inner ring
+  ctx.beginPath();
+  ctx.arc(0, 0, 12, 0, Math.PI * 2);
+  ctx.stroke();
+}
+
+function drawSword(ctx) {
+  ctx.strokeStyle = ctx._chargeColor || '#FFD700';
+  ctx.fillStyle = ctx._chargeColor || '#FFD700';
+  ctx.lineWidth = 2.5;
+  // Blade
+  ctx.beginPath();
+  ctx.moveTo(0, -30);
+  ctx.lineTo(4, 5);
+  ctx.lineTo(0, 10);
+  ctx.lineTo(-4, 5);
+  ctx.closePath();
+  ctx.fill();
+  // Guard
+  ctx.fillRect(-12, 10, 24, 4);
+  // Grip
+  ctx.fillRect(-3, 14, 6, 12);
+  // Pommel
+  ctx.beginPath();
+  ctx.arc(0, 30, 5, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+function drawHorseshoe(ctx) {
+  ctx.strokeStyle = ctx._chargeColor || '#FFD700';
+  ctx.lineWidth = 6;
+  ctx.lineCap = 'round';
+  ctx.beginPath();
+  ctx.arc(0, 5, 18, -Math.PI * 0.8, Math.PI * 0.8);
+  ctx.stroke();
+  // Nail holes
+  ctx.fillStyle = tinctureColor(arms.tincture1);
+  for (let i = 0; i < 7; i++) {
+    const a = -Math.PI * 0.65 + (Math.PI * 1.3 / 6) * i;
+    ctx.beginPath();
+    ctx.arc(Math.cos(a) * 18, 5 + Math.sin(a) * 18, 2, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+function drawTower(ctx) {
+  ctx.fillStyle = ctx._chargeColor || '#FFD700';
+  // Base
+  ctx.fillRect(-14, 10, 28, 22);
+  // Body
+  ctx.fillRect(-12, -15, 24, 28);
+  // Battlements
+  for (let i = -12; i < 12; i += 8) {
+    ctx.fillRect(i, -22, 5, 7);
+  }
+  // Door
+  ctx.fillStyle = tinctureColor(arms.tincture1);
+  ctx.beginPath();
+  ctx.arc(0, 22, 5, Math.PI, 0);
+  ctx.fillRect(-5, 22, 10, 10);
+  ctx.fill();
+  // Windows
+  ctx.fillRect(-8, -8, 4, 5);
+  ctx.fillRect(4, -8, 4, 5);
+}
+
+function drawTree(ctx) {
+  const color = ctx._chargeColor || '#FFD700';
+  ctx.fillStyle = color;
+  // Trunk
+  ctx.fillRect(-3, 5, 6, 25);
+  // Roots
+  ctx.beginPath();
+  ctx.moveTo(-3, 28);
+  ctx.quadraticCurveTo(-10, 32, -12, 30);
+  ctx.moveTo(3, 28);
+  ctx.quadraticCurveTo(10, 32, 12, 30);
+  ctx.strokeStyle = ctx._chargeColor || '#FFD700';
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  // Foliage (round)
+  ctx.beginPath();
+  ctx.arc(0, -10, 18, 0, Math.PI * 2);
+  ctx.fill();
+  // Inner shading
+  ctx.fillStyle = adjustColor(color, -40);
+  ctx.beginPath();
+  ctx.arc(-3, -12, 10, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+function drawRose(ctx) {
+  ctx.fillStyle = ctx._chargeColor || '#FFD700';
+  // Five petals
+  for (let i = 0; i < 5; i++) {
+    const a = (Math.PI * 2 / 5) * i - Math.PI / 2;
+    ctx.beginPath();
+    ctx.ellipse(
+      Math.cos(a) * 8, Math.sin(a) * 8,
+      10, 7, a, 0, Math.PI * 2
+    );
+    ctx.fill();
+  }
+  // Center
+  ctx.fillStyle = tinctureColor(arms.tincture1);
+  ctx.beginPath();
+  ctx.arc(0, 0, 5, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+function drawMartlet(ctx) {
+  ctx.fillStyle = ctx._chargeColor || '#FFD700';
+  // Body
+  ctx.beginPath();
+  ctx.ellipse(0, 0, 8, 12, 0, 0, Math.PI * 2);
+  ctx.fill();
+  // Head
+  ctx.beginPath();
+  ctx.arc(0, -16, 5, 0, Math.PI * 2);
+  ctx.fill();
+  // Beak
+  ctx.beginPath();
+  ctx.moveTo(5, -16);
+  ctx.lineTo(10, -15);
+  ctx.lineTo(5, -13);
+  ctx.closePath();
+  ctx.fill();
+  // Wings (stylized)
+  ctx.beginPath();
+  ctx.moveTo(-6, -2);
+  ctx.quadraticCurveTo(-20, -10, -22, 2);
+  ctx.quadraticCurveTo(-18, 8, -8, 5);
+  ctx.closePath();
+  ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(6, -2);
+  ctx.quadraticCurveTo(20, -10, 22, 2);
+  ctx.quadraticCurveTo(18, 8, 8, 5);
+  ctx.closePath();
+  ctx.fill();
+  // Tail feathers (no feet - martlet characteristic)
+  ctx.beginPath();
+  ctx.moveTo(-3, 10);
+  ctx.lineTo(-5, 18);
+  ctx.lineTo(0, 14);
+  ctx.lineTo(5, 18);
+  ctx.lineTo(3, 10);
+  ctx.closePath();
+  ctx.fill();
+  // Eye
+  ctx.fillStyle = '#1A1A1A';
+  ctx.beginPath();
+  ctx.arc(-1, -17, 1, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+function drawSun(ctx) {
+  ctx.fillStyle = ctx._chargeColor || '#FFD700';
+  ctx.beginPath();
+  ctx.arc(0, 0, 12, 0, Math.PI * 2);
+  ctx.fill();
+  // Rays
+  for (let i = 0; i < 16; i++) {
+    const a = (Math.PI * 2 / 16) * i;
+    const isLong = i % 2 === 0;
+    const inner = 14;
+    const outer = isLong ? 26 : 20;
+    ctx.beginPath();
+    ctx.moveTo(Math.cos(a) * inner, Math.sin(a) * inner);
+    ctx.lineTo(Math.cos(a) * outer, Math.sin(a) * outer);
+    ctx.strokeStyle = ctx._chargeColor || '#FFD700';
+    ctx.lineWidth = isLong ? 3 : 2;
+    ctx.stroke();
+  }
+  // Face
+  ctx.fillStyle = tinctureColor(arms.tincture1);
+  ctx.beginPath();
+  ctx.arc(0, -2, 2, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(0, 3, 1, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.strokeStyle = tinctureColor(arms.tincture1);
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.arc(0, 1, 5, 0.2, Math.PI - 0.2);
+  ctx.stroke();
+}
+
+function drawAnnulet(ctx) {
+  ctx.strokeStyle = ctx._chargeColor || '#FFD700';
+  ctx.lineWidth = 5;
+  ctx.beginPath();
+  ctx.arc(0, 0, 14, 0, Math.PI * 2);
+  ctx.stroke();
+}
+
+function drawKey(ctx) {
+  ctx.strokeStyle = ctx._chargeColor || '#FFD700';
+  ctx.fillStyle = ctx._chargeColor || '#FFD700';
+  ctx.lineWidth = 3;
+  // Bow (ring at top)
+  ctx.beginPath();
+  ctx.arc(0, -18, 10, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(0, -18, 5, 0, Math.PI * 2);
+  ctx.stroke();
+  // Shaft
+  ctx.fillRect(-2, -8, 4, 28);
+  // Ward (teeth at bottom)
+  ctx.fillRect(2, 10, 8, 3);
+  ctx.fillRect(2, 16, 6, 3);
+}
+
+function drawDragon(ctx) {
+  ctx.fillStyle = ctx._chargeColor || '#FFD700';
+  ctx.strokeStyle = ctx._chargeColor || '#FFD700';
+  ctx.lineWidth = 3;
+  ctx.lineCap = 'round';
+  // Body
+  ctx.beginPath();
+  ctx.moveTo(5, 5);
+  ctx.quadraticCurveTo(15, 0, 20, -10);
+  ctx.quadraticCurveTo(25, -20, 18, -25);
+  // Head
+  ctx.quadraticCurveTo(15, -30, 10, -28);
+  ctx.quadraticCurveTo(8, -25, 10, -20);
+  // Neck back
+  ctx.quadraticCurveTo(5, -15, 0, -10);
+  // Back
+  ctx.quadraticCurveTo(-15, -15, -20, -5);
+  // Tail
+  ctx.quadraticCurveTo(-28, 5, -25, 15);
+  ctx.quadraticCurveTo(-22, 20, -15, 15);
+  ctx.quadraticCurveTo(-10, 10, 5, 5);
+  ctx.fill();
+  // Wings
+  ctx.beginPath();
+  ctx.moveTo(-5, -12);
+  ctx.quadraticCurveTo(-15, -30, -25, -25);
+  ctx.quadraticCurveTo(-15, -18, -10, -8);
+  ctx.closePath();
+  ctx.fill();
+  ctx.beginPath();
+  ctx.moveTo(-2, -10);
+  ctx.quadraticCurveTo(-10, -28, -20, -22);
+  ctx.quadraticCurveTo(-12, -15, -7, -6);
+  ctx.closePath();
+  ctx.fill();
+  // Legs
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.moveTo(10, 5); ctx.lineTo(12, 15); ctx.lineTo(8, 18);
+  ctx.moveTo(12, 15); ctx.lineTo(14, 18);
+  ctx.moveTo(-10, 5); ctx.lineTo(-12, 15); ctx.lineTo(-14, 18);
+  ctx.moveTo(-12, 15); ctx.lineTo(-8, 18);
+  ctx.stroke();
+  // Eye
+  ctx.fillStyle = '#CC1111';
+  ctx.beginPath();
+  ctx.arc(14, -24, 2, 0, Math.PI * 2);
+  ctx.fill();
+  // Fire breath
+  ctx.fillStyle = '#CC1111';
+  ctx.globalAlpha = 0.7;
+  ctx.beginPath();
+  ctx.moveTo(18, -26);
+  ctx.quadraticCurveTo(28, -30, 32, -25);
+  ctx.quadraticCurveTo(35, -22, 30, -18);
+  ctx.quadraticCurveTo(25, -15, 20, -20);
+  ctx.closePath();
+  ctx.fill();
+  ctx.globalAlpha = 1;
+}
+
+function drawPellet(ctx) {
+  ctx.fillStyle = ctx._chargeColor || '#FFD700';
+  ctx.beginPath();
+  ctx.arc(0, 0, 8, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+// ─── Border drawing ──────────────────────────────────────────────────────
+function drawBorder(ctx, x, y, w, h) {
+  if (arms.border.id === 'none') return;
+  const b = arms.border.id;
+  ctx.save();
+  shieldPath(ctx, x, y, w, h);
+  ctx.clip();
+
+  const inset = 12;
+  ctx.strokeStyle = tinctureColor(arms.borderTincture);
+  ctx.fillStyle = tinctureColor(arms.borderTincture);
+
+  if (b === 'simple' || b === 'double') {
+    ctx.lineWidth = b === 'double' ? 12 : 8;
+    shieldPath(ctx, x, y, w, h);
+    ctx.stroke();
+    if (b === 'double') {
+      ctx.strokeStyle = tinctureColor(arms.tincture1);
+      ctx.lineWidth = 4;
+      shieldPath(ctx, x, y, w, h);
+      ctx.stroke();
+      ctx.strokeStyle = tinctureColor(arms.borderTincture);
+      ctx.lineWidth = 2;
+      shieldPath(ctx, x, y, w, h);
+      ctx.stroke();
+    }
+  } else {
+    // Wavy borders - draw thick border with modulation
+    ctx.lineWidth = 10;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+
+    const step = 4;
+    const amplitude = b === 'indented' ? 6 : b === 'engrailed' ? 5 : 4;
+    const freq = b === 'indented' ? 0.8 : b === 'engrailed' ? 0.5 : 0.3;
+    const segments = 120;
+
+    // Top edge
+    ctx.beginPath();
+    for (let i = 0; i <= segments; i++) {
+      const t = i / segments;
+      const px = x + t * w;
+      const py = y + (b === 'invected' ?
+        Math.sin(t * Math.PI * freq * 8) * amplitude :
+        -Math.abs(Math.sin(t * Math.PI * freq * 8)) * amplitude);
+      if (i === 0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+
+    // Bottom edges
+    ctx.beginPath();
+    for (let i = 0; i <= segments; i++) {
+      const t = i / segments;
+      const shieldY = y + h * 0.65 + Math.sin(t * Math.PI) * h * 0.35;
+      const px = x + t * w;
+      const py = shieldY + (b === 'invected' ?
+        Math.sin(t * Math.PI * freq * 8) * amplitude :
+        -Math.abs(Math.sin(t * Math.PI * freq * 8)) * amplitude);
+      if (i === 0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+
+    // Left edge
+    ctx.beginPath();
+    for (let i = 0; i <= segments; i++) {
+      const t = i / segments;
+      const px = x + (b === 'invected' ?
+        Math.sin(t * Math.PI * freq * 8) * amplitude :
+        -Math.abs(Math.sin(t * Math.PI * freq * 8)) * amplitude);
+      const py = y + t * h * 0.65 + Math.sin(Math.max(0, t - 0.65) * Math.PI / 0.35 * 0.5) * h * 0.35;
+      if (i === 0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+
+    // Right edge
+    ctx.beginPath();
+    for (let i = 0; i <= segments; i++) {
+      const t = i / segments;
+      const px = x + w + (b === 'invected' ?
+        Math.sin(t * Math.PI * freq * 8) * amplitude :
+        -Math.abs(Math.sin(t * Math.PI * freq * 8)) * amplitude);
+      const py = y + t * h * 0.65 + Math.sin(Math.max(0, t - 0.65) * Math.PI / 0.35 * 0.5) * h * 0.35;
+      if (i === 0) ctx.moveTo(px, py);
+      else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+
+    // Fleury border
+    if (b === 'fleury') {
+      const fleurSize = 6;
+      // Place fleur-de-lis around the shield edge
+      for (let i = 0; i < 10; i++) {
+        const t = i / 9;
+        // Top
+        ctx.save();
+        ctx.translate(x + t * w, y - 2);
+        ctx.scale(0.2, 0.2);
+        drawFleurDeLis(ctx);
+        ctx.restore();
+        // Bottom approximation
+        const by = y + h * 0.65 + Math.sin(t * Math.PI) * h * 0.35;
+        ctx.save();
+        ctx.translate(x + t * w, by + 2);
+        ctx.scale(0.2, 0.2);
+        drawFleurDeLis(ctx);
+        ctx.restore();
+      }
+    }
+  }
+
+  ctx.restore();
+}
+
+// ─── Crest drawing ──────────────────────────────────────────────────────
+function drawCrest(ctx, x, y) {
+  if (arms.crest.id === 'none') return;
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.fillStyle = tinctureColor(arms.crestTincture);
+  ctx.strokeStyle = tinctureColor(arms.crestTincture);
+  ctx.lineWidth = 2;
+
+  // Wreath (torse)
+  ctx.beginPath();
+  for (let i = 0; i < 30; i++) {
+    const a = (Math.PI * 2 / 30) * i;
+    const r = 8;
+    ctx.fillStyle = i % 4 < 2 ? '#CC1111' : '#FFD700';
+    ctx.fillRect(
+      Math.cos(a) * r - 2,
+      Math.sin(a) * r * 0.5 - 2,
+      4, 4
+    );
+  }
+
+  switch(arms.crest.id) {
+    case 'crown':
+      ctx.fillStyle = '#FFD700';
+      ctx.beginPath();
+      ctx.moveTo(-15, -5);
+      ctx.lineTo(-15, -20);
+      ctx.lineTo(-10, -12);
+      ctx.lineTo(-5, -25);
+      ctx.lineTo(0, -12);
+      ctx.lineTo(5, -25);
+      ctx.lineTo(10, -12);
+      ctx.lineTo(15, -20);
+      ctx.lineTo(15, -5);
+      ctx.closePath();
+      ctx.fill();
+      // Jewels
+      ctx.fillStyle = '#CC1111';
+      ctx.beginPath(); ctx.arc(0, -15, 2, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#1A3F8F';
+      ctx.beginPath(); ctx.arc(-8, -10, 2, 0, Math.PI * 2); ctx.fill();
+      ctx.beginPath(); ctx.arc(8, -10, 2, 0, Math.PI * 2); ctx.fill();
+      break;
+    case 'helmet':
+      ctx.fillStyle = '#C0C0C0';
+      ctx.beginPath();
+      ctx.moveTo(-12, 0);
+      ctx.quadraticCurveTo(-12, -25, 0, -30);
+      ctx.quadraticCurveTo(12, -25, 12, 0);
+      ctx.closePath();
+      ctx.fill();
+      ctx.strokeStyle = '#808080';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+      // Visor slit
+      ctx.beginPath();
+      ctx.moveTo(-8, -8);
+      ctx.lineTo(8, -8);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(-6, -12);
+      ctx.lineTo(6, -12);
+      ctx.stroke();
+      break;
+    case 'eagle':
+      ctx.save();
+      ctx.translate(0, -15);
+      ctx.scale(0.5, 0.5);
+      drawEagle(ctx);
+      ctx.restore();
+      break;
+    case 'lion':
+      ctx.save();
+      ctx.translate(0, -18);
+      ctx.scale(0.5, 0.5);
+      drawLion(ctx);
+      ctx.restore();
+      break;
+    case 'plume':
+      for (let i = -1; i <= 1; i++) {
+        ctx.save();
+        ctx.translate(i * 6, -15);
+        ctx.beginPath();
+        ctx.moveTo(0, 15);
+        ctx.quadraticCurveTo(i * 5, -5, 0, -30);
+        ctx.quadraticCurveTo(i * -2, -5, 0, 15);
+        ctx.fillStyle = i === 0 ? '#F0F0F0' : '#CC1111';
+        ctx.fill();
+        ctx.restore();
+      }
+      break;
+    case 'star':
+      ctx.save();
+      ctx.translate(0, -15);
+      ctx.scale(0.6, 0.6);
+      drawStar(ctx);
+      ctx.restore();
+      break;
+  }
+  ctx.restore();
+}
+
+// ─── Main render ────────────────────────────────────────────────────────
+function render() {
+  const canvas = document.getElementById('shield');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+
+  ctx.clearRect(0, 0, W, H);
+
+  // Shield dimensions
+  const sx = 80, sy = 100, sw = 340, sh = 380;
+
+  // Outer glow/shadow is handled by CSS filter
+
+  // Draw field with division
+  ctx.save();
+  drawDivision(ctx, sx, sy, sw, sh);
+  ctx.restore();
+
+  // Draw charge(s)
+  if (arms.charge.id !== 'none') {
+    ctx.save();
+    clipShield(ctx, sx, sy, sw, sh);
+    ctx._chargeColor = tinctureColor(arms.chargeTincture);
+
+    const cx = sx + sw / 2;
+    const cy = sy + sh * 0.45;
+    const scale = 1.8;
+
+    if (arms.chargeCount === 1) {
+      drawChargeAt(ctx, cx, cy, scale, arms.charge.id);
+    } else if (arms.chargeCount === 2) {
+      const offset = sw * 0.18;
+      drawChargeAt(ctx, cx - offset, cy, scale * 0.85, arms.charge.id);
+      drawChargeAt(ctx, cx + offset, cy, scale * 0.85, arms.charge.id);
+    } else if (arms.chargeCount === 3) {
+      const yOff = sh * 0.15;
+      drawChargeAt(ctx, cx, cy - yOff, scale * 0.85, arms.charge.id);
+      drawChargeAt(ctx, cx - sw * 0.2, cy + yOff, scale * 0.85, arms.charge.id);
+      drawChargeAt(ctx, cx + sw * 0.2, cy + yOff, scale * 0.85, arms.charge.id);
+    }
+
+    ctx.restore();
+  }
+
+  // Draw border
+  drawBorder(ctx, sx, sy, sw, sh);
+
+  // Draw crest above shield
+  drawCrest(ctx, sx + sw / 2, sy - 20);
+
+  // Draw motto below
+  if (arms.motto) {
+    ctx.save();
+    ctx.fillStyle = '#e8e0d4';
+    ctx.font = 'italic 14px Georgia, serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'top';
+    // Banner/ribbon
+    const mottoY = sy + sh + 30;
+    const mottoW = ctx.measureText(arms.motto).width + 40;
+    ctx.fillStyle = 'rgba(30,25,20,0.9)';
+    // Ribbon shape
+    ctx.beginPath();
+    ctx.moveTo(sx + sw/2 - mottoW/2 - 10, mottoY + 5);
+    ctx.lineTo(sx + sw/2 - mottoW/2, mottoY);
+    ctx.lineTo(sx + sw/2 + mottoW/2, mottoY);
+    ctx.lineTo(sx + sw/2 + mottoW/2 + 10, mottoY + 5);
+    ctx.lineTo(sx + sw/2 + mottoW/2, mottoY + 10);
+    ctx.lineTo(sx + sw/2 - mottoW/2, mottoY + 10);
+    ctx.closePath();
+    ctx.fill();
+    // Tail cuts
+    ctx.beginPath();
+    ctx.moveTo(sx + sw/2 - mottoW/2 - 10, mottoY);
+    ctx.lineTo(sx + sw/2 - mottoW/2 - 5, mottoY + 5);
+    ctx.lineTo(sx + sw/2 - mottoW/2 - 10, mottoY + 10);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(sx + sw/2 + mottoW/2 + 10, mottoY);
+    ctx.lineTo(sx + sw/2 + mottoW/2 + 5, mottoY + 5);
+    ctx.lineTo(sx + sw/2 + mottoW/2 + 10, mottoY + 10);
+    ctx.fill();
+
+    ctx.fillStyle = '#e8e0d4';
+    ctx.fillText(arms.motto, sx + sw/2, mottoY);
+    ctx.restore();
+  }
+
+  // Shield outline
+  ctx.strokeStyle = 'rgba(201,168,76,0.4)';
+  ctx.lineWidth = 2;
+  shieldPath(ctx, sx, sy, sw, sh);
+  ctx.stroke();
+}
+
+// ─── Blazon generation ──────────────────────────────────────────────────
+function generateBlazon() {
+  let parts = [];
+
+  // Field
+  if (arms.division.id === 'none') {
+    parts.push(TINCTURES[arms.tincture1].name);
+  } else {
+    parts.push(`${TINCTURES[arms.tincture1].name} and ${TINCTURES[arms.tincture2].name}, ${arms.division.name}`);
+  }
+
+  // Charge
+  if (arms.charge.id !== 'none') {
+    let chargeStr = '';
+    if (arms.chargeCount > 1) {
+      const nums = { 2: 'two', 3: 'three' };
+      chargeStr = (nums[arms.chargeCount] || '') + ' ';
+      // Adjust charge name for plural
+      const name = arms.charge.name;
+      chargeStr += name.replace(/^(a|an) /, '');
+    } else {
+      chargeStr = arms.charge.name;
+    }
+    parts.push(`${chargeStr} ${TINCTURES[arms.chargeTincture].name}`);
+  }
+
+  // Border
+  if (arms.border.id !== 'none') {
+    parts.push(`${arms.border.name} ${TINCTURES[arms.borderTincture].name}`);
+  }
+
+  // Crest
+  if (arms.crest.id !== 'none') {
+    parts.push(`For a crest: ${arms.crest.name} ${TINCTURES[arms.crestTincture].name}`);
+  }
+
+  // Motto
+  if (arms.motto) {
+    parts.push(`"${arms.motto}"`);
+  }
+
+  return parts.join('. ') + '.';
+}
+
+function updateUI() {
+  const blazonEl = document.getElementById('blazon');
+  blazonEl.textContent = generateBlazon();
+
+  const infoEl = document.getElementById('partInfo');
+  infoEl.innerHTML = `
+    <span class="tincture-swatch" style="background:${tinctureColor(arms.tincture1)}"></span>
+    Field: ${TINCTURES[arms.tincture1].name} &middot;
+    <span class="tincture-swatch" style="background:${tinctureColor(arms.chargeTincture)}"></span>
+    Charge: ${arms.charge.name} &middot;
+    <span class="tincture-swatch" style="background:${tinctureColor(arms.borderTincture)}"></span>
+    Border: ${arms.border.name || 'none'}
+  `;
+}
+
+// ─── Interaction ─────────────────────────────────────────────────────────
+document.getElementById('blazon').addEventListener('click', function() {
+  navigator.clipboard?.writeText(this.textContent).then(() => {
+    const orig = this.textContent;
+    this.textContent = 'Copied!';
+    setTimeout(() => { this.textContent = orig; }, 1000);
+  });
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  switch(e.key.toLowerCase()) {
+    case 'n': generate(); break;
+    case 'f': reroll('field'); break;
+    case 'c': reroll('charge'); break;
+    case 'b': reroll('border'); break;
+  }
+});
+
+// Click on shield to detect region
+document.getElementById('shield').addEventListener('click', (e) => {
+  const rect = e.target.getBoundingClientRect();
+  const scaleX = e.target.width / rect.width;
+  const scaleY = e.target.height / rect.height;
+  const mx = (e.clientX - rect.left) * scaleX;
+  const my = (e.clientY - rect.top) * scaleY;
+
+  const sx = 80, sy = 100, sw = 340, sh = 380;
+  const cx = sx + sw/2, cy = sy + sh * 0.45;
+
+  // Determine what was clicked
+  if (my < sy - 25) {
+    reroll('crest');
+  } else if (my > sy + sh + 20) {
+    reroll('motto');
+  } else if (mx < sx || mx > sx + sw || my < sy) {
+    // Outside shield
+  } else {
+    // Inside shield - check if near center (charge) or edge (field)
+    const dist = Math.sqrt((mx - cx) ** 2 + (my - cy) ** 2);
+    if (dist < sh * 0.25) {
+      reroll('charge');
+    } else if (dist > sh * 0.35) {
+      reroll('field');
+    } else {
+      // Middle zone: randomly re-roll
+      reroll(Math.random() > 0.5 ? 'charge' : 'field');
+    }
+  }
+});
+
+// ─── Init ──────────────────────────────────────────────────────────────
+generate();
+</script>
+</body>
+</html>
