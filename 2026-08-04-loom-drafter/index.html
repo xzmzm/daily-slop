@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>loom-drafter — a weaving draft that weaves itself</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>loom&#8203;-drafter</h1>
+  <p class="sub">The four-quadrant notation handweavers have used for two
+  centuries. Set the <em>threading</em>, the <em>tie-up</em> and the
+  <em>treadling</em> — the cloth is not a choice, it's a consequence.</p>
+</header>
+
+<main>
+  <section class="panel draft-panel">
+    <div class="labels">
+      <span class="lab lab-thread">threading ↓ shafts</span>
+      <span class="lab lab-tieup">tie-up</span>
+      <span class="lab lab-draw">drawdown</span>
+      <span class="lab lab-tread">treadling</span>
+    </div>
+    <div class="canvas-wrap">
+      <canvas id="draft" aria-label="Weaving draft grid"></canvas>
+    </div>
+    <p class="hint" id="hint">Click the threading to move an end to another shaft ·
+      click the tie-up to tie or untie a shaft · click the treadling to change the pick ·
+      click a colour bar to recolour a thread.</p>
+  </section>
+
+  <section class="panel cloth-panel">
+    <h2>the cloth <span class="reps">2 × 2 repeats</span></h2>
+    <canvas id="cloth" aria-label="Woven cloth preview"></canvas>
+    <div id="report" class="report"></div>
+  </section>
+
+  <aside class="panel controls">
+    <div class="ctl">
+      <label for="shafts">Loom</label>
+      <select id="shafts">
+        <option value="4">4 shafts · 6 treadles</option>
+        <option value="8">8 shafts · 10 treadles</option>
+      </select>
+    </div>
+    <div class="ctl"><label for="threading">Threading</label><select id="threading"></select></div>
+    <div class="ctl"><label for="tieup">Tie-up</label><select id="tieup"></select></div>
+    <div class="ctl"><label for="treadling">Treadling</label><select id="treadling"></select></div>
+    <div class="ctl"><label for="colorway">Colourway</label><select id="colorway"></select></div>
+
+    <div class="ctl">
+      <label>Yarn <span class="muted">— click a colour, then a colour bar</span></label>
+      <div id="swatches" class="swatches"></div>
+    </div>
+
+    <div class="buttons">
+      <button id="surprise" class="primary">Surprise me</button>
+      <button id="wif">Export .wif</button>
+    </div>
+    <p class="seed" id="seed"></p>
+
+    <details class="learn">
+      <summary>How to read a draft</summary>
+      <p><b>Threading</b> (top left) — one column per warp end, one row per
+      shaft. A mark says "this end goes through a heddle on that shaft."</p>
+      <p><b>Tie-up</b> (top right) — one column per treadle. A circle says
+      "pressing this treadle raises that shaft." Rising shed.</p>
+      <p><b>Treadling</b> (right) — one row per weft pick, top to bottom, marking
+      which treadle you press.</p>
+      <p><b>Drawdown</b> (centre) — computed, never drawn by hand: end
+      <i>e</i> shows on pick <i>p</i> exactly when the treadle for <i>p</i>
+      is tied to the shaft <i>e</i> is threaded on. Everything else is weft.</p>
+      <p>A <b>float</b> is a thread passing over several others without
+      interlacing. Long floats make satin shiny — and make cloth fall apart.</p>
+    </details>
+  </aside>
+</main>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
