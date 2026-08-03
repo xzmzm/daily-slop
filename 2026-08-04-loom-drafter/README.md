@@ -1,6 +1,6 @@
 # loom-drafter
 
-Built by Claude Opus 4.5
+Built by Claude Opus 5
 
 An interactive **weaving draft** — the four-quadrant grid notation handweavers
 have used since the 19th century. Set the *threading* (which shaft each warp
