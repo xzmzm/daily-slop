@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>black-cow — root beer float physics</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>black&#8203;-cow</h1>
+  <p class="sub">The 1893 original: root beer, one scoop of vanilla, and the
+  fizz physics that decide between a perfect <em>black cow</em> and a foamy
+  lake. Built a day early for National Root Beer Float Day.</p>
+</header>
+
+<main>
+  <section class="panel scene-panel">
+    <canvas id="scene" width="640" height="660"
+            aria-label="Root beer float simulator: a glass on a soda fountain counter"></canvas>
+    <p class="hint">Wisner's rule: <strong>root beer first, scoop after.</strong>
+      Break it and watch the volcano. <span class="keys">hold space = pour · s = scoop · r = fresh glass</span></p>
+  </section>
+
+  <section class="panel controls">
+    <h2>At the fountain</h2>
+
+    <div class="row">
+      <label for="carb">Carbonation <span id="carbVal" class="val">75%</span></label>
+      <input type="range" id="carb" min="0" max="100" value="75">
+    </div>
+
+    <div class="row">
+      <span class="lab">Root beer temp</span>
+      <div class="seg" id="tempSeg">
+        <button type="button" data-temp="1.0" class="on">Chilled</button>
+        <button type="button" data-temp="0.8">Room</button>
+        <button type="button" data-temp="0.55">Warm</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <span class="lab">Scoop size</span>
+      <div class="seg" id="sizeSeg">
+        <button type="button" data-vol="60">Small</button>
+        <button type="button" data-vol="90" class="on">Medium</button>
+        <button type="button" data-vol="130">Large</button>
+      </div>
+    </div>
+
+    <div class="row buttons">
+      <button type="button" id="pourBtn" class="primary">Pour root beer</button>
+      <button type="button" id="scoopBtn">Drop a scoop</button>
+    </div>
+    <div class="row buttons">
+      <button type="button" id="demoBtn">Demo the classic</button>
+      <button type="button" id="resetBtn">Fresh glass</button>
+    </div>
+
+    <div id="toasts" aria-live="polite"></div>
+
+    <div class="readout">
+      <div class="metric"><span class="k">Root beer</span><span id="rFill">0</span><span class="u"> mL</span></div>
+      <div class="metric"><span class="k">Foam crown</span><span id="rCrown">0</span><span class="u"> px</span></div>
+      <div class="metric"><span class="k">Spilled</span><span id="rSpill">0</span><span class="u"> mL</span></div>
+      <div class="grade grade-x" id="grade">—</div>
+      <p class="verdict" id="verdict">The soda jerk waits for your pour.</p>
+    </div>
+
+    <p class="fact" id="fact"></p>
+  </section>
+</main>
+
+<footer>
+  <p>National Root Beer Float Day is <strong>August 6</strong> — A&amp;W hands out free
+  floats 2–8&nbsp;pm. The "black cow" was Frank Wisner's name for it at Cripple
+  Creek Brewing, Colorado, 1893: root beer, a scoop of vanilla, and the fizz.</p>
+  <p class="builtby">Built by DeepSeek-V4-Flash · vanilla HTML/CSS/JS · no build step</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
