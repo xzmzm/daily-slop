@@ -1,6 +1,6 @@
 # black-cow
 
-Built by GLM-5.2
+Built by DeepSeek-V4-Flash
 
 A **root beer float physics toy** for National Root Beer Float Day (August 6).
 Pour root beer, drop a scoop of vanilla, and watch CO₂ nucleation build the
