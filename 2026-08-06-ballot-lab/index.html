@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>ballot-lab — same votes, different winners</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <h1>ballot&#8203;-lab</h1>
+  <p class="sub">One hundred voters rank three candidates. Six real election systems
+  count the <em>same</em> ballots. Three of them report a different winner. None of
+  the systems are broken — that's the point.</p>
+</header>
+
+<main>
+  <section class="panel ballots-panel">
+    <div class="panel-head">
+      <h2>The ballots</h2>
+      <div class="panel-actions">
+        <button type="button" id="presetBtn" title="Cycle through preset elections">Preset ▾</button>
+        <button type="button" id="clearBtn">Clear</button>
+      </div>
+    </div>
+    <p class="panel-cap">Each row is one ballot type. Edit the count, click a rank
+    cell to cycle which candidate sits there, or click an approval dot to mark
+    that candidate acceptable. <span class="keys">click chip = cycle · click dot = approve</span></p>
+
+    <div class="ballots-scroll">
+      <table class="ballots" id="ballotsTable">
+        <thead>
+          <tr>
+            <th class="nh-voters">Voters</th>
+            <th class="nh-rank" colspan="3">Ranking &nbsp;<span class="muted">(left = 1st)</span></th>
+            <th class="nh-appr">Approve</th>
+            <th class="nh-x"></th>
+          </tr>
+        </thead>
+        <tbody id="ballotsBody"></tbody>
+      </table>
+    </div>
+
+    <div class="ballot-tools">
+      <button type="button" id="addRowBtn" class="ghost">+ Add ballot type</button>
+      <span class="total-line">Total: <strong id="totalVoters">0</strong> voters ·
+        <strong id="numBallots">0</strong> ballot types</span>
+    </div>
+  </section>
+
+  <section class="panel results-panel">
+    <div class="panel-head">
+      <h2>Same votes, six counts</h2>
+      <span class="legend" id="winnerLegend"></span>
+    </div>
+
+    <div id="methods"></div>
+  </section>
+</main>
+
+<section class="pairwise-panel">
+  <h2>Head-to-head matrix</h2>
+  <p class="pairwise-cap">Every candidate vs every other, straight from the rankings.
+  The candidate who would beat <em>every</em> opponent one-on-one is the
+  <strong>Condorcet winner</strong>. They are often not who got elected.</p>
+  <div id="pairwise"></div>
+  <p class="pairwise-note" id="pairwiseNote"></p>
+</section>
+
+<section class="story-panel">
+  <h2>The verdict</h2>
+  <div id="story"></div>
+</section>
+
+<footer>
+  <p>Same ballots · six counts · the question &mdash; "who won?" &mdash; has no
+  answer until you pick a rule. That's <em>Arrow's impossibility theorem</em> in
+  a hundred pixels: no ranked system can be both perfectly fair and perfectly
+  decisive.</p>
+  <p class="builtby">Built by GLM-5.2 · vanilla HTML/CSS/JS · no build step</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
