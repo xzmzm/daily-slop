@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>nightmark · lighthouse characteristic builder</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="title-block">
+    <h1>nightmark</h1>
+    <p class="subtitle">a lighthouse light-characteristic builder · National Lighthouse Day, Aug 7</p>
+  </div>
+  <nav class="mode-switch">
+    <button id="mode-build" class="mode-btn active">Builder</button>
+    <button id="mode-quiz" class="mode-btn">Quiz</button>
+  </nav>
+</header>
+
+<main>
+  <!-- ============ BUILDER MODE ============ -->
+  <section id="view-build" class="view active">
+
+    <div class="stage-col">
+      <div class="stage-wrap">
+        <canvas id="stage" width="520" height="440"></canvas>
+        <div class="stage-overlay">
+          <div id="notation" class="notation">Fl W 4s</div>
+          <div id="plainwords" class="plainwords">A white flash once every 4 seconds.</div>
+        </div>
+      </div>
+
+      <div class="statusbar">
+        <span id="status-light" class="status-dot lit"></span>
+        <span id="status-text">lit</span>
+        <span class="status-sep">·</span>
+        <span id="status-phase">phase 0.00s</span>
+        <span class="status-sep">·</span>
+        <span id="status-cycle">cycle 4.00s</span>
+      </div>
+
+      <div class="timeline-wrap">
+        <canvas id="timeline" width="980" height="86"></canvas>
+        <div class="timeline-label">one full cycle →</div>
+      </div>
+    </div>
+
+    <aside class="controls">
+
+      <div class="control-group">
+        <label class="ctl-label" for="rhythm">Rhythm type</label>
+        <select id="rhythm" class="ctl-select">
+          <option value="F">F — Fixed (steady)</option>
+          <option value="Fl" selected>Fl — Flashing</option>
+          <option value="Oc">Oc — Occulting</option>
+          <option value="Iso">Iso — Isophase</option>
+          <option value="Q">Q — Quick flashing</option>
+          <option value="Mo">Mo — Morse code</option>
+        </select>
+      </div>
+
+      <div class="control-group" id="grp-count">
+        <label class="ctl-label" for="count">Group size <span class="ctl-hint" id="count-hint">(flashes per group)</span></label>
+        <div class="stepper">
+          <button class="step-btn" data-step="count-down">−</button>
+          <input id="count" type="number" min="1" max="9" value="1" class="ctl-num">
+          <button class="step-btn" data-step="count-up">+</button>
+        </div>
+      </div>
+
+      <div class="control-group" id="grp-morse">
+        <label class="ctl-label" for="morse-letter">Morse letter <span class="ctl-hint">A–Z, 0–9</span></label>
+        <select id="morse-letter" class="ctl-select">
+          <option>A</option><option>B</option><option>C</option><option>D</option><option>E</option>
+          <option>F</option><option>G</option><option>H</option><option>I</option>
+          <option>J</option><option>K</option><option>L</option><option>M</option><option>N</option>
+          <option>O</option><option>P</option><option>Q</option><option>R</option><option>S</option>
+          <option>T</option><option>U</option><option>V</option><option>W</option><option>X</option>
+          <option>Y</option><option>Z</option>
+          <option>0</option><option>1</option><option>2</option><option>3</option><option>4</option>
+          <option>5</option><option>6</option><option>7</option><option>8</option><option>9</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label class="ctl-label" for="color">Color</label>
+        <div class="color-row" id="color-row">
+          <button class="color-swatch active" data-color="W" title="White"></button>
+          <button class="color-swatch" data-color="R" title="Red" style="--sw:#ff3b3b"></button>
+          <button class="color-swatch" data-color="G" title="Green" style="--sw:#2ed95a"></button>
+          <button class="color-swatch" data-color="Y" title="Yellow" style="--sw:#ffd23b"></button>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label class="ctl-label" for="period">Period <span class="ctl-hint">(cycle length, s)</span></label>
+        <div class="stepper">
+          <button class="step-btn" data-step="period-down">−</button>
+          <input id="period" type="number" min="1" max="60" step="0.5" value="4" class="ctl-num">
+          <button class="step-btn" data-step="period-up">+</button>
+        </div>
+        <input id="period-range" type="range" min="1" max="20" step="0.5" value="4" class="ctl-range">
+      </div>
+
+      <div class="control-group">
+        <div class="speed-row">
+          <label class="ctl-label" for="speed">Playback</label>
+          <select id="speed" class="ctl-select ctl-tiny">
+            <option value="1">1× (real)</option>
+            <option value="2">2×</option>
+            <option value="4" selected>4×</option>
+            <option value="8">8×</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="control-group presets">
+        <label class="ctl-label">Real lighthouses</label>
+        <div class="preset-grid" id="preset-grid"><!-- filled by JS --></div>
+      </div>
+
+      <p id="err-msg" class="err-msg" hidden></p>
+
+    </aside>
+  </section>
+
+  <!-- ============ QUIZ MODE ============ -->
+  <section id="view-quiz" class="view">
+    <div class="quiz-stage-wrap">
+      <canvas id="quiz-stage" width="520" height="440"></canvas>
+      <div class="quiz-overlay">
+        <div id="quiz-prompt" class="quiz-prompt">Watch the light. What is its characteristic?</div>
+      </div>
+    </div>
+
+    <div class="quiz-controls">
+      <div id="quiz-choices" class="quiz-choices"><!-- filled by JS --></div>
+      <div id="quiz-feedback" class="quiz-feedback" hidden></div>
+      <div class="quiz-meta">
+        <span>score <strong id="quiz-score">0</strong> / <strong id="quiz-total">0</strong></span>
+        <button id="quiz-next" class="ghost-btn" hidden>next light →</button>
+      </div>
+      <button id="quiz-restart" class="ghost-btn" hidden>restart quiz</button>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footbar">
+  <p>Every lighthouse has a coded flash signature — its <em>nightmark</em> — charted in IALA notation.
+     The rhythm, color, and cycle length together let a sailor read a beacon out of the dark and know exactly which one it is.</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
