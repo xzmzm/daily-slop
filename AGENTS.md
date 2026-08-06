@@ -59,9 +59,13 @@ Each project ships **two** markdown files:
 
 Short and practical: what it is, and a **"How to run"** section. Examples:
 
-- Vanilla: `open index.html` (or `python3 -m http.server` then visit the URL).
-- FastAPI: `python3 -m uvicorn main:app --reload` then open `http://localhost:8000`.
+- Vanilla: `open index.html` (or `python3 -m http.server 8765` then visit the URL).
+- FastAPI: `python3 -m uvicorn main:app --reload --port 8765` then open `http://localhost:8765`.
 - Framework: `pnpm install && pnpm dev`.
+
+> **Port policy (from the user-level `AGENTS.md`):** never bind anything to
+> port **8000** — it's reserved. Use `8765` (or any other free port) for all
+> local servers, and write that port into the project READMEs.
 
 ### `NOTES.md` — the story behind the build
 

@@ -15,10 +15,11 @@ A visual showcase of every daily project, with screenshots, a click-to-play
 viewer, and each project's `NOTES.md` / `README.md` behind an ⓘ button:
 
 ```
-python3 -m http.server        # from the repo root
+python3 -m http.server 8765        # from the repo root
 ```
 
-then open <http://localhost:8000>. The gallery is generated — after adding a
+then open <http://localhost:8765>. (Port 8000 is reserved on this machine —
+use 8765 or any other free port.) The gallery is generated — after adding a
 new daily project, rebuild it with:
 
 ```
