@@ -1,0 +1,16 @@
+{
+  "output": "/Users/hm/prj/daily-slop/2026-08-08-cattery/video/cattery-zh-fish.mp4",
+  "provider": "Fish Audio REST API",
+  "model": "s2.1-pro-free",
+  "voice_id": "ae5adc6778ac459e8d6106b82f88fa2b",
+  "segment_durations": [
+    20.767347,
+    14.367347,
+    14.262857,
+    18.912653,
+    12.329796
+  ],
+  "video_duration": 82.933333,
+  "fps": 15,
+  "resolution": "1920x1080"
+}

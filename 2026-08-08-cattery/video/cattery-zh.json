@@ -1,0 +1,15 @@
+{
+  "output": "/Users/hm/prj/daily-slop/2026-08-08-cattery/video/cattery-zh.mp4",
+  "voice": "macOS Tingting, 190 wpm, +10% pitch lift",
+  "segment_durations": [
+    17.356281,
+    14.555374,
+    16.271882,
+    20.833084,
+    19.824376
+  ],
+  "video_duration": 91.320998,
+  "fps": 15,
+  "resolution": "1280x720",
+  "work_dir": "/Users/hm/prj/daily-slop/2026-08-08-cattery/video/cattery-video-build-vn9iv1o0"
+}

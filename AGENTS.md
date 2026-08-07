@@ -115,6 +115,39 @@ mandatory.
    project folders; the root `index.html` showcase and `view.html` notes
    viewer need no manual edits.
 
+## Daily project video workflow
+
+When the user asks to create a video for today's project, use the Fish Audio
+rendering workflow already established for `2026-08-08-cattery`:
+
+- Read `FISH_AUDIO_API_KEY` from the workspace-root `.env` (ignored by Git),
+  with an existing shell environment variable taking precedence. Never copy
+  the key into source code, docs, metadata, logs, or chat output.
+- Use Fish Audio model `s2.1-pro-free` with the user's 哈基米 voice reference
+  ID, as configured in `2026-08-08-cattery/video/render_fish_video.py`.
+- Render with `python3 2026-08-08-cattery/video/render_fish_video.py`. The
+  output should be 1920×1080 with Chinese narration, burned-in subtitles, a
+  matching `.srt`, and the deploy URL shown in the browser chrome.
+- Keep the narration natural and lightly humorous. Start with
+  “大家好，我是 GLM 五点二，来交 AI 每日作业了。” Use the day's date and
+  the real reason for the project, but do not add artificial AI-style drama.
+  Do not say the project has no API, and do not add implementation-stack
+  explanations such as “原生 HTML、CSS 和 JavaScript”. Say “GLM 五点二”, not
+  “GLM 负五点二”.
+- The visible cursor is a small overlay for the headless recording. Keep it
+  parked during narration and scrolling; move it only shortly before a real
+  click (for example `mate`, opening the mother picker, and closing it). Use
+  eased, slightly curved movement with a short settle pause—never a long
+  linear drift across the screen. Keep the mother picker open long enough to
+  show its choices (about 1.8 seconds in the current video).
+- After rendering, run `ffprobe`, a full `ffmpeg -f null -` decode check, the
+  project's tests, `git diff --check`, and a secret scan. Move temporary
+  `cattery-*video-build-*` directories to macOS Trash after verification.
+
+The reusable renderer and current video notes live in
+`2026-08-08-cattery/video/README.md`; update that README when this workflow
+changes.
+
 ## File / delete policy
 
 Inherited from the user-level `AGENTS.md`: **never use `rm` / `rm -rf`** — use

@@ -3,7 +3,10 @@ node_modules/
 __pycache__/
 *.pyc
 .venv/
+# Local secrets
 .env
+.env.*
+!.env.example
 
 # Generated deployment bundle
 dist/

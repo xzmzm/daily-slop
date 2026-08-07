@@ -2,6 +2,10 @@
 
 Built by GLM-5.2
 
+**中文视频（Fish Audio 哈基米）：** [cattery-zh-fish.mp4](./video/cattery-zh-fish.mp4) · [字幕文件](./video/cattery-zh-fish.srt)
+
+本机 TTS 备份版：[cattery-zh.mp4](./video/cattery-zh.mp4)
+
 A **Mendelian cat-coat genetics sandbox** for International Cat Day (August 8).
 Pick a mother and a father, mate them, and each kitten's coat is **rendered
 procedurally from its genotype** — every patch, stripe, dilution and white
