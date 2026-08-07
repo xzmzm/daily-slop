@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>cattery · a Mendelian cat-genetics sandbox</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="title-block">
+    <h1>cattery</h1>
+    <p class="subtitle">a Mendelian cat-coat genetics sandbox · International Cat Day, Aug 8</p>
+  </div>
+  <div class="legend">
+    <span class="legend-item"><span class="leg-swatch" style="--c:#2b2b2b"></span>eumelanin</span>
+    <span class="legend-item"><span class="leg-swatch" style="--c:#e8853a"></span>orange</span>
+    <span class="legend-item"><span class="leg-swatch" style="--c:#7d8aa8"></span>dilute</span>
+    <span class="legend-item"><span class="leg-swatch" style="--c:#f4efe6"></span>white</span>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ PARENTS ============ -->
+  <section class="parents">
+    <div class="parent-card" id="parent-mom">
+      <div class="parent-label">mother <span class="sex">♀</span></div>
+      <div class="cat-canvas-wrap"><canvas id="mom-canvas" width="220" height="200"></canvas></div>
+      <div class="parent-name" id="mom-name">Saffron</div>
+      <div class="parent-pheno" id="mom-pheno">orange female</div>
+      <div class="parent-geno" id="mom-geno">X^O X^O  BB AA DD ss ww LL</div>
+      <button class="pick-btn" id="mom-pick">choose mother</button>
+    </div>
+
+    <div class="mate-col">
+      <button id="mate-btn" class="mate-btn">mate ✕</button>
+      <div class="mate-meta">
+        <label>litter size
+          <input id="litter-size" type="number" min="1" max="48" value="12">
+        </label>
+        <div class="litter-count" id="litter-count"></div>
+      </div>
+    </div>
+
+    <div class="parent-card" id="parent-dad">
+      <div class="parent-label">father <span class="sex">♂</span></div>
+      <div class="cat-canvas-wrap"><canvas id="dad-canvas" width="220" height="200"></canvas></div>
+      <div class="parent-name" id="dad-name">Domino</div>
+      <div class="parent-pheno" id="dad-pheno">black male</div>
+      <div class="parent-geno" id="dad-geno">X^o Y  BB aa DD ss ww LL</div>
+      <button class="pick-btn" id="dad-pick">choose father</button>
+    </div>
+  </section>
+
+  <!-- ============ LITTER ============ -->
+  <section class="litter-section">
+    <div class="section-head">
+      <h2>the litter</h2>
+      <span class="section-hint" id="litter-hint">mate the parents to see kittens</span>
+    </div>
+    <div class="litter-grid" id="litter-grid"><!-- filled by JS --></div>
+  </section>
+
+  <!-- ============ RATIOS + PUNNETT ============ -->
+  <section class="analysis">
+    <div class="panel ratios-panel">
+      <h3>expected kittens</h3>
+      <p class="panel-sub">analytic Mendelian ratios for this cross — vs. what this litter actually produced</p>
+      <div id="ratios" class="ratios-list"><!-- filled by JS --></div>
+    </div>
+
+    <div class="panel punnett-panel">
+      <h3>the orange locus <span class="xlinked">X-linked</span></h3>
+      <p class="panel-sub">why tortoiseshell cats are almost always female</p>
+      <div id="punnett-orange" class="punnett-wrap"><!-- filled by JS --></div>
+      <p id="punnett-note" class="punnett-note"></p>
+    </div>
+  </section>
+
+  <!-- ============ LOCUS CHEATSHEET ============ -->
+  <section class="loci-section">
+    <h2>the seven loci</h2>
+    <div class="loci-table" id="loci-table"><!-- filled by JS --></div>
+  </section>
+
+</main>
+
+<!-- ============ PICKER MODAL ============ -->
+<div class="modal-backdrop" id="picker-backdrop" hidden>
+  <div class="modal">
+    <div class="modal-head">
+      <h3 id="picker-title">choose a cat</h3>
+      <button class="modal-x" id="picker-close">✕</button>
+    </div>
+    <div class="picker-grid" id="picker-grid"><!-- filled by JS --></div>
+  </div>
+</div>
+
+<footer class="footbar">
+  <p>Every cat's coat is read straight off its genes. The seven loci here are real mammalian coat genetics —
+     biallelic Mendelian crosses with one twist: <strong>orange is X-linked</strong>, so a tortoiseshell cat
+     (one orange X, one black X) needs two X chromosomes and is therefore almost always female.
+     Breed two cats and watch the kittens, the Punnett squares, and the expected ratios all agree.</p>
+</footer>
+
+<script src="engine.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
