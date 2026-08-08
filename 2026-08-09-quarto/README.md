@@ -2,6 +2,10 @@
 
 Built by GLM-5.2
 
+**中文视频（Fish Audio 哈基米）：** [quarto-zh-fish.mp4](./video/quarto-zh-fish.mp4) · [字幕文件](./video/quarto-zh-fish.srt)
+
+本机 TTS 备份版：[quarto-zh.mp4](./video/quarto-zh.mp4)
+
 A **booklet imposition studio** for National Book Lovers Day (August 9).
 
 Here is the one thing about bookbinding that surprises everyone: when you

@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>quarto · video card</title>
+  <style>
+    :root {
+      --ink: #f1e8d3;
+      --paper: #f4ead2;
+      --muted: #b8a888;
+      --red: #8b2a1f;        /* old book-cloth red */
+      --gold: #c9a14a;
+      --bg: #16120c;
+      --panel: #221d14;
+    }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; }
+    body {
+      overflow: hidden;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 80% 18%, rgba(201,161,74,.16), transparent 30%),
+        radial-gradient(circle at 14% 88%, rgba(139,42,31,.18), transparent 32%),
+        var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans GB", "STHeiti", sans-serif;
+    }
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: .12;
+      background-image: linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(135deg, black, transparent 72%);
+    }
+    .card {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      padding: 78px 90px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .eyebrow {
+      color: var(--gold);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 2px;
+      font-size: 17px;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 96px;
+      line-height: .98;
+      letter-spacing: -3px;
+      font-style: italic;
+      font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+      max-width: 760px;
+    }
+    h2 {
+      margin: 24px 0 0;
+      font-size: 31px;
+      line-height: 1.3;
+      font-weight: 500;
+      color: var(--muted);
+      max-width: 780px;
+    }
+    .meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 42px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+    .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--red); box-shadow: 0 0 20px rgba(139,42,31,.85); }
+    .stamp {
+      position: absolute;
+      right: 88px;
+      bottom: 76px;
+      padding: 12px 16px;
+      border: 1px solid rgba(201,161,74,.45);
+      color: var(--gold);
+      border-radius: 999px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+    /* a little open book glyph in the corner */
+    .book {
+      position: absolute;
+      right: 150px;
+      top: 130px;
+      width: 300px;
+      height: 360px;
+      opacity: .9;
+      filter: drop-shadow(0 18px 28px rgba(0,0,0,.38));
+    }
+    .book::before {
+      content: "📖";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      font-size: 200px;
+      transform: rotate(-3deg);
+    }
+    .book::after {
+      content: "";
+      position: absolute;
+      width: 215px;
+      height: 215px;
+      right: 24px;
+      top: 70px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,161,74,.40);
+      box-shadow: 0 0 0 18px rgba(201,161,74,.05), 0 0 0 42px rgba(201,161,74,.03);
+    }
+    .formula {
+      position: absolute;
+      right: 96px;
+      bottom: 148px;
+      color: rgba(241,232,211,.62);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 22px;
+      letter-spacing: 1px;
+    }
+    [data-scene="end"] h1 { font-size: 70px; max-width: 880px; }
+    [data-scene="end"] h2 { color: var(--ink); }
+    [data-scene="end"] .book { opacity: .60; transform: scale(.86); transform-origin: top right; }
+    [data-scene="end"] .formula { color: var(--gold); }
+  </style>
+</head>
+<body data-scene="intro">
+  <main class="card">
+    <div class="eyebrow" id="eyebrow">DAILY SLOP · 2026.08.09</div>
+    <h1 id="headline">quarto</h1>
+    <h2 id="subhead">一本书的页面，<br>并不是按顺序印在纸上的。</h2>
+    <div class="meta"><span class="dot"></span><span id="meta">Built by GLM-5.2 · 书籍拼版实验室</span></div>
+    <div class="book" aria-hidden="true"></div>
+    <div class="formula" id="formula">[16, 1] → 折一下就是封面</div>
+    <div class="stamp" id="stamp">OPEN THE BOOK</div>
+  </main>
+  <script>
+    const scene = new URLSearchParams(location.search).get('scene') || 'intro';
+    document.body.dataset.scene = scene;
+    const copy = {
+      intro: {
+        eyebrow: 'DAILY SLOP · 2026.08.09',
+        headline: 'quarto',
+        subhead: '一本书的页面，<br>并不是按顺序印在纸上的。',
+        meta: 'Built by GLM-5.2 · 书籍拼版实验室',
+        formula: '[16, 1] → 折一下就是封面',
+        stamp: 'OPEN THE BOOK'
+      },
+      end: {
+        eyebrow: 'FROM SHEET TO BOOK',
+        headline: '每一面加起来，<br>都等于 P 加 1。',
+        subhead: '把印刷工的几何直觉，做成一个可以翻页的网页。',
+        meta: 'HTML · CSS · JavaScript · one focused build a day',
+        formula: 'impose → fold → read',
+        stamp: 'TRY IT YOURSELF'
+      }
+    }[scene] || {};
+    for (const [id, value] of Object.entries(copy)) {
+      const node = document.getElementById(id);
+      if (node) node.innerHTML = value;
+    }
+  </script>
+</body>
+</html>
