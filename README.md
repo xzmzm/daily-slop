@@ -39,6 +39,7 @@ Cloudflare Pages.
 
 | Date | Project | Stack | Built by |
 | --- | --- | --- | --- |
+| 2026-08-09 | [quarto](./2026-08-09-quarto/) — booklet imposition studio for National Book Lovers Day; a printed sheet's pages are not in reading order (the cover carries `[16,1]`), so see the real saddle-stitch layout, fold the outer sheet, flip the finished book, and read the closed-form math where every face sums to P+1 | Vanilla HTML/CSS/JS | GLM-5.2 |
 | 2026-08-08 | [cattery](./2026-08-08-cattery/) — Mendelian cat-coat genetics sandbox for International Cat Day; breed two cats and each kitten's coat (tortoiseshell, tabby, dilute, calico, dominant-white) is rendered from its genes, with live Punnett squares showing why torties are almost always female | Vanilla HTML/CSS/JS | GLM-5.2 |
 | 2026-07-24 | [tiny-worlds](./2026-07-24-tiny-worlds/) — generative-art toy, seeded procedural landscapes | Vanilla HTML/CSS/JS | GLM-5.2 |
 | 2026-07-25 | [nodal-sand](./2026-07-25-nodal-sand/) — interactive Chladni plate; sand settles on standing-wave nodes | Vanilla HTML/CSS/JS | Grok 4.5 |

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>quarto · a booklet imposition studio</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="masthead">
+  <h1>quarto</h1>
+  <p class="sub">a booklet imposition studio · <span>National Book Lovers Day</span>, August 9</p>
+</header>
+
+<section class="controls">
+  <div class="ctl-group">
+    <span class="ctl-label">Pages</span>
+    <button id="dec" class="step" title="fewer pages">−4</button>
+    <span id="pageCount" class="page-readout">16</span>
+    <button id="inc" class="step" title="more pages">+4</button>
+  </div>
+  <div class="ctl-group">
+    <span class="ctl-label">Preset</span>
+    <select id="preset">
+      <option value="4">4 — single sheet (folio)</option>
+      <option value="8">8 — two sheets (quarto)</option>
+      <option value="12">12</option>
+      <option value="16" selected>16</option>
+      <option value="20">20</option>
+      <option value="24">24</option>
+      <option value="28">28</option>
+      <option value="32">32</option>
+    </select>
+  </div>
+  <div class="ctl-group meta">
+    <span id="metaInfo"></span>
+  </div>
+</section>
+
+<nav class="tabs">
+  <button data-tab="sheet" class="tab-btn active">The Sheet</button>
+  <button data-tab="booklet" class="tab-btn">The Booklet</button>
+  <button data-tab="math" class="tab-btn">The Math</button>
+</nav>
+
+<main>
+<!-- THE SHEET -->
+<section id="tab-sheet" class="tab-panel active">
+  <p class="lead">
+    A saddle-stitched booklet is printed on <strong>sheets, not in page order</strong>.
+    Each sheet holds four pages — two on each side — laid out so that when you
+    nest the sheets, fold once, and staple through the crease, the pages emerge
+    <em>1, 2, 3 …</em> in reading order. This layout is called <strong>imposition</strong>,
+    and it is the single most counter-intuitive thing about how a book is made.
+  </p>
+  <div id="sheetGrid" class="sheet-grid"></div>
+
+  <div class="fold-area">
+    <h2>watch one sheet fold into a signature</h2>
+    <button id="foldBtn" class="play-btn">▶ fold the outer sheet</button>
+    <div class="fold-stage" id="foldStage">
+      <div class="fold-sheet" id="foldSheet">
+        <div class="fold-half left"><span class="pg" id="foldL1"></span><span class="face-tag">outside · left</span></div>
+        <div class="crease">fold →</div>
+        <div class="fold-half right"><span class="pg" id="foldL2"></span><span class="face-tag">outside · right</span></div>
+      </div>
+    </div>
+    <p class="caption" id="foldCaption">
+      The outer sheet of a 16-page booklet. Pages 16 and 1 share the outside
+      face. Fold along the crease and page 1 becomes the front cover.
+    </p>
+  </div>
+</section>
+
+<!-- THE BOOKLET -->
+<section id="tab-booklet" class="tab-panel">
+  <p class="lead">
+    And here is the finished book — fold, nest, stitch, <em>read</em>. Turn the
+    leaves to go 1 → <span id="lastPage">16</span> in order, the order the
+    imposition was secretly building all along. The booklet's text is a short
+    essay on <strong>how a book is made</strong>.
+  </p>
+  <div class="book-stage">
+    <div class="book" id="book">
+      <div class="page left" id="bookLeft"></div>
+      <div class="page right" id="bookRight"></div>
+      <div class="leaf-turn" id="leafTurn">
+        <div class="leaf-front" id="leafFront"></div>
+        <div class="leaf-back" id="leafBack"></div>
+      </div>
+    </div>
+  </div>
+  <div class="booklet-nav">
+    <button id="prevPage" class="nav-btn">‹ prev leaf</button>
+    <span id="pageInfo">spread 1 · pages 1–2</span>
+    <button id="nextPage" class="nav-btn">next leaf ›</button>
+  </div>
+</section>
+
+<!-- THE MATH -->
+<section id="tab-math" class="tab-panel">
+  <p class="lead">
+    Imposition has a clean closed form. For a booklet of <strong>P</strong> pages
+    there are <strong>P/4</strong> sheets. Sheet <em>i</em> (counting from 0 at
+    the outside) carries four pages given by:
+  </p>
+  <div id="mathView" class="math-view"></div>
+</section>
+</main>
+
+<footer>
+  <p>quarto · built for Book Lovers Day 2026 · the page numbers are real saddle-stitch imposition.</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

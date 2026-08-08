@@ -1,0 +1,406 @@
+/* quarto — booklet imposition studio */
+/* ink-on-paper palette: a printer's workbench */
+
+:root {
+  --paper: #f1e8d3;
+  --paper-deep: #e6dab8;
+  --ink: #1a1612;
+  --ink-soft: #4a4036;
+  --rule: #b8a888;
+  --accent: #8b2a1f;       /* old book-cloth red */
+  --accent-soft: #b95540;
+  --sheet: #faf4e2;
+  --shade: rgba(26, 22, 18, 0.08);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  background: var(--paper);
+  background-image:
+    radial-gradient(ellipse at top, rgba(255,255,255,0.4), transparent 60%),
+    repeating-linear-gradient(0deg, transparent 0, transparent 28px, rgba(120,90,50,0.03) 28px, rgba(120,90,50,0.03) 29px);
+  color: var(--ink);
+  min-height: 100vh;
+}
+
+/* ── masthead ── */
+.masthead {
+  text-align: center;
+  padding: 38px 16px 10px;
+  border-bottom: 1px solid var(--rule);
+}
+.masthead h1 {
+  margin: 0;
+  font-size: clamp(40px, 7vw, 64px);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  font-style: italic;
+}
+.masthead .sub {
+  margin: 6px 0 14px;
+  color: var(--ink-soft);
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.masthead .sub span { color: var(--accent); font-weight: 600; }
+
+/* ── controls ── */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  padding: 18px 16px;
+  border-bottom: 1px solid var(--rule);
+}
+.ctl-group { display: flex; align-items: center; gap: 8px; }
+.ctl-label {
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.step, .nav-btn, .play-btn {
+  font-family: inherit;
+  font-size: 14px;
+  background: var(--paper-deep);
+  border: 1px solid var(--rule);
+  color: var(--ink);
+  padding: 6px 12px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background 0.15s, transform 0.1s;
+}
+.step:hover, .nav-btn:hover, .play-btn:hover { background: var(--accent); color: var(--paper); }
+.step:active, .nav-btn:active, .play-btn:active { transform: translateY(1px); }
+.page-readout {
+  display: inline-block;
+  min-width: 42px;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--accent);
+}
+#preset {
+  font-family: inherit;
+  font-size: 14px;
+  padding: 6px 10px;
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  border-radius: 2px;
+  color: var(--ink);
+}
+.meta { color: var(--ink-soft); font-size: 13px; font-style: italic; }
+
+/* ── tabs ── */
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  padding: 14px 16px 0;
+}
+.tab-btn {
+  font-family: inherit;
+  font-size: 14px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-bottom: 2px solid transparent;
+  color: var(--ink-soft);
+  padding: 8px 18px;
+  cursor: pointer;
+  letter-spacing: 0.02em;
+}
+.tab-btn:hover { color: var(--ink); }
+.tab-btn.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+  font-weight: 600;
+}
+
+main { max-width: 1100px; margin: 0 auto; padding: 24px 20px 60px; }
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; animation: fade 0.3s ease; }
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+.lead {
+  max-width: 640px;
+  margin: 0 auto 28px;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  text-align: center;
+}
+.lead strong { color: var(--ink); }
+.lead em { color: var(--accent); font-style: italic; }
+
+/* ── THE SHEET ── */
+.sheet-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+  margin-bottom: 40px;
+}
+.sheet-card {
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  padding: 14px;
+  border-radius: 3px;
+  box-shadow: 0 1px 3px var(--shade);
+}
+.sheet-head {
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed var(--rule);
+}
+.nest-tag { color: var(--accent); font-style: italic; text-transform: none; letter-spacing: 0; }
+.face { margin-bottom: 10px; }
+.face:last-child { margin-bottom: 0; }
+.face-label {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 4px;
+}
+.face-pages {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+.page-cell {
+  background: var(--paper-deep);
+  border: 1px solid var(--rule);
+  text-align: center;
+  font-size: 30px;
+  font-weight: 600;
+  padding: 18px 0;
+  font-variant-numeric: tabular-nums;
+  border-radius: 2px;
+  min-height: 78px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── fold animation ── */
+.fold-area { max-width: 620px; margin: 0 auto; text-align: center; }
+.fold-area h2 {
+  font-size: 16px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ink-soft);
+  margin: 30px 0 14px;
+}
+.play-btn { font-size: 15px; padding: 10px 22px; }
+.fold-stage {
+  margin: 20px auto;
+  padding: 30px 10px;
+  perspective: 900px;
+}
+.fold-sheet {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0;
+  transform-style: preserve-3d;
+  transform-origin: center center;
+  margin: 0 auto;
+  width: fit-content;
+}
+.fold-half {
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  width: 130px;
+  height: 170px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.fold-half .pg { font-size: 46px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.fold-half.left { border-right: none; }
+.fold-half.right { border-left: none; }
+.face-tag {
+  position: absolute;
+  bottom: 8px;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+.crease {
+  align-self: center;
+  width: 2px;
+  background: var(--accent);
+  margin: 0 -1px;
+  position: relative;
+  font-size: 10px;
+  color: var(--accent);
+}
+.fold-sheet.folding {
+  animation: foldUp 1.4s ease-in-out;
+}
+.fold-sheet.folded .fold-half.left { transform: rotateY(180deg); transform-origin: right center; transition: transform 0.9s ease; }
+.fold-sheet.folded .fold-half.right { transform: rotateY(0deg); }
+@keyframes foldUp {
+  0% { transform: rotateX(0deg) scale(1); }
+  40% { transform: rotateX(-8deg) scale(1.02); }
+  70% { transform: rotateX(2deg) scale(0.98); }
+  100% { transform: rotateX(0deg) scale(1); }
+}
+.caption {
+  max-width: 480px;
+  margin: 8px auto;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+}
+.caption strong { color: var(--ink); }
+
+/* ── THE BOOKLET ── */
+.book-stage { display: flex; justify-content: center; perspective: 1400px; padding: 20px 0; }
+.book {
+  position: relative;
+  width: min(560px, 92vw);
+  height: 360px;
+  display: flex;
+  transform-style: preserve-3d;
+}
+.page {
+  flex: 1;
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  padding: 26px 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100%;
+  overflow: hidden;
+}
+.page.left { border-right: none; box-shadow: inset -6px 0 12px var(--shade); }
+.page.right { border-left: none; box-shadow: inset 6px 0 12px var(--shade); }
+.pg-num-top { font-size: 12px; color: var(--ink-soft); text-align: left; }
+.page.right .pg-num-top { text-align: right; }
+.pg-num-bot { font-size: 12px; color: var(--ink-soft); text-align: center; font-variant-numeric: tabular-nums; }
+.pg-body h3 { margin: 0 0 12px; font-size: 18px; font-weight: 600; color: var(--accent); font-style: italic; }
+.pg-body p { margin: 0; font-size: 14px; line-height: 1.6; color: var(--ink); }
+
+/* the turning leaf overlay */
+.leaf-turn {
+  position: absolute;
+  top: 0; left: 50%;
+  width: 50%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transform: rotateY(0deg);
+  transform-origin: left center;
+  pointer-events: none;
+  backface-visibility: hidden;
+  display: none;
+}
+.leaf-turn.turning-fwd, .leaf-turn.turning-back { display: block; }
+.leaf-front, .leaf-back {
+  position: absolute;
+  inset: 0;
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  padding: 26px 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  backface-visibility: hidden;
+  overflow: hidden;
+}
+.leaf-back { transform: rotateY(180deg); }
+
+.booklet-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  padding: 18px;
+  color: var(--ink-soft);
+  font-size: 13px;
+  font-style: italic;
+}
+
+/* ── THE MATH ── */
+.math-view { max-width: 720px; margin: 0 auto; }
+.formula {
+  background: var(--sheet);
+  border: 1px solid var(--rule);
+  padding: 20px 24px;
+  border-radius: 3px;
+  font-size: 15px;
+  line-height: 2;
+  margin-bottom: 22px;
+}
+.fn-label { display: inline-block; min-width: 150px; color: var(--ink-soft); font-size: 13px; }
+.formula code, .math-table code, .math-note code {
+  font-family: "SF Mono", Menlo, Consolas, monospace;
+  background: var(--paper-deep);
+  padding: 2px 7px;
+  border-radius: 2px;
+  font-size: 13px;
+  color: var(--accent);
+}
+.math-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin-bottom: 18px;
+}
+.math-table th, .math-table td {
+  padding: 9px 10px;
+  text-align: left;
+  border-bottom: 1px solid var(--rule);
+}
+.math-table th {
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+.math-table td { font-variant-numeric: tabular-nums; }
+.math-note {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--ink-soft);
+  padding: 14px 18px;
+  border-left: 3px solid var(--accent);
+  background: rgba(255,255,255,0.3);
+  border-radius: 0 3px 3px 0;
+}
+.math-note strong { color: var(--ink); }
+
+footer {
+  text-align: center;
+  padding: 24px 16px 40px;
+  color: var(--ink-soft);
+  font-size: 12px;
+  font-style: italic;
+  border-top: 1px solid var(--rule);
+  margin-top: 30px;
+}
+
+@media (max-width: 600px) {
+  .book { height: 300px; }
+  .page, .leaf-front, .leaf-back { padding: 18px 14px; }
+  .pg-body h3 { font-size: 16px; }
+  .pg-body p { font-size: 13px; }
+  .fold-half { width: 100px; height: 140px; }
+  .fold-half .pg { font-size: 36px; }
+}
