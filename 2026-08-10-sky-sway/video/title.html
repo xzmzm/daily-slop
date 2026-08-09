@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>sky-sway · video card</title>
+  <style>
+    :root {
+      --ink: #eaf2ff;
+      --muted: #8fa3cf;
+      --amber: #ffb84d;
+      --cyan: #4fd0ff;
+      --bg: #0a0f24;
+      --panel: #131a30;
+    }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; }
+    body {
+      overflow: hidden;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 78% 18%, rgba(79,208,255,.16), transparent 30%),
+        radial-gradient(circle at 16% 88%, rgba(255,184,77,.10), transparent 30%),
+        linear-gradient(180deg, #0c1230 0%, #06091a 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans GB", "STHeiti", sans-serif;
+    }
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: .10;
+      background-image: linear-gradient(rgba(255,255,255,.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.07) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(135deg, black, transparent 72%);
+    }
+    .stars { position: absolute; inset: 0; pointer-events: none; }
+    .star { position: absolute; width: 2px; height: 2px; border-radius: 50%; background: #dde6ff; opacity: .7; }
+    .card {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      padding: 78px 90px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .eyebrow {
+      color: var(--amber);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 2px;
+      font-size: 17px;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 86px;
+      line-height: .98;
+      letter-spacing: -3px;
+      max-width: 820px;
+    }
+    h2 {
+      margin: 22px 0 0;
+      font-size: 32px;
+      line-height: 1.25;
+      font-weight: 500;
+      color: var(--muted);
+      max-width: 800px;
+    }
+    .meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 42px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+    .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 20px rgba(255,184,77,.8); }
+    .stamp {
+      position: absolute;
+      right: 88px;
+      bottom: 76px;
+      padding: 12px 16px;
+      border: 1px solid rgba(255,184,77,.45);
+      color: var(--amber);
+      border-radius: 999px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+    .sphere {
+      position: absolute;
+      right: 150px;
+      top: 130px;
+      width: 300px;
+      height: 300px;
+    }
+    .sphere .ball {
+      position: absolute;
+      left: 50%; top: 50%;
+      width: 150px; height: 150px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 32%, #fff0c0 0%, #ffb84d 48%, #a85f10 100%);
+      box-shadow: 0 0 60px rgba(255,184,77,.55), 0 0 120px rgba(255,140,40,.25);
+    }
+    .sphere .tether {
+      position: absolute;
+      left: 50%; top: 0;
+      width: 1px; height: 100%;
+      background: linear-gradient(180deg, rgba(200,160,80,.0), rgba(200,160,80,.45));
+      transform-origin: top center;
+    }
+    .sphere .tether:nth-child(2) { transform: rotate(0deg); }
+    .sphere .tether:nth-child(3) { transform: rotate(120deg); }
+    .sphere .tether:nth-child(4) { transform: rotate(240deg); }
+    .sphere::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 1px solid rgba(255,184,77,.30);
+      box-shadow: 0 0 0 18px rgba(255,184,77,.05), 0 0 0 40px rgba(255,184,77,.03);
+    }
+    .formula {
+      position: absolute;
+      right: 96px;
+      bottom: 148px;
+      color: rgba(234,242,255,.64);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 21px;
+      letter-spacing: 1px;
+    }
+    [data-scene="end"] h1 { font-size: 64px; max-width: 880px; }
+    [data-scene="end"] h2 { color: var(--ink); }
+    [data-scene="end"] .sphere { opacity: .6; transform: scale(.85); transform-origin: top right; }
+    [data-scene="end"] .formula { color: var(--amber); }
+  </style>
+</head>
+<body data-scene="intro">
+  <div class="stars" id="stars" aria-hidden="true"></div>
+  <main class="card">
+    <div class="eyebrow" id="eyebrow">DAILY SLOP · 2026.08.10</div>
+    <h1 id="headline">sky-sway</h1>
+    <h2 id="subhead">摩天大楼是一根巨大的音叉。<br>七百二十八吨的摆球，怎么让它不晃？</h2>
+    <div class="meta"><span class="dot"></span><span id="meta">Built by GLM-5.2 · 阻尼器调谐实验</span></div>
+    <div class="sphere" aria-hidden="true">
+      <span class="tether"></span>
+      <span class="tether"></span>
+      <span class="tether"></span>
+      <span class="ball"></span>
+    </div>
+    <div class="formula" id="formula">f = 1 / (1 + μ)</div>
+    <div class="stamp" id="stamp">OPEN THE STUDIO</div>
+  </main>
+  <script>
+    const scene = new URLSearchParams(location.search).get('scene') || 'intro';
+    document.body.dataset.scene = scene;
+    // scatter procedural stars
+    const sky = document.getElementById('stars');
+    for (let i = 0; i < 70; i++) {
+      const s = document.createElement('span');
+      s.className = 'star';
+      s.style.left = Math.random() * 100 + '%';
+      s.style.top = Math.random() * 60 + '%';
+      s.style.opacity = (0.25 + Math.random() * 0.6).toFixed(2);
+      const sz = 1 + Math.random() * 1.6;
+      s.style.width = sz + 'px';
+      s.style.height = sz + 'px';
+      sky.appendChild(s);
+    }
+    const copy = {
+      intro: {
+        eyebrow: 'DAILY SLOP · 2026.08.10',
+        headline: 'sky-sway',
+        subhead: '摩天大楼是一根巨大的音叉。<br>七百二十八吨的摆球，怎么让它不晃？',
+        meta: 'Built by GLM-5.2 · 阻尼器调谐实验',
+        formula: 'f = 1 / (1 + μ)',
+        stamp: 'OPEN THE STUDIO'
+      },
+      end: {
+        eyebrow: 'A TUNING FORK IN THE WIND',
+        headline: '一个高高的尖峰，<br>被劈成两个矮的。',
+        subhead: '把一百年的减振数学，做成一个可以拧、可以听的网页。',
+        meta: 'Den Hartog 1928 · 等高峰值 · √(1 + 2/μ)',
+        formula: '728 t pendulum → √(1 + 2/μ)',
+        stamp: 'TRY IT YOURSELF'
+      }
+    }[scene] || {};
+    for (const [id, value] of Object.entries(copy)) {
+      const node = document.getElementById(id);
+      if (node) node.innerHTML = value;
+    }
+  </script>
+</body>
+</html>

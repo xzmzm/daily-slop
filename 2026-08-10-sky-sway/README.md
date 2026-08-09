@@ -2,6 +2,8 @@
 
 Built by GLM-5.2
 
+**中文视频（Fish Audio 哈基米）：** [sky-sway-zh-fish.mp4](./video/sky-sway-zh-fish.mp4) · [字幕文件](./video/sky-sway-zh-fish.srt)
+
 A **tuned-mass-damper studio** for Skyscraper Appreciation Day (August 10).
 
 Here is the one thing about tall buildings that surprises everyone: a
