@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>sky-sway — tuned-mass-damper studio</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">▮▮▮</span>
+    <h1>sky&#8209;sway</h1>
+    <span class="tag">a tuned&#8209;mass&#8209;damper studio · Skyscraper Appreciation Day</span>
+  </div>
+  <div class="readout" id="readout">
+    <span class="kpi"><b id="kFloors">80</b><i>floors</i></span>
+    <span class="kpi"><b id="kT1">8.0</b><i>T₁ (s)</i></span>
+    <span class="kpi"><b id="kSway">—</b><i>sway (cm)</i></span>
+    <span class="kpi"><b id="kCut">—</b><i>peak cut</i></span>
+  </div>
+</header>
+
+<main class="layout">
+  <!-- ===================== STAGE: the building ===================== -->
+  <section class="stage-wrap">
+    <div class="stage" id="stage">
+      <canvas id="sky"></canvas>
+      <canvas id="building"></canvas>
+      <div class="hud">
+        <div class="hud-row">wind: <span id="windLabel">moderate</span></div>
+        <div class="hud-row">damper: <span id="damperLabel">on · optimal</span></div>
+      <div class="hud-row" id="tuneHint">optimal tuning applied</div>
+      </div>
+      <button class="gust" id="gustBtn" title="kick the building (space)">💨 gust</button>
+    </div>
+
+    <!-- playback controls -->
+    <div class="controls">
+      <button id="playBtn" class="ctl primary">▶ wind on</button>
+      <button id="damperToggle" class="ctl">damper: on</button>
+      <button id="autoTune" class="ctl">auto-tune (Den Hartog)</button>
+      <span class="stretch"></span>
+      <button id="resetBtn" class="ctl ghost">reset</button>
+    </div>
+
+    <!-- sliders -->
+    <div class="sliders">
+      <label class="slider">
+        <span>floors <em id="vFloors">80</em></span>
+        <input type="range" id="sFloors" min="20" max="120" step="1" value="80">
+      </label>
+      <label class="slider">
+        <span>mass ratio μ <em id="vMu">0.050</em></span>
+        <input type="range" id="sMu" min="0.005" max="0.20" step="0.001" value="0.05">
+      </label>
+      <label class="slider">
+        <span>tuning f = ω₂/ω₁ <em id="vF">0.952</em></span>
+        <input type="range" id="sF" min="0.5" max="1.2" step="0.001" value="0.952">
+      </label>
+      <label class="slider">
+        <span>damper damping ξ₂ <em id="vXi2">0.127</em></span>
+        <input type="range" id="sXi2" min="0.01" max="0.6" step="0.001" value="0.127">
+      </label>
+      <label class="slider">
+        <span>building damping ξ₁ <em id="vXi1">0.010</em></span>
+        <input type="range" id="sXi1" min="0.002" max="0.08" step="0.001" value="0.01">
+      </label>
+      <label class="slider">
+        <span>wind force <em id="vWind">1.0</em></span>
+        <input type="range" id="sWind" min="0" max="2.5" step="0.01" value="1.0">
+      </label>
+    </div>
+  </section>
+
+  <!-- ===================== RESPONSE PLOT ===================== -->
+  <section class="plot-wrap">
+    <div class="plot-head">
+      <h2>structure response</h2>
+      <div class="legend">
+        <span class="lg lg-bare"><i></i>no damper</span>
+        <span class="lg lg-tmd"><i></i>with TMD</span>
+        <span class="lg lg-fixed"><i></i>Den Hartog optimum</span>
+      </div>
+    </div>
+    <canvas id="plot"></canvas>
+    <p class="caption">
+      Dynamic amplification of the top-floor sway vs. forcing frequency.
+      A bare tower spikes to <b>1/(2ξ₁)</b> at resonance; an optimally tuned
+      damper splits that one tall peak into <b>two equal short ones</b>
+      (height ≈ √(1 + 2/μ)). That flattening is the whole reason a 728-ton
+      pendulum hangs inside Taipei 101.
+    </p>
+
+    <div class="presets">
+      <span class="presets-label">presets:</span>
+      <button class="chip" data-preset="taipei101">Taipei 101</button>
+      <button class="chip" data-preset="shanghai">Shanghai Tower</button>
+      <button class="chip" data-preset="thin">thin steel tower</button>
+      <button class="chip" data-preset="stubby">stubby concrete</button>
+    </div>
+
+    <div class="formula" id="formulaCard">
+      <div class="f-row"><span class="f-name">mass ratio</span>
+        <span class="f-eq">μ = m<sub>damper</sub> / m<sub>building</sub> = <b id="fMu">0.050</b></span></div>
+      <div class="f-row"><span class="f-name">optimal tuning</span>
+        <span class="f-eq">f<sub>opt</sub> = 1 / (1 + μ) = <b id="fFopt">0.952</b></span></div>
+      <div class="f-row"><span class="f-name">optimal damping</span>
+        <span class="f-eq">ξ<sub>opt</sub> = √(3μ / [8(1+μ)³]) = <b id="fXiopt">0.127</b></span></div>
+      <div class="f-row"><span class="f-name">minimized peak</span>
+        <span class="f-eq">|H|<sub>max</sub> = √(1 + 2/μ) = <b id="fPeak">6.40</b></span></div>
+      <div class="f-row" id="tuneStatus">● auto-tuned to Den Hartog optimum</div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  Built by GLM-5.2 · <code>node test_engine.js</code> · 46 assertions · the equal-peaks theorem holds exactly for an undamped primary
+</footer>
+
+<script src="engine.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

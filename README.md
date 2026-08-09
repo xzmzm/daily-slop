@@ -39,6 +39,7 @@ Cloudflare Pages.
 
 | Date | Project | Stack | Built by |
 | --- | --- | --- | --- |
+| 2026-08-10 | [sky-sway](./2026-08-10-sky-sway/) — tuned-mass-damper studio for Skyscraper Appreciation Day; a skyscraper is a giant tuning fork, so toggle the 728-ton pendulum on and off, watch the sway explode, and read Den Hartog's 1928 optimal-tuning formulas (f = 1/(1+μ), ξ = √(3μ/[8(1+μ)³])) that split one tall resonance peak into two equal short ones | Vanilla HTML/CSS/JS | GLM-5.2 |
 | 2026-08-09 | [quarto](./2026-08-09-quarto/) — booklet imposition studio for National Book Lovers Day; a printed sheet's pages are not in reading order (the cover carries `[16,1]`), so see the real saddle-stitch layout, fold the outer sheet, flip the finished book, and read the closed-form math where every face sums to P+1 | Vanilla HTML/CSS/JS | GLM-5.2 |
 | 2026-08-08 | [cattery](./2026-08-08-cattery/) — Mendelian cat-coat genetics sandbox for International Cat Day; breed two cats and each kitten's coat (tortoiseshell, tabby, dilute, calico, dominant-white) is rendered from its genes, with live Punnett squares showing why torties are almost always female | Vanilla HTML/CSS/JS | GLM-5.2 |
 | 2026-07-24 | [tiny-worlds](./2026-07-24-tiny-worlds/) — generative-art toy, seeded procedural landscapes | Vanilla HTML/CSS/JS | GLM-5.2 |
