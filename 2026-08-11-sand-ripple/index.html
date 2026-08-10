@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>sand-ripple — aeolian bed-instability studio</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">≋</span>
+    <h1>sand&#8209;ripple</h1>
+    <span class="tag">an aeolian bed&#8209;instability studio · Play In The Sand Day</span>
+  </div>
+  <div class="readout" id="readout">
+    <span class="kpi"><b id="kRipples">—</b><i>crests</i></span>
+    <span class="kpi"><b id="kLambda">—</b><i>λ (mm)</i></span>
+    <span class="kpi"><b id="kCrest">—</b><i>relief (mm)</i></span>
+    <span class="kpi"><b id="kSpeed">—</b><i>drift (cm/min)</i></span>
+  </div>
+</header>
+
+<main class="layout">
+  <!-- ===================== STAGE: the dune field ===================== -->
+  <section class="stage-wrap">
+    <div class="stage" id="stage">
+      <canvas id="sky"></canvas>
+      <canvas id="bed"></canvas>
+      <canvas id="grains"></canvas>
+      <div class="hud">
+        <div class="hud-row">wind: <span id="windLabel">moderate</span></div>
+        <div class="hud-row">step <span id="stepLabel">0</span></div>
+        <div class="hud-row" id="instabHint">bed unstable · ripples growing</div>
+      </div>
+      <button class="gust" id="gustBtn" title="drop a pile of sand (space)">⛰️ drop</button>
+    </div>
+
+    <!-- playback controls -->
+    <div class="controls">
+      <button id="playBtn" class="ctl primary">▶ wind on</button>
+      <button id="stepBtn" class="ctl">step</button>
+      <button id="resetBtn" class="ctl">reset</button>
+      <span class="spacer"></span>
+      <label class="speed">
+        speed
+        <input id="speed" type="range" min="1" max="40" value="6">
+        <span id="speedVal">6×</span>
+      </label>
+    </div>
+  </section>
+
+  <!-- ===================== RIGHT PANEL ===================== -->
+  <aside class="panel">
+
+    <!-- growth-rate spectrum -->
+    <div class="card spectrum-card">
+      <h2>linear growth rate σ(k)</h2>
+      <p class="lede">
+        Anderson's bed instability. Each Fourier mode of the bed grows at
+        rate <code>Re&nbsp;σ(k)</code>. Where σ&gt;0 the flat bed is unstable;
+        the peak selects the wavelength you see emerge.
+      </p>
+      <canvas id="spectrum"></canvas>
+      <div class="spec-legend">
+        <span class="leg unstable">■ σ &gt; 0 (grows)</span>
+        <span class="leg stable">■ σ &lt; 0 (damps)</span>
+        <span class="leg peak">▲ λ_fast</span>
+      </div>
+      <div class="spec-readout">
+        fastest-growing λ ≈ <b id="specLam">—</b> cells
+        (<b id="specLamMm">—</b> mm) · peak σ = <b id="specSig">—</b>/step
+      </div>
+    </div>
+
+    <!-- the dials -->
+    <div class="card dial-card">
+      <h2>wind &amp; sand</h2>
+      <div class="dial">
+        <label>wind strength C
+          <input id="cDial" type="range" min="0" max="1.2" step="0.01" value="0.35">
+          <span class="val" id="cVal">0.35</span>
+        </label>
+        <p class="hint">saltation flux n·I₀·cotα. More wind ⇒ faster, taller ripples.</p>
+      </div>
+      <div class="dial">
+        <label>reptation hop L
+          <input id="lDial" type="range" min="1.5" max="12" step="0.1" value="4.2">
+          <span class="val" id="lVal">4.2</span>
+        </label>
+        <p class="hint">mean splash distance (cells). Longer hops ⇒ longer ripples.</p>
+      </div>
+      <div class="dial">
+        <label>surface creep D
+          <input id="dDial" type="range" min="0" max="0.5" step="0.005" value="0.20">
+          <span class="val" id="dVal">0.20</span>
+        </label>
+        <p class="hint">diffusion that kills the shortest wavelengths. Larger D ⇒ coarser bed.</p>
+      </div>
+      <div class="dial">
+        <label>angle of repose
+          <input id="reposeDial" type="range" min="20" max="40" step="0.5" value="33">
+          <span class="val" id="reposeVal">33°</span>
+        </label>
+        <p class="hint">dry sand ≈ 33°. Steeper lee slopes avalanche.</p>
+      </div>
+    </div>
+
+    <!-- presets -->
+    <div class="card preset-card">
+      <h2>presets</h2>
+      <div class="presets">
+        <button data-preset="gentle">gentle breeze</button>
+        <button data-preset="dune">Sahara noon</button>
+        <button data-preset="storm">sandstorm</button>
+        <button data-preset="fine">fine powder</button>
+        <button data-preset="gravel">coarse grit</button>
+      </div>
+    </div>
+
+    <!-- the math -->
+    <details class="card math-card">
+      <summary>the math (Anderson 1987)</summary>
+      <p>
+        For a Fourier bed mode <code>h ∝ e^{ikx}</code>, the saltation flux
+        multiplies it per step by:
+      </p>
+      <pre>M(k) = 1 + C · i sin k · [ P̃(k) − 1 ]  −  D · (2 − 2 cos k)</pre>
+      <p>
+        where <code>P̃(k)</code> is the characteristic function of the hop
+        kernel. In the continuum limit <code>P̃ → 1/(1+ikL)</code>, giving
+        Anderson's growth rate:
+      </p>
+      <pre>Re σ(k) = (C L k²) / (1 + (kL)²)  −  D k²</pre>
+      <p>
+        The first term is the <b>bed instability</b>: a windward bump catches
+        more saltation impacts (slope × cotα), splashes reptators that hop
+        downwind, and deposits them just past the crest — so bumps grow and
+        migrate. The second term is surface creep, which stabilizes the
+        shortest wavelengths and selects the observed wavelength.
+      </p>
+    </details>
+  </aside>
+</main>
+
+<footer class="foot">
+  <span>sand-ripple · <a href="NOTES.md">notes</a> · <a href="README.md">readme</a></span>
+  <span>built for Play In The Sand Day, 2026-08-11</span>
+</footer>
+
+<script src="engine.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
