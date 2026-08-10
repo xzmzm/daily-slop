@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>sand-ripple · video card</title>
+  <style>
+    :root {
+      --ink: #3a2810;
+      --muted: #8a6a36;
+      --amber: #b4451f;
+      --sand: #d4a85a;
+      --bg: #f4d9a6;
+      --panel: #fbf3df;
+    }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; }
+    body {
+      overflow: hidden;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 78% 22%, rgba(255,250,220,.55), transparent 32%),
+        radial-gradient(circle at 16% 88%, rgba(180,69,31,.10), transparent 30%),
+        linear-gradient(180deg, #f4d9a6 0%, #e8b878 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans GB", "STHeiti", sans-serif;
+    }
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: .12;
+      background-image: linear-gradient(rgba(120,80,30,.10) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(120,80,30,.10) 1px, transparent 1px);
+      background-size: 46px 46px;
+      mask-image: linear-gradient(135deg, black, transparent 72%);
+    }
+    .card {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      padding: 78px 90px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .eyebrow {
+      color: var(--amber);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 2px;
+      font-size: 17px;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 86px;
+      line-height: .98;
+      letter-spacing: -3px;
+      max-width: 820px;
+    }
+    h2 {
+      margin: 22px 0 0;
+      font-size: 32px;
+      line-height: 1.25;
+      font-weight: 500;
+      color: var(--muted);
+      max-width: 800px;
+    }
+    .meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 42px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+    .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 20px rgba(180,69,31,.55); }
+    .stamp {
+      position: absolute;
+      right: 88px;
+      bottom: 76px;
+      padding: 12px 16px;
+      border: 1px solid rgba(180,69,31,.45);
+      color: var(--amber);
+      border-radius: 999px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 14px;
+      letter-spacing: 1px;
+    }
+    .dune {
+      position: absolute;
+      right: 120px;
+      top: 150px;
+      width: 340px;
+      height: 220px;
+    }
+    .dune svg { display: block; width: 100%; height: 100%; filter: drop-shadow(0 6px 18px rgba(120,70,25,.25)); }
+    .formula {
+      position: absolute;
+      right: 96px;
+      bottom: 148px;
+      color: rgba(58,40,16,.66);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 20px;
+      letter-spacing: 1px;
+    }
+    [data-scene="end"] h1 { font-size: 64px; max-width: 880px; }
+    [data-scene="end"] h2 { color: var(--ink); }
+    [data-scene="end"] .dune { opacity: .65; transform: scale(.88); transform-origin: top right; }
+    [data-scene="end"] .formula { color: var(--amber); }
+  </style>
+</head>
+<body data-scene="intro">
+  <main class="card">
+    <div class="eyebrow" id="eyebrow">DAILY SLOP · 2026.08.11</div>
+    <h1 id="headline">sand-ripple</h1>
+    <h2 id="subhead">风不雕刻沙纹，沙床自己长出波纹。<br>一颗跳跃的沙粒，怎么组织整片沙漠？</h2>
+    <div class="meta"><span class="dot"></span><span id="meta">Built by GLM-5.2 · 风成沙纹实验台</span></div>
+    <div class="dune" aria-hidden="true">
+      <svg viewBox="0 0 340 220" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="sandg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#e8c994"/>
+            <stop offset="0.5" stop-color="#d4a85a"/>
+            <stop offset="1" stop-color="#7d5728"/>
+          </linearGradient>
+        </defs>
+        <!-- a stylized ripple field -->
+        <path d="M0 150 C 40 120, 80 120, 120 145 S 200 175, 240 150 S 320 120, 340 140 L 340 220 L 0 220 Z" fill="url(#sandg)"/>
+        <path d="M0 165 C 50 140, 90 140, 130 160 S 210 185, 250 165 S 320 138, 340 155 L 340 220 L 0 220 Z" fill="rgba(125,87,40,.35)"/>
+        <path d="M0 180 C 45 160, 85 160, 125 175 S 205 195, 245 180 S 318 158, 340 172 L 340 220 L 0 220 Z" fill="rgba(94,67,31,.45)"/>
+      </svg>
+    </div>
+    <div class="formula" id="formula">σ(k) = CLk² / (1 + (kL)²) − Dk²</div>
+    <div class="stamp" id="stamp">OPEN THE STUDIO</div>
+  </main>
+  <script>
+    const scene = new URLSearchParams(location.search).get('scene') || 'intro';
+    document.body.dataset.scene = scene;
+    const copy = {
+      intro: {
+        eyebrow: 'DAILY SLOP · 2026.08.11',
+        headline: 'sand-ripple',
+        subhead: '风不雕刻沙纹，沙床自己长出波纹。<br>一颗跳跃的沙粒，怎么组织整片沙漠？',
+        meta: 'Built by GLM-5.2 · 风成沙纹实验台',
+        formula: 'σ(k) = CLk² / (1 + (kL)²) − Dk²',
+        stamp: 'OPEN THE STUDIO'
+      },
+      end: {
+        eyebrow: 'A BED THAT SHAPES ITSELF',
+        headline: '平坦的沙，<br>其实并不稳定。',
+        subhead: '把一九八七年的风沙数学，做成一个可以拧、可以看的网页。',
+        meta: 'Anderson 1987 · 床面失稳 · λ_fast',
+        formula: 'drop a pile → watch it migrate',
+        stamp: 'TRY IT YOURSELF'
+      }
+    }[scene] || {};
+    for (const [id, value] of Object.entries(copy)) {
+      const node = document.getElementById(id);
+      if (node) node.innerHTML = value;
+    }
+  </script>
+</body>
+</html>

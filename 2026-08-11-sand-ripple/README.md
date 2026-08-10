@@ -2,6 +2,8 @@
 
 Built by GLM-5.2
 
+**中文视频（Fish Audio 哈基米）：** [sand-ripple-zh-fish.mp4](./video/sand-ripple-zh-fish.mp4) · [字幕文件](./video/sand-ripple-zh-fish.srt)
+
 An **aeolian bed-instability studio** for Play In The Sand Day (August 11).
 
 Here is the one thing about sand ripples that surprises everyone: the wind
