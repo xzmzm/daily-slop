@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>lathe-cut · video card</title>
+  <style>
+    :root {
+      --ink: #f3ead9;
+      --muted: #9a8e78;
+      --dim: #6b6151;
+      --amber: #e8a13a;
+      --amber-soft: #c87a23;
+      --red: #b23a2a;
+      --bg: #0e0c0a;
+    }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; }
+    body {
+      overflow: hidden; color: var(--ink);
+      background:
+        radial-gradient(circle at 50% 50%, #1c1813 0%, #0c0a08 70%);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans GB", "STHeiti", sans-serif;
+    }
+    .card {
+      position: relative; width: 100%; height: 100%;
+      display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 60px;
+      padding: 60px 80px;
+    }
+    /* the stylized record */
+    .vinyl { position: relative; width: 360px; height: 360px; flex: none; }
+    .vinyl svg { display: block; width: 100%; height: 100%; filter: drop-shadow(0 14px 40px rgba(0,0,0,.55)); }
+    .copy { max-width: 620px; }
+    .eyebrow {
+      color: var(--amber); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 2px; font-size: 16px; text-transform: uppercase; margin-bottom: 20px;
+    }
+    h1 { margin: 0; font-size: 84px; line-height: .96; letter-spacing: -3px; }
+    h2 {
+      margin: 22px 0 0; font-size: 30px; line-height: 1.28; font-weight: 500;
+      color: var(--muted); max-width: 560px;
+    }
+    .meta { display: flex; align-items: center; gap: 12px; margin-top: 38px; color: var(--muted); font-size: 17px; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 20px rgba(232,161,58,.6); }
+    .formula {
+      margin-top: 30px; color: var(--amber); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 26px; letter-spacing: 1px;
+    }
+    .formula small { color: var(--dim); font-size: 15px; display: block; margin-top: 6px; letter-spacing: .5px; }
+    .stamp {
+      position: absolute; right: 78px; bottom: 66px;
+      padding: 11px 16px; border: 1px solid rgba(232,161,58,.5); color: var(--amber);
+      border-radius: 999px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 13px; letter-spacing: 1px;
+    }
+    [data-scene="end"] h1 { font-size: 62px; }
+    [data-scene="end"] h2 { color: var(--ink); }
+    [data-scene="end"] .vinyl { transform: scale(.92); opacity: .85; }
+  </style>
+</head>
+<body data-scene="intro">
+  <main class="card">
+    <div class="vinyl" aria-hidden="true">
+      <svg viewBox="0 0 360 360" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="discg" cx="50%" cy="50%" r="50%">
+            <stop offset="0" stop-color="#161310"/>
+            <stop offset="55%" stop-color="#0c0a08"/>
+            <stop offset="86%" stop-color="#1a1410"/>
+            <stop offset="100%" stop-color="#241b13"/>
+          </radialGradient>
+          <radialGradient id="labelg" cx="42%" cy="38%" r="62%">
+            <stop offset="0" stop-color="#c8442f"/>
+            <stop offset="100%" stop-color="#8d2a1c"/>
+          </radialGradient>
+        </defs>
+        <circle cx="180" cy="180" r="172" fill="url(#discg)" stroke="rgba(232,161,58,.08)"/>
+        <!-- groove rings -->
+        <g fill="none" stroke="rgba(190,165,120,.18)" stroke-width="0.6">
+          <circle cx="180" cy="180" r="160"/><circle cx="180" cy="180" r="150"/>
+          <circle cx="180" cy="180" r="140"/><circle cx="180" cy="180" r="130"/>
+          <circle cx="180" cy="180" r="120"/><circle cx="180" cy="180" r="110"/>
+          <circle cx="180" cy="180" r="100"/><circle cx="180" cy="180" r="92"/>
+        </g>
+        <!-- a wiggly highlight arc (the waveform-as-groove gag) -->
+        <path d="M180 28 A100 100 0 0 1 280 180" fill="none" stroke="#e8a13a" stroke-width="1.4" opacity=".5"/>
+        <circle cx="180" cy="180" r="58" fill="url(#labelg)"/>
+        <circle cx="180" cy="180" r="58" fill="none" stroke="rgba(0,0,0,.4)" stroke-width="1.5"/>
+        <text x="180" y="172" text-anchor="middle" fill="#f3ead9" font-size="15" font-weight="700" font-family="-apple-system,sans-serif">lathe-cut</text>
+        <text x="180" y="194" text-anchor="middle" fill="rgba(243,234,217,.6)" font-size="9" font-family="ui-monospace,monospace">33⅓ rpm</text>
+        <circle cx="180" cy="180" r="4" fill="#3a2e22"/>
+      </svg>
+    </div>
+    <div class="copy">
+      <div class="eyebrow" id="eyebrow">DAILY SLOP · 2026.08.12</div>
+      <h1 id="headline">lathe-cut</h1>
+      <h2 id="subhead">沟槽本身就是声波——<br>没有采样，没有数字，唱针划过的坑，就是声音。</h2>
+      <div class="meta"><span class="dot"></span><span id="meta">Built by GLM-5.2 · 黑胶刻片实验台</span></div>
+      <div class="formula" id="formula">λ = 2π · r · (rpm/60) / f<small id="formulaSub">一个频率的波长，等于唱针在一除以 f 秒里走过的弧长</small></div>
+    </div>
+    <div class="stamp" id="stamp">DROP THE NEEDLE</div>
+  </main>
+  <script>
+    const scene = new URLSearchParams(location.search).get('scene') || 'intro';
+    document.body.dataset.scene = scene;
+    const copy = {
+      intro: {
+        eyebrow: 'DAILY SLOP · 2026.08.12',
+        headline: 'lathe-cut',
+        subhead: '沟槽本身就是声波——<br>没有采样，没有数字，唱针划过的坑，就是声音。',
+        meta: 'Built by GLM-5.2 · 黑胶刻片实验台',
+        formula: 'λ = 2π · r · (rpm/60) / f',
+        formulaSub: '一个频率的波长，等于唱针在一除以 f 秒里走过的弧长',
+        stamp: 'DROP THE NEEDLE',
+      },
+      end: {
+        eyebrow: 'THE GROOVE IS THE WAVEFORM',
+        headline: '越靠近中心，<br>高音越刻不进去。',
+        subhead: '把沟槽、波长与内圈问题，做成一张可以自己刻的唱片。',
+        meta: '每圈波纹数 × 转速 = 频率 · A440 = 每圈 792 波纹',
+        formula: 'f = gpr · (rpm / 60)',
+        formulaSub: '去玩吧，刻一张自己的唱片',
+        stamp: 'TRY IT YOURSELF',
+      },
+    }[scene] || {};
+    for (const [id, value] of Object.entries(copy)) {
+      const node = document.getElementById(id);
+      if (node) node.innerHTML = value;
+    }
+  </script>
+</body>
+</html>
