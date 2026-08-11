@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>lathe-cut — analog disc-cutting studio</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">◎</span>
+    <h1>lathe&#8209;cut</h1>
+    <span class="tag">an analog disc&#8209;cutting studio · Vinyl Record Day</span>
+  </div>
+  <div class="readout" id="readout">
+    <span class="kpi"><b id="kRpm">33⅓</b><i>rpm</i></span>
+    <span class="kpi"><b id="kRadius">146.0</b><i>r (mm)</i></span>
+    <span class="kpi"><b id="kVel">0.51</b><i>v (m/s)</i></span>
+    <span class="kpi"><b id="kLambda">1.16</b><i>λ A440 (mm)</i></span>
+    <span class="kpi"><b id="kLpi">159</b><i>grooves/in</i></span>
+    <span class="kpi"><b id="kSide">14.3</b><i>side (min)</i></span>
+  </div>
+</header>
+
+<main class="layout">
+  <!-- ===================== STAGE: the turntable ===================== -->
+  <section class="stage-wrap">
+    <div class="stage" id="stage">
+      <canvas id="platter"></canvas>
+      <div class="hud">
+        <div class="hud-row" id="modeBadge">idle</div>
+        <div class="hud-row">stylus r <span id="stylusR">146.0</span> mm</div>
+        <div class="hud-row" id="cutHint">press CUT to engrave the lacquer</div>
+      </div>
+      <div class="speed-mark" id="spinMark"></div>
+    </div>
+
+    <!-- transport -->
+    <div class="controls">
+      <button id="cutBtn" class="ctl primary">⌖ cut</button>
+      <button id="needleBtn" class="ctl">⤓ drop needle</button>
+      <button id="resetBtn" class="ctl">reset</button>
+      <span class="spacer"></span>
+      <label class="toggle">
+        <input type="checkbox" id="revChk">
+        <span>play backwards (backmask)</span>
+      </label>
+    </div>
+  </section>
+
+  <!-- ===================== RIGHT PANEL ===================== -->
+  <aside class="panel">
+
+    <!-- the program: what you're cutting -->
+    <div class="card">
+      <h2>the program</h2>
+      <p class="lede">Pick a timbre and how many wiggles fit in one revolution. The stylus engraves exactly that waveform into the lacquer, once per turn.</p>
+
+      <div class="timbre-row" id="timbreRow">
+        <button class="timbre on" data-timbre="sine">∿ sine</button>
+        <button class="timbre" data-timbre="triangle">△ tri</button>
+        <button class="timbre" data-timbre="saw">⩘ saw</button>
+        <button class="timbre" data-timbre="square">⊓ sqr</button>
+      </div>
+
+      <label class="dial">
+        <span class="dial-label">wiggles / revolution</span>
+        <input id="gpr" type="range" min="2" max="64" step="1" value="24">
+        <span class="dial-val"><b id="gprVal">24</b></span>
+      </label>
+      <div class="hint">→ <span id="freqVal">13.3</span> Hz at this rpm &nbsp;·&nbsp; λ ≈ <span id="lambdaNow">34.9</span> mm at the stylus</div>
+
+      <label class="dial">
+        <span class="dial-label">groove pitch (turn spacing)</span>
+        <input id="pitch" type="range" min="0.08" max="0.40" step="0.01" value="0.16">
+        <span class="dial-val"><b id="pitchVal">0.16</b> mm &nbsp;<span class="muted">(<span id="lpiVal">159</span> lpi)</span></span>
+      </label>
+
+      <label class="dial">
+        <span class="dial-label">stylus excursion (display)</span>
+        <input id="amp" type="range" min="0.05" max="1.2" step="0.01" value="0.55">
+        <span class="dial-val"><b id="ampVal">0.55</b> mm</span>
+      </label>
+
+      <div class="rpm-row">
+        <span class="rpm-label">speed</span>
+        <button class="rpm on" data-rpm="33.333">33⅓</button>
+        <button class="rpm" data-rpm="45">45</button>
+      </div>
+    </div>
+
+    <!-- the hero formula -->
+    <div class="card formula-card">
+      <h2>λ = 2π·r·(rpm/60) / f</h2>
+      <p class="lede">One cycle of audio occupies exactly the arc the needle travels in 1/f seconds. It shrinks toward the label — the whole "inner-groove problem" in one line.</p>
+      <div class="lambda-grid" id="lambdaGrid"></div>
+      <div class="cutter-bar">
+        <div class="cutter-track">
+          <div class="cutter-fill" id="cutterFill"></div>
+          <div class="cutter-limit" id="cutterLimit" title="cutter-stylus resolution limit (~25 µm)"></div>
+        </div>
+        <div class="cutter-cap">cutter resolution ceiling · 25 µm tip — frequencies finer than this blur together</div>
+      </div>
+      <div class="inner-warn hidden" id="innerWarn">⚠ inner groove — <span id="innerFmax">9.8</span> kHz is the ceiling here, top end is unrecordable</div>
+    </div>
+
+    <!-- RIAA equalization -->
+    <div class="card riaa-card">
+      <h2>RIAA playback curve</h2>
+      <p class="lede">Cutting boosts the highs and trims the bass so the groove stays narrow; playback applies the exact inverse. Three time constants: 3180 / 318 / 75 µs.</p>
+      <svg id="riaaPlot" viewBox="0 0 320 120" preserveAspectRatio="none"></svg>
+      <div class="riaa-landmarks" id="riaaLandmarks"></div>
+    </div>
+
+  </aside>
+</main>
+
+<footer class="foot">
+  <span>Built by GLM-5.2 · the groove <em>is</em> the waveform</span>
+  <span class="muted">12-inch lacquer · outer groove 146 mm · inner groove 70 mm</span>
+</footer>
+
+<script src="engine.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
