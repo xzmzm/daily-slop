@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>chiral-lab · video card</title>
+  <style>
+    :root {
+      --ink: #ecebf4;
+      --muted: #9498b6;
+      --dim: #5e617a;
+      --violet: #a98bff;
+      --cyan: #54e3e0;
+      --bg: #0c0d14;
+    }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; }
+    body {
+      overflow: hidden; color: var(--ink);
+      background:
+        radial-gradient(circle at 50% 50%, #16182a 0%, #08090f 72%);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans GB", "STHeiti", sans-serif;
+    }
+    .card {
+      position: relative; width: 100%; height: 100%;
+      display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 60px;
+      padding: 60px 80px;
+    }
+    .pair { position: relative; width: 380px; height: 380px; flex: none; display: flex; align-items: center; justify-content: center; }
+    .pair svg { display: block; width: 100%; height: 100%; filter: drop-shadow(0 14px 40px rgba(0,0,0,.55)); }
+    .mirror-line { position: absolute; left: 50%; top: 14%; bottom: 14%; width: 0; border-left: 2px dashed rgba(232,181,58,.45); transform: translateX(-1px); }
+    .copy { max-width: 640px; }
+    .eyebrow {
+      color: var(--cyan); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 2px; font-size: 16px; text-transform: uppercase; margin-bottom: 20px;
+    }
+    h1 { margin: 0; font-size: 84px; line-height: .96; letter-spacing: -3px; }
+    h1 .vi { color: var(--violet); } h1 .cy { color: var(--cyan); }
+    h2 {
+      margin: 22px 0 0; font-size: 30px; line-height: 1.28; font-weight: 500;
+      color: var(--muted); max-width: 580px;
+    }
+    .meta { display: flex; align-items: center; gap: 12px; margin-top: 38px; color: var(--muted); font-size: 17px; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 20px rgba(84,227,224,.6); }
+    .formula {
+      margin-top: 30px; color: var(--violet); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 26px; letter-spacing: 1px;
+    }
+    .formula .neg { color: #ff7a8c; }
+    .formula .pos { color: #8fe6a4; }
+    .formula small { color: var(--dim); font-size: 15px; display: block; margin-top: 6px; letter-spacing: .5px; font-family: -apple-system, sans-serif; }
+    .stamp {
+      position: absolute; right: 78px; bottom: 66px;
+      padding: 11px 16px; border: 1px solid rgba(169,139,255,.5); color: var(--violet);
+      border-radius: 999px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 13px; letter-spacing: 1px;
+    }
+    [data-scene="end"] h1 { font-size: 60px; }
+    [data-scene="end"] h2 { color: var(--ink); }
+    [data-scene="end"] .pair { transform: scale(.92); opacity: .85; }
+  </style>
+</head>
+<body data-scene="intro">
+  <main class="card">
+    <div class="pair" aria-hidden="true">
+      <svg viewBox="0 0 380 380" xmlns="http://www.w3.org/2000/svg">
+        <!-- two opposed logarithmic spirals: a right-coiler (violet) and its mirror (cyan) -->
+        <path id="spiralL" fill="none" stroke="#a98bff" stroke-width="6" stroke-linecap="round" opacity=".95"/>
+        <path id="spiralR" fill="none" stroke="#54e3e0" stroke-width="6" stroke-linecap="round" opacity=".95"/>
+        <circle id="dotL" r="7" fill="#a98bff"/>
+        <circle id="dotR" r="7" fill="#54e3e0"/>
+      </svg>
+      <div class="mirror-line"></div>
+    </div>
+    <div class="copy">
+      <div class="eyebrow" id="eyebrow">DAILY SLOP · 2026.08.13</div>
+      <h1 id="headline"><span class="vi">chir</span><span class="cy">al</span>-lab</h1>
+      <h2 id="subhead">左手是右手的镜像——<br>却怎么转都重合不到一起。</h2>
+      <div class="meta"><span class="dot"></span><span id="meta">Built by GLM-5.2 · 国际左撇子日 · 手性实验台</span></div>
+      <div class="formula" id="formula">det(reflect) · det(rotate) = <span class="neg">−1</span> · <span class="pos">+1</span> = <span class="neg">−1</span> ≠ <span class="pos">+1</span><small id="formulaSub">反射再旋转，行列式永远是负一，永远变不回单位变换</small></div>
+    </div>
+    <div class="stamp" id="stamp">DRAG THE MIRROR</div>
+  </main>
+  <script>
+    const scene = new URLSearchParams(location.search).get('scene') || 'intro';
+    document.body.dataset.scene = scene;
+
+    // build a logarithmic spiral coil (dextral) centred at (cx,cy)
+    function spiral(cx, cy, dir, turns, a, b) {
+      const pts = [];
+      const N = turns * 60;
+      for (let i = 0; i <= N; i++) {
+        const t = i / N;
+        const th = dir * turns * 2 * Math.PI * t;
+        const r = a * Math.exp(b * th * 0.18);
+        pts.push([cx + r * Math.cos(th), cy + r * Math.sin(th)]);
+      }
+      return pts.map((p, i) => (i === 0 ? "M" : "L") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
+    }
+    // violet right-coiler on the left half, cyan left-coiler (mirror) on the right half
+    document.getElementById("spiralL").setAttribute("d", spiral(150, 190, +1, 3.0, 6, 1.0));
+    document.getElementById("spiralR").setAttribute("d", spiral(230, 190, -1, 3.0, 6, 1.0));
+    document.getElementById("dotL").setAttribute("cx", 150); document.getElementById("dotL").setAttribute("cy", 190);
+    document.getElementById("dotR").setAttribute("cx", 230); document.getElementById("dotR").setAttribute("cy", 190);
+
+    const copy = {
+      intro: {
+        eyebrow: 'DAILY SLOP · 2026.08.13',
+        headline: '<span class="vi">chir</span><span class="cy">al</span>-lab',
+        subhead: '左手是右手的镜像——<br>却怎么转都重合不到一起。',
+        meta: 'Built by GLM-5.2 · 国际左撇子日 · 手性实验台',
+        formula: 'det(reflect) · det(rotate) = <span class="neg">−1</span> · <span class="pos">+1</span> = <span class="neg">−1</span> ≠ <span class="pos">+1</span>',
+        formulaSub: '反射再旋转，行列式永远是负一，永远变不回单位变换',
+        stamp: 'DRAG THE MIRROR',
+      },
+      end: {
+        eyebrow: 'ONE MOVE YOUR WRIST CANNOT MAKE',
+        headline: '允许翻转一次，<br>它们就完美重合。',
+        subhead: '把行列式、镜像与手性，做成一个可以亲手转的实验台。',
+        meta: '约一成的人是左撇子 · 几乎所有氨基酸都是左旋',
+        formula: 'chirality = proper RMSD − improper RMSD',
+        formulaSub: '去玩吧，亲手感受一下行列式',
+        stamp: 'TRY IT YOURSELF',
+      },
+    }[scene] || {};
+    for (const [id, value] of Object.entries(copy)) {
+      const node = document.getElementById(id);
+      if (node) node.innerHTML = value;
+    }
+  </script>
+</body>
+</html>

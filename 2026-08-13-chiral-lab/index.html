@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>chiral-lab — a handedness studio</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">◐</span>
+    <h1>chiral&#8209;lab</h1>
+    <span class="tag">a handedness studio · International Left&#8209;Handers Day</span>
+  </div>
+  <div class="readout" id="readout">
+    <span class="kpi"><b id="kRmsd">—</b><i>your rmsd</i></span>
+    <span class="kpi"><b id="kFloor">—</b><i>best by turning</i></span>
+    <span class="kpi"><b id="kFlip">—</b><i>with one flip</i></span>
+    <span class="kpi verdict" id="kVerdict">—</span>
+  </div>
+</header>
+
+<main class="layout">
+  <!-- ===================== STAGE: superposition ===================== -->
+  <section class="stage-wrap">
+    <div class="stage" id="stage">
+      <canvas id="scene"></canvas>
+      <div class="hud">
+        <div class="hud-row" id="modeBadge">drag to turn the mirror</div>
+        <div class="hud-row">your rmsd <span id="hudRmsd">—</span></div>
+        <div class="hud-row">rotation floor <span id="hudFloor">—</span></div>
+      </div>
+      <div class="legend">
+        <span class="sw ghost"></span> original
+        <span class="sw mirror"></span> mirror image (enantiomer)
+      </div>
+    </div>
+
+    <!-- the alignment meter -->
+    <div class="meter-card">
+      <div class="meter-top">
+        <span>alignment gap <b id="meterRmsd">—</b></span>
+        <span class="muted">lower is better · 0 = perfect overlap</span>
+      </div>
+      <div class="meter-track">
+        <div class="meter-you" id="meterYou"></div>
+        <div class="meter-floor" id="meterFloor" title="the closest any rotation can get"></div>
+        <div class="meter-zero">0</div>
+      </div>
+      <div class="meter-cap" id="meterCap">turn the mirror — try to reach 0.</div>
+    </div>
+
+    <!-- controls -->
+    <div class="controls">
+      <button id="resetRot" class="ctl">↺ reset turn</button>
+      <button id="bestBtn" class="ctl">show best turn</button>
+      <label class="toggle">
+        <input type="checkbox" id="allowFlip">
+        <span>allow one reflection (flip)</span>
+      </label>
+      <label class="toggle">
+        <input type="checkbox" id="plane2d">
+        <span>2D mode (turn in the plane only)</span>
+      </label>
+      <label class="toggle">
+        <input type="checkbox" id="spinChk">
+        <span>auto-spin original</span>
+      </label>
+    </div>
+  </section>
+
+  <!-- ===================== RIGHT PANEL ===================== -->
+  <aside class="panel">
+
+    <!-- object picker -->
+    <div class="card">
+      <h2>choose an object</h2>
+      <p class="lede">Every one of these has a mirror image. The question is always the same: can you <em>turn</em> the mirror onto the original?</p>
+      <div class="picker" id="picker"></div>
+      <div class="obj-note" id="objNote"></div>
+    </div>
+
+    <!-- the parity proof -->
+    <div class="card proof-card">
+      <h2>why you can't just turn it</h2>
+      <div class="proof-rows">
+        <div class="proof-row"><span class="sym">det</span><span class="op">reflection</span><span class="eq">=</span><span class="val neg" id="detRefl">−1</span></div>
+        <div class="proof-row"><span class="sym">det</span><span class="op">any rotation</span><span class="eq">=</span><span class="val pos" id="detRot">+1</span></div>
+        <div class="proof-row sep"><span class="sym">det</span><span class="op">reflection · rotation</span><span class="eq">=</span><span class="val neg">−1</span></div>
+        <div class="proof-row"><span class="sym"></span><span class="op">identity</span><span class="eq">=</span><span class="val pos">+1</span></div>
+      </div>
+      <p class="proof-conc">−1 can never equal +1 — so reflection composed with rotation is never the identity. <b>No amount of turning undoes a reflection.</b> That is the whole of handedness.</p>
+    </div>
+
+    <!-- the census -->
+    <div class="card census-card">
+      <h2>the world is mostly one-handed</h2>
+      <ul class="census">
+        <li><b>~10%</b> of humans are left-handed <span class="src">(the day itself)</span></li>
+        <li><b>~90%</b> of snail species coil the same way (dextral); the rare <em>sinistral</em> left-coilers are the snail lefties</li>
+        <li><b>~100%</b> of life's amino acids are left-handed (L) — <em>homochirality</em>, still an open mystery</li>
+        <li class="warn"><b>thalidomide:</b> one enantiomer soothes morning sickness; its mirror caused birth defects. Chirality is not a footnote.</li>
+      </ul>
+    </div>
+
+  </aside>
+</main>
+
+<footer class="foot">
+  <span>Built by GLM-5.2 · a left hand is a right hand seen through a mirror — and never the other way around</span>
+  <span class="muted">drag the mirror · toggle the flip · watch the determinant</span>
+</footer>
+
+<script src="engine.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
