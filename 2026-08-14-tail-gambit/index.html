@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>tail-gambit — an autotomy field trial</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="mast">
+    <div class="identity">
+      <span class="mark">//</span>
+      <div><h1>TAIL–GAMBIT</h1><p>autotomy field trial · World Lizard Day</p></div>
+    </div>
+    <div class="statusline">
+      <span><i class="dot live"></i> TRIAL <b id="trialNo">01</b></span>
+      <span>STRIKE <b>2.40 s</b></span>
+      <span>MODEL <b>ILLUSTRATIVE</b></span>
+    </div>
+  </header>
+
+  <main>
+    <section class="arena-card">
+      <div class="arena-head">
+        <div>
+          <span class="eyebrow">PREDATOR APPROACH / LIVE</span>
+          <h2>Lose a part. Keep the whole.</h2>
+        </div>
+        <div class="timer" id="timer">READY</div>
+      </div>
+      <div class="arena" id="arena">
+        <canvas id="scene" aria-label="Animated lizard and predator strike"></canvas>
+        <div class="range-label start">ALERT</div>
+        <div class="range-label window">FRACTURE WINDOW</div>
+        <div class="range-label contact">CONTACT</div>
+        <div class="prompt" id="prompt">Start a strike, then shed as the predator commits.</div>
+        <div class="result" id="result" hidden>
+          <b id="resultTitle">ESCAPED</b><span id="resultText"></span>
+        </div>
+      </div>
+      <div class="timeline"><div class="timefill" id="timefill"></div><i id="releaseMark"></i></div>
+      <div class="actions">
+        <button id="startBtn" class="primary"><span>▶</span> START STRIKE</button>
+        <button id="dropBtn" class="danger" disabled><span>✦</span> DROP TAIL <kbd>SPACE</kbd></button>
+        <button id="resetBtn">↺ RESET</button>
+        <p>Wait for the predator to commit. Too early, it reacquires you. Too late… well.</p>
+      </div>
+    </section>
+
+    <aside>
+      <section class="panel species-panel">
+        <span class="eyebrow">01 / CHOOSE A STRATEGY</span>
+        <div class="species-tabs" id="speciesTabs">
+          <button data-species="gecko" class="on"><b>GECKO</b><small>fat reserve</small></button>
+          <button data-species="skink"><b>SKINK</b><small>violent thrash</small></button>
+          <button data-species="anole"><b>ANOLE</b><small>slow rebuild</small></button>
+        </div>
+        <p id="speciesNote" class="note"></p>
+      </section>
+
+      <section class="panel telemetry">
+        <span class="eyebrow">02 / DETACHED TAIL TELEMETRY</span>
+        <div class="scope"><canvas id="scope"></canvas><span>segment activation</span></div>
+        <div class="formula"><span>motor wave</span><b>θᵢ(t) = A e<sup>−t/τ</sup> sin(2πft − ki)</b></div>
+        <p>The tail does not need instructions from the brain: local spinal circuits keep alternating left and right, turning a discarded part into a moving decoy.</p>
+      </section>
+
+      <section class="panel recovery-panel">
+        <div class="panel-title"><span class="eyebrow">03 / THE BILL COMES DUE</span><b id="dayLabel">DAY 0</b></div>
+        <input id="daySlider" type="range" min="0" max="72" value="0" aria-label="Days since tail loss">
+        <div class="ledger">
+          <div><span>tail length</span><i><em id="barLength"></em></i><b id="valLength">0%</b></div>
+          <div><span>stored energy</span><i><em id="barEnergy"></em></i><b id="valEnergy">66%</b></div>
+          <div><span>sprint balance</span><i><em id="barSprint"></em></i><b id="valSprint">81%</b></div>
+        </div>
+        <p class="callout"><b>It grows back, but not as new.</b> The replacement is supported by an unsegmented cartilage tube—not a restored chain of vertebrae.</p>
+      </section>
+    </aside>
+  </main>
+
+  <footer>
+    <span>Built by GPT-5.6 Sol · schematic model, not a field survival calculator</span>
+    <span>Press space to autotomize · motion can continue after escape</span>
+  </footer>
+  <script src="engine.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
