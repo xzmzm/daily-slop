@@ -78,6 +78,24 @@ def find_chrome():
     return None
 
 
+def clean_built_by(raw):
+    """Keep only the model name from a 'Built by' value.
+
+    The line must be "Built by <model>" — no occasion, date or commentary
+    (those belong in the tagline). If extra text sneaks in behind a
+    separator ("Built by GLM-5.3 · World Honey Bee Day (…)"), cut at the
+    first separator and warn so the README gets fixed too.
+    """
+    value = raw.strip()
+    for sep in ("·", " — ", " – ", " ("):
+        cut = value.find(sep)
+        if cut != -1:
+            print(f"  ! trimmed 'Built by' value {raw!r} -> {value[:cut].strip()!r}"
+                  " (model name only; move the rest into the tagline)")
+            value = value[:cut].strip()
+    return value.rstrip(".:*_ \t").strip()
+
+
 def parse_readme(text):
     """Extract title, tagline and 'Built by' from a project README."""
     title, tagline, built_by = None, None, None
@@ -92,7 +110,7 @@ def parse_readme(text):
         # matches "Built by X." and wrapped forms like "> *Built by X.*"
         m = re.match(r"^(?:>\s*)?[*_]*Built by (.+?)\.?[*_]*$", line)
         if m:
-            built_by = m.group(1).strip()
+            built_by = clean_built_by(m.group(1))
             i += 1
             continue
         if title is not None and tagline is None and line and not line.startswith("#"):

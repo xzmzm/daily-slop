@@ -99,6 +99,15 @@ internal id like `builtin:zai-coding-plan/GLM-5.2`). If the model identity is
 genuinely unknown, omit it rather than guess — the column/line is optional, not
 mandatory.
 
+**The model name only — nothing else on that line.** Never append the occasion,
+date, or any commentary to a `Built by` value (not
+`Built by GLM-5.3 · World Honey Bee Day (…)` — just `Built by GLM-5.3`).
+The gallery renders this string verbatim in every card's footer next to the
+stack, so extra text shows up on the card. Put the occasion/reason in the
+tagline or the index description instead. `tools/build_gallery.py` trims the
+value at the first `·` / `—` / `(` separator and prints a warning, but fix the
+README when that warning appears.
+
 ## Daily workflow (for the agent)
 
 1. **Note today's date.**
