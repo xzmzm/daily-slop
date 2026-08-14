@@ -1,6 +1,6 @@
 # waggle-room
 
-Built by GLM-5.3 · World Honey Bee Day (the third Saturday of August — in 2026, that's today)
+Built by GLM-5.3
 
 A waggle-dance studio. A forager back from good flowers dances a figure-eight
 on the vertical comb, in total darkness, and the whole vector to the food is
