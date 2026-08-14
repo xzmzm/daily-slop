@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>waggle-room · video card</title>
+  <style>
+    :root {
+      --ink: #ecebf4;
+      --muted: #9498b6;
+      --dim: #5e617a;
+      --amber: #f0b429;
+      --cyan: #7ddce8;
+      --paper: #f3ecdb;
+      --bg: #0c0d14;
+    }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; }
+    body {
+      overflow: hidden; color: var(--ink);
+      background: radial-gradient(circle at 50% 50%, #16182a 0%, #08090f 72%);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans GB", "STHeiti", sans-serif;
+    }
+    .card {
+      position: relative; width: 100%; height: 100%;
+      display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 60px;
+      padding: 60px 80px;
+    }
+    .comb { position: relative; width: 400px; height: 400px; flex: none; display: flex; align-items: center; justify-content: center; }
+    .comb svg { width: 100%; height: 100%; filter: drop-shadow(0 14px 40px rgba(0,0,0,.55)); }
+    .copy { max-width: 640px; }
+    .eyebrow {
+      color: var(--cyan); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 2px; font-size: 16px; text-transform: uppercase; margin-bottom: 20px;
+    }
+    h1 { margin: 0; font-size: 84px; line-height: .96; letter-spacing: -3px; }
+    h1 .am { color: var(--amber); } h1 .cy { color: var(--cyan); }
+    h2 {
+      margin: 22px 0 0; font-size: 30px; line-height: 1.28; font-weight: 500;
+      color: var(--muted); max-width: 580px;
+    }
+    .meta { display: flex; align-items: center; gap: 12px; margin-top: 38px; color: var(--muted); font-size: 17px; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 20px rgba(240,180,41,.6); }
+    .formula {
+      margin-top: 30px; color: var(--amber); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 26px; letter-spacing: 1px;
+    }
+    .formula .num { color: var(--cyan); }
+    .formula small { color: var(--dim); font-size: 15px; display: block; margin-top: 6px; letter-spacing: .5px; font-family: -apple-system, sans-serif; }
+    .stamp {
+      position: absolute; right: 78px; bottom: 66px;
+      padding: 11px 16px; border: 1px solid rgba(240, 180, 41, .5); color: var(--amber);
+      border-radius: 999px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 13px; letter-spacing: 1px;
+    }
+    [data-scene="end"] h1 { font-size: 60px; }
+    [data-scene="end"] h2 { color: var(--ink); }
+    [data-scene="end"] .comb { transform: scale(.92); opacity: .85; }
+  </style>
+</head>
+<body data-scene="intro">
+  <main class="card">
+    <div class="comb" aria-hidden="true">
+      <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+        <!-- protractor ring -->
+        <g id="ticks" stroke="#4c5070" stroke-width="1.6"></g>
+        <circle cx="200" cy="200" r="150" fill="none" stroke="#3a3e5c" stroke-width="1.6"/>
+        <!-- up = sun axis -->
+        <line x1="200" y1="30" x2="200" y2="370" stroke="#f0b429" stroke-opacity=".5"
+              stroke-width="1.6" stroke-dasharray="5 6"/>
+        <text x="200" y="22" fill="#f0b429" fill-opacity=".85" font-size="12"
+              font-family="ui-monospace, Menlo, monospace" text-anchor="middle">0° = up = sun</text>
+        <!-- the figure-eight, tilted θ from vertical -->
+        <path id="eight" fill="none" stroke="#f0b429" stroke-width="5" stroke-linecap="round" opacity=".92"/>
+        <path id="runAxis" fill="none" stroke="#f0b429" stroke-opacity=".4" stroke-width="2" stroke-dasharray="7 6"/>
+        <path id="arc" fill="none" stroke="#7ddce8" stroke-width="2.4"/>
+        <text id="arcLabel" fill="#7ddce8" font-size="17" font-family="ui-monospace, Menlo, monospace"></text>
+        <!-- the dancer -->
+        <g id="bee">
+          <ellipse cx="0" cy="9" rx="6" ry="10" fill="#e8a13a"/>
+          <ellipse cx="0" cy="12" rx="5.8" ry="2" fill="#2a2130"/>
+          <circle cx="0" cy="-2" r="5" fill="#4a3b33"/>
+          <circle cx="0" cy="-10" r="3.4" fill="#2a2130"/>
+        </g>
+      </svg>
+    </div>
+    <div class="copy">
+      <div class="eyebrow" id="eyebrow">DAILY SLOP · 2026.08.15</div>
+      <h1 id="headline"><span class="am">waggle</span>-<span class="cy">room</span></h1>
+      <h2 id="subhead">巢脾向上，就是朝着太阳——<br>蜜蜂在黑暗里用重力代替阳光。</h2>
+      <div class="meta"><span class="dot"></span><span id="meta">Built by GLM-5.3 · 世界蜜蜂日 · 摇摆舞解码台</span></div>
+      <div class="formula" id="formula">θ = az(flower) − az(sun),&nbsp; t ≈ a + b·d<small id="formulaSub">一秒摇摆约一公里，一秒约十三下——去黑暗里当跟随蜂</small></div>
+    </div>
+    <div class="stamp" id="stamp">DECODE THE DARK</div>
+  </main>
+  <script>
+    const scene = new URLSearchParams(location.search).get('scene') || 'intro';
+    document.body.dataset.scene = scene;
+
+    // protractor ticks every 15°, majors at 45°
+    const ticks = document.getElementById('ticks');
+    const RAD = Math.PI / 180;
+    let tickPath = '';
+    for (let a = 0; a < 360; a += 15) {
+      const major = a % 45 === 0;
+      const r1 = major ? 138 : 144;
+      const ux = Math.sin(a * RAD), uy = -Math.cos(a * RAD);
+      tickPath += `M${200 + ux * r1} ${200 + uy * r1}L${200 + ux * 150} ${200 + uy * 150}`;
+    }
+    ticks.innerHTML = tickPath.match(/M[\d.]+ [\d.]+L[\d.]+ [\d.]+/g)
+      .map(d => `<path d="${d}"/>`).join('');
+
+    // figure-eight (Gerono lemniscate) with its run tilted θ from vertical
+    const THETA = 55; // degrees clockwise from up
+    const dirX = Math.sin(THETA * RAD), dirY = -Math.cos(THETA * RAD);       // along the run
+    const perX = Math.cos(THETA * RAD), perY = Math.sin(THETA * RAD);        // across it
+    const cx = 200, cy = 200, A = 118, B = 62;
+    const pts = [];
+    for (let i = 0; i <= 120; i++) {
+      const t = (i / 120) * 2 * Math.PI;
+      const along = Math.sin(t) * A;          // the run direction
+      const across = Math.sin(t) * Math.cos(t) * B; // the loops
+      pts.push([cx + perX * across + dirX * along, cy + perY * across + dirY * along]);
+    }
+    document.getElementById('eight').setAttribute('d',
+      pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' '));
+    document.getElementById('runAxis').setAttribute('d',
+      `M${cx - dirX * A} ${cy - dirY * A}L${cx + dirX * A} ${cy + dirY * A}`);
+
+    // the θ arc from vertical to the run
+    const arcR = 96;
+    const a0 = -Math.PI / 2, a1 = -Math.PI / 2 + THETA * RAD;
+    const large = 0, sweep = 1;
+    const ax = cx + Math.cos(a0) * arcR, ay = cy + Math.sin(a0) * arcR;
+    const bx = cx + Math.cos(a1) * arcR, by = cy + Math.sin(a1) * arcR;
+    document.getElementById('arc').setAttribute('d',
+      `M${ax.toFixed(1)} ${ay.toFixed(1)}A${arcR} ${arcR} 0 ${large} ${sweep} ${bx.toFixed(1)} ${by.toFixed(1)}`);
+    const am = -Math.PI / 2 + (THETA / 2) * RAD;
+    const label = document.getElementById('arcLabel');
+    label.setAttribute('x', (cx + Math.cos(am) * (arcR - 22)).toFixed(1));
+    label.setAttribute('y', (cy + Math.sin(am) * (arcR - 22) + 5).toFixed(1));
+    label.textContent = `+${THETA}°`;
+
+    // the dancer sits at the top lobe of the eight
+    const top = pts[30]; // t = 90°: far end of the run
+    const bee = document.getElementById('bee');
+    bee.setAttribute('transform', `translate(${top[0].toFixed(1)},${top[1].toFixed(1)}) rotate(${THETA})`);
+
+    const copy = {
+      intro: {
+        eyebrow: 'DAILY SLOP · 2026.08.15',
+        headline: '<span class="am">waggle</span>-<span class="cy">room</span>',
+        subhead: '巢脾向上，就是朝着太阳——<br>蜜蜂在黑暗里用重力代替阳光。',
+        meta: 'Built by GLM-5.3 · 世界蜜蜂日 · 摇摆舞解码台',
+        formula: 'θ = az(flower) − az(sun),&nbsp; t ≈ a + b·d',
+        formulaSub: '一秒摇摆约一公里，一秒约十三下——去黑暗里当跟随蜂',
+        stamp: 'DECODE THE DARK',
+      },
+      end: {
+        eyebrow: 'ONE DANCE, WHOLE NOBEL',
+        headline: '去黑暗里，<br>当一回跟随蜂。',
+        subhead: '把冯·弗里希的诺奖工作，做成一个可以亲手拖的解码台。',
+        meta: '方言写在基因里 · 圆舞不指方向 · 太阳走，舞跟着转',
+        formula: 'waggle ≈ 13 Hz · <span class="num">1 s ≈ 1 km</span>',
+        formulaSub: '角度读罗盘，距离掐秒表——或者干脆数摆动',
+        stamp: 'TRY IT YOURSELF',
+      },
+    }[scene] || {};
+    for (const [id, value] of Object.entries(copy)) {
+      const node = document.getElementById(id);
+      if (node) node.innerHTML = value;
+    }
+  </script>
+</body>
+</html>

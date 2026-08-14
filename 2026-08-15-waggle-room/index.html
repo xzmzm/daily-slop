@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>waggle-room — a waggle-dance studio</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">🐝</span>
+    <h1>waggle&#8209;room</h1>
+    <span class="tag">a waggle-dance studio · World Honey Bee Day</span>
+  </div>
+  <div class="readout" id="readout">
+    <span class="kpi"><b id="kAngle">—</b><i>dance angle</i></span>
+    <span class="kpi"><b id="kDur">—</b><i>waggle duration</i></span>
+    <span class="kpi"><b id="kDist">—</b><i>distance</i></span>
+    <span class="kpi verdict" id="kForm">—</span>
+  </div>
+</header>
+
+<main class="layout">
+  <!-- ===================== STAGE: comb + field ===================== -->
+  <section class="stage-wrap">
+
+    <!-- the dark comb -->
+    <div class="comb-card">
+      <div class="comb-wrap" id="combWrap">
+        <canvas id="comb"></canvas>
+        <div class="comb-hud">
+          <div class="hud-row badge" id="phaseBadge">waggle run</div>
+          <div class="hud-row">run <span id="runTimer">0.00 s</span></div>
+          <div class="hud-row" id="hudAngleRow">θ <span id="hudAngle">—</span> from vertical</div>
+        </div>
+        <div class="comb-note" id="combNote">straight up the comb = toward the sun</div>
+      </div>
+    </div>
+
+    <!-- the field, with its dark cover for the game -->
+    <div class="field-card">
+      <div class="field-wrap" id="fieldWrap">
+        <canvas id="field"></canvas>
+        <div class="field-hud">
+          <div class="hud-row"><span id="hudTime">12:00</span> solar · sun az <span id="hudSunAz">—</span></div>
+          <div class="hud-row">flowers az <span id="hudFlowerAz">—</span> · <span id="hudFlowerDist">—</span></div>
+        </div>
+        <div class="field-cover" id="fieldCover" hidden>
+          <div class="cover-eyebrow">INSIDE THE HIVE</div>
+          <div class="cover-line">you can't see the field</div>
+          <div class="cover-sub">read the dance on the comb — then click where the flowers are</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- controls -->
+    <div class="controls">
+      <div class="ctl-row">
+        <label class="slider-ctl">
+          <span class="ctl-name">solar time</span>
+          <input type="range" id="timeSlider" min="5.4" max="18.6" step="0.05" value="12">
+          <span class="ctl-val" id="timeVal">12:00</span>
+        </label>
+        <button id="flyBtn" class="ctl">✈ fly the forage</button>
+      </div>
+      <div class="ctl-row">
+        <div class="dialect-row" id="dialectRow">
+          <span class="ctl-name">hive dialect</span>
+          <button class="dialect-btn sel" data-key="carnica">Carniolan</button>
+          <button class="dialect-btn" data-key="ligustica">Italian</button>
+          <button class="dialect-btn" data-key="scutellata">African</button>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="flatChk">
+          <span>flat comb, open sky</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- the live encoding -->
+    <div class="meter-card">
+      <div class="meter-top"><span>the encoding, live</span><span class="muted" id="meterHint">drag the flowers · slide the sun</span></div>
+      <div class="recipe-row"><span class="rn">direction</span><span class="rx" id="rAngleExpr">—</span></div>
+      <div class="recipe-row"><span class="rn">distance</span><span class="rx" id="rDurExpr">—</span></div>
+      <div class="recipe-row"><span class="rn">form</span><span class="rx" id="rFormExpr">—</span></div>
+    </div>
+  </section>
+
+  <!-- ===================== RIGHT PANEL ===================== -->
+  <aside class="panel">
+
+    <!-- the recipe -->
+    <div class="card recipe-card">
+      <h2>how to read a waggle dance</h2>
+      <p class="lede">A forager back from good flowers dances a figure-eight on the vertical comb, in the dark. Everything you need is in the middle run:</p>
+      <ul class="recipe">
+        <li><b>the angle</b> of the waggle run from <em>straight up</em> is the angle of the flowers from the <em>sun</em>. Up the comb <em>is</em> toward the sun — gravity substitutes for the missing sky.</li>
+        <li><b>the duration</b> of the waggling is the distance: <span class="mono">t ≈ a + b·d</span> in the hive's own dialect. For von Frisch's Carniolans, one second of waggling ≈ one kilometre. You can count waggles instead of timing: <span class="mono">n ≈ 13·t</span>.</li>
+        <li><b>too close</b> (a few dozen metres) and the figure-eight collapses into a <em>round dance</em>: distance yes, direction no.</li>
+      </ul>
+      <p class="kicker">And the sun keeps moving — so for the same flowers, the dance slowly rotates through the day. The bee's clock subtracts it; von Frisch's student Lindauer proved she even compensates for the sun's overnight arc.</p>
+    </div>
+
+    <!-- dialects -->
+    <div class="card dialect-card">
+      <h2>dialects</h2>
+      <p class="lede">Distance-in-seconds is not universal: subspecies — even neighbouring hives — calibrate it differently, and the calibration is inherited, not learned.</p>
+      <svg id="dialectChart" viewBox="0 0 300 150" preserveAspectRatio="xMidYMid meet"></svg>
+      <div class="dialect-note" id="dialectNote"></div>
+    </div>
+
+    <!-- the recruit game -->
+    <div class="card game-card">
+      <h2>you are a follower bee</h2>
+      <p class="lede" id="gameIntro">The field goes dark. A dancer you can't question waggles an angle and a duration on the comb. Decode both, then click in the dark where you think the flowers are.</p>
+      <button id="gameBtn" class="big-ctl">🐝 new dance</button>
+      <div class="game-score" id="gameScore" hidden>
+        <div class="score-top"><span class="grade" id="gGrade">—</span><span class="verdict" id="gVerdict">—</span></div>
+        <div class="score-rows">
+          <div class="score-row"><span>angle error</span><b id="gAngle">—</b></div>
+          <div class="score-row"><span>distance error</span><b id="gDist">—</b></div>
+          <div class="score-row"><span>a real recruit</span><b id="gChip">—</b></div>
+        </div>
+      </div>
+      <div class="game-meta" id="gameMeta">no rounds yet</div>
+    </div>
+
+    <!-- the census -->
+    <div class="card census-card">
+      <h2>the fine print, verified</h2>
+      <ul class="census">
+        <li><b>1973</b> — Karl von Frisch shared the Nobel Prize for decoding this, the only known symbolic language of an invertebrate.</li>
+        <li><b>the trick</b> — inside a dark hive there is no sun to aim by, so evolution aimed by <em>gravity</em>: straight up the comb means toward the sun.</li>
+        <li><b>dialects persist</b> — a Carniolan strain kept in Japan reportedly danced its ancestral Austrian calibration for generations after import.</li>
+        <li><b>reading in the dark</b> — followers crowd behind the dancer with antennae on her abdomen; Michelsen's laser vibrometer later read the waggle right off the comb surface.</li>
+        <li><b>only winners dance</b> — a poor nectar source is danced for by no one: the comb is a market and the dance is a buy signal.</li>
+      </ul>
+    </div>
+
+  </aside>
+</main>
+
+<footer class="foot">
+  <span>Built by GLM-5.3 · the dance moves the sun indoors: up the dark comb means toward the sun</span>
+  <span class="muted">drag the flowers · slide the sun · decode the dark</span>
+</footer>
+
+<script src="engine.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
