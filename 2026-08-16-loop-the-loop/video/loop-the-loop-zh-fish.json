@@ -1,0 +1,16 @@
+{
+  "output": "/Users/hm/prj/daily-slop/2026-08-16-loop-the-loop/video/loop-the-loop-zh-fish.mp4",
+  "provider": "Fish Audio REST API",
+  "model": "s2.1-pro-free",
+  "voice_id": "ae5adc6778ac459e8d6106b82f88fa2b",
+  "segment_durations": [
+    19.330612,
+    24.398367,
+    27.245714,
+    20.819592,
+    16.74449
+  ],
+  "video_duration": 109.266667,
+  "fps": 15,
+  "resolution": "1920x1080"
+}

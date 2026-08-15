@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>loop-the-loop · the 2.5r rule</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="brand"><span class="am">loop</span>-the-<span class="cy">loop</span></div>
+    <div class="sub">National Roller Coaster Day · Aug 16 — the day in 1898 Edwin Prescott
+      patented the vertical loop</div>
+    <div class="presets" id="presets">
+      <button class="chip sel" data-preset="prescott">1898 · 2.5r exact</button>
+      <button class="chip" data-preset="short">too short</button>
+      <button class="chip" data-preset="clothoid">1976 · clothoid</button>
+      <button class="chip" data-preset="airtime">airtime hills</button>
+      <button class="chip" data-preset="friction">friction bill</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="stage">
+      <canvas id="cv"></canvas>
+      <div class="stage-note" id="stageNote">drag ▲ to set the release height · drag ✛ to
+        move the loop · drag the dot-marked crests · then Dispatch</div>
+    </div>
+
+    <aside>
+      <div class="card">
+        <div class="row">
+          <button id="dispatchBtn" class="primary">Dispatch</button>
+          <button id="resetBtn">Reset</button>
+        </div>
+        <label class="ctl">release height <b id="hVal">22.5 m</b>
+          <input type="range" id="hSlider" min="12" max="30" step="0.05"></label>
+        <label class="ctl">loop radius r <b id="rVal">9.0 m</b>
+          <input type="range" id="rSlider" min="6" max="13" step="0.1"></label>
+        <label class="ctl">friction μ <b id="muVal">0.000</b>
+          <input type="range" id="muSlider" min="0" max="0.06" step="0.002"></label>
+        <div class="row seg">
+          <button id="shapeCircle" class="seg-btn sel">1898 circle</button>
+          <button id="shapeClothoid" class="seg-btn">1976 clothoid</button>
+        </div>
+        <label class="chk"><input type="checkbox" id="upstopChk"> upstop wheels
+          <small>(hold on to −1.5 g)</small></label>
+      </div>
+
+      <div class="card live">
+        <div class="big"><span id="speedVal">0</span><small> km/h</small></div>
+        <div class="big"><span id="gVal">1.0</span><small> g felt</small></div>
+        <div class="mini">peak <b id="peakG">–</b> g · crest <b id="topG">–</b> g ·
+          <span id="statusVal">ready</span></div>
+      </div>
+
+      <div class="card">
+        <h3>energy ledger <small>metres of head</small></h3>
+        <div class="bars">
+          <div class="bar"><i id="peBar"></i><span>height <b id="peVal">–</b> m</span></div>
+          <div class="bar"><i id="keBar" class="ke"></i><span>speed <b id="keVal">–</b> m</span></div>
+          <div class="bar"><i id="heatBar" class="heat"></i><span>heat <b id="heatVal">–</b> m</span></div>
+        </div>
+        <div class="mini dim">the three always sum to the release height — heat is where it went to die</div>
+      </div>
+
+      <div class="card" id="verdictCard">
+        <h3>the 2.5r rule</h3>
+        <div id="verdictBody"></div>
+      </div>
+
+      <div class="card">
+        <h3>the g-bill <small>same crest height · same release</small></h3>
+        <div id="gCompare"></div>
+      </div>
+
+      <div class="card foot">A rail can only push. At the crest of a loop of radius r the car
+        stays on while v² ≥ g·r, so a frictionless circle demands release at 2.5r above its
+        lowest point — weightless at the top, ~6 g at the bottom, which is why 1898 passengers
+        got whiplash and loops vanished until Stengel's 1976 clothoid teardrop put the
+        tightest curvature where the speed was lowest. Friction adds its own line to the bill:
+        exactly μ·Δx of horizontal travel, whatever the path's shape.</div>
+    </aside>
+  </main>
+
+  <script src="engine.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

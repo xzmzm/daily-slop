@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>loop-the-loop · video card</title>
+  <style>
+    :root {
+      --ink: #ecebf4;
+      --muted: #9498b6;
+      --dim: #5e617a;
+      --amber: #f0b429;
+      --cyan: #7ddce8;
+      --bg: #0c0d14;
+    }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; }
+    body {
+      overflow: hidden; color: var(--ink);
+      background: radial-gradient(circle at 50% 50%, #181c33 0%, #08090f 72%);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans GB", "STHeiti", sans-serif;
+    }
+    .card {
+      position: relative; width: 100%; height: 100%;
+      display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 64px;
+      padding: 60px 80px;
+    }
+    .scene { position: relative; width: 420px; height: 420px; flex: none; }
+    .scene svg { width: 100%; height: 100%; filter: drop-shadow(0 14px 40px rgba(0,0,0,.55)); }
+    .copy { max-width: 620px; }
+    .eyebrow {
+      color: var(--cyan); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 2px; font-size: 16px; text-transform: uppercase; margin-bottom: 20px;
+    }
+    h1 { margin: 0; font-size: 84px; line-height: .96; letter-spacing: -3px; }
+    h1 .am { color: var(--amber); } h1 .cy { color: var(--cyan); }
+    h2 {
+      margin: 22px 0 0; font-size: 30px; line-height: 1.28; font-weight: 500;
+      color: var(--muted); max-width: 560px;
+    }
+    .meta { display: flex; align-items: center; gap: 12px; margin-top: 38px; color: var(--muted); font-size: 17px; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--amber); box-shadow: 0 0 20px rgba(240,180,41,.6); }
+    .formula {
+      margin-top: 30px; color: var(--amber); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 26px; letter-spacing: 1px;
+    }
+    .formula .num { color: var(--cyan); }
+    .formula small { color: var(--dim); font-size: 15px; display: block; margin-top: 6px; letter-spacing: .5px; font-family: -apple-system, sans-serif; }
+    .stamp {
+      position: absolute; right: 78px; bottom: 66px;
+      padding: 11px 16px; border: 1px solid rgba(240, 180, 41, .5); color: var(--amber);
+      border-radius: 999px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 13px; letter-spacing: 1px;
+    }
+    [data-scene="end"] h1 { font-size: 60px; }
+    [data-scene="end"] h2 { color: var(--ink); }
+    [data-scene="end"] .scene { transform: scale(.92); opacity: .85; }
+  </style>
+</head>
+<body data-scene="intro">
+  <main class="card">
+    <div class="scene" aria-hidden="true">
+      <svg viewBox="0 0 420 420" xmlns="http://www.w3.org/2000/svg">
+        <!-- ground -->
+        <line x1="18" y1="352" x2="402" y2="352" stroke="#2a2f4c" stroke-width="2"/>
+        <!-- the drop: cosine ease from crest to loop entry -->
+        <path id="drop" fill="none" stroke="#c9c4b4" stroke-width="5" stroke-linecap="round"/>
+        <!-- the 1898 circle -->
+        <circle cx="262" cy="266" r="86" fill="none" stroke="#f0b429" stroke-width="6" opacity=".95"/>
+        <!-- centre + radius -->
+        <line x1="262" y1="266" x2="348" y2="266" stroke="#f0b429" stroke-opacity=".45" stroke-width="1.6" stroke-dasharray="5 5"/>
+        <text x="300" y="258" fill="#f0b429" fill-opacity=".8" font-size="15" text-anchor="middle"
+              font-family="ui-monospace, Menlo, monospace">r</text>
+        <!-- 2.5r release line above the loop's lowest point -->
+        <line x1="120" y1="93" x2="330" y2="93" stroke="#7ddce8" stroke-opacity=".55" stroke-width="1.6" stroke-dasharray="6 6"/>
+        <text x="122" y="84" fill="#7ddce8" fill-opacity=".85" font-size="13"
+              font-family="ui-monospace, Menlo, monospace">2.5·r</text>
+        <!-- the car at the crest of the loop, weightless -->
+        <g id="car" transform="translate(262,180) rotate(0)">
+          <rect x="-15" y="-7" width="30" height="12" rx="4" fill="#e8e4d8" stroke="#10121f" stroke-width="2"/>
+          <circle cx="-9" cy="7" r="3.4" fill="#10121f"/><circle cx="9" cy="7" r="3.4" fill="#10121f"/>
+        </g>
+        <text x="284" y="172" fill="#7ddce8" font-size="14" font-family="ui-monospace, Menlo, monospace">0 g</text>
+        <text x="284" y="330" fill="#e06c5f" font-size="14" font-family="ui-monospace, Menlo, monospace">6 g</text>
+      </svg>
+    </div>
+    <div class="copy">
+      <div class="eyebrow" id="eyebrow">DAILY SLOP · 2026.08.16</div>
+      <h1 id="headline"><span class="am">loop</span>-the-<span class="cy">loop</span></h1>
+      <h2 id="subhead">轨道只会推，不会拉——<br>回环的物理账单，一算就是一百多年。</h2>
+      <div class="meta"><span class="dot"></span><span id="meta">Built by GLM-5.3 · 国家过山车日 · 普雷斯科特 1898 年回环专利</span></div>
+      <div class="formula" id="formula">v² ≥ g·r&nbsp;&nbsp;→&nbsp;&nbsp;<span class="num">H ≥ 2.5·r</span> + μ·Δx<small id="formulaSub">环顶零个 g，环底六个 g——去把释放手柄拖到线上</small></div>
+    </div>
+    <div class="stamp" id="stamp">RIDE THE MATH</div>
+  </main>
+  <script>
+    const scene = new URLSearchParams(location.search).get('scene') || 'intro';
+    document.body.dataset.scene = scene;
+
+    // cosine-ease first drop from the crest (120, 88) into the loop entry (176, 352)
+    const pts = [];
+    const x0 = 120, y0 = 88, x1 = 176, y1 = 352;
+    for (let i = 0; i <= 64; i++) {
+      const u = i / 64;
+      pts.push([x0 + (x1 - x0) * u, y0 + (y1 - y0) * (1 + Math.cos(Math.PI * u)) / 2]);
+    }
+    document.getElementById('drop').setAttribute('d',
+      pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' '));
+
+    const copy = {
+      intro: {
+        eyebrow: 'DAILY SLOP · 2026.08.16',
+        headline: '<span class="am">loop</span>-the-<span class="cy">loop</span>',
+        subhead: '轨道只会推，不会拉——<br>回环的物理账单，一算就是一百多年。',
+        meta: 'Built by GLM-5.3 · 国家过山车日 · 普雷斯科特 1898 年回环专利',
+        formula: 'v² ≥ g·r&nbsp;&nbsp;→&nbsp;&nbsp;<span class="num">H ≥ 2.5·r</span> + μ·Δx',
+        formulaSub: '环顶零个 g，环底六个 g——去把释放手柄拖到线上',
+        stamp: 'RIDE THE MATH',
+      },
+      end: {
+        eyebrow: 'ONE RAIL, ONE RULE',
+        headline: '去拖你自己的<br>过山车吧。',
+        subhead: '正圆环 6 g，泪滴环 3.4 g；防脱轮是 1976 年的救援。',
+        meta: '2.5r 线就画在轨道上方 · 摩擦力只收水平距离的钱',
+        formula: '6 g → <span class="num">3.4 g</span> · 1898 → 1976',
+        formulaSub: '把最急的弯，花在已经没有速度的地方',
+        stamp: 'TRY IT YOURSELF',
+      },
+    }[scene] || {};
+    for (const [id, value] of Object.entries(copy)) {
+      const node = document.getElementById(id);
+      if (node) node.innerHTML = value;
+    }
+  </script>
+</body>
+</html>
