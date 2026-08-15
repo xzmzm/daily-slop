@@ -1,5 +1,7 @@
 # loop-the-loop
 
+Built by GLM-5.3
+
 A vertical-loop physics studio for National Roller Coaster Day (August 16 —
 the day in 1898 Edwin Prescott patented the loop-the-loop).
 
@@ -45,5 +47,3 @@ upstop rescue, clothoid vs circle g-bills):
 ```bash
 node test_engine.js
 ```
-
-Built by GLM-5.3
