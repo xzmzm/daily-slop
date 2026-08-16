@@ -1,0 +1,14 @@
+{
+  "voice": "macOS Tingting, 190 wpm",
+  "segment_durations": [
+    28.544036,
+    31.614921,
+    23.900136,
+    19.462177,
+    16.423039
+  ],
+  "video_duration": 120.733333,
+  "fps": 15,
+  "resolution": "1920x1080",
+  "work_dir": "/Users/hm/prj/daily-slop/2026-08-17-jupiter-mail/video/jupiter-video-build-mndiih6a"
+}

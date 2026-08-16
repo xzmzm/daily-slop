@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>jupiter-mail · the first airmail</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="brand">jupiter-<span class="ox">mail</span></div>
+    <div class="sub">Balloon Airmail Day · Aug 17 — the day in 1859 John Wise flew the balloon
+      <em>Jupiter</em> out of Lafayette, Indiana with the first US mail carried by air:
+      123 letters and 23 circulars, sealed for New York</div>
+    <div class="presets" id="presets">
+      <button class="chip sel" data-scenario="1859">1859 · the real flight</button>
+      <button class="chip" data-scenario="westerly">westerly interlude</button>
+      <button class="chip" data-scenario="gale">gale from the north</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="stage">
+      <canvas id="map"></canvas>
+      <div class="stage-note" id="stageNote">a free balloon has no rudder — pick an altitude,
+        borrow its wind, and let go of Lafayette</div>
+    </div>
+
+    <aside>
+      <div class="instruments">
+        <div class="gauge"><label>altitude</label><b id="gAlt">0<i>m</i></b></div>
+        <div class="gauge"><label>vario</label><b id="gVario">+0.0<i>m/s</i></b></div>
+        <div class="gauge"><label>over ground</label><b id="gGs">0.0<i>m/s</i></b></div>
+        <div class="gauge"><label>drift</label><b id="gBrg">—<i>°</i></b></div>
+        <div class="gauge"><label>hydrogen</label><b id="gGas">48.5<i>kg</i></b><span class="bar" id="gasBar"></span></div>
+        <div class="gauge"><label>ballast</label><b id="gBags">20<i>bags</i></b><span class="bar" id="bagBar"></span></div>
+        <div class="gauge"><label>flight time</label><b id="gClock">T+00:00</b></div>
+        <div class="gauge"><label>evening train</label><b id="gTrain">2:00:00</b></div>
+        <div class="gauge"><label>to target</label><b id="gDist">41.9<i>km</i></b></div>
+      </div>
+      <div class="panelrow">
+        <div class="panel ladder"><h3>the wind ladder</h3><canvas id="ladder"></canvas></div>
+        <div class="panel compassPanel"><h3>courses you can hold</h3><canvas id="compass"></canvas></div>
+      </div>
+      <div class="controls">
+        <button class="big valve" id="valveBtn">VALVE<div class="hint">hold · vents H₂ — gone forever</div></button>
+        <button class="big ballast" id="ballastBtn">BALLAST<div class="hint">one 15 kg sandbag</div></button>
+        <button class="big rope" id="ropeBtn">TRAIL ROPE<div class="hint">Wise's drag rope · 60 m</div></button>
+        <div class="row">
+          <button class="chip" id="launchBtn">cast off</button>
+          <div class="speeds" id="speeds">
+            <button class="chip" data-speed="1">1×</button>
+            <button class="chip sel" data-speed="6">6×</button>
+            <button class="chip" data-speed="20">20×</button>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <section class="explainer">
+    <div class="card">
+      <h3>① a balloon has no rudder — altitude is the steering wheel</h3>
+      <p>Near the ground, friction drags the wind left of its high-altitude self and slows it
+        (an idealized <strong>Ekman spiral</strong>): with ζ = (z + z₀)/δ,</p>
+      <pre>u(ζ) = U_g (1 − e⁻ᶻ cos ζ)   along the geostrophic wind
+v(ζ) = U_g e⁻ᶻ sin ζ       to its left (surface wind is “backed”)</pre>
+      <p>So each altitude holds a different course: the set of headings you can fly today is
+        exactly the arc your wind ladder spans — low and slow on the left edge, high and fast on
+        the right. Crawfordsville bears 178° from Lafayette; on Aug 17, 1859 that meant about
+        1 300 m up.</p>
+    </div>
+    <div class="card">
+      <h3>② a kilo of hydrogen lifts 13.4 kilos — at every altitude</h3>
+      <p>The envelope is open to the air, so the gas stays at ambient pressure and temperature.
+        Lift and the air it displaces then scale together as you climb:</p>
+      <pre>lift = (M_air/M_H₂ − 1) · m_gas · g ≈ 13.4 · m_gas · g</pre>
+      <p>Climbing doesn't change your lift — it <em>swells the envelope</em> (536 m³ of H₂ at
+        release become ~690 m³ at 2 500 m). Which is why the only way down is the valve, the only
+        way up is sand, and the leak (~0.05 kg/min through the fabric) slowly turns a trimmed
+        balloon into a sinking one. The ship also answers like a barge: roughly half the
+        displaced air rides along as <em>added mass</em>, so a bag of ballast takes six seconds
+        just to reach 1 m/s of climb.</p>
+    </div>
+    <div class="card">
+      <h3>③ the mail's real journey was balloon + train</h3>
+      <p>Wise carried the locked bag up at 4:30 pm, read the sky for about an hour, and put
+        <em>Jupiter</em> down near Crawfordsville — 26 miles short of a continent. The postmaster
+        forwarded the letters by rail, and the first US airmail arrived in New York the ordinary
+        way. The verdict panel estimates that second leg the same way: hours to New York fall
+        with every kilometre east you land (a playful 1859-plausible rail model, not an archive).
+        Land soft (≤ 2.5 m/s), near a depot (≤ 5 km), before the evening train — and the trail
+        rope, Wise's own invention, drags on the ground to brake you and hold a stable low
+        altitude for the hand-over.</p>
+    </div>
+  </section>
+
+  <div class="overlay" id="overlay" hidden>
+    <div class="verdict" id="verdictCard"></div>
+  </div>
+
+  <script src="engine.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
