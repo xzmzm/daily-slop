@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>flash-spectrum — Guntur, 18 August 1868</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="masthead">
+    <h1>flash-<span class="ox">spectrum</span></h1>
+    <p class="sub">Guntur, 18 August 1868 — the element discovered in the sky before it was found on Earth</p>
+  </div>
+  <nav class="scenes" aria-label="scene">
+    <button id="sceneGuntur" class="chip scene-chip active" type="button">1868 · the flash spectrum</button>
+    <button id="sceneCorona" class="chip scene-chip" type="button">1869 · the corona's green line</button>
+  </nav>
+</header>
+
+<main>
+  <section class="scope-col">
+    <div class="scope-wrap">
+      <canvas id="scope" width="1800" height="840"></canvas>
+    </div>
+
+    <div class="clock-row">
+      <button id="playBtn" class="chip" type="button">▶ slow play ×6</button>
+      <input id="clock" type="range" min="-480" max="330" step="0.5" value="-480"
+             aria-label="seconds from second contact">
+      <div class="readouts">
+        <span id="phaseLabel" class="phase">partial · crescent</span>
+        <span id="clockLabel" class="mono">t = −480 s</span>
+        <span id="uncLabel" class="mono">photosphere 15.0%</span>
+      </div>
+    </div>
+    <div class="chips" id="phaseChips">
+      <button class="chip" data-t="-480" type="button">−8 min</button>
+      <button class="chip" data-t="-90" type="button">−90 s</button>
+      <button class="chip" data-t="-12" type="button">C2 − 10</button>
+      <button class="chip accent" data-t="2" type="button">the flash</button>
+      <button class="chip" data-t="82.6" type="button">mid-totality</button>
+      <button class="chip" data-t="165" type="button">C3</button>
+      <button class="chip" data-t="300" type="button">after</button>
+    </div>
+  </section>
+
+  <aside class="panels">
+    <div class="panel" id="diskPanel">
+      <canvas id="disk" width="480" height="480"></canvas>
+      <p class="caption" id="diskCaption">Both disks to scale — the Moon is a hair bigger than the Sun, which is why totality happens at all.</p>
+    </div>
+
+    <div class="panel" id="measurePanel">
+      <h2>the eyepiece reads</h2>
+      <p class="mono big" id="lambdaLabel">λ = 589.00 nm</p>
+      <p id="matchLabel" class="match known">sodium D₂ — catalogued (Na I)</p>
+      <button id="claimBtn" class="claim" type="button" hidden>claim a new element →</button>
+      <p class="caption" id="claimHint">A bright line with no catalogue entry is the only telegram worth sending.</p>
+    </div>
+
+    <div class="panel" id="cataloguePanel">
+      <h2><span id="catalogueTitle">1868 line catalogue</span> <span id="measuredBadge" class="badge">measured 0 / 12</span></h2>
+      <ul id="catalogue"></ul>
+      <p class="caption">Park the crosshair on a line; known ones announce themselves.</p>
+    </div>
+
+    <div class="panel" id="kirchhoffPanel">
+      <h2>Kirchhoff, three laws, one flip</h2>
+      <div class="kirchhoff" id="kirchhoff">
+        <figure data-k="cont">
+          <svg viewBox="0 0 120 44"></svg>
+          <figcaption>hot dense<br>→ continuous</figcaption>
+        </figure>
+        <figure data-k="emis">
+          <svg viewBox="0 0 120 44"></svg>
+          <figcaption>hot thin gas<br>→ bright lines</figcaption>
+        </figure>
+        <figure data-k="abs">
+          <svg viewBox="0 0 120 44"></svg>
+          <figcaption>cool thin gas<br>→ dark lines</figcaption>
+        </figure>
+      </div>
+      <p class="caption" id="kirchhoffCaption">The eclipsed Sun is doing law 3: cool gas absorbing in front of the photosphere.</p>
+    </div>
+  </aside>
+</main>
+
+<div id="verdict" class="verdict-overlay" hidden>
+  <div class="verdict-card">
+    <p class="eyebrow" id="verdictEyebrow">telegram from Guntur · 19 August 1868</p>
+    <h2 id="verdictTitle">Helium — discovered in the sky</h2>
+    <div id="verdictBody"></div>
+    <button id="verdictClose" class="chip" type="button">back to the eyepiece</button>
+  </div>
+</div>
+
+<footer>
+  <p>A toy for Helium Discovery Day (Janssen's eclipse, 18 August 1868). Wavelengths real;
+     line widths, timing drama and the corona's brightness stretched so a screen can show them.
+     The verdict lines are history, the spectrum is physics — NOTES.md keeps the receipts.</p>
+</footer>
+
+<script src="engine.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

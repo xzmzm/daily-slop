@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>flash-spectrum · video card</title>
+  <style>
+    :root {
+      --ink: #e9e4d6;
+      --dim: #9aa0b4;
+      --brass: #d9a441;
+      --oxide: #d96a4a;
+      --teal: #6fc3b7;
+    }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; }
+    body {
+      overflow: hidden; color: var(--ink);
+      background: radial-gradient(circle at 72% 26%, #16203a 0%, #0a0d16 55%, #05070d 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans GB", "STHeiti", sans-serif;
+    }
+    .card {
+      position: relative; width: 100%; height: 100%;
+      display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 64px;
+      padding: 60px 80px;
+    }
+    .scene { position: relative; width: 460px; height: 440px; flex: none; }
+    .scene svg { width: 100%; height: 100%; filter: drop-shadow(0 14px 44px rgba(0,0,0,.55)); }
+    .copy { max-width: 640px; }
+    .eyebrow {
+      color: var(--teal); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 2px; font-size: 15px; text-transform: uppercase; margin-bottom: 18px;
+    }
+    h1 { margin: 0; font-size: 86px; line-height: .96; letter-spacing: -3px; font-weight: 800; }
+    h1 .ox { color: var(--brass); }
+    h2 {
+      margin: 20px 0 0; font-size: 29px; line-height: 1.32; font-weight: 500;
+      color: #c9cede; max-width: 600px;
+    }
+    .meta { display: flex; align-items: center; gap: 12px; margin-top: 34px; color: var(--dim); font-size: 16px; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--brass); box-shadow: 0 0 18px rgba(217,164,65,.55); }
+    .formula {
+      margin-top: 28px; color: var(--brass); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 25px; letter-spacing: 1px;
+    }
+    .formula .num { color: var(--oxide); }
+    .formula small { color: var(--dim); font-size: 15px; display: block; margin-top: 6px; letter-spacing: .5px;
+      font-family: -apple-system, sans-serif; }
+    .stamp {
+      position: absolute; right: 78px; bottom: 66px;
+      color: var(--brass); border: 3px double var(--brass); border-radius: 6px;
+      font: 700 15px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: 3px;
+      padding: 9px 16px; transform: rotate(-7deg); opacity: .85;
+    }
+    .scene.end { display: none; }
+    body[data-scene="end"] .scene.intro { display: none; }
+    body[data-scene="end"] .scene.end { display: block; }
+  </style>
+</head>
+<body data-scene="intro">
+<script>
+  const scene = new URLSearchParams(location.search).get('scene') || 'intro';
+  document.body.dataset.scene = scene;
+</script>
+<div class="card">
+  <div class="scene intro">
+    <svg viewBox="0 0 460 440" aria-hidden="true">
+      <defs>
+        <radialGradient id="cor" cx="50%" cy="50%" r="50%">
+          <stop offset="42%" stop-color="rgba(240,236,220,.95)"/>
+          <stop offset="46%" stop-color="rgba(240,236,220,.38)"/>
+          <stop offset="70%" stop-color="rgba(240,236,220,.10)"/>
+          <stop offset="100%" stop-color="rgba(240,236,220,0)"/>
+        </radialGradient>
+        <linearGradient id="rain" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#5a4b8f"/><stop offset=".2" stop-color="#3f6fb5"/>
+          <stop offset=".42" stop-color="#3fae7c"/><stop offset=".62" stop-color="#d9c23f"/>
+          <stop offset=".82" stop-color="#d96a3f"/><stop offset="1" stop-color="#c43b3b"/>
+        </linearGradient>
+      </defs>
+      <!-- eclipsed sun -->
+      <circle cx="150" cy="140" r="118" fill="url(#cor)"/>
+      <circle cx="150" cy="140" r="86" fill="#0a0d16"/>
+      <path d="M78 96 a86 86 0 0 1 26 -30 a120 120 0 0 1 8 46 a118 118 0 0 1 -22 40 a86 86 0 0 1 -12 -56 z"
+            fill="#f6eeda" opacity=".92"/>
+      <!-- spectrum ribbon: absorption side → emission side -->
+      <rect x="26" y="316" width="200" height="34" rx="4" fill="url(#rain)" opacity=".9"/>
+      <g fill="#05070d">
+        <rect x="52" y="316" width="5" height="34"/><rect x="74" y="316" width="7" height="34"/>
+        <rect x="112" y="316" width="5" height="34"/><rect x="150" y="316" width="4" height="34"/>
+        <rect x="186" y="316" width="4" height="34"/>
+      </g>
+      <rect x="234" y="316" width="200" height="34" rx="4" fill="#05070d" stroke="#232a3d"/>
+      <g>
+        <rect x="258" y="316" width="7" height="34" fill="#c43b3b"/>
+        <rect x="300" y="316" width="6" height="34" fill="#3fae7c"/>
+        <rect x="336" y="316" width="6" height="34" fill="#d9c23f"/>
+        <rect x="349" y="316" width="4" height="34" fill="#d96a3f"/>
+        <rect x="408" y="316" width="6" height="34" fill="#3f6fb5"/>
+      </g>
+      <!-- the stranger: D3 flagged -->
+      <g>
+        <line x1="351" y1="300" x2="351" y2="268" stroke="#d96a4a" stroke-width="2.5"/>
+        <path d="M351 262 l-7 12 h14 z" fill="#d96a4a"/>
+        <text x="351" y="248" text-anchor="middle" font-size="16" fill="#d96a4a"
+              font-family="Menlo, monospace">D₃ ?</text>
+      </g>
+      <text x="126" y="376" text-anchor="middle" font-size="13" fill="#9aa0b4" font-family="Menlo, monospace">absorption</text>
+      <text x="334" y="376" text-anchor="middle" font-size="13" fill="#9aa0b4" font-family="Menlo, monospace">emission · the flash</text>
+      <text x="230" y="410" text-anchor="middle" font-size="13" fill="#62697e" font-family="Menlo, monospace">the Moon flips one into the other</text>
+    </svg>
+  </div>
+  <div class="scene end">
+    <svg viewBox="0 0 460 440" aria-hidden="true">
+      <defs>
+        <linearGradient id="rain2" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#5a4b8f"/><stop offset=".2" stop-color="#3f6fb5"/>
+          <stop offset=".42" stop-color="#3fae7c"/><stop offset=".62" stop-color="#d9c23f"/>
+          <stop offset=".82" stop-color="#d96a3f"/><stop offset="1" stop-color="#c43b3b"/>
+        </linearGradient>
+      </defs>
+      <text x="230" y="150" text-anchor="middle" font-size="120" fill="#0e1322"
+            stroke="#d9a441" stroke-width="2.5" font-family="Georgia, serif" font-weight="700">He</text>
+      <text x="230" y="192" text-anchor="middle" font-size="16" fill="#9aa0b4" font-family="Menlo, monospace">2 · 4.0026 · found in the Sun 1868 · found on Earth 1895</text>
+      <rect x="40" y="250" width="380" height="40" rx="4" fill="#05070d" stroke="#232a3d"/>
+      <g>
+        <rect x="88" y="250" width="8" height="40" fill="#c43b3b"/>
+        <rect x="196" y="250" width="7" height="40" fill="#3fae7c"/>
+        <rect x="278" y="250" width="7" height="40" fill="#d9c23f"/>
+        <rect x="293" y="250" width="5" height="40" fill="#d96a3f"/>
+        <rect x="388" y="250" width="8" height="40" fill="#3f6fb5"/>
+      </g>
+      <path d="M295 250 l0 -26 m-7 12 l7 -12 l7 12" stroke="#d96a4a" stroke-width="2.5" fill="none"/>
+      <text x="230" y="330" text-anchor="middle" font-size="15" fill="#9aa0b4" font-family="Menlo, monospace">D₃ 587.56 nm · a stranger until it had a name</text>
+    </svg>
+  </div>
+  <div class="copy">
+    <div class="eyebrow">dailyslop · 2026-08-18 · Helium Discovery Day</div>
+    <h1>flash-<span class="ox">spectrum</span></h1>
+    <h2 id="sub">一八六八年的今天，日全食的闪光光谱里多出一条黄线——地球上没有的元素。月亮是滤镜，谱线是字典，亲手把氦量出来。</h2>
+    <div class="meta"><span class="dot"></span><span>Pierre Janssen · Guntur, India · total eclipse</span></div>
+    <div class="formula">
+      D₃ <span class="num">= 587.56 nm</span> — 1868 年的谱线表里没有它
+      <small>二十七年后（1895），拉姆齐才在地球的铀矿里找到同一个它</small>
+    </div>
+  </div>
+</div>
+<div class="stamp">HELIUM · AUG 18</div>
+<script>
+  if (document.body.dataset.scene === 'end') {
+    document.getElementById('sub').textContent = '黑线翻成亮线的那一秒，就是新元素落地的那一秒。dailyslop.pages.dev';
+  }
+</script>
+</body>
+</html>
