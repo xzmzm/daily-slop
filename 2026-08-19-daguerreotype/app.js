@@ -1568,4 +1568,88 @@
     link.click();
   }
 
+  window.__demo = {
+    getState: () => state,
+    switchTab: (tab) => switchTab(tab),
+    goToStep: (stepNum) => goToStep(stepNum),
+    setPolish: (pct) => {
+      state.polishProgress = pct;
+      state.polishQuality = 1.0;
+      updatePolishUI();
+    },
+    setSensitize: (nm) => {
+      state.sensitizeThicknessNm = nm;
+      const s = document.getElementById("sensitizeSlider");
+      if (s) s.value = nm;
+      updateSensitizeUI();
+    },
+    setScene: (name) => {
+      state.selectedScene = name;
+      const sc = DaguerreEngine.SCENES[name];
+      if (sc) {
+        state.targetExposureSec = sc.recommendedTimeSec;
+        state.aperture = sc.fNumber;
+      }
+      const sel = document.getElementById("sceneSelect");
+      if (sel) sel.value = name;
+      updateSceneDetails();
+    },
+    setExposureSec: (sec) => {
+      state.exposureTimeSec = sec;
+      const progressEl = document.getElementById("poseProgressSec");
+      if (progressEl) {
+        progressEl.textContent = `${state.exposureTimeSec.toFixed(1)} s / ${state.targetExposureSec} s`;
+      }
+      const bar = document.getElementById("exposureProgressBar");
+      if (bar) {
+        const pct = Math.min(100, (state.exposureTimeSec / state.targetExposureSec) * 100);
+        bar.style.width = `${pct}%`;
+      }
+      updateExposureSummary();
+    },
+    setMercury: (tempC, timeSec) => {
+      state.mercuryTempC = tempC;
+      state.mercuryTimeSec = timeSec;
+      const ts = document.getElementById("tempSlider");
+      if (ts) ts.value = tempC;
+      const tv = document.getElementById("tempVal");
+      if (tv) tv.textContent = `${tempC.toFixed(0)}°C`;
+      updateMercuryUI();
+    },
+    fixPlate: () => {
+      const btn = document.getElementById("fixBathBtn");
+      if (btn) btn.click();
+    },
+    goldTonePlate: () => {
+      const btn = document.getElementById("goldToneBtn");
+      if (btn) btn.click();
+    },
+    finishPlate: () => {
+      const btn = document.getElementById("finishPlateBtn");
+      if (btn) btn.click();
+    },
+    setTilt: (angleX, angleY) => {
+      state.tiltAngleX = angleX;
+      state.tiltAngleY = angleY;
+      const sx = document.getElementById("tiltSliderX");
+      if (sx) sx.value = angleX;
+      const sy = document.getElementById("tiltSliderY");
+      if (sy) sy.value = angleY;
+      const vx = document.getElementById("tiltValX");
+      if (vx) vx.textContent = `${angleX > 0 ? "+" : ""}${angleX.toFixed(0)}°`;
+      const vy = document.getElementById("tiltValY");
+      if (vy) vy.textContent = `${angleY > 0 ? "+" : ""}${angleY.toFixed(0)}°`;
+    },
+    setLoupe: (active, x = 0.5, y = 0.5) => {
+      state.loupeActive = active;
+      state.loupeX = x;
+      state.loupeY = y;
+      const btn = document.getElementById("toggleLoupeBtn");
+      if (btn) {
+        btn.classList.toggle("btn-active", active);
+        btn.textContent = active ? "Loupe Active (Move over Plate)" : "Toggle 10x Watchmaker's Loupe";
+      }
+    }
+  };
+
 })();

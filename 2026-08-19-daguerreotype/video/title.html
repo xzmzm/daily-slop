@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>daguerreotype · video card</title>
+  <style>
+    :root {
+      --ink: #f0ebd8;
+      --dim: #a69b8d;
+      --gold: #d4a74a;
+      --amber: #e8853a;
+      --silver: #d0d8e8;
+      --copper: #c8784a;
+      --ruby: #c83232;
+    }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; }
+    body {
+      overflow: hidden; color: var(--ink);
+      background: radial-gradient(circle at 70% 30%, #281a14 0%, #140d0a 55%, #0a0604 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans GB", "STHeiti", "Cinzel", Georgia, serif;
+    }
+    .card {
+      position: relative; width: 100%; height: 100%;
+      display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 64px;
+      padding: 60px 80px;
+    }
+    .scene { position: relative; width: 460px; height: 440px; flex: none; }
+    .scene svg { width: 100%; height: 100%; filter: drop-shadow(0 14px 44px rgba(0,0,0,.65)); }
+    .copy { max-width: 640px; }
+    .eyebrow {
+      color: var(--gold); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 2.5px; font-size: 14px; text-transform: uppercase; margin-bottom: 18px;
+    }
+    h1 { margin: 0; font-size: 82px; line-height: .96; letter-spacing: -2px; font-weight: 800; }
+    h1 .ox { color: var(--gold); }
+    h2 {
+      margin: 20px 0 0; font-size: 26px; line-height: 1.36; font-weight: 500;
+      color: #dfd7cb; max-width: 600px;
+    }
+    .meta { display: flex; align-items: center; gap: 12px; margin-top: 30px; color: var(--dim); font-size: 15px; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 18px rgba(212,167,74,.6); }
+    .formula {
+      margin-top: 26px; color: var(--gold); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 21px; letter-spacing: 0.5px;
+    }
+    .formula .num { color: var(--amber); }
+    .formula small { color: var(--dim); font-size: 14px; display: block; margin-top: 6px; letter-spacing: .5px;
+      font-family: -apple-system, sans-serif; }
+    .stamp {
+      position: absolute; right: 78px; bottom: 60px;
+      color: var(--gold); border: 3px double var(--gold); border-radius: 6px;
+      font: 700 14px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: 3px;
+      padding: 8px 16px; transform: rotate(-6deg); opacity: .88;
+    }
+    .scene.end { display: none; }
+    body[data-scene="end"] .scene.intro { display: none; }
+    body[data-scene="end"] .scene.end { display: block; }
+  </style>
+</head>
+<body data-scene="intro">
+<script>
+  const scene = new URLSearchParams(location.search).get('scene') || 'intro';
+  document.body.dataset.scene = scene;
+</script>
+<div class="card">
+  <div class="scene intro">
+    <svg viewBox="0 0 460 440" aria-hidden="true">
+      <defs>
+        <radialGradient id="mercuryGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="rgba(240,245,255,.95)"/>
+          <stop offset="45%" stop-color="rgba(200,220,245,.45)"/>
+          <stop offset="80%" stop-color="rgba(180,200,230,.1)"/>
+          <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+        </radialGradient>
+        <linearGradient id="brassMat" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#f5d070"/>
+          <stop offset="50%" stop-color="#b8842c"/>
+          <stop offset="100%" stop-color="#7a5214"/>
+        </linearGradient>
+        <linearGradient id="silverPlate" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#808898"/>
+          <stop offset="35%" stop-color="#e2e8f4"/>
+          <stop offset="65%" stop-color="#ffffff"/>
+          <stop offset="100%" stop-color="#909aa8"/>
+        </linearGradient>
+        <linearGradient id="iodineFilm" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#d4aa40"/>
+          <stop offset="40%" stop-color="#b85080"/>
+          <stop offset="72%" stop-color="#5570b8"/>
+          <stop offset="100%" stop-color="#408850"/>
+        </linearGradient>
+      </defs>
+      <!-- Embossed Leather Case -->
+      <rect x="30" y="30" width="400" height="340" rx="14" fill="#24140c" stroke="#522e1c" stroke-width="4"/>
+      <rect x="44" y="44" width="372" height="312" rx="10" fill="#4a0e18" stroke="#d4a74a" stroke-width="2"/>
+      
+      <!-- Stamped Brass Mat -->
+      <rect x="58" y="58" width="344" height="284" rx="8" fill="url(#brassMat)"/>
+      <rect x="74" y="74" width="312" height="252" rx="6" fill="#121316"/>
+      
+      <!-- Silver Plate Image: Boulevard Scene with Shiner -->
+      <path d="M74 74 h312 v120 h-312 z" fill="#dce3ee" opacity=".85"/>
+      <path d="M110 130 h240 v64 h-240 z" fill="#b0b8c8" opacity=".7"/>
+      <!-- Mansard roof -->
+      <path d="M100 130 l15 -20 h210 l15 20 z" fill="#6a7280"/>
+      <!-- Trees & Street -->
+      <rect x="74" y="194" width="312" height="132" fill="#2a2c30"/>
+      <circle cx="140" cy="184" r="16" fill="#484f58"/>
+      <circle cx="210" cy="182" r="18" fill="#484f58"/>
+      <!-- Stationary Shoe-Shiner (Highlighted Amalgam) -->
+      <g fill="#f8fafc" stroke="#121316" stroke-width="1">
+        <circle cx="180" cy="242" r="7"/>
+        <rect x="174" y="248" width="16" height="22" rx="3"/>
+        <circle cx="204" cy="216" r="6"/>
+        <rect x="198" y="222" width="14" height="42" rx="3"/>
+        <rect x="195" y="224" width="20" height="3"/>
+      </g>
+      <!-- Spectral Iodine Band at bottom -->
+      <rect x="74" y="310" width="312" height="16" fill="url(#iodineFilm)"/>
+      
+      <!-- Labels -->
+      <text x="230" y="398" text-anchor="middle" font-size="14" fill="#d4a74a" font-family="ui-monospace, monospace" letter-spacing="1">
+        1839 · A MIRROR WITH A MEMORY · Ag₃Hg₄
+      </text>
+    </svg>
+  </div>
+  <div class="scene end">
+    <svg viewBox="0 0 460 440" aria-hidden="true">
+      <defs>
+        <linearGradient id="brassMat2" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#f5d070"/>
+          <stop offset="50%" stop-color="#b8842c"/>
+          <stop offset="100%" stop-color="#7a5214"/>
+        </linearGradient>
+      </defs>
+      <!-- Positive Plate (Dark Velvet Reflection) -->
+      <g transform="translate(15, 40) scale(0.92)">
+        <rect x="10" y="10" width="220" height="270" rx="10" fill="#24140c" stroke="#d4a74a" stroke-width="2"/>
+        <rect x="22" y="22" width="196" height="246" rx="6" fill="url(#brassMat2)"/>
+        <rect x="32" y="32" width="176" height="226" fill="#101214"/>
+        <!-- Positive Highlights -->
+        <circle cx="120" cy="110" r="28" fill="#f0e6d2"/>
+        <path d="M80 190 c10 -40 70 -40 80 0 z" fill="#181a1e"/>
+        <text x="120" y="295" text-anchor="middle" font-size="13" fill="#6fc3b7" font-family="ui-monospace, monospace">
+          POSITIVE (Tilt 0°)
+        </text>
+      </g>
+      <!-- Negative Plate (Specular Light Glare) -->
+      <g transform="translate(230, 40) scale(0.92)">
+        <rect x="10" y="10" width="220" height="270" rx="10" fill="#24140c" stroke="#d4a74a" stroke-width="2"/>
+        <rect x="22" y="22" width="196" height="246" rx="6" fill="url(#brassMat2)"/>
+        <rect x="32" y="32" width="176" height="226" fill="#f0f4fa"/>
+        <!-- Negative Inversion -->
+        <circle cx="120" cy="110" r="28" fill="#2a2e34"/>
+        <path d="M80 190 c10 -40 70 -40 80 0 z" fill="#ffffff"/>
+        <text x="120" y="295" text-anchor="middle" font-size="13" fill="#e8853a" font-family="ui-monospace, monospace">
+          NEGATIVE (Tilt 28°)
+        </text>
+      </g>
+      <text x="230" y="375" text-anchor="middle" font-size="14" fill="#a69b8d" font-family="ui-monospace, monospace">
+        Specular Mirror + Matte Amalgam = Dual Optical State
+      </text>
+      <text x="230" y="405" text-anchor="middle" font-size="13" fill="#d4a74a" font-family="ui-monospace, monospace">
+        19 August 1839 · Free Gift to the World
+      </text>
+    </svg>
+  </div>
+  <div class="copy">
+    <div class="eyebrow">dailyslop · 2026-08-19 · World Photography Day</div>
+    <h1>daguerre<span class="ox">otype</span></h1>
+    <h2 id="sub">一八三九年的今天，法国将摄影术公诸于世。银镜为底，水银显影，亲手做一张锁住时光的银版照片。</h2>
+    <div class="meta"><span class="dot"></span><span>François Arago & Louis Daguerre · Paris · 19 August 1839</span></div>
+    <div class="formula">
+      2 Ag + I₂ → <span class="num">2 AgI (72 nm)</span> · 3 Ag⁰ + 4 Hg → <span class="num">Ag₃Hg₄</span>
+      <small>Oliver Wendell Holmes (1859): "The mirror with a memory"</small>
+    </div>
+  </div>
+</div>
+<div class="stamp">19 AUG 1839 · PARIS</div>
+<script>
+  if (document.body.dataset.scene === 'end') {
+    document.getElementById('sub').textContent = '转动银镜，在正片与负片之间看见百年前的光影。dailyslop.pages.dev';
+  }
+</script>
+</body>
+</html>
