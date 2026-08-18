@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1839 Daguerreotype Studio — World Photography Day</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-icon">☼</div>
+        <div>
+          <h1>1839 DAGUERREOTYPE STUDIO</h1>
+          <div class="tagline">World Photography Day · The "Mirror with a Memory" & Photochemical Darkroom</div>
+        </div>
+      </div>
+      <div class="header-controls">
+        <button id="muteBtn" class="btn" title="Toggle audio effects">🔊 Sound ON</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Navigation Tabs -->
+    <div class="tabs-nav">
+      <button class="tab-btn active" data-tab="workshop">1. The 1839 Darkroom Workshop</button>
+      <button class="tab-btn" data-tab="inspector">2. The "Mirror with a Memory" (3D Tilt)</button>
+      <button class="tab-btn" data-tab="dossier">3. The Arago Dossier & Science</button>
+    </div>
+
+    <!-- TAB 1: WORKSHOP -->
+    <div id="workshopTab" class="tab-content active">
+      <!-- Step Navigator -->
+      <div class="step-nav">
+        <button class="step-nav-btn active" data-step="1">
+          <strong>Step 1: Polish</strong>
+          <span>Buff silver plate to mirror</span>
+        </button>
+        <button class="step-nav-btn" data-step="2">
+          <strong>Step 2: Sensitize</strong>
+          <span>Iodine vapor thin film</span>
+        </button>
+        <button class="step-nav-btn" data-step="3">
+          <strong>Step 3: Camera Pose</strong>
+          <span>Expose in Giroux camera</span>
+        </button>
+        <button class="step-nav-btn" data-step="4">
+          <strong>Step 4: Mercury Bath</strong>
+          <span>Develop latent image at 65°C</span>
+        </button>
+        <button class="step-nav-btn" data-step="5">
+          <strong>Step 5: Fix & Tone</strong>
+          <span>Hypo bath & Fizeau gold</span>
+        </button>
+      </div>
+
+      <!-- STEP 1: POLISH -->
+      <div id="step1" class="workshop-step active">
+        <div class="studio-grid">
+          <div class="canvas-panel">
+            <div class="canvas-container" id="polishArea" title="Drag across plate in parallel strokes to polish">
+              <canvas id="polishCanvas" width="560" height="380"></canvas>
+            </div>
+            <div class="plate-tilt-tip">Drag your cursor or finger horizontally across the plate to buff with jeweller's rouge.</div>
+          </div>
+          <div class="control-panel">
+            <div class="panel-title">I. Le Polissage (Plate Preparation)</div>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">
+              A heavy copper plate clad with pure silver (<em>doublé d'argent</em>) must be polished to an immaculate optical mirror. Any scratch scatters light and ruins contrast.
+            </p>
+            <div class="param-group">
+              <label>Polish Progress: <strong id="polishProgressVal">0%</strong></label>
+              <label>Surface Roughness Ra: <strong id="surfaceRoughnessVal">1.200 µm (Cloudy)</strong></label>
+            </div>
+            <button id="autoPolishBtn" class="btn">⚡ Quick Prep (Auto-Polish)</button>
+            <div class="info-box">
+              <strong>Historical Rule:</strong> In 1839, Daguerre warned that circular buffing creates cross-hatched micro-grooves. Parallel horizontal strokes align scratch diffraction away from the eye.
+            </div>
+            <button id="step1NextBtn" class="btn btn-primary" onclick="document.querySelector('[data-step=\'2\']').click()" disabled>Proceed to Sensitizing →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2: SENSITIZE -->
+      <div id="step2" class="workshop-step">
+        <div class="studio-grid">
+          <div class="canvas-panel">
+            <div class="canvas-container">
+              <canvas id="sensitizeCanvas" width="560" height="380"></canvas>
+            </div>
+            <div class="plate-tilt-tip">Watch thin-film interference shift color as silver iodide nanolayer grows.</div>
+          </div>
+          <div class="control-panel">
+            <div class="panel-title">II. La Sensibilisation (Iodine Box)</div>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">
+              In an amber darkroom, place the plate face-down over sublimating iodine crystals. Nanoscale AgI thickness creates vivid thin-film interference.
+            </p>
+            <div class="param-group">
+              <label>AgI Film Thickness: <strong id="sensitizeSpeedVal">0% Speed</strong></label>
+              <div id="sensitizeColorBox" class="color-swatch-box">
+                <span id="sensitizeColorLabel">Bare Silver Mirror (~0 nm)</span>
+              </div>
+              <input type="range" id="sensitizeSlider" min="0" max="130" value="0" step="1">
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+              <button id="toggleFumingBtn" class="btn" style="flex: 1;">Open Iodine Box (Fume)</button>
+              <button id="optimalSensitizeBtn" class="btn btn-primary" title="Snap to 72nm steel lavender peak">Set Optimal</button>
+            </div>
+            <div class="info-box">
+              <strong>Target Tint:</strong> Daguerre & Arago noted that <em>steel lavender/blue</em> (~72 nm) gives maximum speed. Yellow is too sluggish; green is over-iodized and solarizes instantly.
+            </div>
+            <button id="step2NextBtn" class="btn btn-primary" onclick="document.querySelector('[data-step=\'3\']').click()" disabled>Mount in Camera →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 3: CAMERA EXPOSURE -->
+      <div id="step3" class="workshop-step">
+        <div class="studio-grid">
+          <div class="canvas-panel">
+            <div style="display: flex; gap: 1rem; width: 100%; flex-wrap: wrap;">
+              <div style="flex: 1; min-width: 260px;">
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.3rem;">Real World Scene (1838-1839)</div>
+                <div class="canvas-container">
+                  <canvas id="cameraCanvas" width="280" height="210"></canvas>
+                </div>
+              </div>
+              <div style="flex: 1; min-width: 260px;">
+                <div style="font-size: 0.8rem; color: var(--accent-gold); margin-bottom: 0.3rem;">Camera Obscura Viewfinder (Inverted)</div>
+                <div class="canvas-container">
+                  <canvas id="groundGlassCanvas" width="280" height="210"></canvas>
+                </div>
+              </div>
+            </div>
+            <div style="width: 100%; margin-top: 0.5rem;">
+              <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 0.3rem;">
+                <span>Exposure Pose Timer:</span>
+                <strong id="poseProgressSec">0.0 s / 240 s</strong>
+              </div>
+              <div class="progress-bar-wrap">
+                <div id="exposureProgressBar" class="progress-bar-fill"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="control-panel">
+            <div class="panel-title">III. La Pose (Camera Obscura)</div>
+            <div class="param-group">
+              <label>Historic Scene:</label>
+              <select id="sceneSelect">
+                <option value="boulevard">Boulevard du Temple (Vanishing traffic & shoe-shiner)</option>
+                <option value="portrait">The Studio Portrait (Sitter & Neck-Clamp)</option>
+                <option value="notredame">Notre-Dame Cathedral (Solarization test)</option>
+              </select>
+            </div>
+            <div id="sceneDesc" style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.3;"></div>
+
+            <div id="neckClampGroup" class="param-group" style="display: none;">
+              <label style="color: var(--accent-gold);">
+                <input type="checkbox" id="neckClampToggle" checked>
+                <strong>Lock Iron Neck-Clamp (Appui-Tête)</strong>
+              </label>
+              <span style="font-size: 0.78rem; color: var(--text-muted);">When unlocked, involuntary human breathing & sway causes double-contour motion blur!</span>
+            </div>
+
+            <div class="param-group">
+              <label>Lighting Condition:
+                <select id="weatherSelect">
+                  <option value="sun">Direct Noon Sunlight (85,000 lux)</option>
+                  <option value="hazy">Hazy Morning Sunlight (40,000 lux)</option>
+                  <option value="overcast">Overcast Paris Sky (15,000 lux)</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="param-group">
+              <label>Lens Doublet Aperture:
+                <select id="apertureSelect">
+                  <option value="14.0">f/14 (Chevalier Landscape Doublet)</option>
+                  <option value="16.0">f/16 (Slow Sharp Landscape)</option>
+                  <option value="11.0">f/11 (Studio Portrait)</option>
+                  <option value="3.6">f/3.6 (1840 Petzval Fast Portrait)</option>
+                </select>
+              </label>
+            </div>
+
+            <div class="param-group">
+              <label>Target Pose Duration: <strong id="targetExposureVal">240 s (4.0 min)</strong></label>
+              <input type="range" id="targetExposureSec" min="5" max="600" value="240" step="5">
+            </div>
+
+            <button id="lensCapBtn" class="btn btn-primary">Remove Lens Cap (Start Pose)</button>
+            <div id="exposureSummary" class="info-box" style="font-size: 0.82rem;">
+              Plate waiting for exposure. Remove brass lens cap to begin photon collection.
+            </div>
+            <button id="step3NextBtn" class="btn btn-primary" onclick="document.querySelector('[data-step=\'4\']').click()" disabled>Take Plate to Mercury Bath →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 4: MERCURY FUMING -->
+      <div id="step4" class="workshop-step">
+        <div class="studio-grid">
+          <div class="canvas-panel">
+            <div class="canvas-container">
+              <canvas id="mercuryCanvas" width="560" height="380"></canvas>
+            </div>
+            <div class="plate-tilt-tip">Inspection window: Mercury vapor at 65°C nucleates amalgam crystals on exposed silver speckles.</div>
+          </div>
+          <div class="control-panel">
+            <div class="panel-title">IV. Le Développement au Mercure</div>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">
+              Place the exposed plate at 45° over heated mercury. Vapors selectively amalgamate with the invisible photolytic silver latent image.
+            </p>
+            <div class="param-group">
+              <label>Spirit Lamp Temp: <strong id="tempVal">65°C</strong></label>
+              <input type="range" id="tempSlider" min="20" max="95" value="65" step="1">
+            </div>
+            <div class="param-group">
+              <label>Fuming Time: <strong id="mercuryTimeVal">0 s</strong></label>
+              <label>State: <strong id="mercuryStatusVal">Undeveloped</strong></label>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+              <button id="toggleMercuryBtn" class="btn" style="flex: 1;">Place Plate Over Mercury Vapor</button>
+              <button id="autoDevelopBtn" class="btn btn-primary">Optimal 65°C</button>
+            </div>
+            <div class="info-box">
+              <strong>Chemical Fog Warning:</strong> Above 75°C or after 2 minutes, excess mercury precipitates unselectively across shadows, destroying contrast with a milky grey veil.
+            </div>
+            <button id="step4NextBtn" class="btn btn-primary" onclick="document.querySelector('[data-step=\'5\']').click()" disabled>Rinse & Fix Plate →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 5: FIX & GOLD TONE -->
+      <div id="step5" class="workshop-step">
+        <div class="studio-grid">
+          <div class="canvas-panel">
+            <div class="canvas-container">
+              <canvas id="fixCanvas" width="560" height="380" style="display: none;"></canvas>
+            </div>
+            <div style="text-align: center; padding: 2rem 1rem;">
+              <div style="font-size: 3rem; margin-bottom: 1rem;">✨ 🖼️ ✨</div>
+              <h3 style="font-family: var(--font-serif); color: var(--accent-gold); margin-bottom: 0.5rem;">Chemical Fixation & Gold Gilding</h3>
+              <p style="color: var(--text-muted); max-width: 480px; margin: 0 auto; font-size: 0.9rem;">
+                Dissolve the unexposed yellow AgI in sodium thiosulfate (hypo) to unlock the deep mirror shadows, then apply Fizeau gold toning for permanence and contrast.
+              </p>
+            </div>
+          </div>
+          <div class="control-panel">
+            <div class="panel-title">V. Fixage & Virage à l'Or</div>
+            <div class="param-group">
+              <button id="fixBathBtn" class="btn btn-primary">1. Bathe in Sodium Thiosulfate (Hypo)</button>
+              <div id="fixStatus" style="font-size: 0.8rem; color: var(--text-muted);">Washes unexposed yellow silver iodide to reveal deep mirror.</div>
+            </div>
+            <div class="param-group">
+              <button id="goldToneBtn" class="btn" disabled>2. Apply Fizeau Gold Toning (AuCl₃)</button>
+              <div id="goldStatus" style="font-size: 0.8rem; color: var(--text-muted);">Heats gold chloride to double tonal contrast and prevent sulfur tarnishing.</div>
+            </div>
+            <div class="info-box">
+              <strong>The 1840 Fizeau Breakthrough:</strong> Armand Fizeau introduced gold chloride gilding. Gold atoms replace silver at the amalgam boundaries, dramatically deepening the black reflection.
+            </div>
+            <button id="finishPlateBtn" class="btn btn-primary" style="margin-top: 1rem;">Case & Inspect Finished Daguerreotype →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: INSPECTOR & 3D TILT -->
+    <div id="inspectorTab" class="tab-content">
+      <div class="inspector-layout">
+        <div class="inspector-canvas-panel">
+          <div id="inspectorModeLabel" style="font-size: 0.9rem; text-align: center; min-height: 24px;"></div>
+          <div class="canvas-container" title="Drag to tilt plate in 3D under room light">
+            <canvas id="inspectCanvas" width="620" height="480"></canvas>
+          </div>
+          <div class="plate-tilt-tip">
+            <strong>Interactive Tilt:</strong> Drag your mouse / finger across the case to rotate the plate. When tilted toward dark velvet, it's a <strong>Positive</strong>; when tilted to catch light glare, it inverts to a <strong>Negative</strong>!
+          </div>
+          <div class="loupe-container">
+            <canvas id="loupeCanvas" width="220" height="220"></canvas>
+          </div>
+        </div>
+
+        <div class="control-panel">
+          <div class="panel-title">The "Mirror with a Memory"</div>
+          <p style="font-size: 0.84rem; color: var(--text-muted);">
+            A daguerreotype is a physical silver mirror with mercury amalgam highlights. Its dual positive/negative optical nature mesmerized the world in 1839.
+          </p>
+
+          <div class="param-group">
+            <label>Horizontal Tilt: <strong id="tiltValX">0°</strong></label>
+            <input type="range" id="tiltSliderX" min="-40" max="40" value="0" step="1">
+          </div>
+
+          <div class="param-group">
+            <label>Vertical Tilt: <strong id="tiltValY">0°</strong></label>
+            <input type="range" id="tiltSliderY" min="-40" max="40" value="0" step="1">
+          </div>
+
+          <div style="display: flex; gap: 0.5rem;">
+            <button id="tiltPresetPositive" class="btn btn-primary" style="flex: 1;">Dark Velvet (Positive)</button>
+            <button id="tiltPresetNegative" class="btn btn-danger" style="flex: 1;">Light Glare (Negative)</button>
+          </div>
+
+          <button id="toggleLoupeBtn" class="btn">Toggle 10x Watchmaker's Loupe</button>
+          <button id="downloadPlateBtn" class="btn">💾 Export Plate as PNG</button>
+
+          <div class="panel-title" style="margin-top: 0.5rem;">Studio Archive</div>
+          <div id="galleryList" class="gallery-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: THE ARAGO DOSSIER & SCIENCE -->
+    <div id="dossierTab" class="tab-content">
+      <div class="dossier-wrap">
+        <h2>The 1839 Daguerreotype: France's Gift to the World</h2>
+        <p>
+          On <strong>August 19, 1839</strong>, François Arago (permanent secretary of the French Académie des Sciences and member of the Chamber of Deputies) presented the secrets of Louis-Jacques-Mandé Daguerre's photographic process to a packed joint session of the Académie des Sciences and the Académie des Beaux-Arts at the Institut de France in Paris.
+        </p>
+        <p>
+          Rather than keeping the patent restricted, the French State purchased the invention in exchange for lifetime pensions to Daguerre (6,000 francs/year) and Isidore Niépce (4,000 francs/year), declaring photography <em>"a gift free to the entire world"</em> (with the curious exception of England, where Daguerre had secretly registered patent No. 8194 five days prior!).
+        </p>
+
+        <h3>1. The Chemistry of the Amalgam Latent Image</h3>
+        <p>
+          Unlike modern gelatin silver film which relies on chemical developers, the Daguerreotype is a surface amalgam reaction:
+        </p>
+        <div class="chem-box">
+          1. Sensitization:   2 Ag + I₂ → 2 AgI (nanoscale thin film)<br>
+          2. Exposure:        AgI + hν → Ag⁰ + I (photolytic silver sub-clusters)<br>
+          3. Development:     3 Ag⁰ + 4 Hg(g) → Ag₃Hg₄ (crystals at 65°C)<br>
+          4. Fixation:        AgI + 2 Na₂S₂O₃ → Na₃[Ag(S₂O₃)₂] + NaI (dissolved)
+        </div>
+        <p>
+          When mercury vapor reaches the plate at 65°C, mercury atoms condense preferentially onto the metallic silver photolytic nuclei, precipitating <strong>silver-mercury amalgam ($\text{Ag}_3\text{Hg}_4$) microcrystals</strong> ranging from 0.1 to 2 µm in diameter.
+        </p>
+
+        <h3>2. Why Moving Objects Vanish: The Boulevard du Temple Paradox</h3>
+        <p>
+          In Daguerre's famous 1838 photograph of the <em>Boulevard du Temple</em> (the earliest verified photograph containing human figures), the bustling Parisian boulevard appears completely deserted save for a man having his boots shined on the corner sidewalk.
+        </p>
+        <p>
+          The math of continuous exposure integration explains this phenomenon:
+        </p>
+        <div class="chem-box">
+          I_apparent(x,y) = (1 / T_exposure) · ∫[0 to T] I_world(x,y,t) dt
+        </div>
+        <p>
+          A horse carriage trotting past takes ~8 seconds to cross a street section. During an 8-minute (480 s) exposure, its photon contribution is only $8 / 480 \approx 1.6\%$ of the total background exposure—far below the optical perception threshold! The bootblack and his customer, however, stayed stationary for over 3 minutes ($>70\%$ of the exposure), burning their permanent silver impression into history.
+        </p>
+
+        <h3>3. The "Mirror with a Memory" Optical Flip</h3>
+        <p>
+          Oliver Wendell Holmes famously dubbed the daguerreotype <em>"the mirror with a memory"</em> in 1859. The image possesses no pigment, ink, or gelatin:
+        </p>
+        <ul>
+          <li><strong>Shadows:</strong> Bare, polished silver mirror ($R_{\text{specular}} \approx 96\%$). When tilted to reflect a dark coat or velvet case, shadows appear pitch black.</li>
+          <li><strong>Highlights:</strong> Microscopic chalky white mercury amalgam crystals that scatter light diffusely ($R_{\text{diffuse}} \approx 65\%$).</li>
+          <li><strong>Negative Inversion:</strong> When tilted so the mirror catches a bright window or lamp glare ($L_{\text{env}} \gg E_{\text{ambient}}$), the mirror reflects brilliant specular white, completely overpowering the diffuse amalgam highlights and instantly flipping the image into a ghostly negative!</li>
+        </ul>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>
+      <strong>1839 Daguerreotype Studio</strong> · Built by Gemini 3.7 Flash · Released under the <a href="../LICENSE">MIT License</a> · Part of <a href="../">daily-slop</a>
+    </p>
+  </footer>
+
+  <script src="engine.js"></script>
+  <script src="audio.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
