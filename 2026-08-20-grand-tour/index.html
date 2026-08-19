@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Voyager 2 Grand Tour · Gravity Assist Simulator</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Top Header -->
+    <header class="app-header">
+      <div class="header-left">
+        <div class="mission-badge">NASA · JPL · 1977–2026</div>
+        <h1 class="app-title">VOYAGER 2 GRAND TOUR</h1>
+        <p class="app-subtitle">49th Anniversary Gravity Assist & Orbital Mechanics Simulator</p>
+      </div>
+
+      <div class="header-center">
+        <div class="telemetry-pill">
+          <span class="telemetry-dot live-pulse"></span>
+          <span class="pill-label">STATUS:</span>
+          <span id="header-phase" class="pill-value">Interstellar Medium</span>
+        </div>
+        <div class="telemetry-pill">
+          <span class="pill-label">MET:</span>
+          <span id="header-day" class="pill-value">Day 17,897</span>
+        </div>
+        <div class="telemetry-pill">
+          <span class="pill-label">DATE:</span>
+          <span id="header-date" class="pill-value">2026-08-20</span>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <nav class="view-tabs">
+          <button class="tab-btn active" data-tab="macro">Solar System</button>
+          <button class="tab-btn" data-tab="encounter">Encounter Chamber</button>
+          <button class="tab-btn" data-tab="record">Golden Record</button>
+          <button class="tab-btn" data-tab="sandbox">Slingshot Sandbox</button>
+        </nav>
+        <button id="mute-btn" class="icon-btn" title="Toggle Audio">🔊</button>
+      </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="app-main">
+      <!-- Main Center Stage Viewport -->
+      <section class="stage-section">
+        <div class="canvas-wrapper">
+          <canvas id="main-canvas"></canvas>
+
+          <!-- Floating Overlay Controls on Canvas -->
+          <div class="stage-overlay top-left">
+            <div id="view-mode-title" class="overlay-heading">HELIOCENTRIC GRAND TOUR MAP</div>
+            <div id="view-mode-desc" class="overlay-subtext">Patched-conic trajectory across Jupiter, Saturn, Uranus, and Neptune</div>
+          </div>
+
+          <div class="stage-overlay top-right" id="encounter-selector-box" style="display: none;">
+            <span class="overlay-tag">SELECT ENCOUNTER:</span>
+            <div class="encounter-btn-group">
+              <button class="encounter-btn active" data-planet="JUPITER">Jupiter '79</button>
+              <button class="encounter-btn" data-planet="SATURN">Saturn '81</button>
+              <button class="encounter-btn" data-planet="URANUS">Uranus '86</button>
+              <button class="encounter-btn" data-planet="NEPTUNE">Neptune '89</button>
+            </div>
+          </div>
+
+          <!-- Canvas Zoom/Pan Controls -->
+          <div class="stage-overlay bottom-right canvas-tools">
+            <button id="zoom-in-btn" class="tool-btn" title="Zoom In">+</button>
+            <button id="zoom-out-btn" class="tool-btn" title="Zoom Out">−</button>
+            <button id="reset-view-btn" class="tool-btn" title="Reset View">⊙</button>
+          </div>
+        </div>
+
+        <!-- Bottom Playback & Timeline Controls -->
+        <footer class="timeline-bar">
+          <div class="playback-controls">
+            <button id="play-pause-btn" class="play-btn">⏸ PAUSE</button>
+            <div class="speed-selector">
+              <span class="speed-label">SPEED:</span>
+              <button class="speed-btn" data-speed="1">1×</button>
+              <button class="speed-btn" data-speed="30">30×</button>
+              <button class="speed-btn active" data-speed="120">120×</button>
+              <button class="speed-btn" data-speed="600">600×</button>
+            </div>
+          </div>
+
+          <div class="scrubber-container">
+            <div class="scrubber-track-wrapper">
+              <input type="range" id="time-slider" min="0" max="18000" step="1" value="17897">
+              <div class="milestone-markers">
+                <span class="marker" style="left: 0%;" title="Launch: 1977-08-20">Launch '77</span>
+                <span class="marker" style="left: 3.82%;" title="Jupiter Flyby: 1979-07-09">Jupiter '79</span>
+                <span class="marker" style="left: 8.14%;" title="Saturn Flyby: 1981-08-25">Saturn '81</span>
+                <span class="marker" style="left: 17.1%;" title="Uranus Flyby: 1986-01-24">Uranus '86</span>
+                <span class="marker" style="left: 24.38%;" title="Neptune Flyby: 1989-08-25">Neptune '89</span>
+                <span class="marker" style="left: 83.62%;" title="Heliopause: 2018-11-05">Heliopause '18</span>
+                <span class="marker" style="left: 99.4%;" title="49th Anniversary: 2026-08-20">Present '26</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="quick-jumps">
+            <button class="jump-btn" data-day="0">🚀 Launch</button>
+            <button class="jump-btn" data-day="688">🪐 Jupiter</button>
+            <button class="jump-btn" data-day="1466">💍 Saturn</button>
+            <button class="jump-btn" data-day="3079">❄️ Uranus</button>
+            <button class="jump-btn" data-day="4388">🌊 Neptune</button>
+            <button class="jump-btn" data-day="15052">⚡ Heliopause</button>
+            <button class="jump-btn active" data-day="17897">📡 Present (2026)</button>
+          </div>
+        </footer>
+      </section>
+
+      <!-- Right Analytics & Telemetry Sidebar -->
+      <aside class="sidebar-section">
+        <!-- Live Telemetry Card Group -->
+        <div class="sidebar-card telemetry-card">
+          <div class="card-header">
+            <h3>VOYAGER 2 REAL-TIME TELEMETRY</h3>
+            <span class="badge live-badge">DSN SYNC</span>
+          </div>
+          <div class="telemetry-grid">
+            <div class="data-block">
+              <div class="data-label">HELIOCENTRIC DISTANCE</div>
+              <div class="data-value highlight" id="data-dist-au">138.54 <span class="unit">AU</span></div>
+              <div class="data-sub" id="data-dist-km">20.725 billion km</div>
+            </div>
+            <div class="data-block">
+              <div class="data-label">HELIOCENTRIC SPEED</div>
+              <div class="data-value" id="data-speed">15.12 <span class="unit">km/s</span></div>
+              <div class="data-sub" id="data-speed-escape">Escape: 3.58 km/s (Escaping)</div>
+            </div>
+            <div class="data-block">
+              <div class="data-label">LIGHT TRAVEL TIME</div>
+              <div class="data-value" id="data-light-time">19h 12m 44s</div>
+              <div class="data-sub" id="data-light-round">Round-trip: 38h 25m 28s</div>
+            </div>
+            <div class="data-block">
+              <div class="data-label">RTG POWER (Pu-238)</div>
+              <div class="data-value" id="data-rtg-power">228.4 <span class="unit">Watts</span></div>
+              <div class="data-sub" id="data-rtg-status">48.6% of Launch (470 W)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Velocity vs Distance Chart Card -->
+        <div class="sidebar-card chart-card">
+          <div class="card-header">
+            <h3>SPEED VS DISTANCE · GRAVITY KICKS</h3>
+            <span class="badge formula-badge">v(r) vs v_esc</span>
+          </div>
+          <div class="chart-wrapper">
+            <canvas id="speed-chart-canvas" width="340" height="150"></canvas>
+          </div>
+          <div class="chart-legend">
+            <span class="legend-item"><span class="color-dot sc-color"></span> Probe Speed v(r)</span>
+            <span class="legend-item"><span class="color-dot esc-color"></span> Solar Escape v_esc(r)</span>
+            <span class="legend-item"><span class="color-dot kick-color"></span> Flyby Boost</span>
+          </div>
+        </div>
+
+        <!-- Physics Mechanism Card -->
+        <div class="sidebar-card physics-card" id="physics-card-content">
+          <div class="card-header">
+            <h3 id="physics-card-title">GRAVITY ASSIST MECHANICS</h3>
+            <span class="badge math-badge">HYPERBOLIC TURN</span>
+          </div>
+          <div class="physics-body" id="physics-explanation">
+            <p class="formula-line">$$\sin(\delta/2) = \frac{1}{1 + \frac{r_p v_\infty^2}{\mu_p}}$$</p>
+            <p class="formula-line">$$\Delta \vec{v}_{helio} = \vec{v}_\infty' - \vec{v}_\infty$$</p>
+            <p class="physics-desc">
+              In the planet's gravitational frame, energy is conserved: \(|\vec{v}_\infty'| = |\vec{v}_\infty|\).
+              Passing <em>behind</em> the planet rotates \(\vec{v}_\infty\) along the planet's orbital vector \(\vec{v}_p\), transferring planetary orbital kinetic energy directly into heliocentric speed!
+            </p>
+            <div class="energy-ledger">
+              <div class="ledger-row">
+                <span>Spacecraft \(\Delta v\) Gain:</span>
+                <strong id="ledger-sc-gain">+15.2 km/s</strong>
+              </div>
+              <div class="ledger-row">
+                <span>Kinetic Energy Stolen:</span>
+                <strong id="ledger-energy-stolen">1.88 × 10¹¹ J</strong>
+              </div>
+              <div class="ledger-row">
+                <span>Giant Planet Deceleration:</span>
+                <strong id="ledger-planet-slow">~10⁻²⁴ m/s (undetectable)</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sandbox Panel (Active when in sandbox mode) -->
+        <div class="sidebar-card sandbox-card" id="sandbox-controls-card" style="display: none;">
+          <div class="card-header">
+            <h3>PILOT THE SLINGSHOT</h3>
+            <span class="badge sandbox-badge">SANDBOX</span>
+          </div>
+          <div class="sandbox-controls">
+            <div class="slider-field">
+              <label>Earth Injection \(\Delta v\): <span id="val-inject-dv">9.5 km/s</span></label>
+              <input type="range" id="input-inject-dv" min="5.0" max="14.0" step="0.1" value="9.5">
+            </div>
+
+            <div class="slider-field">
+              <label>Jupiter Aim Point (\(b/r_p\)): <span id="val-aim-offset">+1.0 (Trailing)</span></label>
+              <input type="range" id="input-aim-offset" min="-2.0" max="2.0" step="0.1" value="1.0">
+            </div>
+
+            <div class="sandbox-outcome" id="sandbox-outcome-box">
+              <div class="outcome-title" id="sandbox-outcome-title">GRAND TOUR CORRIDOR</div>
+              <div class="outcome-desc" id="sandbox-outcome-desc">Perfect 4-planet alignment achieved. Solar escape velocity exceeded!</div>
+            </div>
+
+            <button id="run-sandbox-btn" class="btn primary-btn">🚀 Fire Test Trajectory</button>
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <script src="engine.js"></script>
+  <script src="audio.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

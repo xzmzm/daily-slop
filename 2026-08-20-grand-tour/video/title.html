@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>grand-tour · video card</title>
+  <style>
+    :root {
+      --ink: #f0f4fc;
+      --dim: #94a3b8;
+      --cyan: #00f2fe;
+      --blue: #38bdf8;
+      --gold: #f59e0b;
+      --amber: #fbbf24;
+      --magenta: #ec4899;
+      --green: #10b981;
+    }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; }
+    body {
+      overflow: hidden; color: var(--ink);
+      background: radial-gradient(circle at 70% 30%, #0c1836 0%, #080f24 55%, #050811 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans GB", "STHeiti", "Outfit", sans-serif;
+    }
+    .card {
+      position: relative; width: 100%; height: 100%;
+      display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 64px;
+      padding: 60px 80px;
+    }
+    .scene { position: relative; width: 460px; height: 440px; flex: none; }
+    .scene svg { width: 100%; height: 100%; filter: drop-shadow(0 14px 44px rgba(0,242,254,.25)); }
+    .copy { max-width: 640px; }
+    .eyebrow {
+      color: var(--cyan); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 2.5px; font-size: 14px; text-transform: uppercase; margin-bottom: 18px;
+    }
+    h1 { margin: 0; font-size: 78px; line-height: .96; letter-spacing: -2px; font-weight: 800; }
+    h1 .ox { color: var(--gold); }
+    h2 {
+      margin: 20px 0 0; font-size: 25px; line-height: 1.36; font-weight: 500;
+      color: #cbd5e1; max-width: 600px;
+    }
+    .meta { display: flex; align-items: center; gap: 12px; margin-top: 30px; color: var(--dim); font-size: 15px; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--green); box-shadow: 0 0 18px rgba(16,185,129,.7); }
+    .formula {
+      margin-top: 26px; color: var(--cyan); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 21px; letter-spacing: 0.5px;
+    }
+    .formula .num { color: var(--amber); }
+    .formula small { color: var(--dim); font-size: 14px; display: block; margin-top: 6px; letter-spacing: .5px;
+      font-family: -apple-system, sans-serif; }
+    .stamp {
+      position: absolute; right: 78px; bottom: 60px;
+      color: var(--cyan); border: 2px solid var(--cyan); border-radius: 6px;
+      font: 700 14px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: 3px;
+      padding: 8px 16px; transform: rotate(-4deg); opacity: .9;
+      box-shadow: 0 0 15px rgba(0,242,254,0.2);
+    }
+    .scene.end { display: none; }
+    body[data-scene="end"] .scene.intro { display: none; }
+    body[data-scene="end"] .scene.end { display: block; }
+  </style>
+</head>
+<body data-scene="intro">
+<script>
+  const scene = new URLSearchParams(location.search).get('scene') || 'intro';
+  document.body.dataset.scene = scene;
+</script>
+<div class="card">
+  <!-- Intro Scene Art: Voyager 2 & 4 Gas Giants -->
+  <div class="scene intro">
+    <svg viewBox="0 0 460 440" aria-hidden="true">
+      <defs>
+        <radialGradient id="dishGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="50%" stop-color="#38bdf8"/>
+          <stop offset="100%" stop-color="rgba(0,242,254,0)"/>
+        </radialGradient>
+        <linearGradient id="orbitArc" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#00f2fe"/>
+          <stop offset="35%" stop-color="#f59e0b"/>
+          <stop offset="70%" stop-color="#7ce8e2"/>
+          <stop offset="100%" stop-color="#3b82f6"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Background Orbit Arc Corridor -->
+      <path d="M 40 380 Q 180 80 420 180" fill="none" stroke="url(#orbitArc)" stroke-width="4" stroke-linecap="round" opacity="0.85"/>
+      <path d="M 40 380 Q 180 80 420 180" fill="none" stroke="#ffffff" stroke-width="1.5" stroke-dasharray="6 6"/>
+
+      <!-- Jupiter -->
+      <circle cx="150" cy="180" r="34" fill="#e0ae6f"/>
+      <ellipse cx="160" cy="188" rx="8" ry="5" fill="#d9534f"/>
+
+      <!-- Saturn -->
+      <circle cx="260" cy="130" r="22" fill="#e2c58e"/>
+      <ellipse cx="260" cy="130" rx="42" ry="10" fill="none" stroke="#fef08a" stroke-width="5" transform="rotate(-20 260 130)"/>
+
+      <!-- Uranus -->
+      <circle cx="350" cy="140" r="16" fill="#7ce8e2"/>
+
+      <!-- Neptune -->
+      <circle cx="410" cy="185" r="15" fill="#3b82f6"/>
+
+      <!-- Voyager 2 Spacecraft -->
+      <g transform="translate(80, 310) rotate(-35)">
+        <!-- Dish -->
+        <ellipse cx="0" cy="0" rx="38" ry="14" fill="#f8fafc" stroke="#94a3b8" stroke-width="2"/>
+        <line x1="0" y1="0" x2="0" y2="-25" stroke="#cbd5e1" stroke-width="3"/>
+        <circle cx="0" cy="-25" r="4" fill="#00f2fe"/>
+        <!-- Bus & Booms -->
+        <rect x="-14" y="0" width="28" height="22" fill="#334155" rx="3"/>
+        <line x1="-14" y1="12" x2="-65" y2="25" stroke="#64748b" stroke-width="2.5"/> <!-- Magnetometer -->
+        <rect x="-68" y="22" width="12" height="6" fill="#f59e0b"/>
+        <line x1="14" y1="12" x2="55" y2="18" stroke="#64748b" stroke-width="2.5"/> <!-- RTG boom -->
+        <rect x="52" y="14" width="16" height="8" fill="#475569"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- End Scene Art: Golden Record -->
+  <div class="scene end">
+    <svg viewBox="0 0 460 440" aria-hidden="true">
+      <defs>
+        <radialGradient id="goldPlate" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#fde68a"/>
+          <stop offset="30%" stop-color="#f59e0b"/>
+          <stop offset="70%" stop-color="#d97706"/>
+          <stop offset="100%" stop-color="#92400e"/>
+        </radialGradient>
+      </defs>
+      <!-- Golden Record -->
+      <circle cx="230" cy="220" r="165" fill="url(#goldPlate)" stroke="#fef08a" stroke-width="3"/>
+      <!-- Grooves -->
+      <circle cx="230" cy="220" r="140" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"/>
+      <circle cx="230" cy="220" r="115" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+      <circle cx="230" cy="220" r="90" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+      <!-- Center Hub -->
+      <circle cx="230" cy="220" r="35" fill="#050811"/>
+      <circle cx="230" cy="220" r="10" fill="#f59e0b"/>
+      <!-- Pulsar Map -->
+      <g stroke="#ffffff" stroke-width="2" opacity="0.8">
+        <line x1="230" y1="220" x2="140" y2="130"/>
+        <line x1="230" y1="220" x2="310" y2="120"/>
+        <line x1="230" y1="220" x2="340" y2="240"/>
+        <line x1="230" y1="220" x2="280" y2="330"/>
+        <line x1="230" y1="220" x2="160" y2="310"/>
+        <line x1="230" y1="220" x2="110" y2="230"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="copy">
+    <div class="eyebrow">August 20, 1977 · NASA Voyager 2</div>
+    <h1>GRAND <span class="ox">TOUR</span></h1>
+    <h2>176 年一遇的四星连珠引力弹弓与星际航行</h2>
+    <div class="meta">
+      <span class="dot"></span>
+      <span>木星 · 土星 · 天王星 · 海王星 · 日球层顶 (119.7 AU) · 星际介质</span>
+    </div>
+    <div class="formula">
+      sin(δ/2) = <span class="num">1 / (1 + r_p · v_∞² / μ)</span>
+      <small>双曲线引力转向角 · Heliocentric 动能无损充值 · 持续航行 49 年</small>
+    </div>
+  </div>
+
+  <div class="stamp">VOYAGER 2 · 138 AU</div>
+</div>
+</body>
+</html>
