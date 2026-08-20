@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1888 Burroughs Adding Machine — Mechanical Calculator & Listing Studio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Top Header -->
+    <header class="app-header">
+      <div class="header-brand">
+        <div class="patent-seal">
+          <span class="seal-year">1888</span>
+          <span class="seal-text">PATENTED</span>
+        </div>
+        <div class="header-titles">
+          <h1>BURROUGHS CALCULATING MACHINE</h1>
+          <p class="subtitle">Full-Keyboard Mechanical Adder, Tens-Carry Ripple & Oil Dashpot Governor — U.S. Patent No. 388,116 (Aug 21, 1888)</p>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <button id="soundToggleBtn" class="pill-btn active" title="Toggle Mechanical Audio">
+          <span class="icon">🔊</span> Sound <span class="state-text">ON</span>
+        </button>
+        <button id="helpModalBtn" class="pill-btn" title="View 1888 Manual & Engineering Guide">
+          <span class="icon">📖</span> 1888 Guide
+        </button>
+      </div>
+    </header>
+
+    <!-- Preset Scenario Selector -->
+    <nav class="scenario-bar">
+      <span class="scenario-label">Guided Labs:</span>
+      <button class="scenario-btn active" data-scenario="free">✦ Free Operation</button>
+      <button class="scenario-btn" data-scenario="carry-cascade">⚡ Tens-Carry Cascade ($99,999,999 + 1)</button>
+      <button class="scenario-btn" data-scenario="repeat-mult">✖ Repeat Multiplication ($425 × 4)</button>
+      <button class="scenario-btn" data-scenario="dashpot-fail">⚠ Dashpot Failure & Overthrow</button>
+      <button class="scenario-btn" data-scenario="bank-ledger">🏛 1888 Bank Ledger Audit</button>
+    </nav>
+
+    <!-- Main Workspace -->
+    <main class="main-layout">
+      <!-- Left: Physical Burroughs Console -->
+      <section class="machine-console">
+        <!-- Paper Tape Carriage -->
+        <div class="paper-carriage-housing">
+          <div class="paper-platen-bracket">
+            <div class="paper-tape-viewport" id="tapeViewport">
+              <div class="paper-tape" id="paperTape">
+                <!-- Paper lines injected via JS -->
+              </div>
+            </div>
+            <div class="paper-controls">
+              <button id="tearTapeBtn" class="tiny-btn" title="Tear off current audit strip">✂ Tear Tape</button>
+              <button id="copyTapeBtn" class="tiny-btn" title="Copy text listing">📋 Copy</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Glass Register Dial Viewing Window -->
+        <div class="register-window-frame">
+          <div class="glass-reflection"></div>
+          <div class="register-label">ACCUMULATOR REGISTER</div>
+          <div class="dial-register" id="dialRegister">
+            <!-- 9 dials 100M to 1s -->
+            <div class="dial-cell" data-col="0"><span class="dial-num">0</span><span class="col-tag">100M</span></div>
+            <div class="dial-cell" data-col="1"><span class="dial-num">0</span><span class="col-tag">10M</span></div>
+            <div class="dial-cell" data-col="2"><span class="dial-num">0</span><span class="col-tag">1M</span></div>
+            <div class="dial-sep">,</div>
+            <div class="dial-cell" data-col="3"><span class="dial-num">0</span><span class="col-tag">100K</span></div>
+            <div class="dial-cell" data-col="4"><span class="dial-num">0</span><span class="col-tag">10K</span></div>
+            <div class="dial-cell" data-col="5"><span class="dial-num">0</span><span class="col-tag">1K</span></div>
+            <div class="dial-sep">,</div>
+            <div class="dial-cell" data-col="6"><span class="dial-num">0</span><span class="col-tag">100s</span></div>
+            <div class="dial-cell" data-col="7"><span class="dial-num">0</span><span class="col-tag">10s</span></div>
+            <div class="dial-cell" data-col="8"><span class="dial-num">0</span><span class="col-tag">1s</span></div>
+          </div>
+        </div>
+
+        <!-- Full Matrix Keyboard & Operating Crank -->
+        <div class="keyboard-crank-section">
+          <!-- Special Function Keys (Left column) -->
+          <div class="function-key-column">
+            <button id="totalKey" class="func-key total-key" title="Total (*): Engages downstroke to read register, prints *, and clears to 0">
+              <span class="key-top">TOTAL<br><strong>*</strong></span>
+            </button>
+            <button id="subtotalKey" class="func-key subtotal-key" title="Subtotal (◇): Reads and prints total without clearing accumulator">
+              <span class="key-top">SUB<br>TOTAL<br><strong>◇</strong></span>
+            </button>
+            <button id="nonAddKey" class="func-key nonadd-key" title="Non-Add (#): Prints number on tape without accumulating">
+              <span class="key-top">NON<br>ADD<br><strong>#</strong></span>
+            </button>
+            <button id="repeatLever" class="func-key repeat-lever" title="Repeat Lever: Keeps keys down for repeated addition/multiplication">
+              <span class="key-top">REPEAT<br><span class="toggle-ind">OFF</span></span>
+            </button>
+            <button id="clearKey" class="func-key clear-key" title="Clear (C): Pops up all depressed keys">
+              <span class="key-top">ERROR<br>CLEAR</span>
+            </button>
+          </div>
+
+          <!-- 9x9 Keyboard Matrix -->
+          <div class="keyboard-matrix-container">
+            <div class="column-headers">
+              <span class="hdr-group">MILLIONS</span>
+              <span class="hdr-group">THOUSANDS</span>
+              <span class="hdr-group">UNITS</span>
+            </div>
+            <div class="keyboard-matrix" id="keyboardMatrix">
+              <!-- 81 buttons generated via JS -->
+            </div>
+            <div class="quick-input-bar">
+              <input type="number" id="quickNumInput" placeholder="Type number (e.g. 1425) + Enter" min="0" max="999999999">
+              <button id="quickEnterBtn" class="small-action-btn">Enter</button>
+            </div>
+          </div>
+
+          <!-- Operating Crank Handle -->
+          <div class="crank-assembly">
+            <div class="crank-shaft-plate">
+              <div class="crank-arm-visual" id="crankArmVisual">
+                <div class="crank-steel-rod"></div>
+                <div class="crank-wooden-grip" id="crankGrip">
+                  <span class="grip-texture"></span>
+                </div>
+              </div>
+            </div>
+            <button id="pullCrankBtn" class="crank-trigger-btn">
+              <span class="crank-btn-title">PULL CRANK</span>
+              <span class="crank-hint">Space / Enter</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right: Mechanical Cross-Section & Cutaway X-Ray -->
+      <section class="cutaway-section">
+        <div class="cutaway-header">
+          <div class="cutaway-title">
+            <h2>MECHANICAL CROSS-SECTION (X-RAY VIEW)</h2>
+            <span class="column-view-tag">Viewing Column:</span>
+            <select id="colSelect" class="col-dropdown">
+              <option value="0">Col 1 — 100,000,000s</option>
+              <option value="1">Col 2 — 10,000,000s</option>
+              <option value="2">Col 3 — 1,000,000s</option>
+              <option value="3">Col 4 — 100,000s</option>
+              <option value="4">Col 5 — 10,000s</option>
+              <option value="5">Col 6 — 1,000s</option>
+              <option value="6" selected>Col 7 — 100s</option>
+              <option value="7">Col 8 — 10s</option>
+              <option value="8">Col 9 — 1s / Units</option>
+            </select>
+          </div>
+
+          <div class="speed-controls">
+            <span class="speed-label">Cycle Speed:</span>
+            <button class="speed-btn active" data-speed="1.0">1.0x</button>
+            <button class="speed-btn" data-speed="0.3">0.3x</button>
+            <button class="speed-btn" data-speed="0.08">0.08x Slow-Mo</button>
+          </div>
+        </div>
+
+        <div class="canvas-container">
+          <canvas id="cutawayCanvas"></canvas>
+        </div>
+
+        <!-- Mechanical Controls & Dashpot Adjuster -->
+        <div class="cutaway-toolbox">
+          <div class="dashpot-slider-box">
+            <div class="slider-header">
+              <label for="viscositySlider"><strong>Oil Dashpot Viscosity (Damping Governor):</strong></label>
+              <span id="viscosityValText" class="viscosity-val">100% (Castor Oil)</span>
+            </div>
+            <input type="range" id="viscositySlider" min="0" max="100" value="100" step="5">
+            <div class="slider-ticks">
+              <span>0% (No Oil - Overthrow!)</span>
+              <span>50% (Light Mineral)</span>
+              <span>100% (Patent Specification)</span>
+            </div>
+          </div>
+
+          <div class="toolbox-toggles">
+            <label class="toggle-label">
+              <input type="checkbox" id="showLabelsToggle" checked> Callout Labels
+            </label>
+            <label class="toggle-label">
+              <input type="checkbox" id="showParticlesToggle" checked> Oil Flow Particles
+            </label>
+          </div>
+        </div>
+
+        <!-- Mechanical Principles Brief -->
+        <div class="mechanism-info-card">
+          <div class="phase-explainer" id="phaseExplainer">
+            <h3>How the 1888 Burroughs Mechanism Works</h3>
+            <p><strong>1. Differential Stop-Rack:</strong> Pressing a key pushes a steel pin down into the path of the sector rack. Pulling the crank lets the rack drop under spring tension until it hits that pin ($0 \le d \le 9$).</p>
+            <p><strong>2. Print Hammer Strike:</strong> At full handle pull, spring-loaded type hammers strike the inked ribbon against paper tape, printing the entered digits.</p>
+            <p><strong>3. Dashpot-Governed Return:</strong> An oil-filled dashpot regulates the return stroke speed. As the rack returns up to zero, it turns the accumulator pinion forward by $+d$ teeth. If it rolls past 9, it trips a carry latch.</p>
+            <p><strong>4. Sequential Carry Ripple:</strong> A right-to-left sweep cam ripples across decades, nudging each primed column by $+1$.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Educational Story / Guide Modal -->
+    <div class="modal-overlay" id="helpModal">
+      <div class="modal-card">
+        <button class="modal-close" id="modalCloseBtn">&times;</button>
+        <h2>The 1888 Burroughs Adding Machine</h2>
+        <div class="modal-body">
+          <p>On <strong>August 21, 1888</strong>, American inventor <strong>William Seward Burroughs</strong> was granted U.S. Patent No. <strong>388,116</strong> for his Calculating Machine.</p>
+          <p>Before Burroughs, bank clerks worked grueling 12–14 hour days adding massive columns of numbers in heavy paper ledgers. A single error meant hours of re-checking. Burroughs, a former bank clerk whose own health broke down from bookkeeping fatigue, spent seven years developing the first reliable calculating and printing machine.</p>
+
+          <h3>The Two Breakthroughs That Made It Practical</h3>
+          <ul>
+            <li><strong>The Hydraulic Dashpot (The Oil Damper):</strong> Early machines broke down or miscalculated because human operators jerked the handle with erratic force, causing gear teeth to overshoot their stops by inertia ("momentum overthrow"). Burroughs placed a piston inside a cylinder of oil with a calibrated bleed port. No matter how violently the clerk pulled the crank, fluid viscosity limited gear acceleration to a safe, constant speed!</li>
+            <li><strong>Total / Subtotal Register Reversal:</strong> To clear the accumulator and print the grand total (*), the machine reverses its gear mesh timing: it engages the accumulator pinions during the <em>downstroke</em>, winding the dials backward until they hit zero stops (which positions the racks and type hammers to the stored sum), then disengages before the return stroke—leaving the register cleanly zeroed!</li>
+          </ul>
+
+          <div class="patent-diagram-callout">
+            <strong>Key Hotkeys:</strong> <code>1-9</code> (Type Digits), <code>Space / Enter</code> (Pull Crank), <code>T</code> (Total), <code>S</code> (Subtotal), <code>R</code> (Repeat), <code>C</code> (Clear Keyboard).
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
