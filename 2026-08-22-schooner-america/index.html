@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Schooner America — 1851 America's Cup Aerodynamics & Wave-Line Studio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-brand">
+        <span class="eyebrow-badge">175th Anniversary · Aug 22, 1851</span>
+        <h1>Schooner America <em>1851</em></h1>
+        <p class="tagline">Aerodynamic Sail Physics, Wave-Line Hydrodynamics & Polar Velocity Studio</p>
+      </div>
+
+      <div class="header-actions">
+        <!-- Preset Scenario Selector -->
+        <div class="action-group">
+          <label for="scenario-select">Regatta Scenario:</label>
+          <select id="scenario-select">
+            <option value="historic-1851">1851 Historic Regatta (Cowes)</option>
+            <option value="upwind-beat">Upwind Close-Hauled Beat (40° TWA)</option>
+            <option value="beam-reach">Beam Reach Speed Sprint (90° TWA)</option>
+            <option value="bow-wave-duel">Wave-Line vs Cod's Head Duel</option>
+            <option value="sail-stall-lab">Cotton vs Flax Sail Stall Lab</option>
+          </select>
+        </div>
+
+        <!-- Vessel Selector -->
+        <div class="action-group">
+          <label for="hull-select">Vessel:</label>
+          <select id="hull-select">
+            <option value="america">🇺🇸 Schooner America (1851)</option>
+            <option value="aurora">🇬🇧 Cutter Aurora (Cod's Head)</option>
+            <option value="volante">🇬🇧 Cutter Volante (British)</option>
+          </select>
+        </div>
+
+        <!-- Audio Toggle -->
+        <button id="audio-toggle-btn" class="icon-btn" title="Toggle Procedural Audio">
+          <span class="btn-icon">🔇</span>
+          <span class="btn-label">Audio Off</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="main-layout">
+      <!-- Left Column: Primary Sea Simulation Viewport -->
+      <section class="viewport-panel">
+        <div class="panel-header">
+          <h2>Sea & Sail Aerodynamics Viewport</h2>
+          <div class="viewport-toggles">
+            <label><input type="checkbox" id="toggle-vectors" checked> Vectors</label>
+            <label><input type="checkbox" id="toggle-streamlines" checked> Streamlines</label>
+            <label><input type="checkbox" id="toggle-wake" checked> Kelvin Wake</label>
+            <label><input type="checkbox" id="toggle-telltales" checked> Telltales</label>
+          </div>
+        </div>
+
+        <div class="canvas-wrap">
+          <canvas id="sea-canvas"></canvas>
+          <!-- Floating Status Badge -->
+          <div id="sail-status-badge" class="floating-badge status-optimal">Optimal Trim</div>
+        </div>
+
+        <!-- Interactive Control Bar -->
+        <div class="control-deck">
+          <!-- Rudder / Tiller Control -->
+          <div class="control-card">
+            <div class="control-label">
+              <span>Helm / Rudder</span>
+              <strong id="rudder-val">0.0°</strong>
+            </div>
+            <input type="range" id="rudder-slider" min="-30" max="30" value="0" step="1">
+            <div class="btn-row">
+              <button id="btn-helm-port" class="pill-btn">◀ Port (A)</button>
+              <button id="btn-helm-center" class="pill-btn">Center</button>
+              <button id="btn-helm-stbd" class="pill-btn">Stbd (D) ▶</button>
+            </div>
+          </div>
+
+          <!-- Sail Sheet Trim -->
+          <div class="control-card">
+            <div class="control-label">
+              <span>Sail Sheet Trim</span>
+              <strong id="sheet-val">20.0°</strong>
+            </div>
+            <input type="range" id="sheet-slider" min="2" max="85" value="20" step="1">
+            <div class="btn-row">
+              <button id="btn-sheet-in" class="pill-btn">Sheet In (W)</button>
+              <button id="btn-auto-trim" class="pill-btn active">Auto-Trim: ON</button>
+              <button id="btn-sheet-out" class="pill-btn">Sheet Out (S)</button>
+            </div>
+          </div>
+
+          <!-- True Wind Controls -->
+          <div class="control-card">
+            <div class="control-label">
+              <span>True Wind Speed (TWS)</span>
+              <strong id="tws-val">14.0 kts</strong>
+            </div>
+            <input type="range" id="tws-slider" min="4" max="30" value="14" step="0.5">
+
+            <div class="control-label" style="margin-top: 6px;">
+              <span>True Wind Angle (TWD)</span>
+              <strong id="twd-val">045° (NE)</strong>
+            </div>
+            <input type="range" id="twd-slider" min="0" max="360" value="45" step="5">
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Polar Diagram & Telemetry Studio -->
+      <aside class="sidebar-panel">
+        <!-- Polar Diagram Card -->
+        <div class="polar-card">
+          <div class="panel-header">
+            <h2>Polar Velocity & VMG Diagram</h2>
+            <span class="tag-badge">Live Curve</span>
+          </div>
+          <div class="canvas-wrap polar-wrap">
+            <canvas id="polar-canvas"></canvas>
+          </div>
+        </div>
+
+        <!-- Telemetry HUD Grid -->
+        <div class="hud-card">
+          <div class="panel-header">
+            <h2>Live Telemetry HUD</h2>
+            <span id="froude-badge" class="tag-badge">Fr: 0.28</span>
+          </div>
+          <div class="hud-grid">
+            <div class="hud-metric">
+              <span class="m-label">Boat Speed (V_b)</span>
+              <span class="m-val highlight" id="m-speed">0.0 <small>kts</small></span>
+            </div>
+            <div class="hud-metric">
+              <span class="m-label">Upwind VMG</span>
+              <span class="m-val" id="m-vmg">0.0 <small>kts</small></span>
+            </div>
+            <div class="hud-metric">
+              <span class="m-label">Apparent Wind (V_a)</span>
+              <span class="m-val" id="m-aws">14.0 <small>kts</small></span>
+            </div>
+            <div class="hud-metric">
+              <span class="m-label">Apparent Angle (AWA)</span>
+              <span class="m-val" id="m-awa">45°</span>
+            </div>
+            <div class="hud-metric">
+              <span class="m-label">True Wind Angle (TWA)</span>
+              <span class="m-val" id="m-twa">45°</span>
+            </div>
+            <div class="hud-metric">
+              <span class="m-label">Heel Angle (ϕ)</span>
+              <span class="m-val" id="m-heel">0.0°</span>
+            </div>
+            <div class="hud-metric">
+              <span class="m-label">Leeway Angle (λ)</span>
+              <span class="m-val" id="m-leeway">0.0°</span>
+            </div>
+            <div class="hud-metric">
+              <span class="m-label">Aero Thrust (F_T)</span>
+              <span class="m-val" id="m-thrust">0 <small>N</small></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Historical Quote & Science Card -->
+        <div class="info-card">
+          <div class="quote-box">
+            <p class="quote-text">“Your Majesty, there is no second.”</p>
+            <p class="quote-author">— Royal Signal Master to Queen Victoria, Royal Yacht <em>Victoria and Albert</em>, Aug 22, 1851</p>
+          </div>
+          <div class="physics-summary">
+            <h3>Why America Won</h3>
+            <p><strong>1. Wave Line Hollow Bow:</strong> Sharp concave entrance lines sliced through the Solent chop without pushing a massive bow wave ($R_w \propto v^4$).</p>
+            <p><strong>2. Flat-Cut Cotton Canvas:</strong> Machine-woven cotton canvas held a smooth airfoil curve at high tension, allowing America to point $38^\circ$ close-hauled vs British baggy flax at $48^\circ+$.</p>
+          </div>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

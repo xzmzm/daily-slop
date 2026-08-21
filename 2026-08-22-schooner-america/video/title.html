@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>schooner-america · video card</title>
+  <style>
+    :root {
+      --ink: #f8fafc;
+      --dim: #94a3b8;
+      --gold: #d4af37;
+      --amber: #fbbf24;
+      --brass: #e5c07b;
+      --navy: #070e1c;
+      --cyan: #38bdf8;
+    }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; }
+    body {
+      overflow: hidden; color: var(--ink);
+      background: radial-gradient(circle at 65% 35%, #10213d 0%, #081224 55%, #040812 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans GB", "STHeiti", "Georgia", serif, sans-serif;
+    }
+    .card {
+      position: relative; width: 100%; height: 100%;
+      display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 64px;
+      padding: 60px 80px;
+    }
+    .scene { position: relative; width: 460px; height: 440px; flex: none; }
+    .scene svg { width: 100%; height: 100%; filter: drop-shadow(0 14px 44px rgba(56,189,248,.25)); }
+    .copy { max-width: 640px; }
+    .eyebrow {
+      color: var(--gold); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 2.5px; font-size: 14px; text-transform: uppercase; margin-bottom: 18px;
+    }
+    h1 { margin: 0; font-size: 70px; line-height: .98; letter-spacing: -1px; font-weight: 800; font-family: "Georgia", serif; }
+    h1 .ox { color: var(--amber); }
+    h2 {
+      margin: 20px 0 0; font-size: 24px; line-height: 1.38; font-weight: 500;
+      color: #cbd5e1; max-width: 600px;
+    }
+    .meta { display: flex; align-items: center; gap: 12px; margin-top: 30px; color: var(--dim); font-size: 15px; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 18px rgba(212,175,55,.8); }
+    .formula {
+      margin-top: 26px; color: var(--gold); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 19px; letter-spacing: 0.5px;
+    }
+    .formula .num { color: var(--amber); }
+    .formula small { color: var(--dim); font-size: 14px; display: block; margin-top: 6px; letter-spacing: .5px;
+      font-family: -apple-system, sans-serif; }
+    .stamp {
+      position: absolute; right: 78px; bottom: 60px;
+      color: var(--gold); border: 2px dashed var(--gold); border-radius: 6px;
+      font: 700 14px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: 3px;
+      padding: 8px 16px; transform: rotate(-4deg); opacity: .9;
+      box-shadow: 0 0 15px rgba(212,175,55,0.25);
+    }
+    .scene.end { display: none; }
+    body[data-scene="end"] .scene.intro { display: none; }
+    body[data-scene="end"] .scene.end { display: block; }
+  </style>
+</head>
+<body data-scene="intro">
+<script>
+  const scene = new URLSearchParams(location.search).get('scene') || 'intro';
+  document.body.dataset.scene = scene;
+</script>
+<div class="card">
+  <!-- Intro Scene Art: 1851 Schooner America & Polar Diagram Vectors -->
+  <div class="scene intro">
+    <svg viewBox="0 0 460 440" aria-hidden="true">
+      <defs>
+        <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#ffd700"/>
+          <stop offset="50%" stop-color="#b8860b"/>
+          <stop offset="100%" stop-color="#7c5e10"/>
+        </linearGradient>
+        <radialGradient id="compassBg" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#1e293b"/>
+          <stop offset="100%" stop-color="#0f172a"/>
+        </radialGradient>
+      </defs>
+
+      <!-- Outer Compass Rose Circle -->
+      <circle cx="230" cy="220" r="190" fill="url(#compassBg)" stroke="url(#goldGrad)" stroke-width="3"/>
+      <circle cx="230" cy="220" r="140" fill="none" stroke="rgba(148,163,184,0.2)" stroke-width="1.5" stroke-dasharray="4 4"/>
+      <circle cx="230" cy="220" r="85" fill="none" stroke="rgba(148,163,184,0.2)" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+      <!-- Cardinal Rays -->
+      <line x1="230" y1="30" x2="230" y2="410" stroke="rgba(212,175,55,0.4)" stroke-width="1.5"/>
+      <line x1="40" y1="220" x2="420" y2="220" stroke="rgba(212,175,55,0.4)" stroke-width="1.5"/>
+
+      <!-- Schooner America Hull Silhouette -->
+      <!-- Sharp hollow wave-line bow pointing UP -->
+      <path d="M 230 90 Q 255 180 252 290 L 210 290 Q 205 180 230 90 Z" fill="#090d16" stroke="url(#goldGrad)" stroke-width="2.5"/>
+      <!-- Masts and Sails -->
+      <line x1="230" y1="160" x2="230" y2="270" stroke="#d97706" stroke-width="3"/>
+      <!-- Billowing Sails -->
+      <path d="M 230 160 Q 200 200 230 240 Z" fill="rgba(254,240,138,0.85)" stroke="#fff" stroke-width="1.5"/>
+      <path d="M 230 200 Q 185 240 230 280 Z" fill="rgba(254,240,138,0.9)" stroke="#fff" stroke-width="1.5"/>
+
+      <!-- Apparent Wind Vector Triangle (Cyan & Green) -->
+      <line x1="230" y1="220" x2="140" y2="130" stroke="#38bdf8" stroke-width="3.5" stroke-linecap="round"/>
+      <polygon points="135,125 152,130 142,145" fill="#38bdf8"/>
+      <line x1="230" y1="220" x2="230" y2="110" stroke="#facc15" stroke-width="3" stroke-linecap="round"/>
+      <polygon points="230,100 224,115 236,115" fill="#facc15"/>
+
+      <!-- 175 Years Laurel / Text -->
+      <text x="230" y="380" font-family="Georgia, serif" font-size="16" font-weight="bold" fill="#facc15" text-anchor="middle">1851 · 175TH ANNIVERSARY · 2026</text>
+    </svg>
+  </div>
+
+  <!-- End Scene Art: America's Cup Trophy & Polar Victory -->
+  <div class="scene end">
+    <svg viewBox="0 0 460 440" aria-hidden="true">
+      <!-- 100 Guinea Cup / America's Cup Trophy Silhouette -->
+      <path d="M 180 120 C 180 80 280 80 280 120 C 280 180 270 230 250 270 L 265 330 L 195 330 L 210 270 C 190 230 180 180 180 120 Z" fill="#1e293b" stroke="url(#goldGrad)" stroke-width="3"/>
+      <!-- Handles -->
+      <path d="M 180 130 C 130 140 130 210 190 220" fill="none" stroke="url(#goldGrad)" stroke-width="3.5"/>
+      <path d="M 280 130 C 330 140 330 210 270 220" fill="none" stroke="url(#goldGrad)" stroke-width="3.5"/>
+      <!-- Pedestal -->
+      <rect x="175" y="330" width="110" height="35" rx="4" fill="#0f172a" stroke="url(#goldGrad)" stroke-width="2"/>
+      <text x="230" y="352" font-family="monospace" font-size="12" font-weight="bold" fill="#facc15" text-anchor="middle">AMERICA'S CUP</text>
+      <!-- Crown / Stars -->
+      <text x="230" y="70" font-size="28" text-anchor="middle">🏆</text>
+      <text x="230" y="405" font-family="Georgia, serif" font-size="15" font-style="italic" fill="#cbd5e1" text-anchor="middle">“There is no second.”</text>
+    </svg>
+  </div>
+
+  <div class="copy">
+    <div class="eyebrow">175th Anniversary · Aug 22, 1851 · Royal Yacht Squadron Regatta</div>
+    <h1>Schooner <span class="ox">America</span></h1>
+    <h2>1851 美洲杯帆船赛：波浪线空心船首水动力学与平织棉帆空气动力学模拟器</h2>
+
+    <div class="formula">
+      \(\vec{v}_a = \vec{v}_t - \vec{v}_b\) · \(\text{VMG} = v_b \cos\gamma\) · \(R_w \propto Fr^4\)
+      <small>John Scott Russell 波浪线理论 · 乔治·斯蒂尔斯空心船首 · 极坐标航速包络</small>
+    </div>
+
+    <div class="meta">
+      <span class="dot"></span>
+      <span>Gemini 3.7 Flash · AI 每日作业</span>
+    </div>
+  </div>
+
+  <div class="stamp">1851 ISLE OF WIGHT</div>
+</div>
+</body>
+</html>
