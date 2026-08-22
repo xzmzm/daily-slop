@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>rubin-curve · video card</title>
+  <style>
+    :root {
+      --ink: #f8fafc;
+      --dim: #94a3b8;
+      --gold: #d4af37;
+      --amber: #fbbf24;
+      --violet: #a78bfa;
+      --cyan: #38bdf8;
+    }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; }
+    body {
+      overflow: hidden; color: var(--ink);
+      background: radial-gradient(circle at 35% 30%, #1a1433 0%, #0b0f24 55%, #04060f 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans GB", "STHeiti", "Georgia", serif, sans-serif;
+    }
+    .card {
+      position: relative; width: 100%; height: 100%;
+      display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 64px;
+      padding: 60px 80px;
+    }
+    .scene { position: relative; width: 470px; height: 450px; flex: none; }
+    .scene svg { width: 100%; height: 100%; filter: drop-shadow(0 14px 44px rgba(167,139,250,.25)); }
+    .copy { max-width: 640px; }
+    .eyebrow {
+      color: var(--gold); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 2.5px; font-size: 14px; text-transform: uppercase; margin-bottom: 18px;
+    }
+    h1 { margin: 0; font-size: 74px; line-height: .98; letter-spacing: -1px; font-weight: 800; font-family: "Georgia", serif; }
+    h1 .ox { color: var(--violet); }
+    h2 {
+      margin: 20px 0 0; font-size: 24px; line-height: 1.4; font-weight: 500;
+      color: #cbd5e1; max-width: 610px;
+    }
+    .meta { display: flex; align-items: center; gap: 12px; margin-top: 30px; color: var(--dim); font-size: 15px; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--violet); box-shadow: 0 0 18px rgba(167,139,250,.9); }
+    .formula {
+      margin-top: 26px; color: var(--gold); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 19px; letter-spacing: 0.5px;
+    }
+    .formula .num { color: var(--amber); }
+    .formula small { color: var(--dim); font-size: 14px; display: block; margin-top: 6px; letter-spacing: .5px;
+      font-family: -apple-system, sans-serif; }
+    .stamp {
+      position: absolute; right: 78px; bottom: 60px;
+      color: var(--violet); border: 2px dashed var(--violet); border-radius: 6px;
+      font: 700 14px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: 3px;
+      padding: 8px 16px; transform: rotate(-4deg); opacity: .9;
+      box-shadow: 0 0 15px rgba(167,139,250,0.25);
+    }
+    .scene.end { display: none; }
+    body[data-scene="end"] .scene.intro { display: none; }
+    body[data-scene="end"] .scene.end { display: block; }
+  </style>
+</head>
+<body data-scene="intro">
+<script>
+  const scene = new URLSearchParams(location.search).get('scene') || 'intro';
+  document.body.dataset.scene = scene;
+</script>
+<div class="card">
+  <!-- Intro Scene Art: tilted spiral galaxy + flat vs falling rotation curves -->
+  <div class="scene intro">
+    <svg viewBox="0 0 470 450" aria-hidden="true">
+      <defs>
+        <radialGradient id="haloGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="rgba(167,139,250,0.34)"/>
+          <stop offset="45%" stop-color="rgba(124,92,240,0.14)"/>
+          <stop offset="100%" stop-color="rgba(124,92,240,0)"/>
+        </radialGradient>
+        <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#ffd700"/>
+          <stop offset="100%" stop-color="#7c5e10"/>
+        </linearGradient>
+      </defs>
+
+      <!-- dark-matter halo glow -->
+      <circle cx="235" cy="185" r="175" fill="url(#haloGrad)"/>
+      <ellipse cx="235" cy="185" rx="172" ry="66" fill="none" stroke="rgba(167,139,250,0.4)" stroke-width="1.5" stroke-dasharray="5 7"/>
+
+      <!-- tilted spiral galaxy body -->
+      <ellipse cx="235" cy="185" rx="118" ry="44" fill="#0c1226" stroke="rgba(190,205,245,0.55)" stroke-width="2"/>
+      <path d="M 152 180 Q 235 158 318 178" fill="none" stroke="rgba(190,205,245,0.35)" stroke-width="1.2"/>
+      <path d="M 168 194 Q 235 214 305 192" fill="none" stroke="rgba(190,205,245,0.3)" stroke-width="1.2"/>
+      <ellipse cx="235" cy="185" rx="20" ry="9" fill="rgba(255,226,170,0.9)"/>
+      <!-- star knots -->
+      <g fill="#bcd4ff">
+        <circle cx="170" cy="176" r="2"/><circle cx="200" cy="168" r="1.6"/><circle cx="262" cy="192" r="2.2"/>
+        <circle cx="292" cy="184" r="1.7"/><circle cx="308" cy="178" r="2"/><circle cx="150" cy="186" r="1.8"/>
+      </g>
+      <g fill="#ff9ecf">
+        <circle cx="185" cy="200" r="2.4"/><circle cx="252" cy="172" r="2.6"/><circle cx="305" cy="195" r="2.2"/>
+      </g>
+      <!-- blue/red Doppler halves -->
+      <path d="M 130 185 Q 165 150 200 148" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" opacity=".85"/>
+      <path d="M 340 185 Q 305 222 270 224" fill="none" stroke="#f87171" stroke-width="2.5" stroke-linecap="round" opacity=".85"/>
+
+      <!-- rotation-curve inset: axes -->
+      <g transform="translate(75, 268)">
+        <path d="M 0 0 H 330" stroke="#5a6b8c" stroke-width="2"/>
+        <path d="M 0 0 V -122" stroke="#5a6b8c" stroke-width="2"/>
+        <!-- falling visible-mass prediction -->
+        <path d="M 0 -95 Q 80 -118 140 -98 T 330 -38" fill="none" stroke="#fbbf24" stroke-width="3.5" stroke-dasharray="1 0" opacity=".95"/>
+        <!-- flat observed curve with data points -->
+        <path d="M 0 -12 Q 60 -95 130 -108 L 330 -108" fill="none" stroke="url(#goldGrad)" stroke-width="4"/>
+        <g fill="#38bdf8" stroke="#04060f" stroke-width="1.4">
+          <circle cx="55" cy="-72" r="4.6"/><circle cx="95" cy="-98" r="4.6"/><circle cx="135" cy="-107" r="4.6"/>
+          <circle cx="175" cy="-110" r="4.6"/><circle cx="215" cy="-106" r="4.6"/><circle cx="255" cy="-109" r="4.6"/>
+          <circle cx="300" cy="-107" r="4.6"/>
+        </g>
+        <!-- the gap bracket -->
+        <path d="M 292 -42 V -104" stroke="#f87171" stroke-width="2.4"/>
+        <text x="298" y="-70" font-family="ui-monospace, Menlo, monospace" font-size="14" font-weight="700" fill="#f87171">×2</text>
+        <text x="6" y="-116" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#94a3b8">v (km/s)</text>
+        <text x="312" y="18" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#94a3b8">r</text>
+        <text x="150" y="18" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#94a3b8">1970: flat to 24 kpc</text>
+      </g>
+    </svg>
+  </div>
+
+  <!-- End Scene Art: the galaxy mostly dark — violet mass bar + observatory -->
+  <div class="scene end">
+    <svg viewBox="0 0 470 450" aria-hidden="true">
+      <defs>
+        <linearGradient id="barVis" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#b78a2c"/><stop offset="100%" stop-color="#fbbf24"/>
+        </linearGradient>
+        <linearGradient id="barDark" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#553d9e"/><stop offset="100%" stop-color="#a78bfa"/>
+        </linearGradient>
+      </defs>
+      <!-- galaxy inside a violet halo -->
+      <circle cx="235" cy="150" r="130" fill="url(#haloGrad)"/>
+      <ellipse cx="235" cy="150" rx="86" ry="32" fill="#0c1226" stroke="rgba(190,205,245,0.5)" stroke-width="2"/>
+      <ellipse cx="235" cy="150" rx="16" ry="7" fill="rgba(255,226,170,0.9)"/>
+      <!-- observatory dome silhouette on a hill -->
+      <path d="M 40 400 Q 120 345 200 368 L 200 340 A 42 42 0 0 1 284 340 L 284 372 Q 360 350 430 400 Z" fill="#0d1327" stroke="rgba(212,175,55,0.5)" stroke-width="2"/>
+      <rect x="226" y="296" width="10" height="34" fill="#d4af37" opacity=".9"/>
+      <circle cx="231" cy="292" r="5" fill="#fbbf24"/>
+      <!-- starfield -->
+      <g fill="#e8eefc" opacity=".8">
+        <circle cx="90" cy="90" r="1.6"/><circle cx="150" cy="60" r="1.2"/><circle cx="330" cy="70" r="1.7"/>
+        <circle cx="392" cy="120" r="1.2"/><circle cx="420" cy="250" r="1.5"/><circle cx="60" cy="230" r="1.4"/>
+      </g>
+      <!-- the mass ledger bar: 26% gold, 74% violet -->
+      <g transform="translate(75, 330)">
+        <text x="0" y="-12" font-family="ui-monospace, Menlo, monospace" font-size="13" fill="#94a3b8">inside 24 kpc:</text>
+        <rect x="0" y="0" width="84" height="18" rx="4" fill="url(#barVis)"/>
+        <rect x="86" y="0" width="240" height="18" rx="4" fill="url(#barDark)"/>
+        <text x="8" y="42" font-family="ui-monospace, Menlo, monospace" font-size="13" fill="#fbbf24">26% starlight</text>
+        <text x="150" y="42" font-family="ui-monospace, Menlo, monospace" font-size="13" font-weight="700" fill="#a78bfa">74% invisible</text>
+      </g>
+      <text x="235" y="435" font-family="Georgia, serif" font-size="15" font-style="italic" fill="#cbd5e1" text-anchor="middle">“…a good number for the ratio of our ignorance to knowledge.” — Vera Rubin</text>
+    </svg>
+  </div>
+
+  <div class="copy">
+    <div class="eyebrow">98th Birthday · Aug 23, 1928 · Vera Rubin</div>
+    <h1>Rubin <span class="ox">Curve</span></h1>
+    <h2>暗物质旋转曲线工作室 —— 一九七零年，那条量到星系边缘也不肯掉下来的曲线</h2>
+
+    <div class="formula">
+      v² = G·M(&lt;r)/r · flat ⇒ <span class="num">M ∝ r</span> · v = c·Δλ/λ
+      <small>鲁宾与福特 1970 · 仙女座 67 个发射区 · 弗里曼指数盘 Bessel 曲线 · 等温暗物质晕</small>
+    </div>
+
+    <div class="meta">
+      <span class="dot"></span>
+      <span>GLM 5.3 · AI 每日作业</span>
+    </div>
+  </div>
+
+  <div class="stamp">74% INVISIBLE</div>
+</div>
+</body>
+</html>

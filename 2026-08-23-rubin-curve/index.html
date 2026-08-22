@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Rubin Curve — dark-matter rotation-curve studio</title>
+  <meta name="description" content="Measure a galaxy's rotation curve the way Vera Rubin and Kent Ford did in 1970, then watch visible mass fail to explain it — the flat curve that revealed the dark-matter halo. Built for Rubin's birthday, Aug 23, 1928.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <h1>Rubin <span class="curve">Curve</span></h1>
+      <div class="sub">
+        <b>Aug 23, 1928 — Vera Rubin's birthday.</b> Rubin &amp; Ford (1970) measured 67 emission
+        regions in M31 with an image-tube spectrograph on Lowell's 72-inch: the curve never fell.
+      </div>
+    </div>
+    <div class="quote" id="quote" title="click for another">
+      <span id="quote-text">"In a spiral galaxy, the ratio of dark-to-light matter is about a factor of ten. That's probably a good number for the ratio of our ignorance to knowledge."</span>
+      <span class="who"> — Vera Rubin</span>
+    </div>
+  </header>
+
+  <main>
+    <div class="col">
+      <div class="panel">
+        <div class="head">
+          <div class="tabs">
+            <button id="tab-orbits">Orbit view</button>
+            <button id="tab-spec" class="active">Spectrograph</button>
+          </div>
+          <div class="r" id="sky-note">M31 · long slit on the major axis</div>
+        </div>
+        <div class="sky-wrap">
+          <canvas id="sky"></canvas>
+          <div class="hint-flash" id="hint"></div>
+        </div>
+        <div class="sky-hud">
+          <div class="grow">
+            <input type="range" id="slit" min="1.5" max="30" step="0.1" value="8">
+          </div>
+          <div class="readout" id="spec-readout">
+            slit r = <b class="v" id="slit-r">8.0</b> kpc ·
+            line λ<sub>obs</sub> = <b class="lam" id="lam-obs">656.23</b> nm ·
+            v = c·Δλ/λ = <b class="v" id="slit-v">−199</b> km/s
+          </div>
+          <button class="btn" id="btn-measure">record velocity</button>
+          <button class="btn gold" id="btn-sweep">sweep curve</button>
+          <button class="btn ghosty" id="btn-reset">reset data</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="head">
+          <div class="t">Mass ledger · inside R = 24 kpc</div>
+          <div class="r">the paper's last measured point</div>
+        </div>
+        <div class="ledger-body">
+          <div class="ledger-top">
+            <div class="big-dark"><span id="dark-pct">77</span><small>% invisible</small></div>
+            <div class="readout" style="text-align:right">
+              M<sub>visible</sub> ≈ <b class="lam" id="m-vis">5.9×10¹⁰</b> M☉ ·
+              M<sub>total</sub> = <b class="v" id="m-tot">2.6×10¹¹</b> M☉
+            </div>
+          </div>
+          <div class="mass-bar">
+            <div class="vis" id="bar-vis" style="width:23%"></div>
+            <div class="dark" id="bar-dark" style="width:77%"></div>
+          </div>
+          <div class="ledger-rows">
+            <span class="gold">■ starlight</span>
+            <span class="violet">■ dark halo</span>
+            <span id="ledger-rise">M(&lt;r) still rising at 24 kpc → v stays flat</span>
+          </div>
+          <div class="ledger-note" id="ledger-note">
+            Newton says <em>v² = GM(&lt;r)/r</em>: a flat curve forces
+            <em>M(&lt;r) ∝ r</em> — mass keeps growing into the dark past the last star.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="panel">
+        <div class="head">
+          <div class="t">Rotation curve · v(r) vs r</div>
+          <div class="r" id="chart-status">12 points recorded</div>
+        </div>
+        <canvas id="chart"></canvas>
+        <div class="legend">
+          <span class="k dot"><span class="sw" style="background:var(--cyan)"></span>measured</span>
+          <span class="k"><span class="sw" style="background:var(--amber)"></span>visible mass predicts</span>
+          <span class="k"><span class="sw" style="background:var(--violet-deep)"></span>halo alone</span>
+          <span class="k"><span class="sw" style="background:var(--gold)"></span>disk + halo</span>
+          <span class="k"><span class="sw" style="background:#5a6b8c"></span>point-mass Kepler</span>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="head"><div class="t">Galaxy model</div>
+        <div class="r">drag anything — the universe answers</div></div>
+        <div class="toggle-row">
+          <span class="chip gold on" id="chip-theory">show model curves</span>
+          <span class="chip on" id="chip-halo">dark-matter halo</span>
+          <span class="chip" id="chip-ghost">see the invisible</span>
+          <span class="chip" id="chip-kepler">Kepler line</span>
+          <span class="chip red warn" id="chip-warn" style="display:none">
+            ⚠ visible mass can't hold stars this fast — they'd escape
+          </span>
+        </div>
+        <div class="controls-grid">
+          <div class="ctl">
+            <label>halo v<sub>∞</sub> <output id="o-vinf">190 km/s</output></label>
+            <input type="range" class="violet" id="in-vinf" min="0" max="300" step="1" value="190">
+          </div>
+          <div class="ctl">
+            <label>halo core r<sub>c</sub> <output id="o-rc">3.5 kpc</output></label>
+            <input type="range" class="violet" id="in-rc" min="1" max="10" step="0.1" value="3.5">
+          </div>
+          <div class="ctl">
+            <label>disk mass M<sub>⋆</sub> <output id="o-mdisk">6.0×10¹⁰ M☉</output></label>
+            <input type="range" id="in-mdisk" min="1" max="12" step="0.1" value="6">
+          </div>
+          <div class="ctl">
+            <label>disk scale length h <output id="o-h">4.0 kpc</output></label>
+            <input type="range" id="in-h" min="2" max="6" step="0.1" value="4">
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="head"><div class="t">The story</div>
+        <div class="r">1928 → tonight in Chile</div></div>
+        <div class="story-body">
+          <div class="story-item"><div class="yr">1928</div>
+            <div class="tx"><b>Vera Rubin born</b> in Philadelphia, Aug 23. Her father, an electrical engineer, builds her a cardboard telescope; the bed becomes her observatory.</div></div>
+          <div class="story-item"><div class="yr">1965</div>
+            <div class="tx"><b>First woman allowed to observe</b> at Palomar's 200-inch Hale Telescope. There was no women's restroom up there — so she taped a paper skirt onto the male figure on the door and got to work.</div></div>
+          <div class="story-item"><div class="yr">1970</div>
+            <div class="tx"><b>The flat curve.</b> With Kent Ford's image-tube spectrograph on Lowell's 72-inch, 67 HII regions in M31 out to 24 kpc: velocities refuse to fall.</div></div>
+          <div class="story-item"><div class="yr">1980</div>
+            <div class="tx"><b>Flat everywhere.</b> Rubin, Ford &amp; Thonnard measure 21 more galaxies — every big spiral shows the same stubborn flatness. Dark matter becomes the norm, not a curiosity.</div></div>
+          <div class="story-item"><div class="yr">1993</div>
+            <div class="tx"><b>National Medal of Science.</b> The measurement Zwicky hinted at in 1933 ("dunkle Materie") becomes, through her patience, the central problem of physics.</div></div>
+          <div class="story-item"><div class="yr">2025→</div>
+            <div class="tx"><b>Vera C. Rubin Observatory</b> achieves first light in Chile — the biggest sky camera ever built, named for her, now scanning the whole sky every few nights.</div></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <span>Built for Vera Rubin's 98th birthday · Aug 23, 2026 · Built by GLM-5.3</span>
+    <span class="fml">v²(r) = G·M(&lt;r)/r &nbsp;→&nbsp; v flat ⇒ <i>M(&lt;r) ∝ r</i> &nbsp;·&nbsp; Δλ/λ = v/c</span>
+  </footer>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
