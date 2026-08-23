@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plinian Hour — the Vesuvius eruption of 24 August 79 AD</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <h1>PLINIAN HOUR</h1>
+    <p class="hook">24 August 79 AD — the eruption that buried Pompeii, killed Pliny the Elder,
+      and gave every volcano its most violent name.</p>
+  </div>
+  <nav class="view-tabs" id="view-tabs">
+    <button data-view="section" class="tab active">Eruption cross-section</button>
+    <button data-view="map" class="tab">Bay of Naples</button>
+  </nav>
+</header>
+
+<main class="stage">
+  <section class="canvas-wrap">
+    <canvas id="view" width="1280" height="820"></canvas>
+
+    <div class="timeline">
+      <button id="play" class="play-btn" title="Play the 19 hours">&#9654;</button>
+      <input id="time" type="range" min="0" max="19.6" step="0.01" value="1.5">
+      <span id="clock" class="clock">1:00 PM · Aug 24, 79 AD</span>
+    </div>
+
+    <p class="caption" id="caption"></p>
+  </section>
+
+  <aside class="rail">
+    <h2>The jet</h2>
+    <label>Exit velocity <output id="u0-out">260 m/s</output></label>
+    <input id="u0" type="range" min="120" max="340" step="1" value="260">
+    <label>Magma temperature <output id="T0-out">1000 K</output></label>
+    <input id="T0" type="range" min="600" max="1150" step="5" value="1000">
+
+    <div class="meter-block">
+      <div class="meter-row"><span>Mass discharge</span><strong id="mdot">—</strong></div>
+      <div class="meter-row"><span>Column top</span><strong id="hcol">—</strong></div>
+      <div class="meter-row"><span>Umbrella level</span><strong id="znb">—</strong></div>
+    </div>
+
+    <div class="collapse-meter" id="collapse-meter">
+      <div class="cm-head"><span>Fountain-collapse margin</span><strong id="margin">—</strong></div>
+      <div class="cm-track"><div class="cm-fill" id="cm-fill"></div><div class="cm-zero"></div></div>
+      <p class="cm-note" id="cm-note">Ballistic coast vs buoyancy-reversal height.</p>
+    </div>
+
+    <h2>Presets</h2>
+    <div class="presets">
+      <button data-scenario="historical" class="chip active">The real 79 AD</button>
+      <button data-scenario="cold" class="chip">Cold fountain</button>
+      <button data-scenario="weak" class="chip">Weak jet</button>
+      <button data-scenario="gale" class="chip">Gale-force wind</button>
+    </div>
+    <button id="pulse" class="pulse-btn">Trigger a collapse pulse &#9762;</button>
+
+    <h2>Wind</h2>
+    <label>Elevation wind (toward SE) <output id="wind-out">6 m/s</output></label>
+    <input id="wind" type="range" min="0" max="18" step="0.5" value="6">
+
+    <h2>Verdict ledger</h2>
+    <table class="ledger" id="ledger">
+      <thead><tr><th>Town</th><th>Fall depth</th><th>Surge arrives</th></tr></thead>
+      <tbody></tbody>
+    </table>
+
+    <p class="footnote">
+      Column height follows the quarter-power plume scaling calibrated to Carey &amp;
+      Sigurdsson's 33 km estimate; fallout is Pyle exponential thinning on the dispersal
+      axis; surge runout is a Benjamin box model. History anchors: Sigurdsson et al. 1982/85.
+    </p>
+  </aside>
+</main>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

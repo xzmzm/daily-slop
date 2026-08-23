@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>plinian-hour · video card</title>
+  <style>
+    :root {
+      --ink: #f8fafc;
+      --dim: #94a3b8;
+      --gold: #d4af37;
+      --ember: #ff7a3c;
+      --ember-hot: #ffc46b;
+      --ash: #cbd5e1;
+    }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; }
+    body {
+      overflow: hidden; color: var(--ink);
+      background: radial-gradient(circle at 30% 75%, #2a130a 0%, #140b08 55%, #070404 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans GB", "STHeiti", "Georgia", serif, sans-serif;
+    }
+    .card {
+      position: relative; width: 100%; height: 100%;
+      display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 64px;
+      padding: 60px 80px;
+    }
+    .scene { position: relative; width: 470px; height: 450px; flex: none; }
+    .scene svg { width: 100%; height: 100%; filter: drop-shadow(0 14px 44px rgba(255,122,60,.22)); }
+    .copy { max-width: 640px; }
+    .eyebrow {
+      color: var(--gold); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 2.5px; font-size: 14px; text-transform: uppercase; margin-bottom: 18px;
+    }
+    h1 { margin: 0; font-size: 74px; line-height: .98; letter-spacing: -1px; font-weight: 800; font-family: "Georgia", serif; }
+    h1 .ox { color: var(--ember); }
+    h2 {
+      margin: 20px 0 0; font-size: 24px; line-height: 1.4; font-weight: 500;
+      color: #cbd5e1; max-width: 610px;
+    }
+    .meta { display: flex; align-items: center; gap: 12px; margin-top: 30px; color: var(--dim); font-size: 15px; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--ember); box-shadow: 0 0 18px rgba(255,122,60,.9); }
+    .formula {
+      margin-top: 26px; color: var(--gold); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 19px; letter-spacing: 0.5px;
+    }
+    .formula .num { color: var(--ember-hot); }
+    .formula small { color: var(--dim); font-size: 14px; display: block; margin-top: 6px; letter-spacing: .5px;
+      font-family: -apple-system, sans-serif; }
+    .stamp {
+      position: absolute; right: 78px; bottom: 60px;
+      color: var(--ember); border: 2px dashed var(--ember); border-radius: 6px;
+      font: 700 14px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: 3px;
+      padding: 8px 16px; transform: rotate(-4deg); opacity: .9;
+      box-shadow: 0 0 15px rgba(255,122,60,0.25);
+    }
+    .scene.end { display: none; }
+    body[data-scene="end"] .scene.intro { display: none; }
+    body[data-scene="end"] .scene.end { display: block; }
+  </style>
+</head>
+<body data-scene="intro">
+<script>
+  const scene = new URLSearchParams(location.search).get('scene') || 'intro';
+  document.body.dataset.scene = scene;
+</script>
+<div class="card">
+  <!-- Intro Scene Art: the stone-pine column over the bay -->
+  <div class="scene intro">
+    <svg viewBox="0 0 470 450" aria-hidden="true">
+      <defs>
+        <linearGradient id="colGrad" x1="0" y1="1" x2="0" y2="0">
+          <stop offset="0%" stop-color="rgba(255,150,60,0.85)"/>
+          <stop offset="45%" stop-color="rgba(230,215,200,0.55)"/>
+          <stop offset="100%" stop-color="rgba(210,205,200,0.28)"/>
+        </linearGradient>
+        <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#0a0d1c"/>
+          <stop offset="100%" stop-color="#241109"/>
+        </linearGradient>
+      </defs>
+      <rect x="10" y="10" width="450" height="430" rx="14" fill="url(#skyGrad)"/>
+
+      <!-- umbrella cloud -->
+      <path d="M 105 92 Q 235 34 365 92 Q 300 116 235 116 Q 170 116 105 92 Z"
+            fill="rgba(226,218,208,0.75)"/>
+      <!-- column -->
+      <path d="M 214 380 C 208 300 196 190 178 108 L 292 108 C 274 190 262 300 256 380 Z"
+            fill="url(#colGrad)"/>
+      <!-- clasts drifting downwind -->
+      <g fill="rgba(235,225,210,0.85)">
+        <circle cx="318" cy="150" r="2.4"/><circle cx="352" cy="182" r="1.8"/>
+        <circle cx="386" cy="216" r="2.2"/><circle cx="408" cy="256" r="1.6"/>
+        <circle cx="330" cy="240" r="1.7"/><circle cx="368" cy="272" r="2.1"/>
+      </g>
+
+      <!-- volcano -->
+      <path d="M 96 380 L 214 262 L 226 268 L 240 264 L 374 380 Z" fill="#171009"/>
+      <ellipse cx="228" cy="266" rx="26" ry="7" fill="#ff8a3c">
+        <animate attributeName="opacity" values="0.7;1;0.7" dur="2.2s" repeatCount="indefinite"/>
+      </ellipse>
+
+      <!-- the bay -->
+      <path d="M 10 380 H 460 V 396 Q 235 386 10 398 Z" fill="#12304a"/>
+      <!-- towns on the shore -->
+      <g font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#94a3b8">
+        <circle cx="150" cy="384" r="3.4" fill="#ff9ba0"/>
+        <text x="120" y="412">Herc. 01:07</text>
+        <circle cx="262" cy="384" r="3.4" fill="#ffe9c9"/>
+        <text x="236" y="412">Pompeii 07:41</text>
+        <circle cx="352" cy="384" r="3.4" fill="#ffe9c9"/>
+        <text x="330" y="412">Stabiae</text>
+      </g>
+      <!-- height bracket -->
+      <path d="M 424 380 V 96" stroke="rgba(240,230,216,0.5)" stroke-width="1.6"/>
+      <text x="398" y="88" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#e8eefc">33 km</text>
+      <path d="M 60 214 H 410" stroke="rgba(150,180,220,0.4)" stroke-dasharray="5 6"/>
+      <text x="66" y="206" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#94a3b8">tropopause 11 km</text>
+    </svg>
+  </div>
+
+  <!-- End Scene Art: dawn over the buried bay -->
+  <div class="scene end">
+    <svg viewBox="0 0 470 450" aria-hidden="true">
+      <defs>
+        <linearGradient id="dawnGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#1a1626"/>
+          <stop offset="55%" stop-color="#4a2418"/>
+          <stop offset="100%" stop-color="#8a4a22"/>
+        </linearGradient>
+      </defs>
+      <rect x="10" y="10" width="450" height="430" rx="14" fill="url(#dawnGrad)"/>
+      <!-- dormant Vesuvius silhouette -->
+      <path d="M 120 340 L 225 210 L 237 216 L 250 212 L 360 340 Z" fill="#0d0906"/>
+      <!-- buried town: rooflines under ash -->
+      <g fill="#141008" stroke="rgba(212,175,55,0.35)">
+        <path d="M 60 340 h 44 v -18 h -44 Z"/><path d="M 118 340 h 52 v -24 h -52 Z"/>
+        <path d="M 186 340 h 40 v -14 h -40 Z"/><path d="M 244 340 h 56 v -22 h -56 Z"/>
+        <path d="M 318 340 h 46 v -16 h -46 Z"/>
+      </g>
+      <rect x="10" y="338" width="450" height="102" fill="#0b0805"/>
+      <text x="235" y="372" font-family="ui-monospace, Menlo, monospace" font-size="12"
+            fill="rgba(203,213,225,0.8)" text-anchor="middle">Pompeii · Herculaneum · Stabiae — under ash, preserved for us</text>
+      <!-- rising sun -->
+      <circle cx="392" cy="300" r="26" fill="rgba(255,196,107,0.9)"/>
+      <circle cx="392" cy="300" r="40" fill="none" stroke="rgba(255,196,107,0.35)" stroke-width="2"/>
+      <text x="235" y="424" font-family="Georgia, serif" font-size="15" font-style="italic"
+            fill="#e2d8c8" text-anchor="middle">“黑暗散去，仿佛万物燃烧殆尽。” — 小普林尼，79 AD</text>
+      <g fill="#e8eefc" opacity=".7">
+        <circle cx="80" cy="70" r="1.4"/><circle cx="150" cy="50" r="1.1"/><circle cx="330" cy="62" r="1.5"/>
+      </g>
+    </svg>
+  </div>
+
+  <div class="copy">
+    <div class="eyebrow">24 Aug 79 AD · Vesuvius · Pliny the Younger</div>
+    <h1>Plinian <span class="ox">Hour</span></h1>
+    <h2>维苏威喷发工作室 —— 把掩埋庞贝的那十九个小时，放进物理引擎重演一遍</h2>
+
+    <div class="formula">
+      H = 33 km · (ṁ/10⁸ kg/s)<sup>¼</sup> · <span class="num">R_max = √(V/πh_stop)</span>
+      <small>四次方根普林尼柱标度 · 皮尔指数减薄 · 本杰明箱形密度流 · 庞贝 224 cm · 赫库兰尼姆 5 cm</small>
+    </div>
+
+    <div class="meta">
+      <span class="dot"></span>
+      <span>Ox Alpha · AI 每日作业</span>
+    </div>
+  </div>
+
+  <div class="stamp">79 AD · POMPEII</div>
+</div>
+</body>
+</html>

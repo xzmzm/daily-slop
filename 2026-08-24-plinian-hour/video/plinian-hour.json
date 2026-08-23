@@ -1,0 +1,17 @@
+{
+  "output": "/Users/hm/prj/daily-slop/2026-08-24-plinian-hour/video/plinian-hour.mp4",
+  "provider": "Fish Audio REST API",
+  "model": "s2.1-pro-free",
+  "voice_id": "ae5adc6778ac459e8d6106b82f88fa2b",
+  "segment_durations": [
+    41.351837,
+    33.541224,
+    27.663673,
+    33.201633,
+    30.406531,
+    21.028571
+  ],
+  "video_duration": 189.992993,
+  "fps": 15,
+  "resolution": "1920x1080"
+}
