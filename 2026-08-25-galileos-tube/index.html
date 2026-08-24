@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Perspicillum — Galileo's tube, ray-traced · 25 Aug 1609</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="eyebrow">25 AUGUST 1609 · ST MARK'S CAMPANILE, VENICE</div>
+  <h1>Perspicil<span class="gold">lum</span></h1>
+  <p class="sub">Galileo's tube, ray-traced live. Two lenses, one line of math —
+     the demo that doubled his salary and five months later started modern astronomy.</p>
+  <div class="presets" id="presets">
+    <button data-scenario="padua" class="on">Padua 1609 · ×9<small>f66 · f−7.5 — the Senate scope</small></button>
+    <button data-scenario="sidereus">Sidereus Nuncius · ×20<small>f66 · f−3.3 — the sky tube</small></button>
+    <button data-scenario="medici">Medici gift · ×33<small>f100 · f−3 — the prince's tube</small></button>
+    <button data-scenario="kepler">Kepler 1611 · ×11<small>f66 · f+6 — convex ocular, inverted</small></button>
+  </div>
+</header>
+
+<main>
+  <section class="card bench-card">
+    <div class="card-head">
+      <h2>Optical bench</h2>
+      <span class="focus-chip" id="focusChip">FOCUSED</span>
+      <span class="hint">drag the eyepiece along the axis · <b>y axis exaggerated</b></span>
+    </div>
+    <canvas id="bench"></canvas>
+  </section>
+
+  <aside class="card panel">
+    <div class="ledger">
+      <h2>The whole lesson</h2>
+      <div class="row big"><em>M = f<sub>obj</sub>/|f<sub>eye</sub>|</em><output id="outM">—</output></div>
+      <div class="row"><span>tube length&nbsp;<i>L = f<sub>obj</sub>+f<sub>eye</sub></i></span><output id="outL">—</output></div>
+      <div class="row"><span>exit pupil&nbsp;<i>D<sub>x</sub> = D<sub>obj</sub>/M</i></span><output id="outExit">—</output></div>
+      <div class="row"><span>pupil position</span><output id="outPupil">—</output></div>
+      <div class="row"><span>true field / apparent</span><output id="outFov">—</output></div>
+      <div class="row"><span>light grasp vs eye</span><output id="outGrasp">—</output></div>
+      <div class="row"><span>resolution (Dawes)</span><output id="outDawes">—</output></div>
+      <p class="fineprint" id="lessonNote"></p>
+    </div>
+
+    <div class="controls">
+      <label>f<sub>obj</sub> objective focal length <output id="vFobj">66 cm</output>
+        <input type="range" id="fobj" min="40" max="120" step="0.5" value="66"></label>
+      <label>|f<sub>eye</sub>| ocular focal length <output id="vFeye">7.5 cm</output>
+        <input type="range" id="feye" min="2" max="18" step="0.1" value="7.5"></label>
+      <label>D<sub>obj</sub> objective aperture <output id="vAp">16 mm</output>
+        <input type="range" id="aperture" min="8" max="30" step="0.5" value="16"></label>
+      <label>field angle (exaggerated for display) <output id="vField">0.15°</output>
+        <input type="range" id="field" min="0.02" max="0.5" step="0.01" value="0.15"></label>
+      <div class="toggles">
+        <label class="chk"><input type="checkbox" id="ca"> chromatic aberration (Cauchy crown glass)</label>
+        <label class="chk"><input type="checkbox" id="kmode"> Kepler mode — convex ocular (+f, inverted image)</label>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<section class="card scope-card">
+  <div class="card-head">
+    <div class="tabs" id="tabs">
+      <button data-tab="campanile" class="on">The Campanile demo</button>
+      <button data-tab="jupiter">The Medicean stars</button>
+      <button data-tab="venus">Venus phases</button>
+    </div>
+    <div class="tab-note" id="tabNote"></div>
+  </div>
+  <div class="scope-body">
+    <canvas id="scope"></canvas>
+    <div class="target-controls" id="targetControls"></div>
+  </div>
+</section>
+
+<footer>
+  On the morning of 25 Aug 1609 Galileo climbed St Mark's bell tower and showed
+  the Senate incoming ships hours before any naked eye could swear to them;
+  his salary was doubled and his chair at Padua made lifelong. He called the
+  gadget a <i>perspicillum</i>. Everything here is paraxial first-order optics —
+  see <code>test_physics.mjs</code>.
+</footer>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

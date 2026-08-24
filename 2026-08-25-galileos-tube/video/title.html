@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>galileos-tube · video card</title>
+  <style>
+    :root {
+      --ink: #f8fafc;
+      --dim: #94a3b8;
+      --gold: #d4af37;
+      --glass: #7fd4ff;
+      --glass-soft: rgba(127, 212, 255, 0.55);
+    }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; }
+    body {
+      overflow: hidden; color: var(--ink);
+      background: radial-gradient(circle at 70% 20%, #101c33 0%, #0a1020 55%, #05070f 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans GB", "STHeiti", "Georgia", serif, sans-serif;
+    }
+    .card {
+      position: relative; width: 100%; height: 100%;
+      display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 64px;
+      padding: 60px 80px;
+    }
+    .scene { position: relative; width: 470px; height: 450px; flex: none; }
+    .scene svg { width: 100%; height: 100%; filter: drop-shadow(0 14px 44px rgba(127,212,255,.18)); }
+    .copy { max-width: 640px; }
+    .eyebrow {
+      color: var(--gold); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 2.5px; font-size: 14px; text-transform: uppercase; margin-bottom: 18px;
+    }
+    h1 { margin: 0; font-size: 74px; line-height: .98; letter-spacing: -1px; font-weight: 800; font-family: "Georgia", serif; }
+    h1 .ox { color: var(--gold); }
+    h2 {
+      margin: 20px 0 0; font-size: 24px; line-height: 1.4; font-weight: 500;
+      color: #cbd5e1; max-width: 620px;
+    }
+    .meta { display: flex; align-items: center; gap: 12px; margin-top: 30px; color: var(--dim); font-size: 15px; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--glass); box-shadow: 0 0 18px rgba(127,212,255,.9); }
+    .formula {
+      margin-top: 26px; color: var(--gold); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 19px; letter-spacing: 0.5px;
+    }
+    .formula .num { color: var(--glass); }
+    .formula small { color: var(--dim); font-size: 14px; display: block; margin-top: 6px; letter-spacing: .5px;
+      font-family: -apple-system, sans-serif; }
+    .stamp {
+      position: absolute; right: 78px; bottom: 60px;
+      color: var(--glass); border: 2px dashed var(--glass); border-radius: 6px;
+      font: 700 14px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: 3px;
+      padding: 8px 16px; transform: rotate(-4deg); opacity: .9;
+      box-shadow: 0 0 15px rgba(127,212,255,0.25);
+    }
+    .scene.end { display: none; }
+    body[data-scene="end"] .scene.intro { display: none; }
+    body[data-scene="end"] .scene.end { display: block; }
+  </style>
+</head>
+<body data-scene="intro">
+<script>
+  const scene = new URLSearchParams(location.search).get('scene') || 'intro';
+  document.body.dataset.scene = scene;
+</script>
+<div class="card">
+  <!-- Intro Scene Art: the two-lens ray diagram -->
+  <div class="scene intro">
+    <svg viewBox="0 0 470 450" aria-hidden="true">
+      <defs>
+        <linearGradient id="rayGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="rgba(255,210,127,0.15)"/>
+          <stop offset="100%" stop-color="rgba(255,210,127,0.9)"/>
+        </linearGradient>
+      </defs>
+      <rect x="10" y="10" width="450" height="430" rx="14" fill="#070b16"/>
+      <!-- optical axis -->
+      <path d="M 30 225 H 440" stroke="rgba(143,161,196,.4)" stroke-dasharray="5 7"/>
+      <!-- incoming bundles -->
+      <g stroke="url(#rayGrad)" stroke-width="1.6" fill="none">
+        <path d="M 30 165 L 130 165"/>
+        <path d="M 30 195 L 130 195"/>
+        <path d="M 30 225 L 130 225"/>
+        <path d="M 30 255 L 130 255"/>
+        <path d="M 30 285 L 130 285"/>
+      </g>
+      <!-- converging to focus then through ocular, fanning out magnified -->
+      <g stroke="rgba(255,210,127,.8)" stroke-width="1.4" fill="none">
+        <path d="M 130 165 L 300 213 L 430 150"/>
+        <path d="M 130 195 L 300 221 L 430 190"/>
+        <path d="M 130 225 L 300 225 L 430 225"/>
+        <path d="M 130 255 L 300 229 L 430 260"/>
+        <path d="M 130 285 L 300 237 L 430 300"/>
+      </g>
+      <!-- common focus marker -->
+      <path d="M 340 60 V 390" stroke="rgba(127,212,255,.45)" stroke-dasharray="3 6"/>
+      <text x="348" y="72" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#7fd4ff">common focus</text>
+      <!-- objective lens -->
+      <g stroke="#d4af37" stroke-width="3" fill="none">
+        <path d="M 122 140 Q 138 225 122 310"/>
+        <path d="M 138 140 Q 122 225 138 310"/>
+      </g>
+      <text x="130" y="336" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#d4af37" text-anchor="middle">f = 66 cm</text>
+      <!-- concave eyepiece -->
+      <g stroke="#7fd4ff" stroke-width="3" fill="none">
+        <path d="M 294 160 Q 288 225 294 290"/>
+        <path d="M 306 160 Q 312 225 306 290"/>
+      </g>
+      <text x="300" y="316" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#7fd4ff" text-anchor="middle">f = −7.5 cm</text>
+      <!-- magnification bracket -->
+      <text x="436" y="132" font-family="ui-monospace, Menlo, monospace" font-size="14" fill="#d4af37" text-anchor="end">×8.8</text>
+      <!-- Jupiter and his starlets, top right -->
+      <g>
+        <circle cx="392" cy="96" r="9" fill="#e8caa0"/>
+        <circle cx="416" cy="96" r="1.6" fill="#fdf6e3"/>
+        <circle cx="432" cy="96" r="1.6" fill="#fdf6e3"/>
+        <circle cx="448" cy="96" r="1.6" fill="#fdf6e3"/>
+        <text x="392" y="76" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#94a3b8" text-anchor="middle">Iovis · 1610</text>
+      </g>
+      <!-- tube ghost -->
+      <rect x="96" y="118" width="226" height="214" rx="10" fill="none" stroke="rgba(212,175,55,.25)" stroke-width="2"/>
+      <text x="96" y="404" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="rgba(212,175,55,.6)">perspicillum · 21 Aug 1609 design</text>
+    </svg>
+  </div>
+
+  <!-- End Scene Art: campanile over the lagoon at dusk -->
+  <div class="scene end">
+    <svg viewBox="0 0 470 450" aria-hidden="true">
+      <defs>
+        <linearGradient id="duskGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#0a1128"/>
+          <stop offset="60%" stop-color="#2b2140"/>
+          <stop offset="100%" stop-color="#6a3c24"/>
+        </linearGradient>
+      </defs>
+      <rect x="10" y="10" width="450" height="430" rx="14" fill="url(#duskGrad)"/>
+      <!-- lagoon -->
+      <rect x="10" y="330" width="450" height="110" fill="#0d1c2e"/>
+      <path d="M 10 330 H 460" stroke="rgba(240,244,252,.2)"/>
+      <!-- ship on the horizon -->
+      <g fill="rgba(240,244,252,.85)">
+        <path d="M 356 330 l 6 -7 l 16 0 l 6 7 Z"/>
+        <rect x="366" y="308" width="1.6" height="16"/>
+        <path d="M 368 310 q 10 5 0 12 Z"/>
+      </g>
+      <!-- campanile silhouette -->
+      <g fill="#080a12">
+        <rect x="96" y="140" width="34" height="190"/>
+        <rect x="90" y="120" width="46" height="22"/>
+        <path d="M 96 120 L 113 74 L 130 120 Z"/>
+        <circle cx="113" cy="66" r="5"/>
+        <rect x="86" y="330" width="54" height="10"/>
+      </g>
+      <g fill="rgba(255,196,107,.85)">
+        <circle cx="105" cy="180" r="2.4"/><circle cx="121" cy="210" r="2.4"/>
+        <circle cx="105" cy="240" r="2.4"/><circle cx="121" cy="270" r="2.4"/>
+      </g>
+      <!-- stars -->
+      <g fill="#e8eefc" opacity=".8">
+        <circle cx="220" cy="60" r="1.4"/><circle cx="262" cy="44" r="1.1"/><circle cx="300" cy="70" r="1.5"/>
+        <circle cx="200" cy="96" r="1.2"/><circle cx="330" cy="52" r="1.2"/>
+      </g>
+      <text x="235" y="392" font-family="ui-monospace, Menlo, monospace" font-size="12"
+            fill="rgba(203,213,225,0.8)" text-anchor="middle">25 Aug 1609 — the Senate sees ships two hours early</text>
+      <text x="235" y="420" font-family="Georgia, serif" font-size="15" font-style="italic"
+            fill="#e2d8c8" text-anchor="middle">“我把它对准了天空。” — 伽利略，1610 年 1 月</text>
+    </svg>
+  </div>
+
+  <div class="copy">
+    <div class="eyebrow">25 Aug 1609 · Venice · Galileo Galilei</div>
+    <h1>Perspicil<span class="ox">lum</span></h1>
+    <h2>伽利略的镜筒 —— 把那根让薪水翻倍的管子拆成两片透镜，现场光线追踪</h2>
+
+    <div class="formula">
+      M = f<sub>obj</sub>/|f<sub>eye</sub>| · <span class="num">L = f<sub>obj</sub>+f<sub>eye</sub></span> · D<sub>x</sub> = D<sub>obj</sub>/M
+      <small>凹目镜放在共同焦点之前 · 出瞳是虚像 · 真视场只有 14 角分 · 木星的四颗卫星 · 金星相位</small>
+    </div>
+
+    <div class="meta">
+      <span class="dot"></span>
+      <span>Ox Alpha · AI 每日作业</span>
+    </div>
+  </div>
+
+  <div class="stamp">1609 · VENEZIA</div>
+</div>
+</body>
+</html>
