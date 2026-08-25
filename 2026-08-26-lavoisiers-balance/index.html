@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Lavoisier's Ledger · 拉瓦锡的天平账本</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="eyebrow">26 AUG 1743 · PARIS · ANTOINE-LAURENT DE LAVOISIER</div>
+  <h1>Lavoisier's <span class="gold">Ledger</span> <span class="cn">拉瓦锡的天平账本</span></h1>
+  <p class="sub">二百八十三年前的今天，"现代化学之父"在巴黎出生。他给化学立下的第一条法律是一条记账规则：
+  <b>密封系统的总质量永远不动</b>；敞口系统秤上的每一克增减，都是空气的收支。
+  四个经典实验，现场过秤——每一克都有去向。</p>
+</header>
+
+<div class="presets" id="presets"></div>
+
+<main>
+  <section class="card bench-card">
+    <div class="card-head">
+      <h2 id="bench-title">实验台</h2>
+      <code class="eq" id="bench-eq"></code>
+      <span class="chip on" id="vessel-chip">密封系统</span>
+      <span class="hint" id="bench-hint">按「加热」开始反应，或拖动进度条</span>
+    </div>
+    <canvas id="bench"></canvas>
+    <div class="readouts">
+      <div class="ro"><label>秤上读数</label><output id="ro-weighed">—</output></div>
+      <div class="ro"><label>密封总质量</label><output id="ro-total">—</output></div>
+      <div class="ro"><label>压强比 P/P₀</label><output id="ro-pressure">—</output></div>
+      <div class="ro"><label>已转化</label><output id="ro-extent">—</output></div>
+    </div>
+  </section>
+
+  <aside class="panel">
+    <div class="card ledger">
+      <h2>质量账本 <i>the register</i></h2>
+      <div id="ledger-rows"></div>
+      <div class="row big"><em>Σ 密封系统总质量</em><output id="ledger-total">—</output></div>
+      <div class="row delta-row"><span>敞口秤盘变化</span><output id="ledger-delta">—</output></div>
+      <p class="fineprint" id="ledger-note"></p>
+    </div>
+
+    <div class="card controls">
+      <h2>天平室 <i>the balance room</i></h2>
+      <div class="vessel-pick" id="vessel-pick">
+        <button data-vessel="sealed">密封系统</button>
+        <button data-vessel="open">敞口坩埚</button>
+      </div>
+      <label><span id="sample-label">样品质量</span><output id="sample-out"></output>
+        <input type="range" id="sample-range">
+      </label>
+      <label id="air-label-wrap"><span>瓶内空气体积</span><output id="air-out"></output>
+        <input type="range" id="air-range">
+      </label>
+      <label><span>反应进度 ξ/ξ<sub>max</sub></span><output id="extent-out"></output>
+        <input type="range" id="extent-range" min="0" max="1" step="0.001" value="0">
+      </label>
+      <div class="btn-row">
+        <button id="flame-btn">🔥 加热</button>
+        <button id="reset-btn">↺ 重置实验</button>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<section class="card tabs-card">
+  <div class="tabs" id="tabs">
+    <button data-tab="chart" class="on">质量轨迹</button>
+    <button data-tab="court">燃素法庭</button>
+    <button data-tab="log">实验记录</button>
+    <span class="tab-note" id="tab-note"></span>
+  </div>
+  <div class="tab-body" id="tab-chart">
+    <div class="chart-wrap">
+      <canvas id="chart"></canvas>
+      <div class="legend">
+        <span class="lg gold">— 密封系统：总质量（不变量）</span>
+        <span class="lg cyan">— 敞口坩埚：秤盘读数</span>
+      </div>
+    </div>
+  </div>
+  <div class="tab-body hidden" id="tab-court">
+    <div class="court-grid">
+      <div class="court-box">
+        <h3>燃素说的预言</h3>
+        <p id="court-predicts"></p>
+      </div>
+      <div class="court-box">
+        <h3>账本上的观测</h3>
+        <p id="court-observed"></p>
+      </div>
+      <div class="court-box verdict-box">
+        <h3>判决</h3>
+        <p id="court-verdict"></p>
+      </div>
+    </div>
+    <p class="fineprint" id="court-fineprint"></p>
+  </div>
+  <div class="tab-body hidden" id="tab-log">
+    <div id="log-list"></div>
+  </div>
+</section>
+
+<footer>
+  <span><code>m_sealed = Σ n·M</code> 是不变量 · <code>P₁/P₂ = n₁/n₂</code>（同温同容）·
+  敞口的账 = 密封的账 − 空气的收支 · 空气只有 <code>20.95%</code> 是活气</span>
+  <span>Built by Ox Alpha · daily-slop 2026-08-26</span>
+</footer>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

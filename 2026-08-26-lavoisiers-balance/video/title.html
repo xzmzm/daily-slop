@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>lavoisiers-balance · video card</title>
+  <style>
+    :root {
+      --ink: #f8fafc;
+      --dim: #94a3b8;
+      --gold: #d4af37;
+      --ember: #ff9a5c;
+      --cyan: #7fd4ff;
+    }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; }
+    body {
+      overflow: hidden; color: var(--ink);
+      background: radial-gradient(circle at 70% 20%, #14203a 0%, #0b1120 55%, #05070f 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans GB", "STHeiti", "Georgia", serif, sans-serif;
+    }
+    .card {
+      position: relative; width: 100%; height: 100%;
+      display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 64px;
+      padding: 60px 80px;
+    }
+    .scene { position: relative; width: 470px; height: 450px; flex: none; }
+    .scene svg { width: 100%; height: 100%; filter: drop-shadow(0 14px 44px rgba(212,175,55,.16)); }
+    .copy { max-width: 640px; }
+    .eyebrow {
+      color: var(--gold); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 2.5px; font-size: 14px; text-transform: uppercase; margin-bottom: 18px;
+    }
+    h1 { margin: 0; font-size: 70px; line-height: .98; letter-spacing: -1px; font-weight: 800; font-family: "Georgia", serif; }
+    h1 .ox { color: var(--gold); }
+    h2 {
+      margin: 20px 0 0; font-size: 24px; line-height: 1.4; font-weight: 500;
+      color: #cbd5e1; max-width: 620px;
+    }
+    .meta { display: flex; align-items: center; gap: 12px; margin-top: 30px; color: var(--dim); font-size: 15px; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--ember); box-shadow: 0 0 18px rgba(255,154,92,.9); }
+    .formula {
+      margin-top: 26px; color: var(--gold); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 19px; letter-spacing: 0.5px;
+    }
+    .formula .num { color: var(--cyan); }
+    .formula small { color: var(--dim); font-size: 14px; display: block; margin-top: 6px; letter-spacing: .5px;
+      font-family: -apple-system, sans-serif; }
+    .stamp {
+      position: absolute; right: 78px; bottom: 60px;
+      color: var(--ember); border: 2px dashed var(--ember); border-radius: 6px;
+      font: 700 14px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: 3px;
+      padding: 8px 16px; transform: rotate(-4deg); opacity: .9;
+      box-shadow: 0 0 15px rgba(255,154,92,0.25);
+    }
+    .scene.end { display: none; }
+    body[data-scene="end"] .scene.intro { display: none; }
+    body[data-scene="end"] .scene.end { display: block; }
+  </style>
+</head>
+<body data-scene="intro">
+<script>
+  const scene = new URLSearchParams(location.search).get('scene') || 'intro';
+  document.body.dataset.scene = scene;
+</script>
+<div class="card">
+  <!-- Intro Scene Art: sealed bell jar on the balance, atoms rearranging -->
+  <div class="scene intro">
+    <svg viewBox="0 0 470 450" aria-hidden="true">
+      <rect x="10" y="10" width="450" height="430" rx="14" fill="#080a12"/>
+      <!-- balance base -->
+      <rect x="70" y="386" width="330" height="26" rx="7" fill="#10182e" stroke="#22304f"/>
+      <rect x="120" y="374" width="230" height="14" rx="4" fill="#8a6d2f"/>
+      <rect x="196" y="396" width="120" height="16" rx="4" fill="#05070f"/>
+      <text x="256" y="409" font-family="ui-monospace, Menlo, monospace" font-size="13" fill="#ffd76a" text-anchor="middle">11.544 g</text>
+      <!-- bell jar -->
+      <path d="M 130 374 L 130 150 Q 130 96 190 96 L 280 96 Q 340 96 340 150 L 340 374 Z"
+            fill="rgba(127,212,255,.05)" stroke="rgba(160,215,250,.6)" stroke-width="2.5"/>
+      <path d="M 148 350 L 148 170" stroke="rgba(255,255,255,.14)" stroke-width="5" stroke-linecap="round"/>
+      <!-- seal -->
+      <circle cx="235" cy="88" r="9" fill="#d4af37"/>
+      <text x="252" y="92" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#d4af37">SEAL</text>
+      <!-- atoms: N2 spectators (blue), O2 fading (red), Sn (steel) -> SnO2 (tan) -->
+      <g fill="#7fa3d8" opacity=".85">
+        <circle cx="180" cy="160" r="8"/><circle cx="300" cy="140" r="8"/>
+        <circle cx="316" cy="220" r="8"/><circle cx="164" cy="250" r="8"/>
+      </g>
+      <g fill="#ff6b5e" opacity=".55">
+        <circle cx="230" cy="150" r="7"/><circle cx="270" cy="200" r="7"/>
+      </g>
+      <g fill="#9fb8d4">
+        <circle cx="180" cy="330" r="11"/><circle cx="210" cy="342" r="11"/>
+        <circle cx="240" cy="330" r="11"/>
+      </g>
+      <g fill="#e6d3a3">
+        <circle cx="270" cy="342" r="12"/><circle cx="300" cy="330" r="12"/>
+        <circle cx="240" cy="352" r="12"/><circle cx="210" cy="318" r="12"/>
+      </g>
+      <text x="150" y="300" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#9fb8d4">Sn</text>
+      <text x="352" y="300" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#e6d3a3">SnO₂</text>
+      <!-- equation plate -->
+      <rect x="40" y="34" width="240" height="44" rx="8" fill="rgba(8,10,18,.8)" stroke="#22304f"/>
+      <text x="56" y="62" font-family="ui-monospace, Menlo, monospace" font-size="16" fill="#d4af37">Sn + O₂ → SnO₂</text>
+      <!-- manometer -->
+      <path d="M 340 150 L 400 150 L 400 210" stroke="rgba(160,215,250,.5)" stroke-width="2" fill="none"/>
+      <path d="M 388 210 L 388 300 L 412 300 L 412 230" stroke="rgba(160,215,250,.5)" stroke-width="2" fill="none"/>
+      <path d="M 388 224 L 388 294 L 412 294 L 412 236" stroke="#ff6b5e" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <text x="400" y="324" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#94a3b8" text-anchor="middle">P/P₀ = 0.883</text>
+      <text x="235" y="440" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="rgba(212,175,55,.6)" text-anchor="middle">m_sealed = Σ n·M — the invariant</text>
+    </svg>
+  </div>
+
+  <!-- End Scene Art: equal-armed balance over the Traité -->
+  <div class="scene end">
+    <svg viewBox="0 0 470 450" aria-hidden="true">
+      <defs>
+        <linearGradient id="duskGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#0a1128"/>
+          <stop offset="60%" stop-color="#231c38"/>
+          <stop offset="100%" stop-color="#4a3421"/>
+        </linearGradient>
+      </defs>
+      <rect x="10" y="10" width="450" height="430" rx="14" fill="url(#duskGrad)"/>
+      <!-- equal-armed balance -->
+      <g stroke="#d4af37" stroke-width="4" fill="none">
+        <path d="M 235 96 L 235 140"/>
+        <path d="M 105 150 L 365 142"/>
+      </g>
+      <circle cx="235" cy="96" r="8" fill="#d4af37"/>
+      <g stroke="rgba(212,175,55,.8)" stroke-width="2" fill="none">
+        <path d="M 105 150 L 85 210 M 105 150 L 125 210"/>
+        <path d="M 365 142 L 345 202 M 365 142 L 385 202"/>
+      </g>
+      <path d="M 70 210 Q 105 226 140 210" stroke="#d4af37" stroke-width="3" fill="rgba(212,175,55,.12)"/>
+      <path d="M 330 202 Q 365 218 400 202" stroke="#d4af37" stroke-width="3" fill="rgba(212,175,55,.12)"/>
+      <!-- weights on left pan, feathers/phlogiston ghost on right -->
+      <g fill="#8fa1c4">
+        <rect x="92" y="188" width="26" height="18" rx="3"/>
+        <rect x="112" y="174" width="20" height="16" rx="3" fill="#b9c7e6"/>
+      </g>
+      <g fill="none" stroke="rgba(255,122,122,.75)" stroke-width="2.4" stroke-dasharray="4 4">
+        <path d="M 358 186 q 8 -14 0 -26 q -10 12 0 26 Z"/>
+        <path d="M 374 190 q 8 -12 0 -22 q -9 10 0 22 Z"/>
+      </g>
+      <!-- pedestal -->
+      <path d="M 235 140 L 235 330" stroke="#22304f" stroke-width="10"/>
+      <path d="M 160 336 Q 235 316 310 336 L 330 356 L 140 356 Z" fill="#10182e" stroke="#22304f"/>
+      <!-- open book (Traité) -->
+      <g>
+        <path d="M 150 396 Q 195 380 235 396 Q 275 380 320 396 L 320 416 Q 275 402 235 416 Q 195 402 150 416 Z"
+              fill="#e8e2d2"/>
+        <path d="M 235 396 L 235 416" stroke="#b9ad93" stroke-width="2"/>
+        <g stroke="#8a7f68" stroke-width="1.2">
+          <path d="M 160 398 Q 195 386 228 398" fill="none"/>
+          <path d="M 160 404 Q 195 392 228 404" fill="none"/>
+          <path d="M 242 398 Q 275 386 310 398" fill="none"/>
+          <path d="M 242 404 Q 275 392 310 404" fill="none"/>
+        </g>
+      </g>
+      <text x="235" y="440" font-family="Georgia, serif" font-size="15" font-style="italic"
+            fill="#e2d8c8" text-anchor="middle">“Rien ne se perd, rien ne se crée” — 1789</text>
+    </svg>
+  </div>
+
+  <div class="copy">
+    <div class="eyebrow">26 Aug 1743 · Paris · Antoine-Laurent de Lavoisier</div>
+    <h1>Lavoisier's <span class="ox">Ledger</span></h1>
+    <h2>拉瓦锡的天平账本 —— 给化学反应称重：密封系统总质量永远不动，敞口的每一克增减都是空气的收支</h2>
+
+    <div class="formula">
+      m<sub>sealed</sub> = Σ n·M · <span class="num">P₁/P₂ = n₁/n₂</span> · ξ<sub>max</sub> = min(n/ν)
+      <small>1774 锡的密室 · 木炭的减重 · 1778 氧的命名 · 1783 水的合成 · 燃素法庭</small>
+    </div>
+
+    <div class="meta">
+      <span class="dot"></span>
+      <span>Ox Alpha · AI 每日作业</span>
+    </div>
+  </div>
+
+  <div class="stamp">1789 · PARIS</div>
+</div>
+</body>
+</html>
