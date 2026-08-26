@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>drake-well · video card</title>
+  <style>
+    :root {
+      --ink: #f2e8d5;
+      --dim: #a89878;
+      --gold: #d4a437;
+      --ember: #e8813a;
+      --blue: #7fa8c9;
+    }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; }
+    body {
+      overflow: hidden; color: var(--ink);
+      background: radial-gradient(circle at 72% 18%, #2a2113 0%, #16110a 48%, #090705 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans GB", "STHeiti", "Georgia", serif, sans-serif;
+    }
+    .card {
+      position: relative; width: 100%; height: 100%;
+      display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 64px;
+      padding: 60px 80px;
+    }
+    .scene { position: relative; width: 470px; height: 450px; flex: none; }
+    .scene svg { width: 100%; height: 100%; filter: drop-shadow(0 14px 44px rgba(212,164,55,.14)); }
+    .copy { max-width: 640px; }
+    .eyebrow {
+      color: var(--gold); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 2.5px; font-size: 14px; text-transform: uppercase; margin-bottom: 18px;
+    }
+    h1 { margin: 0; font-size: 72px; line-height: .98; letter-spacing: -1px; font-weight: 800; font-family: "Georgia", serif; }
+    h1 .ox { color: var(--gold); }
+    h2 {
+      margin: 20px 0 0; font-size: 24px; line-height: 1.4; font-weight: 500;
+      color: #cfc2a6; max-width: 620px;
+    }
+    .meta { display: flex; align-items: center; gap: 12px; margin-top: 30px; color: var(--dim); font-size: 15px; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--ember); box-shadow: 0 0 18px rgba(232,129,58,.9); }
+    .formula {
+      margin-top: 26px; color: var(--gold); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 18px; letter-spacing: 0.5px;
+    }
+    .formula .num { color: var(--blue); }
+    .formula small { color: var(--dim); font-size: 14px; display: block; margin-top: 6px; letter-spacing: .5px;
+      font-family: -apple-system, sans-serif; }
+    .stamp {
+      position: absolute; right: 78px; bottom: 60px;
+      color: var(--ember); border: 2px dashed var(--ember); border-radius: 6px;
+      font: 700 14px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: 3px;
+      padding: 8px 16px; transform: rotate(-4deg); opacity: .9;
+      box-shadow: 0 0 15px rgba(232,129,58,0.25);
+    }
+    .scene.end { display: none; }
+    body[data-scene="end"] .scene.intro { display: none; }
+    body[data-scene="end"] .scene.end { display: block; }
+  </style>
+</head>
+<body data-scene="intro">
+<script>
+  const scene = new URLSearchParams(location.search).get('scene') || 'intro';
+  document.body.dataset.scene = scene;
+</script>
+<div class="card">
+  <!-- Intro Scene Art: the derrick over the hole, the walking beam, the oil sand -->
+  <div class="scene intro">
+    <svg viewBox="0 0 470 450" aria-hidden="true">
+      <defs>
+        <linearGradient id="duskGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#1b2233"/>
+          <stop offset="55%" stop-color="#3a3040"/>
+          <stop offset="100%" stop-color="#6d5136"/>
+        </linearGradient>
+      </defs>
+      <rect x="10" y="10" width="450" height="430" rx="14" fill="url(#duskGrad)"/>
+      <circle cx="356" cy="86" r="17" fill="rgba(240,199,94,.9)"/>
+      <circle cx="356" cy="86" r="38" fill="rgba(240,199,94,.14)"/>
+      <!-- derrick -->
+      <g stroke="#5d4a2c" stroke-width="5" fill="none">
+        <path d="M 150 230 L 218 46"/><path d="M 286 230 L 246 46"/>
+      </g>
+      <g stroke="#4a3a22" stroke-width="2" fill="none">
+        <path d="M 166 196 L 276 184"/><path d="M 186 148 L 262 140"/>
+        <path d="M 204 110 L 248 106"/>
+      </g>
+      <circle cx="232" cy="42" r="8" fill="#2c2318" stroke="#d4a437" stroke-width="2"/>
+      <!-- walking beam -->
+      <g stroke="#7c6238" stroke-width="7" stroke-linecap="round">
+        <path d="M 118 76 L 346 70"/>
+      </g>
+      <rect x="227" y="76" width="10" height="154" fill="#3a2e1c"/>
+      <circle cx="118" cy="76" r="4.5" fill="#d4a437"/>
+      <circle cx="346" cy="70" r="4.5" fill="#d4a437"/>
+      <!-- cable down the hole -->
+      <path d="M 232 46 L 232 356" stroke="#c9b06a" stroke-width="1.6"/>
+      <!-- ground -->
+      <rect x="20" y="230" width="430" height="210" fill="#20180f"/>
+      <line x1="20" y1="230" x2="450" y2="230" stroke="#3d3220" stroke-width="2"/>
+      <!-- strata -->
+      <rect x="20" y="248" width="430" height="52" fill="#4f6373" opacity=".9"/>
+      <rect x="20" y="300" width="430" height="44" fill="#3d4450"/>
+      <rect x="20" y="344" width="430" height="36" fill="#2e2a1c"/>
+      <text x="30" y="278" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="rgba(242,232,213,.6)">含水砾石层 → 套管到 32 ft</text>
+      <text x="30" y="326" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="rgba(242,232,213,.6)">页岩 · 3 ft/天</text>
+      <text x="30" y="366" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#d4a437">第一油砂层 59–69.5 ft</text>
+      <!-- hole + oil -->
+      <rect x="225" y="230" width="14" height="150" fill="#080604"/>
+      <rect x="225" y="330" width="14" height="50" fill="#0b0805"/>
+      <rect x="225" y="330" width="14" height="3" fill="rgba(212,164,55,.4)"/>
+      <!-- bit -->
+      <path d="M 226 352 L 238 352 L 236 364 L 228 364 Z" fill="#1c1a17" stroke="#8c8878"/>
+      <!-- depth tag -->
+      <rect x="330" y="392" width="112" height="34" rx="7" fill="rgba(8,10,18,.8)" stroke="#57472c"/>
+      <text x="386" y="413" font-family="ui-monospace, Menlo, monospace" font-size="14" fill="#e8813a" text-anchor="middle">69.5 ft · OIL</text>
+      <!-- energy plate -->
+      <rect x="26" y="26" width="188" height="40" rx="8" fill="rgba(8,6,4,.75)" stroke="#57472c"/>
+      <text x="40" y="51" font-family="ui-monospace, Menlo, monospace" font-size="15" fill="#d4a437">δ = η·m·g·h / A·S</text>
+      <text x="235" y="440" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="rgba(212,164,55,.6)" text-anchor="middle">一锤一锤，砸出工业时代</text>
+    </svg>
+  </div>
+
+  <!-- End Scene Art: the 42-gallon barrel over a forest of derricks -->
+  <div class="scene end">
+    <svg viewBox="0 0 470 450" aria-hidden="true">
+      <defs>
+        <linearGradient id="nightGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#0e1420"/>
+          <stop offset="60%" stop-color="#231c2e"/>
+          <stop offset="100%" stop-color="#4a3421"/>
+        </linearGradient>
+      </defs>
+      <rect x="10" y="10" width="450" height="430" rx="14" fill="url(#nightGrad)"/>
+      <!-- distant derricks -->
+      <g stroke="rgba(20,16,10,.9)" stroke-width="2" fill="none">
+        <path d="M 60 388 L 76 328 L 92 388"/><path d="M 104 392 L 116 348 L 128 392"/>
+        <path d="M 356 390 L 372 326 L 388 390"/><path d="M 400 394 L 410 356 L 420 394"/>
+      </g>
+      <!-- barrel -->
+      <g>
+        <path d="M 165 208 Q 235 188 305 208 L 297 386 Q 235 402 173 386 Z" fill="#6b4d26"/>
+        <path d="M 165 208 Q 235 188 305 208 L 305 224 Q 235 204 165 224 Z" fill="#8a6433"/>
+        <path d="M 171 268 Q 235 284 299 268" stroke="#4a3418" stroke-width="7" fill="none"/>
+        <path d="M 169 330 Q 235 346 301 330" stroke="#4a3418" stroke-width="7" fill="none"/>
+        <text x="235" y="308" font-family="Georgia, serif" font-size="44" font-weight="800" fill="#f0c75e" text-anchor="middle">42</text>
+        <text x="235" y="330" font-family="ui-monospace, Menlo, monospace" font-size="11" fill="#e8dcc0" text-anchor="middle">US GALLONS</text>
+      </g>
+      <!-- oil drop highlight -->
+      <path d="M 235 120 q 16 26 0 40 q -16 -14 0 -40 Z" fill="#0b0805" stroke="rgba(212,164,55,.6)" stroke-width="1.5"/>
+      <circle cx="235" cy="140" r="52" fill="none" stroke="rgba(212,164,55,.25)" stroke-dasharray="3 7"/>
+      <text x="235" y="440" font-family="Georgia, serif" font-size="15" font-style="italic" fill="#e2d8c8" text-anchor="middle">$20 → 49¢ a barrel — 1859→1861</text>
+    </svg>
+  </div>
+
+  <div class="copy">
+    <div class="eyebrow">27 Aug 1859 · Oil Creek · Titusville, PA</div>
+    <h1>Drake's <span class="ox">Derrick</span></h1>
+    <h2>德雷克的钻塔 —— 世界上第一口专为找油而钻的井：一锤两千二百焦耳，一天三英尺，六十九点五英尺深处，一个星期天的下午，工业时代从井底冒了上来</h2>
+
+    <div class="formula">
+      δ = η·m·g·h/A·S · <span class="num">q = 2πkhΔP / μ·ln(rₑ/r_w)</span> · API = 141.5/SG − 131.5
+      <small>绳式冲击钻 · 达西径向流 · Arps 递减 · $20 → 49¢</small>
+    </div>
+
+    <div class="meta">
+      <span class="dot"></span>
+      <span>GLM-5.3 · AI 每日作业</span>
+    </div>
+  </div>
+
+  <div class="stamp">69½ FT · 1859</div>
+</div>
+</body>
+</html>

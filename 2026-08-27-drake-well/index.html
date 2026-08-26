@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Drake's Derrick · 德雷克的钻塔</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="eyebrow">27 AUG 1859 · OIL CREEK · TITUSVILLE, PENNSYLVANIA</div>
+  <h1>Drake's <span class="gold">Derrick</span> <span class="cn">德雷克的钻塔</span></h1>
+  <p class="sub">一百六十七年前的今天，一个星期天的下午，埃德温·德雷克雇的铁匠比利大叔往井里一看——
+  <b>石油冒上来了</b>。井深只有 69.5 英尺，却是世界上第一口专为找油而钻的井。
+  这一课全是闭式公式：钻头每一锤都是自由落体（<code>δ = ηmgh/(A·S)</code>），油自己爬上来靠静水压头
+  （<code>h = ΔP/ρg</code>），流进井筒走达西定律（<code>q = 2πkhΔP/μ·ln(rₑ/r_w)</code>），
+  之后的日子交给 Arps 递减曲线和一场从 <code>$20</code> 跌到 <code>49¢</code> 的崩盘。</p>
+</header>
+
+<div class="presets" id="presets"></div>
+
+<main>
+  <section class="card rig-card">
+    <div class="card-head">
+      <h2>钻机 <i>the rig · 延时视角</i></h2>
+      <code class="eq">ROP = 1440·n·η·m·g·h / (A·S)</code>
+      <span class="chip" id="phase-chip">待命</span>
+      <span class="hint" id="rig-hint">按下「开钻」：先把套管打到 32 ft 基岩，再往下钻</span>
+    </div>
+    <canvas id="rig"></canvas>
+    <div class="readouts">
+      <div class="ro hero"><label>井深 DEPTH</label><output id="ro-depth">0.0<small>ft</small></output></div>
+      <div class="ro"><label>进尺速度 ROP</label><output id="ro-rop">—<small>ft/天</small></output></div>
+      <div class="ro"><label>一锤的功 m·g·h</label><output id="ro-energy">2206<small>J</small></output></div>
+      <div class="ro"><label>井内油柱</label><output id="ro-oil">—<small>ft</small></output></div>
+    </div>
+  </section>
+
+  <aside class="panel">
+    <div class="card">
+      <h2>钻工棚 <i>the doghouse</i></h2>
+      <div class="btn-row">
+        <button id="engine-btn" class="primary">⚙ 开钻</button>
+        <button id="casing-btn">🔨 下套管</button>
+        <button id="reset-btn">↺ 重置</button>
+      </div>
+      <label class="ctl"><span>冲次 n（锤/分）</span><output id="spm-out"></output>
+        <input type="range" id="spm-range" min="10" max="45" step="1">
+      </label>
+      <label class="ctl"><span>钻具质量 m（kg）</span><output id="mass-out"></output>
+        <input type="range" id="mass-range" min="100" max="900" step="10">
+      </label>
+      <label class="ctl"><span>落高 h（m）</span><output id="drop-out"></output>
+        <input type="range" id="drop-range" min="0.3" max="1.6" step="0.05">
+      </label>
+      <label class="ctl"><span>钻头直径 d（in）</span><output id="dia-out"></output>
+        <input type="range" id="dia-range" min="4" max="12.25" step="0.25">
+      </label>
+      <label class="ctl"><span>延时倍率（1 秒 = 几天）</span><output id="speed-out"></output>
+        <input type="range" id="speed-range" min="0.5" max="6" step="0.5">
+      </label>
+      <label class="ctl"><span>地层压差盈余 ΔP（kPa）</span><output id="surplus-out"></output>
+        <input type="range" id="surplus-range" min="0" max="320" step="5">
+      </label>
+      <div class="yield">
+        <div class="row"><span>砂层渗流 q（达西）</span><output id="yield-q">—</output></div>
+        <div class="row"><span>油面离地面</span><output id="yield-level">—</output></div>
+        <div class="row total"><span>第一天能卖</span><output id="yield-money">—</output></div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<section class="tabs-card">
+  <div class="card">
+    <div class="tabs" id="tabs">
+      <button data-tab="chart" class="on">产量 · Arps 递减</button>
+      <button data-tab="darcy">达西 · 径向流</button>
+      <button data-tab="api">比重 · API 度</button>
+      <button data-tab="log">钻井日志</button>
+      <span class="tab-note" id="tab-note">上两条线是物理，最下面一条是人性</span>
+    </div>
+
+    <div class="tab-body" id="tab-chart">
+      <div class="chart-wrap">
+        <canvas id="chart" class="chart" width="960" height="400"></canvas>
+        <div class="legend">
+          <span class="lg gold">产量 q(t)（对数轴）</span>
+          <span class="lg blue">累计产量 N(t)</span>
+          <span class="lg ember">油价 $/桶（1859→1861）</span>
+          <span class="lg dim">b = 0 悬崖 · b → 1 缓坡</span>
+        </div>
+      </div>
+      <div class="mini-sliders" id="prod-sliders">
+        <label class="ctl"><span>初始产量 q_i（桶/天）</span><output id="qi-out"></output>
+          <input type="range" id="qi-range" min="10" max="3000" step="10">
+        </label>
+        <label class="ctl"><span>初始递减 D_i（/月）</span><output id="di-out"></output>
+          <input type="range" id="di-range" min="0.002" max="0.5" step="0.002">
+        </label>
+        <label class="ctl"><span>递减形状 b（0 指数 · 1 调和）</span><output id="b-out"></output>
+          <input type="range" id="b-range" min="0" max="1" step="0.05">
+        </label>
+        <div class="yield">
+          <div class="row"><span>三年累计产量</span><output id="chart-cum">—</output></div>
+          <div class="row"><span>三年累计收入</span><output id="chart-rev">—</output></div>
+          <div class="row total"><span>第 36 个月还剩</span><output id="chart-tail">—</output></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-body hidden" id="tab-darcy">
+      <div class="darcy-grid">
+        <div>
+          <div class="chart-wrap">
+            <canvas id="darcy" class="chart" width="960" height="360"></canvas>
+            <div class="legend">
+              <span class="lg ember">— 压降 P(r)：对数轴上的直线</span>
+              <span class="lg blue">— 半压降半径 √(r_w·rₑ) ≈ 3 m</span>
+              <span class="lg dim">一半的压降耗在井壁前三米</span>
+            </div>
+          </div>
+        </div>
+        <div class="darcy-side">
+          <div class="drow"><span>渗透率 k</span><output id="d-k">—</output></div>
+          <div class="drow"><span>净砂层厚度 h</span><output id="d-h">—</output></div>
+          <div class="drow"><span>生产压差 ΔP</span><output id="d-dp">—</output></div>
+          <div class="drow"><span>原油粘度 μ</span><output id="d-mu">—</output></div>
+          <div class="drow"><span>泄流半径 rₑ</span><output id="d-re">—</output></div>
+          <div class="drow"><span>ln(rₑ/r_w) —— 主角</span><output id="d-ln">—</output></div>
+          <div class="drow big"><span>流进井筒 q</span><output id="d-q">—</output></div>
+          <div class="mini-sliders">
+            <label class="ctl"><span>渗透率 k（达西）</span><output id="dk-out"></output>
+              <input type="range" id="dk-range" min="0.02" max="2" step="0.01">
+            </label>
+            <label class="ctl"><span>压差 ΔP（kPa）</span><output id="ddp-out"></output>
+              <input type="range" id="ddp-range" min="50" max="2000" step="10">
+            </label>
+            <label class="ctl"><span>粘度 μ（cP）</span><output id="dmu-out"></output>
+              <input type="range" id="dmu-range" min="0.5" max="50" step="0.5">
+            </label>
+            <label class="ctl"><span>净砂层厚度（m）</span><output id="dh-out"></output>
+              <input type="range" id="dh-range" min="1" max="15" step="0.5">
+            </label>
+            <label class="ctl"><span>泄流半径 rₑ（m）</span><output id="dre-out"></output>
+              <input type="range" id="dre-range" min="40" max="500" step="5">
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-body hidden" id="tab-api">
+      <div class="api-grid">
+        <div class="chart-wrap">
+          <canvas id="api" class="chart" width="960" height="380"></canvas>
+        </div>
+        <div>
+          <div class="crude-pick" id="crude-pick"></div>
+          <div class="api-facts">
+            <div class="row"><span>API = 141.5/SG − 131.5</span><output id="a-formula">—</output></div>
+            <div class="row"><span>比重 SG</span><output id="a-sg">—</output></div>
+            <div class="row"><span>API 度</span><output id="a-api">—</output></div>
+            <div class="row"><span>一桶的质量</span><output id="a-kg">—</output></div>
+            <p style="margin:10px 0 0">水按定义恰好 <b>10 度</b>。1859 年人们为光而钻：宾州 42° 的浅金色轻油
+            蒸出的煤油点亮了城市的夜，汽油是没有用的副产品，就倒在坑里。度数越低越重，重到 8°，
+            就是能直接铺路的沥青。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-body hidden" id="tab-log">
+      <div id="log-list"></div>
+    </div>
+  </div>
+</section>
+
+<div class="strike-banner" id="strike-banner">
+  <div class="big">OIL! 出油了</div>
+  <div class="small">1859-08-27 · 星期日 · 井深 69.5 ft</div>
+</div>
+
+<footer>
+  <span><code>δ = ηmgh/(A·S)</code> 一锤一锤 · <code>h = ΔP/ρg</code> 油自己上来 ·
+  <code>q = 2πkhΔP/(μ ln(rₑ/r_w))</code> 对数是主角 · <code>q(t) = qᵢ(1+bDᵢt)^(−1/b)</code> ·
+  <code>API = 141.5/SG − 131.5</code></span>
+  <span>Built by GLM-5.3 · daily-slop 2026-08-27</span>
+</footer>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
