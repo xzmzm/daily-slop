@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>WEAF 660 · 无线电的第一条广告</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="eyebrow">28 AUG 1922 · 5:15 PM · WEAF, NEW YORK · 660 KILOCYCLES</div>
+  <h1>WEAF <span class="gold">660</span> <span class="cn">无线电的第一条广告</span></h1>
+  <p class="sub">一百零四年前的今天下午，电话公司 AT&T 的 WEAF 电台把十分钟播出时间卖给了昆斯伯罗地产公司——
+  <b>五十美元</b>，布莱克韦尔先生对着话筒推销杰克逊高地的「霍桑庭院」公寓，付费广播由此诞生，
+  电话公司管它叫 <b>收费广播（toll broadcasting）</b>。这一课全是闭式公式：调幅本身就是一条三角恒等式
+  （<code>s = A(1+m·cosω_m t)·cosω_c t ≡ 三条谱线</code>），矿石检波自带 <code>m/4</code> 的失真，
+  谐振槽路 <code>f₀ = 1/(2π√LC)</code>，深夜衰落是两路电波相加
+  （<code>√(E_g²+E_s²+2E_gE_s·cosφ)</code>）。</p>
+</header>
+
+<div class="presets" id="presets"></div>
+
+<main>
+  <section class="card tx-card">
+    <div class="card-head">
+      <h2>发射机 <i>the transmitter · 示波器视角</i></h2>
+      <code class="eq">s(t) = A(1 + m·cos ω_m t)·cos ω_c t</code>
+      <span class="chip on" id="onair-chip">● ON AIR</span>
+      <span class="hint">载波按 ~1:27 压缩显示；包络与谱线是真实公式</span>
+    </div>
+    <canvas id="scope"></canvas>
+    <div class="readouts">
+      <div class="ro hero"><label>调幅度 m</label><output id="ro-m">0.85<small id="ro-m-note">合规 ≤ 1</small></output></div>
+      <div class="ro"><label>边带功率（信息）占比</label><output id="ro-sb">26.5<small>%</small></output></div>
+      <div class="ro"><label>包络峰值 A(1+m)</label><output id="ro-env">1.85<small>A</small></output></div>
+      <div class="ro"><label>波长 λ = c/f_c</label><output id="ro-lam">454.2<small>m</small></output></div>
+    </div>
+  </section>
+
+  <aside class="panel">
+    <div class="card">
+      <h2>发射控制 <i>the operator's desk</i></h2>
+      <div class="btn-row">
+        <button id="onair-btn" class="primary">● 开播 / 停播</button>
+      </div>
+      <label class="ctl"><span>调幅度 m（0.4 – 1.4）</span><output id="m-out"></output>
+        <input type="range" id="m-range" min="0.4" max="1.4" step="0.01">
+      </label>
+      <label class="ctl"><span>音频频率 f_m（Hz）</span><output id="fm-out"></output>
+        <input type="range" id="fm-range" min="200" max="3000" step="10">
+      </label>
+      <label class="ctl"><span>载波 f_c（kHz）</span><output id="fc-out"></output>
+        <input type="range" id="fc-range" min="620" max="700" step="2">
+      </label>
+      <div class="yield">
+        <div class="row"><span>载波功率（不含信息）</span><output id="pw-carrier">—</output></div>
+        <div class="row"><span>上下边带（各 A·m/2 高）</span><output id="pw-side">—</output></div>
+        <div class="row total"><span>m = 1 时边带恰好拿走</span><output id="pw-third">1/3</output></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>频谱 <i>three lines, no more</i></h2>
+      <canvas id="spectrum" class="tight"></canvas>
+      <div class="legend">
+        <span class="lg gold">— 载波 A</span>
+        <span class="lg blue">— 边带 A·m/2</span>
+        <span class="lg red" id="splatter-legend">▨ 越调制失真边带</span>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<section class="tabs-card">
+  <div class="card">
+    <div class="tabs" id="tabs">
+      <button data-tab="rx" class="on">矿石收音机 · 调谐与检波</button>
+      <button data-tab="prop">昼夜传播 · 地波与天波</button>
+      <button data-tab="hist">广告史话 · 660 千赫的一百年</button>
+      <span class="tab-note" id="tab-note">三条公式收下这条广告</span>
+    </div>
+
+    <div class="tab-body" id="tab-rx">
+      <div class="rx-grid">
+        <div class="chart-wrap">
+          <canvas id="rx" class="chart" width="560" height="480"></canvas>
+          <div class="legend">
+            <span class="lg gold">— WEAF 660</span>
+            <span class="lg blue">— 640 舞曲</span>
+            <span class="lg ember">— 680 电码</span>
+          </div>
+        </div>
+        <div class="rx-side">
+          <div class="chart-wrap">
+            <canvas id="resp" class="chart" width="600" height="240"></canvas>
+            <div class="legend">
+              <span class="lg gold">— 单级 |H(f)|</span>
+              <span class="lg dim">-- 双联两级（平方）</span>
+              <span class="lg blue">▦ −3 dB 带宽 = f₀/Q</span>
+            </div>
+          </div>
+          <div class="chart-wrap">
+            <canvas id="det" class="chart" width="600" height="200"></canvas>
+            <div class="legend">
+              <span class="lg gold">— 包络</span>
+              <span class="lg blue">— 检波输出（含载波纹波）</span>
+              <span class="lg red">— 对角切割</span>
+            </div>
+          </div>
+          <div class="st-meters" id="st-meters"></div>
+          <div class="mini-sliders">
+            <label class="ctl"><span>可变电容 C（pF）</span><output id="cap-out"></output>
+              <input type="range" id="cap-range" min="15" max="365" step="0.1">
+            </label>
+            <label class="ctl"><span>线圈电感 L（µH）</span><output id="l-out"></output>
+              <input type="range" id="l-range" min="120" max="450" step="1">
+            </label>
+            <label class="ctl"><span>线圈电阻 R（Ω）→ Q</span><output id="r-out"></output>
+              <input type="range" id="r-range" min="4" max="40" step="0.5">
+            </label>
+            <label class="ctl"><span>耳机负载 R·C（µs）</span><output id="rc-out"></output>
+              <input type="range" id="rc-range" min="5" max="400" step="1">
+            </label>
+            <div class="btn-row">
+              <button id="tune-btn">◎ 调谐到 WEAF 660</button>
+              <button id="stages-btn">双联两级调谐：关</button>
+            </div>
+            <div class="yield">
+              <div class="row"><span>谐振频率 f₀ = 1/(2π√LC)</span><output id="rx-f0">—</output></div>
+              <div class="row"><span>Q = ωL/R · 带宽 f₀/Q</span><output id="rx-bw">—</output></div>
+              <div class="row"><span>教科书上限 RC ≤ √(1−m²)/(m·ω_m)</span><output id="rx-rcbound">—</output></div>
+              <div class="row total"><span>平方律检波失真 = m/4</span><output id="rx-dist">—</output></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-body hidden" id="tab-prop">
+      <div class="chart-wrap">
+        <canvas id="prop" class="chart" width="960" height="400"></canvas>
+      </div>
+      <div class="chart-wrap">
+        <canvas id="fade" class="chart" width="960" height="180"></canvas>
+        <div class="legend">
+          <span class="lg gold">— 合成场强 20·log₁₀|E_g + E_s·e^{iφ}|</span>
+          <span class="lg dim">-- 电离层漂移，φ 随时间转动</span>
+        </div>
+      </div>
+      <div class="prop-controls">
+        <div class="btn-row">
+          <button id="day-btn" class="primary">☀ 白天（1922-08-28 17:15）</button>
+          <button id="night-btn">☾ 夜间（D 层消失，天波归来）</button>
+        </div>
+        <label class="ctl"><span>天波相对幅度 ρ = E_s/E_g</span><output id="rho-out"></output>
+          <input type="range" id="rho-range" min="0" max="1" step="0.01">
+        </label>
+        <label class="ctl"><span>E 层反射高度 h（km）</span><output id="he-out"></output>
+          <input type="range" id="he-range" min="80" max="130" step="1">
+        </label>
+        <label class="ctl"><span>收听距离 x（km）</span><output id="dist-out"></output>
+          <input type="range" id="dist-range" min="5" max="120" step="1">
+        </label>
+        <div class="yield prop-facts">
+          <div class="row"><span>地波场强 E ∝ 1/x</span><output id="pf-ground">—</output></div>
+          <div class="row"><span>天波路程 2√((x/2)²+h²)</span><output id="pf-sky">—</output></div>
+          <div class="row"><span>路程差 Δ（λ = 454 m）</span><output id="pf-diff">—</output></div>
+          <div class="row total"><span>此刻合成场强</span><output id="pf-sum">—</output></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-body hidden" id="tab-hist">
+      <div class="hist-grid">
+        <div class="hist-col">
+          <h3>时间线</h3>
+          <div id="timeline"></div>
+        </div>
+        <div class="hist-col">
+          <h3>布莱克韦尔先生的十分钟（1922-08-28 17:15–17:30）</h3>
+          <div class="script-card">
+            <p class="quote">「今天下午，无线电听众将听到昆斯伯罗公司的布莱克韦尔先生讲话。他经由格里芬无线电服务公司安排，将讲几句话，关于纳撒尼尔·霍桑——」</p>
+            <p class="quote">「女士们、先生们：布莱克韦尔先生。」</p>
+            <p class="quote">「霍桑去世已经五十八年了。这位美国最伟大的小说家所倡导的、面向健康家庭生活的社区理想，正是我们以他的名字命名最新楼盘『霍桑庭院』的原因。」</p>
+            <p class="note">他赞美杰克逊高地「离曼哈顿地铁二十分钟」的绿地与公寓生活，引用了纽约卫生局长科普兰博士，劝听众「赶紧搬到绿野旁边的家」——十分钟里没有价格，没有优惠，只有生活方式。这段讲稿经 G. Archer《无线电史》(1938) 转录存世。</p>
+          </div>
+          <h3>账本</h3>
+          <div class="ledger">
+            <div class="row"><span>一条十分钟广告</span><output>$50</output></div>
+            <div class="row"><span>折合每分钟 / 每秒</span><output>$5 · 8.3¢</output></div>
+            <div class="row"><span>1922 年 10 月，收费广播累计</span><output>$550（= 11 条霍桑级广告）</output></div>
+            <div class="row"><span>按物价折算，$50 ≈ 今天的</span><output>约 $950</output></div>
+            <div class="row total"><span>2026 超级碗 30 秒 ≈ $700 万 · 每分钟</span><output>≈ 300 万倍于 1922</output></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span><code>s ≡ A·cosω_c t + (Am/2)·cos(ω_c∓ω_m)t</code> 恒等式 ·
+  <code>失真 = m/4</code> 猫须的税 · <code>f₀ = 1/(2π√LC)</code> 一个旋钮一个台 ·
+  <code>|E_g + E_s·e^{iφ}|</code> 深夜的打架</span>
+  <span>Built by GLM-5.3 · daily-slop 2026-08-28</span>
+</footer>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
