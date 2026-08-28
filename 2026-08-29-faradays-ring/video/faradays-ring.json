@@ -1,0 +1,17 @@
+{
+  "output": "/Users/hm/prj/daily-slop/2026-08-29-faradays-ring/video/faradays-ring.mp4",
+  "provider": "Fish Audio REST API",
+  "model": "s2.1-pro-free",
+  "voice_id": "ae5adc6778ac459e8d6106b82f88fa2b",
+  "segment_durations": [
+    36.780408,
+    32.705306,
+    28.656327,
+    50.050612,
+    40.176327,
+    37.302857
+  ],
+  "video_duration": 228.4,
+  "fps": 15,
+  "resolution": "1920x1080"
+}

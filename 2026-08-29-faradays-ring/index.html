@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Faraday's Ring · 法拉第的铁环</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="eyebrow">29 AUG 1831 · ROYAL INSTITUTION · 21 ALBEMARLE ST, LONDON</div>
+  <h1>Faraday's <span class="gold">Ring</span> <span class="cn">法拉第的铁环 · 电磁感应的第一课</span></h1>
+  <p class="sub">一百九十五年前的今天，法拉第在一根六英寸的软铁环上绕了两个线圈：电池一接通，副线圈的电流计指针<b>踢了一下就回去</b>；
+  电流稳稳流着，指针却睡着了；断开的一瞬间，指针朝<b>反方向</b>再踢一下。电磁感应——发电机、变压器和每一只充电器，
+  都从这一踢开始。这一课全是闭式公式：磁路 <code>ℛ = l/(µ₀µ_r A)</code>，<code>L = N²/ℛ</code>，<code>M = N₁N₂/ℛ</code>，
+  惯性 <code>τ = L/R</code>，冲击电流计 <code>q = N₂ΔΦ/R₂</code>（数的是磁通，不是快慢），断开尖峰 <code>|ε| = L·I₀/t_b</code>，
+  以及这个环长大后的 <code>V = π√2·f·N·Φ̂</code>。</p>
+</header>
+
+<div class="presets" id="presets"></div>
+
+<main>
+  <section class="card bench-card">
+    <div class="card-head">
+      <h2>实验台 <i>the 1831 bench · 皇家研究院地下室</i></h2>
+      <code class="eq">ε₂ = −N₂·dΦ/dt</code>
+      <span class="chip" id="switch-chip">○ 断开</span>
+      <span class="hint">合闸踢一下 · 稳恒不动 · 断闸反踢一下</span>
+    </div>
+    <canvas id="bench"></canvas>
+    <div class="readouts">
+      <div class="ro hero"><label>互感 M = N₁N₂/ℛ</label><output id="ro-m">—<small id="ro-m-note">铁环在位</small></output></div>
+      <div class="ro"><label>电流惯性 τ = L₁/R₁</label><output id="ro-tau">—</output></div>
+      <div class="ro"><label>断闸尖峰 ε₂（电弧钳位后）</label><output id="ro-spike">—</output></div>
+      <div class="ro"><label>每次踢动的电荷 q = N₂ΔΦ/R₂</label><output id="ro-q">—</output></div>
+    </div>
+  </section>
+
+  <aside class="panel">
+    <div class="card">
+      <h2>操作台 <i>the operator's desk</i></h2>
+      <div class="btn-row">
+        <button id="switch-btn" class="primary">⏚ 合闸 / 断闸</button>
+        <button id="ac-btn">装上未来：交流电源</button>
+      </div>
+      <label class="ctl"><span>电池电动势（10 对 4 英寸铜锌板）</span><output id="v-out"></output>
+        <input type="range" id="v-range" min="2" max="12" step="0.5">
+      </label>
+      <label class="ctl"><span>原线圈匝数 N₁（72 英尺铜线）</span><output id="n1-out"></output>
+        <input type="range" id="n1-range" min="20" max="120" step="1">
+      </label>
+      <label class="ctl"><span>回路电阻 R₁（导线 + 电池内阻）</span><output id="r1-out"></output>
+        <input type="range" id="r1-range" min="2" max="20" step="0.1">
+      </label>
+      <label class="ctl"><span>副线圈匝数 N₂（60 英尺起步）</span><output id="n2-out"></output>
+        <input type="range" id="n2-range" min="0" max="100" step="0.5">
+      </label>
+      <label class="ctl"><span>铁芯磁导率 µ_r（软铁 ↔ 空气）</span><output id="mur-out"></output>
+        <input type="range" id="mur-range" min="0" max="100" step="0.5">
+      </label>
+      <label class="ctl"><span>断开用时 t_b（刀闸 → 电弧）</span><output id="tb-out"></output>
+        <input type="range" id="tb-range" min="0" max="100" step="0.5">
+      </label>
+      <div class="yield">
+        <div class="row"><span>稳恒电流 I₀ = V/R₁</span><output id="y-i0">—</output></div>
+        <div class="row"><span>环内磁通 Φ = N₁I₀/ℛ</span><output id="y-phi">—</output></div>
+        <div class="row"><span>磁密 B = Φ/A（铁膝点 1.8 T）</span><output id="y-b">—</output></div>
+        <div class="row"><span>自感 L₁ = N₁²/ℛ · 场能 ½L₁I₀²</span><output id="y-l1">—</output></div>
+        <div class="row total"><span>副线圈回路 R₂（铜线 + 电流计）</span><output id="y-r2">—</output></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>双线示波 <i>the kick, on paper</i></h2>
+      <canvas id="scope" class="tight"></canvas>
+      <div class="legend">
+        <span class="lg gold">— I₁ 原线圈电流</span>
+        <span class="lg blue">— ε₂ 感应电动势（对数）</span>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<section class="tabs-card">
+  <div class="card">
+    <div class="tabs" id="tabs">
+      <button data-tab="kick" class="on">冲击电流计 · 数磁通的人</button>
+      <button data-tab="core">磁路 · 铁为什么是魔法</button>
+      <button data-tab="ac">环的成年礼 · 变压器</button>
+      <button data-tab="hist">一踢一百年 · 从铁环到电网</button>
+      <span class="tab-note" id="tab-note">指针数的是磁通，不是新闻</span>
+    </div>
+
+    <div class="tab-body" id="tab-kick">
+      <div class="chart-wrap">
+        <canvas id="kick" class="chart"></canvas>
+        <div class="legend">
+          <span class="lg gold">— I₁ 原线圈</span>
+          <span class="lg blue">— ε₂ 副线圈（对数）</span>
+          <span class="lg green">▦ i₂ = ε₂/R₂ 的面积 = 电荷 q：合闸与断闸的两块面积一样大</span>
+        </div>
+      </div>
+      <div class="duo">
+        <div class="chart-wrap">
+          <canvas id="kickpeak" class="chart"></canvas>
+          <div class="legend"><span class="lg blue">— 峰值 ε ∝ 1/t_b：越快越凶</span></div>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="kickq" class="chart"></canvas>
+          <div class="legend"><span class="lg green">— q = N₂ΔΦ/R₂：与快慢无关</span></div>
+        </div>
+      </div>
+      <div class="ledger" style="margin-top:14px">
+        <div class="row"><span>快断（现在 this t_b）峰值 ε₂</span><output id="k-fast">—</output></div>
+        <div class="row"><span>慢断（1000× t_b）峰值 ε₂</span><output id="k-slow">—</output></div>
+        <div class="row total"><span>两次踢动的电荷 q —— 分毫不差</span><output id="k-charge">—</output></div>
+      </div>
+    </div>
+
+    <div class="tab-body hidden" id="tab-core">
+      <div class="core-grid">
+        <div>
+          <div class="chart-wrap"><canvas id="core" class="chart"></canvas></div>
+          <div class="chart-wrap"><canvas id="corem" class="chart"></canvas>
+            <div class="legend"><span class="lg gold">— M = N₁N₂·µ₀µ_r A/l ∝ µ_r</span></div>
+          </div>
+        </div>
+        <div class="core-side">
+          <div class="chart-wrap"><canvas id="coreb" class="chart"></canvas>
+            <div class="legend">
+              <span class="lg gold">— B = N₁I/ℛ·A（线性）</span>
+              <span class="lg red">✕ 1.8 T 铁膝点：真铁会弯，公式先直着走</span>
+            </div>
+          </div>
+          <div class="ledger">
+            <div class="row"><span>磁阻 ℛ = l/(µ₀µ_r A)</span><output id="c-rl">—</output></div>
+            <div class="row"><span>耦合系数 k = M/√(L₁L₂)</span><output id="c-k">—</output></div>
+            <div class="row"><span>自感 L₁ / L₂</span><output id="c-l">—</output></div>
+            <div class="row"><span>空气芯 M（拿走铁环）</span><output id="c-air">—</output></div>
+            <div class="row total"><span>铁环的魔法 = µ_r 倍，一分不多</span><output id="c-factor">—</output></div>
+          </div>
+          <p class="hint">磁路的「欧姆定律」：磁动势 N₁I₀ 推着磁通 Φ 穿过磁阻 ℛ——铁的整个 job 就是把 ℛ 缩小 µ_r 倍。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-body hidden" id="tab-ac">
+      <div class="chart-wrap">
+        <canvas id="ac" class="chart"></canvas>
+        <div class="legend">
+          <span class="lg gold">— V₁ 原边</span>
+          <span class="lg blue">— V₂ 副边 = V₁·N₂/N₁</span>
+          <span class="lg dim">-- 铁芯里的 Φ（比电压超前关注零点：ε 在 Φ 过零时最凶）</span>
+        </div>
+      </div>
+      <div class="ac-controls">
+        <label class="ctl"><span>原边电压 V₁（这个铁环吃得下的）</span><output id="acv-out"></output>
+          <input type="range" id="acv-range" min="1" max="12" step="0.1">
+        </label>
+        <label class="ctl"><span>频率 f（赫兹，未来的电网）</span><output id="acf-out"></output>
+          <input type="range" id="acf-range" min="5" max="120" step="1">
+        </label>
+        <div class="yield ac-facts">
+          <div class="row"><span>磁通幅值 Φ̂ = V₁/(π√2·f·N₁)</span><output id="a-phi">—</output></div>
+          <div class="row"><span>磁密幅值 B_max = Φ̂/A（膝点 1.8 T）</span><output id="a-b">—</output></div>
+          <div class="row"><span>变比 V₂ = V₁·N₂/N₁</span><output id="a-v2">—</output></div>
+          <div class="row total"><span>V_rms = 4.44·f·N·Φ̂（4.44 = π√2，恰是系数）</span><output id="a-k">π√2</output></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-body hidden" id="tab-hist">
+      <div class="hist-grid">
+        <div class="hist-col">
+          <h3>时间线</h3>
+          <div id="timeline"></div>
+        </div>
+        <div class="hist-col">
+          <h3>法拉第的实验记录本（1831 年 8 月 29 日 · 意译）</h3>
+          <div class="script-card">
+            <p class="quote">「制了一个软铁圆环：铁棍粗 7/8 英寸，环外径 6 英寸。」</p>
+            <p class="quote">「把电池与线圈 A 接通——指针动了，立刻又摆回零点。电流稳稳地流着，指针却像什么都没发生。」</p>
+            <p class="quote">「断开电池——指针又一次强烈扰动，方向与先前相反。」</p>
+            <p class="note">他在本页补了一句结论性的清醒：这样感应出的电与电池直接给出的电「性质上并无不同——只是每次只有一瞬」。八十七天之后（11 月 24 日），《电学实验研究》第一辑在皇家学会宣读：「电」第一次和「磁」在一张纸上互相生了出来。约瑟夫·亨利在奥尔巴尼早一年见过同样的踢动，但没来得及发表——<b>亨利先看见，法拉第先发表</b>。</p>
+          </div>
+          <h3>账本</h3>
+          <div class="ledger">
+            <div class="row"><span>1831 年那根环 · 原线圈</span><output>72 英尺铜线 ≈ 53 匝（重建）</output></div>
+            <div class="row"><span>副线圈</span><output>60 英尺 ≈ 44 匝 · 回路 2.6 Ω</output></div>
+            <div class="row"><span>每次踢动的电荷 q</span><output>≈ 6.5 mC（µ_r = 3000）</output></div>
+            <div class="row"><span>拿走铁环之后</span><output>q ÷ 3000 —— 指针根本不会醒</output></div>
+            <div class="row"><span>汽车点火线圈（每台燃油车一只）</span><output id="h-ign">—</output></div>
+            <div class="row total"><span>今天：每只充电器、电磁炉、电动机——都是这只环</span><output>ε = −N·dΦ/dt</output></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span><code>ε₂ = −N₂·dΦ/dt</code> 感应只看变化 · <code>q = N₂ΔΦ/R₂</code> 冲击电流计数的是磁通 ·
+  <code>ℛ = l/(µ₀µ_r A)</code> 铁的魔法恰好 µ_r 倍 · <code>|ε| = L·I₀/t_b</code> 断闸的暴力 ·
+  <code>V = π√2·f·N·Φ̂</code> 环的成年礼</span>
+  <span>Built by GLM-5.3 · daily-slop 2026-08-29</span>
+</footer>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
