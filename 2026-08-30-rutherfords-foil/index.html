@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Rutherford's Foil · 卢瑟福的金箔</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="eyebrow">30 AUG 1871 · BRIGHTWATER, NEW ZEALAND · 155 YEARS TODAY</div>
+  <h1>Rutherford's <span class="gold">Foil</span> <span class="cn">卢瑟福的金箔 · 原子核的第一课</span></h1>
+  <p class="sub">一百五十五年前的今天（<b>1871 年 8 月 30 日</b>），欧内斯特·卢瑟福出生在新西兰纳尔逊附近的泉溪村。三十八年后的曼彻斯特，他让学生盖革和马斯登拿α粒子轰金箔，
+  结果<b>每 8000 个α大约有 1 个被直接弹回</b>——「就像对着一张薄纸开炮，炮弹却弹回来打中了你」。1911 年他给出数字允许的唯一解释：原子的正电荷全部挤在一个比原子本身小两万倍的
+  <b>原子核</b>里。这一课全是闭式公式：双曲线 <code>b(θ) = (k/2E)·cot(θ/2)</code>，计数律 <code>dσ/dΩ = (k/4E)²/sin⁴(θ/2)</code>，
+  它的闭式积分 <code>σ(&gt;θ₀) = π·b(θ₀)²</code>，单次散射概率 <code>P = n·t·σ</code>（1/8000 的出处），尺寸账 <code>d = k/E</code> 对 <code>R = r₀A^⅓</code>，
+  以及 1919 年 <code>¹⁴N + α → ¹⁷O + p</code>。</p>
+</header>
+
+<div class="presets" id="presets"></div>
+
+<main>
+  <section class="card bench-card">
+    <div class="card-head">
+      <h2>散射室 <i>the Manchester chamber · 1909</i></h2>
+      <code class="eq">b(θ) = (k/2E)·cot(θ/2)</code>
+      <span class="chip" id="beam-chip">○ 束流停止</span>
+      <span class="hint">绝大多数直穿 · 少数偏转 · 极少数弹回</span>
+    </div>
+    <canvas id="bench"></canvas>
+    <div class="readouts">
+      <div class="ro hero"><label>θ&gt;90° 回弹概率 P = n·t·π·b₉₀²</label><output id="ro-onein">—<small id="ro-onein-note">按闭式公式</small></output></div>
+      <div class="ro"><label>90° 瞄准距离 b₉₀ = k/2E</label><output id="ro-b90">—</output></div>
+      <div class="ro"><label>头对头最近距离 d = k/E ÷ 核半径 R</label><output id="ro-d">—</output></div>
+      <div class="ro"><label>碰核条件 E &gt; k/R_c（接触半径）</label><output id="ro-ecrit">—</output></div>
+    </div>
+  </section>
+
+  <aside class="panel">
+    <div class="card">
+      <h2>操作台 <i>the operator's desk</i></h2>
+      <div class="btn-row">
+        <button id="fire-btn" class="primary">⌁ 发一束 α</button>
+        <button id="auto-btn">自动束流</button>
+      </div>
+      <div class="target-row" id="target-row">
+        <span class="target-label">靶箔</span>
+      </div>
+      <label class="ctl"><span>α 能量 E（镭 C′ = 7.69 MeV）</span><output id="e-out"></output>
+        <input type="range" id="e-range" min="3" max="40" step="0.1">
+      </label>
+      <label class="ctl"><span>箔厚 t（µm）</span><output id="t-out"></output>
+        <input type="range" id="t-range" min="0.1" max="10" step="0.02">
+      </label>
+      <label class="ctl"><span>束流强度（α / 秒，对数）</span><output id="rate-out"></output>
+        <input type="range" id="rate-range" min="0" max="100" step="0.5">
+      </label>
+      <div class="yield">
+        <div class="row"><span>库仑常数 k = 2Z·e²/4πε₀</span><output id="y-k">—</output></div>
+        <div class="row"><span>核半径 R = 1.2·A^⅓ · 接触半径 R_c</span><output id="y-r">—</output></div>
+        <div class="row"><span>靶核数密度 n = ρN_A/M</span><output id="y-n">—</output></div>
+        <div class="row"><span>150° 与 30° 计数比（sin⁻⁴ 律）</span><output id="y-ratio">—</output></div>
+        <div class="row total"><span>α 速度 v/c = √(2E/mα)</span><output id="y-v">—</output></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>硫化锌屏 <i>counting the flashes</i></h2>
+      <canvas id="screen" class="tight"></canvas>
+      <div class="legend">
+        <span class="lg cyan">— dσ/dΩ 的角度分布（对数）</span>
+        <span class="lg green">✦ 闪烁（按 sin⁻⁴ 加权，亮度对数压缩）</span>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<section class="tabs-card">
+  <div class="card">
+    <div class="tabs" id="tabs">
+      <button data-tab="geom" class="on">散射几何 · 双曲线</button>
+      <button data-tab="law">数粒子的人 · sin⁻⁴</button>
+      <button data-tab="size">核有多大 · d = k/E</button>
+      <button data-tab="hist">1919 与账本</button>
+      <span class="tab-note" id="tab-note">角度只认瞄准距离的一半：cot(θ/2)</span>
+    </div>
+
+    <div class="tab-body" id="tab-geom">
+      <div class="duo">
+        <div class="chart-wrap">
+          <canvas id="geomB" class="chart"></canvas>
+          <div class="legend">
+            <span class="lg cyan">— b(θ) = (k/2E)·cot(θ/2)</span>
+            <span class="lg gold">● 90° 的门槛：b₉₀ = k/2E</span>
+          </div>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="geomRmin" class="chart"></canvas>
+          <div class="legend">
+            <span class="lg cyan">— r_min(b) = (d+√(d²+4b²))/2</span>
+            <span class="lg red">— 接触半径 R_c：线进红区 = 碰核，纯库仑故事讲完</span>
+          </div>
+        </div>
+      </div>
+      <div class="ledger" style="margin-top:14px">
+        <div class="row"><span>b₉₀（90° 门槛）· b(30°) · b(150°)</span><output id="g-bs">—</output></div>
+        <div class="row"><span>头对头最近距离 d = k/E</span><output id="g-d">—</output></div>
+        <div class="row"><span>b = b₉₀ 处的 r_min（90° 不等于贴脸）</span><output id="g-rm">—</output></div>
+        <div class="row total"><span>α 只看 θ/2 —— cot 一半角，管全部角度</span><output id="g-k">cot(θ/2)</output></div>
+      </div>
+    </div>
+
+    <div class="tab-body hidden" id="tab-law">
+      <div class="duo">
+        <div class="chart-wrap">
+          <canvas id="lawXsec" class="chart"></canvas>
+          <div class="legend">
+            <span class="lg cyan">— dσ/dΩ = (k/4E)²/sin⁴(θ/2)，log-log 上一条直线</span>
+            <span class="lg green">▦ θ&gt;90° 的积分 = π·b₉₀²（闭式，不是数值）</span>
+          </div>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="lawOnein" class="chart"></canvas>
+          <div class="legend">
+            <span class="lg cyan">— 1/N = 1/(n·t·π·b₉₀²)：对 t 精确线性</span>
+            <span class="lg gold">● 8000 分之一线 · 1909 年的著名读数</span>
+          </div>
+        </div>
+      </div>
+      <div class="ledger" style="margin-top:14px">
+        <div class="row"><span>150° 处计数 ÷ 30° 处计数</span><output id="l-ratio">—</output></div>
+        <div class="row"><span>θ&gt;90° 截面 σ = π·b₉₀²</span><output id="l-sigma">—</output></div>
+        <div class="row"><span>当前箔厚下 1 in N（θ&gt;90°）</span><output id="l-onein">—</output></div>
+        <div class="row total"><span>恰好 1/8000 所需箔厚</span><output id="l-t8000">—</output></div>
+      </div>
+    </div>
+
+    <div class="tab-body hidden" id="tab-size">
+      <div class="duo">
+        <div class="chart-wrap">
+          <canvas id="sizeD" class="chart"></canvas>
+          <div class="legend">
+            <span class="lg cyan">— d = k/E：能量把最近距离推着 1/E 缩</span>
+            <span class="lg red">— 各元素接触半径 R_c = 1.2(A^⅓+4^⅓)</span>
+            <span class="lg gold">✕ 交点 = E_crit：再狠就碰到核了</span>
+          </div>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="sizeTc" class="chart"></canvas>
+          <div class="legend">
+            <span class="lg red">— θ_c(E)：超过它的角度全是碰核区</span>
+            <span class="lg dim">-- E &lt; E_crit 时不存在：纯库仑，公式精确</span>
+          </div>
+        </div>
+      </div>
+      <div class="ledger" style="margin-top:14px">
+        <div class="row"><span>当前 d = k/E ÷ R_c</span><output id="s-frac">—</output></div>
+        <div class="row"><span>本元素 E_crit = k/R_c</span><output id="s-ecrit">—</output></div>
+        <div class="row"><span>当前 θ_c（碰核起始角）</span><output id="s-tc">—</output></div>
+        <div class="row total"><span>原子半径 ÷ 核半径（金）</span><output id="s-empty">≈ 20,600×，原子几乎全空</output></div>
+      </div>
+    </div>
+
+    <div class="tab-body hidden" id="tab-hist">
+      <div class="hist-grid">
+        <div class="hist-col">
+          <h3>时间线</h3>
+          <div id="timeline"></div>
+        </div>
+        <div class="hist-col">
+          <h3>1919：人类第一次改写原子核</h3>
+          <div class="script-card">
+            <p class="quote">「¹⁴N + α → ¹⁷O + p」——用镭 C′ 的 α 轰氮气，屏上出现了<b>比 α 本身飞得更远的粒子</b>：质子。原子核第一次被人打了进去，而且吐出了新东西。</p>
+            <p class="note">卢瑟福 1917–1919 年在曼彻斯特完成，论文题为《氮的一种人工核蜕变》。这不是散射——是<b>嬗变</b>：炼金术士的梦，被一个新西兰农夫的儿子做成了，只不过点石成金的方向反过来：他把氮变成了氧。</p>
+          </div>
+          <h3>账本</h3>
+          <div class="ledger">
+            <div class="row"><span>反应 Q 值（原子质量闭式）</span><output id="h-q">—</output></div>
+            <div class="row"><span>阈能 E_th = −Q·(1+mα/mN)</span><output id="h-th">—</output></div>
+            <div class="row"><span>镭 C′ α = 7.69 MeV（空气射程 ≈ 7 cm）</span><output id="h-alpha">过阈 ✓</output></div>
+            <div class="row"><span>布拉凯特 1925：云室里 23,000 条 α 径迹</span><output>8 条分叉 —— 全是它</output></div>
+            <div class="row"><span>1908 诺贝尔奖</span><output>化学奖（不是物理奖）</output></div>
+            <div class="row total"><span>104 号元素 · 新西兰 100 元纸币</span><output>rutherfordium · Rutherford</output></div>
+          </div>
+          <h3>他说过（与别人转述的）</h3>
+          <div class="script-card">
+            <p class="quote">「这是我一生中遇到的最不可思议的事。就像你对一张薄纸开了一发 15 英寸的炮弹，它却弹回来打中了你。」<span class="note">——晚年向安德雷德回忆 1909 年盖革–马斯登结果（转述）</span></p>
+            <p class="quote">「一切科学，不是物理学，就是集邮。」<span class="note">——流传的卢瑟福式玩笑；他自己 1908 年得的正是化学奖</span></p>
+            <p class="quote">「指望靠变换这些原子来获得能源的人，是在说梦话。」<span class="note">——1933 年谈核能；五年后裂变被发现，这句话成了大科学家保守的著名反例</span></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span><code>b(θ) = (k/2E)·cot(θ/2)</code> 角度只认一半 · <code>dσ/dΩ ∝ 1/sin⁴(θ/2)</code> 计数律 ·
+  <code>σ(&gt;θ₀) = π·b(θ₀)²</code> 闭式积分 · <code>P = n·t·σ</code> 1/8000 的出处 ·
+  <code>d = k/E</code> 对 <code>R = r₀A^⅓</code> 核有多大 · <code>¹⁴N+α→¹⁷O+p</code> 1919</span>
+  <span>Built by GLM-5.3 · daily-slop 2026-08-30</span>
+</footer>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
