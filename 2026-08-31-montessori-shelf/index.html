@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Montessori's Shelf · 蒙台梭利的教具架</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="eyebrow">31 AUG 1870 · CHIAVVALLE, ITALY · 156 YEARS TODAY</div>
+  <h1>Montessori's <span class="gold">Shelf</span> <span class="cn">蒙台梭利的教具架 · 握在手里的数学</span></h1>
+  <p class="sub">一百五十六年前的今天（<b>1870 年 8 月 31 日</b>），玛丽亚·蒙台梭利生在意大利基娅拉瓦莱。1907 年，她在罗马圣洛伦佐贫民区开出「儿童之家」，
+  给孩子的是能握在手里的数学：金色串珠让<b>位值看得见</b>——十个一换一个十，交换永远不改变总数 <code>V = u + 10t + 100h + 1000k</code>；
+  粉红塔的十块立方体（边长 1..10 cm）藏着尼科马库斯定理 <code>Σn³ = (1+2+…+10)² = 55² = 3025 cm³</code>；
+  木盒子里装的就是代数：<code>(a+b)³ = a³ + 3a²b + 3ab² + b³</code>，八块木头，分毫不多。
+  她说，<b>「帮助我，让我自己做。」</b></p>
+</header>
+
+<div class="presets" id="presets"></div>
+
+<main>
+  <section class="card bench-card">
+    <div class="card-head">
+      <h2>工作毯 · 银行游戏 <i>the bank game · dynamic addition</i></h2>
+      <code class="eq">V = u + 10t + 100h + 1000k</code>
+      <span class="chip" id="phase-chip">○ 待摆盘</span>
+      <span class="hint">摆盘 → 合并 → 去银行：总值一动不动</span>
+    </div>
+    <canvas id="bench"></canvas>
+    <div class="readouts">
+      <div class="ro hero"><label>毯上总值 V（交换不改变它）</label><output id="ro-value">—<small id="ro-value-note">恒定</small></output></div>
+      <div class="ro"><label>已去银行兑换（组）</label><output id="ro-exchanges">0</output></div>
+      <div class="ro"><label>毯上现存 · 个/十/百/千</label><output id="ro-counts">—</output></div>
+      <div class="ro"><label>竖式答案</label><output id="ro-sum">—</output></div>
+    </div>
+  </section>
+
+  <aside class="panel">
+    <div class="card">
+      <h2>操作台 <i>the directress's desk</i></h2>
+      <div class="num-row">
+        <span class="num-label">甲数</span>
+        <button class="mini" data-addend="a" data-d="-100">−</button>
+        <input id="num-a" type="number" min="0" max="9999" step="1" value="3567">
+        <button class="mini" data-addend="a" data-d="100">＋</button>
+      </div>
+      <div class="num-row">
+        <span class="num-label">乙数</span>
+        <button class="mini" data-addend="b" data-d="-100">−</button>
+        <input id="num-b" type="number" min="0" max="9999" step="1" value="2795">
+        <button class="mini" data-addend="b" data-d="100">＋</button>
+      </div>
+      <div class="btn-row">
+        <button id="lay-btn" class="primary">◐ 摆盘</button>
+        <button id="combine-btn">⇧ 合并</button>
+        <button id="exchange-btn">⇄ 去银行</button>
+        <button id="reset-btn">↺ 重置</button>
+        <button id="auto-btn" class="on">自动演示</button>
+      </div>
+      <label class="ctl"><span>演示速度</span><output id="speed-out">1.0×</output>
+        <input type="range" id="speed-range" min="0.4" max="2.5" step="0.1" value="1">
+      </label>
+      <div class="yield">
+        <div class="row"><span>位值：个=绿 · 十=蓝 · 百=红 · 千=绿</span><output>×10</output></div>
+        <div class="row"><span>金色珠：一粒 · 一串 · 一方 · 一块</span><output>1/10/100/1000</output></div>
+        <div class="row"><span>合并后（未兑换）总值</span><output id="y-merged">—</output></div>
+        <div class="row total"><span>答案（竖式核对）</span><output id="y-sum">—</output></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>材料账 <i>what's on the mat</i></h2>
+      <canvas id="sprites" class="tight"></canvas>
+      <div class="legend">
+        <span class="lg gold">● 一粒 = 1</span>
+        <span class="lg gold">— 一串 = 10</span>
+        <span class="lg gold">▦ 一方 = 100</span>
+        <span class="lg gold">▩ 一块 = 1000</span>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<section class="tabs-card">
+  <div class="card">
+    <div class="tabs" id="tabs">
+      <button data-tab="tower" class="on">粉红塔 · Σn³ = 55²</button>
+      <button data-tab="cube">(a+b)³ 的木盒</button>
+      <button data-tab="bank">银行账本 · 进位</button>
+      <button data-tab="hist">1870 → 今天</button>
+      <span class="tab-note" id="tab-note">十块立方体的体积总和，恰好是 55 的平方</span>
+    </div>
+
+    <div class="tab-body" id="tab-tower">
+      <div class="duo">
+        <div class="chart-wrap">
+          <canvas id="towerChart" class="chart"></canvas>
+          <div class="legend">
+            <span class="lg pink">▮ 第 n 块的体积 n³</span>
+            <span class="lg gold">— 累计 Σn³</span>
+            <span class="lg green">┄ T(n)² = (n(n+1)/2)² —— 两条线重合</span>
+          </div>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="towerPlate" class="chart"></canvas>
+          <div class="legend">
+            <span class="lg pink">▤ 55×55 证明板：第 n 圈 L 形的面积恰好是 n³</span>
+            <span class="lg gold">Σ(圈面积) = 3025 = 55²</span>
+          </div>
+        </div>
+      </div>
+      <label class="ctl wide"><span>搭到第几块 n（体积恒等式对每个 n 都成立）</span><output id="tower-n-out">10</output>
+        <input type="range" id="tower-n" min="1" max="10" step="1" value="10">
+      </label>
+      <div class="ledger" style="margin-top:14px">
+        <div class="row"><span>数棒总长 1+2+…+10</span><output id="t-rods">55 cm</output></div>
+        <div class="row"><span>粉红塔总体积 Σn³（十块）</span><output id="t-total">3025 cm³</output></div>
+        <div class="row"><span>尼科马库斯：Σn³ = T²，T = n(n+1)/2</span><output id="t-ident">3025 = 55²</output></div>
+        <div class="row total"><span>最大一块 = 10³；两个代数盒子体积都恰好等于它</span><output id="t-max">1000 cm³</output></div>
+      </div>
+    </div>
+
+    <div class="tab-body hidden" id="tab-cube">
+      <div class="duo">
+        <div class="chart-wrap">
+          <canvas id="cubeBox" class="chart"></canvas>
+          <div class="legend">
+            <span class="lg red">a = <span id="cube-a">6</span> cm（红）</span>
+            <span class="lg blue">b = <span id="cube-b">4</span> cm（蓝）</span>
+            <span class="lg gold" id="cube-c-leg" style="display:none">c = 2 cm（黄）</span>
+          </div>
+        </div>
+        <div class="chart-wrap">
+          <div class="btn-row small">
+            <button id="cube-bin" class="on">二项式盒子</button>
+            <button id="cube-tri">三项式盒子</button>
+          </div>
+          <label class="ctl wide"><span>拆开盒子（分层抬起）</span><output id="explode-out">0%</output>
+            <input type="range" id="explode" min="0" max="1" step="0.01" value="0">
+          </label>
+          <div class="formula-box" id="cube-formula">—</div>
+        </div>
+      </div>
+      <div class="ledger" style="margin-top:14px" id="cube-ledger"></div>
+    </div>
+
+    <div class="tab-body hidden" id="tab-bank">
+      <div id="bank-table"></div>
+      <div class="ledger" style="margin-top:14px">
+        <div class="row"><span>合并后（未兑换）总值</span><output id="b-merged">—</output></div>
+        <div class="row"><span>兑换次数（每组十个换一个）</span><output id="b-exchanges">—</output></div>
+        <div class="row"><span>兑换后总值 · 与合并前逐位相等</span><output id="b-after">—</output></div>
+        <div class="row total"><span>BigInt 逐位核对</span><output id="b-bigint">—</output></div>
+      </div>
+    </div>
+
+    <div class="tab-body hidden" id="tab-hist">
+      <div class="hist-grid">
+        <div class="timeline" id="timeline"></div>
+        <div class="quotes">
+          <div id="quote-list"></div>
+          <h3>曾经的蒙台梭利孩子</h3>
+          <div class="chips" id="alumni"></div>
+          <p class="src">校友名单为常见说法汇编（见 NOTES）。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>dailyslop · 2026-08-31 · 今天的作业交给了一把金色串珠。<span class="dim">「帮助我，让我自己做。」</span></p>
+</footer>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
