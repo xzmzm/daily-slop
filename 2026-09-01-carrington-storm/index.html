@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Carrington's Storm · 卡林顿风暴</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="eyebrow">1 SEP 1859 · REDHILL, SURREY · 167 YEARS TODAY</div>
+  <h1>Carrington's <span class="gold">Storm</span> <span class="cn">卡林顿风暴 · 太阳给地球的第一记重拳</span></h1>
+  <p class="sub">一百六十七年前的今天（<b>1859 年 9 月 1 日</b>上午 11 点 18 分），理查德·卡林顿在伦敦郊外的红山镇，把太阳的影像投射到屏幕上描黑子，
+  忽然看见黑子群里炸出<b>两团白光</b>，五分钟后熄灭——人类第一次记录到<b>白光耀斑</b>。十七个半小时后（9 月 2 日凌晨 04:03），等离子体追到地球：
+  有记录以来最强的地磁暴。极光烧到古巴和檀香山，电键噼啪冒火花，波士顿—波特兰的电报员<b>拆掉电池、靠极光电流继续收发</b>。
+  这一课全是闭式公式：光与等离子体的赛跑 <code>t = D/v</code>，偶极磁层顶 <code>r = (µ₀M²/32π²p)^⅙</code>（压力翻 64 倍，距离才缩一半——第六根的宽容），
+  环电流能量账 <code>E ≈ 4×10¹³ J / nT</code>，以及把电报线变成电源的 <code>V = E·L</code>、<code>I = V/R</code>。</p>
+</header>
+
+<div class="presets" id="presets"></div>
+
+<main>
+  <section class="card bench-card">
+    <div class="card-head">
+      <h2>从太阳到地球 <i>the 1-AU battlefield · 27 Aug – 3 Sep 1859</i></h2>
+      <code class="eq">t = D/v · r ∝ p^(−1/6)</code>
+      <span class="chip" id="phase-chip">○ 宁静</span>
+      <span class="hint">光 8 分钟到，等离子体 17.6 小时到</span>
+    </div>
+    <canvas id="bench"></canvas>
+    <div class="readouts">
+      <div class="ro hero"><label>SSC 时刻（激波到达）= 出发 + D/v</label><output id="ro-ssc">—<small>按当前 CME 速度</small></output></div>
+      <div class="ro"><label>磁层顶 R_mp = (µ₀M²/32π²p)^⅙</label><output id="ro-rmp">—</output></div>
+      <div class="ro"><label>极光赤道边界 Λ（经验拟合）</label><output id="ro-mlat">—</output></div>
+      <div class="ro"><label>地电场 E（缅因标定 ×|dH/dt|）</label><output id="ro-e">—</output></div>
+    </div>
+  </section>
+
+  <aside class="panel">
+    <div class="card">
+      <h2>观测台 <i>the operator's desk</i></h2>
+      <div class="btn-row">
+        <button id="play-btn" class="primary">▶ 播放 1859</button>
+        <button id="now-btn">⌂ 回到 9 月 1 日 11:18</button>
+      </div>
+      <label class="ctl"><span>时间轴（8 月 27 日 → 9 月 3 日）</span><output id="t-out"></output>
+        <input type="range" id="t-range" min="0" max="168" step="0.05">
+      </label>
+      <label class="ctl"><span>CME 速度 v（拖动它，风暴提前或推迟）</span><output id="v-out"></output>
+        <input type="range" id="v-range" min="300" max="3000" step="10">
+      </label>
+      <label class="ctl"><span>磁暴深度（Colaba 极小，nT）</span><output id="d-out"></output>
+        <input type="range" id="d-range" min="300" max="2000" step="10">
+      </label>
+      <label class="ctl"><span>播放速度（小时 / 秒）</span><output id="sp-out"></output>
+        <input type="range" id="sp-range" min="1" max="48" step="0.5">
+      </label>
+      <div class="yield">
+        <div class="row"><span>当前 Dst（参数化重放）</span><output id="y-dst">—</output></div>
+        <div class="row"><span>动压 p（SSC 钟形曲线）</span><output id="y-p">—</output></div>
+        <div class="row"><span>|dH/dt|（地面真正感到的）</span><output id="y-dho">—</output></div>
+        <div class="row total"><span>1859 电报线上 I = E·L/R</span><output id="y-gic">—</output></div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>卡林顿的黑子 <i>the projection screen · 11:18</i></h2>
+      <canvas id="spot" class="tight"></canvas>
+      <div class="legend">
+        <span class="lg gold">● 大黑子群 ≈ 2300 msh（半球面积的 0.23%）</span>
+        <span class="lg white">✦ 两团白光：五分钟的白光耀斑</span>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<section class="tabs-card">
+  <div class="card">
+    <div class="tabs" id="tabs">
+      <button data-tab="race" class="on">两个信使 · t = D/v</button>
+      <button data-tab="mag">磁层顶 · 第六根</button>
+      <button data-tab="ring">环电流 · 每 nT 四万亿焦</button>
+      <button data-tab="wire">电报与电网 · V = E·L</button>
+      <button data-tab="hist">编年史 · 167 年</button>
+      <span class="tab-note" id="tab-note">光带来 11:18 的磁钩，等离子体带来第二天的风暴</span>
+    </div>
+
+    <div class="tab-body" id="tab-race">
+      <div class="duo">
+        <div class="chart-wrap">
+          <canvas id="raceC" class="chart"></canvas>
+          <div class="legend">
+            <span class="lg cyan">— 到达时间 t = D/v（对数-对数）</span>
+            <span class="lg gold">● 卡林顿 2,368 km/s → 17.55 h</span>
+          </div>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="l1C" class="chart"></canvas>
+          <div class="legend">
+            <span class="lg red">— L1 哨兵的预警分钟 = 1.5×10⁶ km / v</span>
+            <span class="lg faint">▒ 常规 CME 的 15–45 分钟预警带</span>
+          </div>
+        </div>
+      </div>
+      <div class="prose">
+        <p><b>两个信使，两次敲门。</b>耀斑的光 8 分 20 秒就到（<code>t = 1AU/c = 499 s</code>），
+        随光而来的软 X 射线和极紫外立刻电离高层大气，克乌天文台的磁针在 <b>11:18 同刻</b>轻轻一跳——「磁钩」（crochet，约 +110 nT），
+        这是风暴的电子回执。等离子体（CME）平均 <code>2,368 km/s</code>，要爬 <b>17.55 小时</b>：04:03，磁暴暴始（SSC）准时敲门。
+        光比等离子体快 <code>c/v ≈ 126.6 倍</code>——正是这 17 个小时，让 1859 年的旧世界毫无预警地迎来极光之夜。</p>
+        <p>今天也一样：上游 L1 点的哨兵卫星（ACE、DSCOVR）对 2,368 km/s 的激波只能给出 <b>10.6 分钟</b>预警。
+        拖动速度滑杆试试：CME 越快，重放里的 SSC 越早，整条磁力仪曲线当场重排——这是本页唯一的因果旋钮。</p>
+      </div>
+    </div>
+
+    <div class="tab-body hidden" id="tab-mag">
+      <div class="duo">
+        <div class="chart-wrap">
+          <canvas id="magC" class="chart"></canvas>
+          <div class="legend">
+            <span class="lg cyan">— 偶极磁层顶 r = (µ₀M²/32π²p)^⅙</span>
+            <span class="lg gold">▏GEO 同步轨道 6.62 R_E：进去就是裸奔</span>
+          </div>
+        </div>
+        <div class="chart-wrap">
+          <canvas id="magS" class="chart"></canvas>
+          <div class="legend">
+            <span class="lg cyan">— 宁静 1.6 nPa：磁层顶在 GEO 之外</span>
+            <span class="lg red">— 卡林顿级 ≈64 nPa：同步卫星泡在太阳风里</span>
+          </div>
+        </div>
+      </div>
+      <div class="prose">
+        <p><b>第六根的宽容。</b>磁层顶是地球偶极场的磁场压强 <code>B²/2µ₀</code> 与太阳风动压 <code>p</code> 的掰手腕线，
+        均衡距离 <code>r = (µ₀M²/32π²p)^⅙</code>。看那个 <b>1/6</b>：动压要乘 <b>64 倍</b>，磁层顶才缩到一半（64^⅙ = 2，精确成立）。
+        这是地球磁场最温柔的一条物理——它把风暴的凶猛开了一个六次方根。但反过来说：卡林顿级的动压（估计 ≈64 nPa，平静的 40 倍）
+        仍把偶极磁层顶压到 <b>≈4.2 R_E</b>，<b>整圈地球同步轨道（6.62 R_E）暴露在太阳风里</b>——1859 年那只电报键冒火花时，
+        上面一颗卫星也没有；今天那里停着几百颗。</p>
+        <p>（诚实注脚：这是纯偶极账。真实的磁层顶电流会把边界再往外推约三成，但 <code>−1/6</code> 的幂律本身是精确的。）</p>
+      </div>
+    </div>
+
+    <div class="tab-body hidden" id="tab-ring">
+      <div class="duo">
+        <div class="chart-wrap">
+          <canvas id="ringC" class="chart"></canvas>
+          <div class="legend">
+            <span class="lg gold">▮ Dst 深度（nT）· 环电流能量 ≈ 4×10¹³ J/nT</span>
+            <span class="lg faint">▯ 2012-07-23：差 9 天没打中的同款</span>
+          </div>
+        </div>
+        <div class="chart-wrap prose-card">
+          <h3>Dst 不只是「强度」，它是一张能量账单</h3>
+          <p>Dessler–Parker–Sckopke 关系：地磁赤道处每 <b>1 nT</b> 的 Dst 落差，对应环绕地球的<b>环电流</b>里约
+          <code>4×10¹³ J</code> 的粒子动能。于是历次大风暴可以摆在同一杆秤上：</p>
+          <ul>
+            <li><b>1859 卡林顿</b>（−1,760 nT，Tsurutani 估计；Siscoe 保守值 −850）：环电流 ≈ <code>7×10¹⁶ J</code> ≈ 1,100 颗广岛原子弹的当量，绕着地球转。</li>
+            <li><b>1989 魁北克</b>（−589）：≈ 2.4×10¹⁶ J —— 已经够让 600 万人停电 9 小时。</li>
+            <li><b>2024 盖农</b>（−412）：32 年最强，波多黎各拍到极光，电网基本无恙——因为运维学过了 1989 的课。</li>
+          </ul>
+          <p>另一个极端的提醒：1859 的环电流若按 Tsurutani 的深度，相当于<b>当时全人类电网</b>…… 的不存在；按今天的全球平均电网功率 3.4 TW 换算，
+          环电流里存着它 <b>5.7 个小时</b>的全部输出。</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-body hidden" id="tab-wire">
+      <div class="duo">
+        <div class="chart-wrap">
+          <canvas id="wireC" class="chart"></canvas>
+          <div class="legend">
+            <span class="lg cyan">— 电报线 / 电网线 · I = E·L/R（准直流）</span>
+            <span class="lg gold">✦ 拆掉电池（开关拨到「断」）也能收发</span>
+          </div>
+        </div>
+        <div class="chart-wrap">
+          <div class="wire-controls">
+            <div class="btn-row">
+              <button data-wire="p1859" class="on">1859 波士顿—波特兰</button>
+              <button data-wire="p1989">1989 缅因实测</button>
+              <button data-wire="p2003">2003 万圣节</button>
+              <button data-wire="p2024">2024 盖农</button>
+            </div>
+            <label class="ctl"><span>地电场 E（V/km，对数）</span><output id="we-out"></output>
+              <input type="range" id="we-range" min="-1" max="1.42" step="0.01">
+            </label>
+            <label class="ctl"><span>线路长度 L（km，对数）</span><output id="wl-out"></output>
+              <input type="range" id="wl-range" min="1" max="3" step="0.01">
+            </label>
+            <label class="ctl"><span>回路直流电阻 R（Ω，对数）</span><output id="wr-out"></output>
+              <input type="range" id="wr-range" min="0" max="3.4" step="0.01">
+            </label>
+            <div class="yield">
+              <div class="row"><span>感应电压 V = E·L</span><output id="wy-v">—</output></div>
+              <div class="row"><span>地磁感应电流 I = V/R</span><output id="wy-i">—</output></div>
+              <div class="row total"><span>判定</span><output id="wy-verdict">—</output></div>
+            </div>
+            <p class="wire-note" id="wire-note"></p>
+          </div>
+        </div>
+      </div>
+      <div class="prose">
+        <p><b>风暴怎么点着电报线的？</b>磁暴的 <code>dB/dt</code> 在导电的大地里感应出地电场 E（1989 年 3 月缅因州实测峰值
+        <b>21.66 V/km</b>）。任何一条够长的导线——1859 年的电报线、今天的输电线——都相当于一根在这个电场里的天线：
+        <code>V = E·L</code>，除以回路电阻就是准直流的地磁感应电流（GIC）。</p>
+        <p>1859 年的算术：铁线约 170 km、回路约 1.85 kΩ，E 只要 <b>2 V/km</b>，I ≈ <b>184 mA</b>——恰好是电键继电器的正常工作电流。
+        于是有了那段著名的对话：波特兰：「请把你的电池完全切断十五分钟。」波士顿：「已切断……我们用极光电流工作。」
+        两小时后线路才回到电池供电。1989 年的算术：同样的公式，E = 21.66、L = 300 km、R ≈ 60 Ω → <b>108 A</b> 直流灌进变压器中性点，
+        铁芯半波饱和、无功崩溃、静止无功补偿器连锁跳闸——魁北克 735 kV 电网 92 秒内崩完，停电 9 小时。
+        <b>同一条公式，不同的电阻，就是两个时代的故事。</b></p>
+      </div>
+    </div>
+
+    <div class="tab-body hidden" id="tab-hist">
+      <div class="hist-grid">
+        <div class="tl" id="tl"></div>
+        <div class="quotes">
+          <div class="quote-card">
+            <p class="q">「两团彼此分离的白光，比太阳表面亮得多，在黑子上方生成、移动、熄灭。我匆忙跑去请人见证……回来时只来得及看到残迹。」</p>
+            <p class="who">— 理查德·卡林顿，1859 年 9 月 1 日 11:18，红山镇（他总强调：地磁暴与耀斑「同现」未必「因果」，他猜对了方向却谨慎了一辈子）</p>
+          </div>
+          <div class="quote-card">
+            <p class="q">「请把你的电池完全切断十五分钟。」「好的，已经断开。……我们现在完全用极光电流收发，效果比电池还好。」</p>
+            <p class="who">— 波士顿 ↔ 波特兰 电报线路，1859 年 9 月 2 日凌晨（后被反复引用的原文，双方各执一端）</p>
+          </div>
+          <div class="quote-card">
+            <p class="q">「如果它早发生九天，我们现在还在修复电网。」——2012 年 7 月 23 日，一团约 3,000 km/s 的卡林顿级 CME
+            从 STEREO-A 卫星眼前穿过地球轨道。地球恰好不在家。NASA 估计：正面命中将造成约 <b>2 万亿美元</b>级损失、1–2 年修复期。</p>
+            <p class="who">— Daniel Baker 等，2013–2014（劳合社同年的情景估计：0.6–2.6 万亿美元）</p>
+          </div>
+          <div class="quote-card">
+            <p class="q">2024 年 5 月 10 日（盖农风暴，Dst −412）：32 年来最强，极光照进波多黎各——人类第一次带着完整的卫星、雷达和预报中心迎接它。
+            结果：变压器无一烧毁。这不是运气，是 167 年的物理课。</p>
+            <p class="who">— 太阳第 25 周活动峰年，2024–2026</p>
+          </div>
+        </div>
+      </div>
+      <div class="prose">
+        <p><b>编年的规律：</b>1859（卡林顿，Dst 约 −850 ～ −1,760）→ 1921.5（纽约铁路风暴，约 −907，火车站起火）→ 1957 进入太空时代
+        → 1989.2（魁北克，−589）→ 2003.8（万圣节，−383）→ <b>2012.6（擦肩而过）</b> → 2024.4（盖农，−412）。
+        以Dst 深度近似泊松估计，卡林顿级的年发生概率约为 0.5–1.2%——不是「会不会再来」，是「下一次轮到哪一代电网」。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>数据与史实：Carrington (1859) · Cliver &amp; Dietrich (2013) X45 · Tsurutani et al. (2003) Dst −1760 · Siscoe (1979) −850 ·
+  Green et al. (2006) 极光 18° · Love et al. (2022) 缅因 21.66 V/km · Baker et al. (2013) 2012 擦肩 · Gannon/2024 SYM-H −518。
+  图中磁力仪曲线为参数化重放（示意），公式与锚点全部可验。</p>
+</footer>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>carrington-storm · video card</title>
+  <style>
+    :root {
+      --ink: #e6eef3;
+      --dim: #8ba3b3;
+      --gold: #d9a93f;
+      --gold2: #f0c75e;
+      --cyan: #5fc6d8;
+      --cyan2: #8ce0ec;
+      --green: #7ce8a4;
+      --red: #e0685c;
+      --bg: #04070c;
+    }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; }
+    body {
+      overflow: hidden; color: var(--ink);
+      background:
+        radial-gradient(circle at 20% 12%, rgba(124,232,164,.10), transparent 45%),
+        radial-gradient(circle at 82% 8%, rgba(217,169,63,.10), transparent 42%),
+        radial-gradient(circle at 60% 100%, rgba(224,104,92,.08), transparent 50%),
+        var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans GB", "Songti SC", "Georgia", serif, sans-serif;
+    }
+    .card {
+      position: relative; width: 100%; height: 100%;
+      display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 84px;
+      padding: 60px 80px;
+    }
+    .sky { position: relative; width: 620px; height: 560px; flex: none; }
+    .copy { max-width: 720px; }
+    .eyebrow {
+      color: var(--gold); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 2.5px; font-size: 14px; text-transform: uppercase; margin-bottom: 18px;
+    }
+    h1 { margin: 0; font-size: 74px; line-height: 1.0; letter-spacing: -1px; font-weight: 800; font-family: Georgia, "Songti SC", serif; }
+    h1 .gold { color: var(--gold); }
+    h2 {
+      margin: 22px 0 0; font-size: 24px; line-height: 1.5; font-weight: 500;
+      color: #c4d4dc; max-width: 680px;
+    }
+    h2 b { color: var(--gold2); }
+    h2 .red { color: var(--red); font-weight: 700; }
+    h2 .green { color: var(--green); font-weight: 700; }
+    .meta { display: flex; align-items: center; gap: 12px; margin-top: 30px; color: var(--dim); font-size: 15px; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--gold2); box-shadow: 0 0 16px rgba(240,199,94,.9); }
+    .formula {
+      margin-top: 26px; color: var(--cyan2); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 19px; letter-spacing: 0.5px;
+    }
+    .formula .num { color: var(--gold); }
+    .formula small { color: var(--dim); font-size: 14px; display: block; margin-top: 6px; letter-spacing: .5px;
+      font-family: -apple-system, sans-serif; }
+    .scene.end { display: none; }
+    body[data-scene="end"] .scene.intro { display: none; }
+    body[data-scene="end"] .scene.end { display: block; }
+  </style>
+</head>
+<body data-scene="intro">
+  <div class="card">
+    <div class="sky">
+      <svg viewBox="0 0 620 560" width="620" height="560" aria-hidden="true">
+        <defs>
+          <radialGradient id="sun" cx="44%" cy="42%" r="62%">
+            <stop offset="0%" stop-color="#fff3d6"/>
+            <stop offset="72%" stop-color="#ffd98f"/>
+            <stop offset="100%" stop-color="#f0ae55"/>
+          </radialGradient>
+          <radialGradient id="flare" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity=".95"/>
+            <stop offset="45%" stop-color="#fff6cf" stop-opacity=".55"/>
+            <stop offset="100%" stop-color="#fff0b0" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="earth" cx="38%" cy="38%" r="70%">
+            <stop offset="0%" stop-color="#9fd7ef"/>
+            <stop offset="60%" stop-color="#3d7fa8"/>
+            <stop offset="100%" stop-color="#1d4666"/>
+          </radialGradient>
+        </defs>
+        <!-- starfield -->
+        <g fill="#c8dce9">
+          <circle cx="40" cy="90" r="1.4" opacity=".5"/><circle cx="150" cy="40" r="1.1" opacity=".4"/>
+          <circle cx="320" cy="70" r="1.5" opacity=".55"/><circle cx="480" cy="30" r="1.2" opacity=".4"/>
+          <circle cx="580" cy="120" r="1.3" opacity=".5"/><circle cx="540" cy="500" r="1.4" opacity=".45"/>
+          <circle cx="70" cy="480" r="1.2" opacity=".4"/><circle cx="200" cy="530" r="1.1" opacity=".35"/>
+          <circle cx="390" cy="545" r="1.3" opacity=".4"/><circle cx="430" cy="110" r="1" opacity=".35"/>
+        </g>
+        <!-- the Sun with the great group -->
+        <circle cx="175" cy="255" r="128" fill="url(#sun)" opacity=".96"/>
+        <g transform="translate(175,255) rotate(-11)">
+          <g><ellipse cx="-40" cy="-4" rx="38" ry="27" fill="#8c501e" opacity=".55"/><ellipse cx="-40" cy="-4" rx="21" ry="15" fill="#160b05" opacity=".92"/></g>
+          <g><ellipse cx="18" cy="4" rx="26" ry="19" fill="#8c501e" opacity=".5"/><ellipse cx="18" cy="4" rx="14" ry="10" fill="#160b05" opacity=".9"/></g>
+          <g><ellipse cx="66" cy="-8" rx="20" ry="15" fill="#8c501e" opacity=".5"/><ellipse cx="66" cy="-8" rx="11" ry="8" fill="#160b05" opacity=".88"/></g>
+          <circle cx="4" cy="22" r="7" fill="#160b05" opacity=".8"/>
+          <circle cx="44" cy="20" r="5" fill="#160b05" opacity=".75"/>
+        </g>
+        <!-- the two white kernels -->
+        <circle cx="130" cy="250" r="34" fill="url(#flare)"/>
+        <circle cx="196" cy="260" r="24" fill="url(#flare)"/>
+        <!-- CME crescent -->
+        <path d="M 275 150 A 190 190 0 0 1 300 380" stroke="#e8963a" stroke-width="7" fill="none" opacity=".8" stroke-linecap="round"/>
+        <path d="M 292 168 A 165 165 0 0 1 313 362" stroke="#c97a3e" stroke-width="3" fill="none" opacity=".5" stroke-linecap="round"/>
+        <!-- the shock track toward Earth -->
+        <g stroke="#5d7484" stroke-width="1.5" stroke-dasharray="3 10" opacity=".55">
+          <line x1="315" y1="255" x2="430" y2="255"/>
+        </g>
+        <text x="322" y="240" fill="#8aa3b2" font-family="ui-monospace,Menlo,monospace" font-size="14">17.6 h</text>
+        <!-- Earth with magnetopause + aurora + GEO -->
+        <g transform="translate(480,255)">
+          <ellipse cx="-16" cy="0" rx="88" ry="104" fill="none" stroke="#e0685c" stroke-width="3" opacity=".9"
+                   transform="rotate(8)"/>
+          <path d="M -14 -96 Q 120 -120 165 -86" stroke="rgba(95,198,216,.35)" stroke-width="2" fill="none"/>
+          <path d="M -14 96 Q 120 120 165 86" stroke="rgba(95,198,216,.35)" stroke-width="2" fill="none"/>
+          <circle r="72" fill="none" stroke="rgba(140,224,236,.5)" stroke-width="1.6" stroke-dasharray="6 6"/>
+          <ellipse cx="0" cy="-26" rx="30" ry="8" fill="none" stroke="#7ce8a4" stroke-width="3" opacity=".95"/>
+          <ellipse cx="0" cy="26" rx="30" ry="8" fill="none" stroke="#7ce8a4" stroke-width="3" opacity=".95"/>
+          <ellipse cx="0" cy="-34" rx="36" ry="10" fill="none" stroke="#e0685c" stroke-width="3.5" opacity=".7"/>
+          <circle r="26" fill="url(#earth)"/>
+          <path d="M -28 78 A 40 40 0 0 0 28 78" stroke="#e0685c" stroke-width="8" fill="none" opacity=".8" stroke-linecap="round"/>
+        </g>
+        <text x="330" y="470" fill="#8ba3b3" font-family="ui-monospace,Menlo,monospace" font-size="15">R_mp ≈ 4.2 R_E · GEO 暴露</text>
+        <text x="330" y="494" fill="#5d7484" font-family="ui-monospace,Menlo,monospace" font-size="13">Λ ≈ 20° · 哈瓦那的红色天空</text>
+      </svg>
+    </div>
+
+    <div class="scene intro copy">
+      <div class="eyebrow">1 SEP 1859 · REDHILL, SURREY · 11:18 A.M. · 167 YEARS TODAY</div>
+      <h1>Carrington's <span class="gold">Storm</span></h1>
+      <h2>两团白光在黑子上方亮起，五分钟熄灭——人类第一次记录到<b>白光耀斑</b>。
+        十七个小时后，等离子体追上地球：<span class="red">极光烧到古巴</span>，
+        电报噼啪冒火花，波士顿的报务员<span class="green">拆掉电池、用极光收发</span>。
+        这一天的全部物理，四条闭式公式讲完。</h2>
+      <div class="formula">t = D/v &nbsp;·&nbsp; r = (µ₀M²/32π²p)^<span class="num">⅙</span> &nbsp;·&nbsp; E ≈ 4×10¹³ J/nT &nbsp;·&nbsp; I = E·L/R
+        <small>光 8 分 20 秒到，等离子体 17.6 小时到；同一场风暴，两种敲门声。</small>
+      </div>
+      <div class="meta"><span class="dot"></span><span>2026-09-01 · 卡林顿风暴 · daily-slop 第 40 天</span></div>
+    </div>
+
+    <div class="scene end copy">
+      <div class="eyebrow">2026-09-01 · DAILY-SLOP</div>
+      <h1>明天见 <span class="gold">· 明天见</span></h1>
+      <h2>下一次卡林顿级什么时候来，没人知道；只知道它一定会来。
+        好消息是：这条公式链，人类已经攒了一百六十七年。
+        去把速度滑杆拖一拖，看磁力仪当场重排；去电报台，亲手拆一次电池。</h2>
+      <div class="formula">「已断开……我们完全用极光电流收发。」— 1859.9.2，波士顿 ↔ 波特兰
+        <small>Built by GLM-5.3 · dailyslop.pages.dev</small>
+      </div>
+    </div>
+  </div>
+  <script>
+    const scene = new URLSearchParams(location.search).get("scene") || "intro";
+    document.body.dataset.scene = scene;
+    document.title = `carrington-storm · ${scene}`;
+  </script>
+</body>
+</html>

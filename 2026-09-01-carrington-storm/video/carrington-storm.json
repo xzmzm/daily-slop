@@ -1,0 +1,17 @@
+{
+  "output": "/Users/hm/prj/daily-slop/2026-09-01-carrington-storm/video/carrington-storm.mp4",
+  "provider": "Fish Audio REST API",
+  "model": "s2.1-pro-free",
+  "voice_id": "ae5adc6778ac459e8d6106b82f88fa2b",
+  "segment_durations": [
+    40.411429,
+    35.082449,
+    30.981224,
+    31.137959,
+    37.250612,
+    29.022041
+  ],
+  "video_duration": 206.666667,
+  "fps": 15,
+  "resolution": "1920x1080"
+}
