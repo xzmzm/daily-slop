@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eleven Days · 失踪的十一天</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="mast-rule"></div>
+  <h1>Eleven <span class="red">Days</span> <span class="cn">失踪的十一天</span></h1>
+  <p class="tagline">1752 年 9 月 2 日，星期三。它的第二天是 9 月 14 日，星期四。<br>
+  本届 274 周年 —— 一座关于历法齿轮的小工作室：儒略的慢性病、格里高利的十一天、康威的末日算法、复活节的月轮。</p>
+  <div class="presets" id="presets"></div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button data-tab="jump" class="on">那一夜</button>
+  <button data-tab="drift">儒略的慢性病</button>
+  <button data-tab="doomsday">末日算法</button>
+  <button data-tab="computus">复活节的齿轮</button>
+  <button data-tab="fossils">化石清单</button>
+</nav>
+
+<main>
+
+<!-- ── 1 · 那一夜 ─────────────────────────────────────────────── -->
+<section id="tab-jump" class="tab on">
+  <div class="cols">
+    <div class="wallcol">
+      <div class="wall" id="wall">
+        <div class="sheet" id="sheet">
+          <div class="sheet-month" id="sheet-month">September · 1752</div>
+          <div class="sheet-dow" id="sheet-dow">星期三</div>
+          <div class="sheet-day" id="sheet-day">2</div>
+          <div class="sheet-note" id="sheet-note">大不列颠 · 儒略历的最后一日</div>
+        </div>
+        <div class="ghost-stack" id="ghost-stack"></div>
+      </div>
+      <div class="wall-controls">
+        <button id="btn-morning" class="ink-btn">次日凌晨 —— 翻页</button>
+        <button id="btn-reset" class="ink-btn ghost">放回墙上</button>
+        <div class="torn-count" id="torn-count">已撕 0 页</div>
+      </div>
+      <p class="wall-caption">撕掉的 11 页（9 月 3 – 13 日）从未被印出。星期没有断：周三的明天仍是周四。<br>
+      <span class="dim">柯勒律治睡着前是 9 月 2 日，醒来已是 9 月 14 日 —— 伦敦人只少睡了 11 个日期，一分钟都没少睡。</span></p>
+    </div>
+
+    <div class="gridcol">
+      <h2 class="sec">1752 年 9 月 · 印出来的那个月</h2>
+      <div class="monthgrid" id="sep1752"></div>
+      <p class="caption">这个月在英国的账面上只有 <b>19 天</b>（1、2 日，然后 14 – 30 日）。
+      红字是星期日 —— 老历书把节庆和礼拜日印成红色，<i>red-letter day</i>（黄道吉日）一词就来自这些历书。</p>
+
+      <h2 class="sec">同一夜的三个刻度</h2>
+      <div class="factrow">
+        <div class="fact"><div class="fact-n" id="f-days">11</div><div class="fact-l">被删除的日期</div></div>
+        <div class="fact"><div class="fact-n" id="f-week">+1</div><div class="fact-l">星期前进的天数</div></div>
+        <div class="fact"><div class="fact-n" id="f-month">19</div><div class="fact-l">9 月实有天数</div></div>
+      </div>
+      <p class="caption" id="today-line">…</p>
+    </div>
+  </div>
+
+  <div class="prose">
+    <h2 class="sec">为什么是 11 天</h2>
+    <p>尤利乌斯·凯撒的年长 365¼ 天，比回归年多出<b>11 分 14 秒</b>。从公元 325 年尼西亚会议把春分钉在 3 月 21 日起，这个小差错让春分每 128 年提前一天：到 1582 年已滑到 3 月 11 日。教皇格里高利十三世在 1582 年删掉 10 天（10 月 4 日周四 → 10 月 15 日周五），并改闰年为「四年一闰、百年不闰、四百年再闰」，平均年长 365.2425 天。</p>
+    <p>信奉新教的英国又观望了 170 年。1700 年儒略历多闰了一次，差距从 10 天涨到 11 天。1750 年《新历法案》（切斯特菲尔德勋爵推动，24 Geo. II c.23）定下两件事：<b>1752 年跳过 9 月 3 – 13 日</b>；岁首从 3 月 25 日（圣母领报节）移到 1 月 1 日。于是 1751 年成了只有 <b>282 天</b>的短年（3 月 25 日 – 12 月 31 日），而 1752 年 1 月、2 月的那些「1751 年」日期在法律上从未存在。</p>
+    <p>荷加斯 1755 年的版画《选举宴会》里画了一面被人抢走的横幅，上书「<b>把十一天还给我们</b>」—— 后世讹传成「历法暴动」。没有史料证明真的有人为这 11 天上街；真正确凿的是：当年的地租、工资、利息<b>照收一个月</b>，一天不少。</p>
+  </div>
+</section>
+
+<!-- ── 2 · 儒略的慢性病 ───────────────────────────────────────── -->
+<section id="tab-drift" class="tab">
+  <div class="cols">
+    <div class="gridcol">
+      <h2 class="sec">春分的下坡路</h2>
+      <div class="chartbox"><canvas id="drift-chart"></canvas></div>
+      <p class="caption">横轴：年份。纵轴：春分落在<b>当朝民用历</b>上的日期。蓝线是不动手术的儒略历：325 年的 3 月 21 日一路滑向今天的 3 月 8 日。1582 年的改革（跳变 +10 天）把红线拉回 3 月 21 日，之后每 3,333 年才滑一天。</p>
+      <div class="yearslide">
+        <label>年份 <output id="drift-year-out">2026</output></label>
+        <input type="range" id="drift-year" min="200" max="3000" value="2026" step="1">
+      </div>
+      <div class="factrow">
+        <div class="fact"><div class="fact-n" id="d-gap">13</div><div class="fact-l">两历差距（天）</div></div>
+        <div class="fact"><div class="fact-n" id="d-equij">3/8</div><div class="fact-l">春分·儒略历</div></div>
+        <div class="fact"><div class="fact-n" id="d-leap">双闰</div><div class="fact-l">闰年状况</div></div>
+      </div>
+      <p class="caption" id="d-readout">…</p>
+    </div>
+    <div class="gridcol">
+      <h2 class="sec">三张处方笺</h2>
+      <div class="rxcard">
+        <div class="rx-title">儒略 · 公元前 46 年</div>
+        <div class="rx-formula">365 + ¼ 天</div>
+        <p>每年多 <b>11 分 14 秒</b> → 每 <b>128.2 年</b>春分提前一天。便宜、好用、慢性病。</p>
+      </div>
+      <div class="rxcard">
+        <div class="rx-title">格里高利 · 1582</div>
+        <div class="rx-formula">365 + 97/400 = 365.2425 天</div>
+        <p>百年不闰、四百年再闰：400 年里只闰 97 次。与回归年只差 <b>0.0003 天</b> → 每 <b>3,333 年</b>才差一天。代价：1582 年先删 10 天。</p>
+      </div>
+      <div class="rxcard">
+        <div class="rx-title">差距公式</div>
+        <div class="rx-formula">D(y) = ⌊y/100⌋ − ⌊y/400⌋ − 2</div>
+        <p>两历的日数差。1582：10 天；1752：11 天；1900 之后：<b>13 天</b>；2100 起将变 <b>14 天</b> —— 每个被儒略多闰的世纪年，齿轮就错一格。</p>
+      </div>
+      <p class="caption">验证一下 1582：⌊1582/100⌋ − ⌊1582/400⌋ − 2 = 15 − 3 − 2 = <b>10</b> ✓ 删的正是 10 天。1752：17 − 4 − 2 = <b>11</b> ✓</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── 3 · 末日算法 ───────────────────────────────────────────── -->
+<section id="tab-doomsday" class="tab">
+  <div class="cols">
+    <div class="gridcol">
+      <h2 class="sec">任取一天，说出星期</h2>
+      <div class="datepick">
+        <label>年 <input type="number" id="dd-year" value="1752" min="1583" max="9999"></label>
+        <label>月 <input type="number" id="dd-month" value="9" min="1" max="12"></label>
+        <label>日 <input type="number" id="dd-day" value="2" min="1" max="31"></label>
+        <button class="ink-btn" id="dd-random">随机一天</button>
+      </div>
+      <div class="dd-result" id="dd-result">…</div>
+      <div class="worksteps" id="dd-steps"></div>
+    </div>
+    <div class="gridcol">
+      <h2 class="sec">末日速记表（都落在「末日」上）</h2>
+      <div class="doomsgrid" id="doomsgrid"></div>
+      <p class="caption">康威（John Horton Conway，1937 – 2020）的方法：每个世纪有个<b>锚日</b>（1800s=周五，1900s=周三，2000s=周二，2100s=周日，公式 <b>(5(c mod 4)+2) mod 7</b>），年份后两位加上它自己的四分之一，就得到这一年的「末日」星期。上面任何一天都落在末日上，目标日期和它数差即可。</p>
+      <h2 class="sec">考考你</h2>
+      <div class="quiz" id="quiz">
+        <div class="quiz-q" id="quiz-q">点下面的按钮出题 —— 1583 到 2400 年间的随机一天。</div>
+        <div class="quiz-choices" id="quiz-choices"></div>
+        <div class="quiz-score" id="quiz-score">连对 0 · 共答 0</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 4 · 复活节的齿轮 ───────────────────────────────────────── -->
+<section id="tab-computus" class="tab">
+  <div class="cols">
+    <div class="gridcol">
+      <h2 class="sec">尼西亚的方程</h2>
+      <p class="prose-inset">公元 325 年定下复活节 = <b>春分后第一个满月之后的第一个星期日</b>。整部格里高利改革，起因就是要保住这条等式 —— 春分跑了，复活节就跟着跑进夏天。教会因此造了两套齿轮：19 年的<b>默冬轮</b>（235 个朔望月 ≈ 19 个回归年，每轮只差 2 小时 5 分）配上「跳日」修正，再让星期日齿轮在满月后咬合。</p>
+      <div class="yearpick">
+        <button class="ink-btn ghost" id="ec-minus">−</button>
+        <output id="ec-year">2026</output>
+        <button class="ink-btn ghost" id="ec-plus">＋</button>
+        <span class="dim" id="ec-golden"></span>
+      </div>
+      <div class="eastertable">
+        <div class="e-row west">
+          <div class="e-who">西方 · 格里高利齿轮</div>
+          <div class="e-date" id="ec-west">…</div>
+          <div class="e-sub" id="ec-west-sub"></div>
+        </div>
+        <div class="e-row east">
+          <div class="e-who">东方 · 儒略齿轮</div>
+          <div class="e-date" id="ec-east">…</div>
+          <div class="e-sub" id="ec-east-sub"></div>
+        </div>
+      </div>
+      <p class="caption" id="ec-remark">…</p>
+      <div class="chartbox short"><canvas id="moon-wheel"></canvas></div>
+      <p class="caption">默冬轮：19 格金色数字（今岁 13 高亮）。教会的「月亮」是编好的表，不是天上的月亮 —— 每 19 年快 2.08 小时，每隔几个世纪就得拨一颗齿。</p>
+    </div>
+    <div class="gridcol">
+      <h2 class="sec">东西对照 · 2018 – 2034</h2>
+      <table class="etable" id="etable"></table>
+      <p class="caption">两套复活节多数年份差 1 – 5 周，同日相逢常常扎堆：2017 年之后是 2025、2028、2031、2034（表中标 ✦）。东正教按儒略历算春分（3 月 21 日·儒略 = 民用历 4 月 3 日），再换算回民用历 —— 差距里全是那 13 天历差加月轮的相位。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── 5 · 化石清单 ───────────────────────────────────────────── -->
+<section id="tab-fossils" class="tab">
+  <h2 class="sec">换历时间线 · 1582 – 1923</h2>
+  <div class="timeline" id="timeline"></div>
+  <div class="jumpcard" id="jumpcard">点时间线上的一枚图钉，看那一夜的前后。</div>
+
+  <h2 class="sec">活到今天的化石</h2>
+  <div class="fossils" id="fossils"></div>
+
+  <div class="prose">
+    <h2 class="sec">尾声 · 2100 年 3 月 1 日</h2>
+    <p>儒略历会在 2100 年 2 月 29 日再闰一次，格里历不会。那天过去之后，两历差距变成 14 天：东正教圣诞节挪到 1 月 8 日；若财政部仍照 1752 年的老办法换算，纳税年也会跟着挪一天。凯撒的历法像一件还在走的老怀表：慢，但从 1752 年 9 月那夜起，我们知道它慢多少、为什么慢 —— 这正是「失踪的十一天」留下的遗产：不是混乱，是一支能算清的误差。</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="colophon">
+  <div class="mast-rule"></div>
+  印于 2026 年 9 月 2 日 · 星期三 —— 与 1752 年 9 月 2 日同一个星期名。<br>
+  <span class="dim">历法引擎：双历序列日 · Zeller · Conway doomsday · Meeus computus（西方与儒略）。全部断言见 test_cal.mjs，31 项测试。</span>
+</footer>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

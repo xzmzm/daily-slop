@@ -1,0 +1,504 @@
+/* style.css — Eleven Days · 失踪的十一天
+   历书（almanac）版式：羊皮纸、红字星期日、双细线框。
+   "red-letter day" 的词源就在这些印刷历书里。 */
+
+:root {
+  --paper: #f1e8d2;
+  --paper-deep: #e7dbbe;
+  --ink: #2b2113;
+  --ink-soft: #5a4a30;
+  --red: #a3282a;
+  --red-deep: #7e1f21;
+  --blue: #1f4f6d;
+  --rule: #b9a679;
+  --ghost: #cabf9f;
+  --hole: rgba(163, 40, 42, 0.07);
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Songti SC", "STSong", Georgia, serif;
+}
+
+* { box-sizing: border-box; }
+
+html { background: #3a3122; }
+body {
+  margin: 0;
+  font-family: var(--serif);
+  color: var(--ink);
+  background:
+    radial-gradient(ellipse at 20% -10%, #f7efdc 0%, var(--paper) 55%, var(--paper-deep) 100%);
+  min-height: 100vh;
+  font-size: 17px;
+  line-height: 1.62;
+}
+
+/* ── masthead ─────────────────────────────────────────────── */
+.masthead {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 40px 28px 14px;
+  text-align: center;
+}
+.mast-rule {
+  border-top: 3px double var(--rule);
+  margin: 0 8%;
+}
+.masthead h1 {
+  font-size: clamp(34px, 5vw, 58px);
+  letter-spacing: 0.04em;
+  margin: 26px 0 6px;
+  font-weight: 700;
+  small-caps: uppercase;
+}
+.masthead h1 .red { color: var(--red); }
+.masthead h1 .cn {
+  display: block;
+  font-size: clamp(17px, 2.2vw, 24px);
+  font-weight: 600;
+  letter-spacing: 0.5em;
+  text-indent: 0.5em;
+  margin-top: 10px;
+  color: var(--ink-soft);
+}
+.tagline {
+  font-style: italic;
+  color: var(--ink-soft);
+  max-width: 720px;
+  margin: 10px auto 18px;
+}
+
+.presets { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 16px 0 8px; }
+.presets button {
+  font-family: var(--serif);
+  font-size: 15px;
+  padding: 7px 16px;
+  background: transparent;
+  border: 1.5px solid var(--ink);
+  border-radius: 2px;
+  cursor: pointer;
+  color: var(--ink);
+}
+.presets button:hover { background: var(--ink); color: var(--paper); }
+
+/* ── tabs ─────────────────────────────────────────────────── */
+.tabs {
+  max-width: 1180px;
+  margin: 18px auto 0;
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 0 16px;
+}
+.tabs button {
+  font-family: var(--serif);
+  font-size: 17px;
+  letter-spacing: 0.12em;
+  padding: 9px 22px;
+  border: 1.5px solid var(--rule);
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+  background: var(--paper-deep);
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+.tabs button.on {
+  background: var(--paper);
+  color: var(--red-deep);
+  font-weight: 700;
+  border-color: var(--ink);
+}
+
+/* ── layout ───────────────────────────────────────────────── */
+main { max-width: 1180px; margin: 0 auto; padding: 0 22px 30px; }
+.tab {
+  display: none;
+  border: 1.5px solid var(--ink);
+  border-top: none;
+  border-radius: 0 0 10px 10px;
+  padding: 30px 30px 38px;
+  background:
+    linear-gradient(var(--paper), var(--paper)) padding-box;
+  box-shadow: 0 14px 34px rgba(24, 17, 5, 0.35);
+}
+.tab.on { display: block; animation: fadein 0.35s ease; }
+@keyframes fadein { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; } }
+
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+@media (max-width: 900px) { .cols { grid-template-columns: 1fr; } }
+
+h2.sec {
+  font-size: 21px;
+  letter-spacing: 0.14em;
+  margin: 4px 0 14px;
+  color: var(--red-deep);
+  border-bottom: 1.5px solid var(--rule);
+  padding-bottom: 7px;
+  small-caps: uppercase;
+}
+.caption { font-size: 14.5px; color: var(--ink-soft); line-height: 1.6; }
+.caption b { color: var(--ink); }
+.dim { color: var(--ink-soft); }
+
+.prose { margin-top: 34px; border-top: 3px double var(--rule); padding-top: 18px; }
+.prose-inset { font-size: 15.5px; color: var(--ink-soft); }
+
+/* ── the tear-off wall calendar ───────────────────────────── */
+.wallcol { text-align: center; }
+.wall {
+  position: relative;
+  width: min(330px, 100%);
+  margin: 6px auto 0;
+  aspect-ratio: 330 / 430;
+}
+.sheet {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(178deg, #faf4e3, #f3ead0 70%, #eadfc0);
+  border: 1.5px solid var(--ink);
+  border-radius: 7px;
+  box-shadow: 0 12px 26px rgba(24, 17, 5, 0.35);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 26px;
+  overflow: hidden;
+}
+.sheet::before { /* wall hanger */
+  content: "";
+  position: absolute;
+  top: -13px; left: 50%;
+  width: 13px; height: 26px;
+  transform: translateX(-50%);
+  background: var(--red-deep);
+  border-radius: 3px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+}
+.sheet-month { letter-spacing: 0.22em; font-size: 15px; color: var(--ink-soft); }
+.sheet-dow { font-size: 25px; margin-top: 12px; letter-spacing: 0.14em; }
+.sheet-day {
+  font-size: 168px;
+  line-height: 0.95;
+  font-weight: 700;
+  color: var(--red);
+  margin-top: 4px;
+  font-variant-numeric: lining-nums;
+}
+.sheet-note { margin-top: auto; margin-bottom: 20px; font-size: 14px; color: var(--ink-soft); font-style: italic; max-width: 82%; }
+
+.ghost-stack { position: absolute; inset: 0; pointer-events: none; }
+.ghostpage {
+  position: absolute;
+  inset: 0;
+  border: 1.5px dashed var(--ghost);
+  border-radius: 7px;
+  background: rgba(250, 244, 227, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: var(--ghost);
+  font-size: 19px;
+  letter-spacing: 0.2em;
+  opacity: 0;
+}
+.ghostpage .never { font-size: 13px; letter-spacing: 0.12em; font-style: italic; margin-top: 8px; }
+.ghostpage.fly {
+  animation: flutter 1.05s cubic-bezier(0.22, 0.68, 0.36, 1) forwards;
+}
+@keyframes flutter {
+  0%   { opacity: 0; transform: translate(0, 0) rotate(0); }
+  6%   { opacity: 1; transform: translate(-4px, -3px) rotate(-1.6deg); }
+  30%  { transform: translate(46px, 14px) rotate(5deg); }
+  60%  { transform: translate(120px, 46px) rotate(11deg); opacity: 0.95; }
+  100% { opacity: 0; transform: translate(240px, 130px) rotate(24deg); }
+}
+
+.wall-controls { margin-top: 22px; display: flex; gap: 10px; justify-content: center; align-items: center; flex-wrap: wrap; }
+.torn-count { font-size: 14px; color: var(--ink-soft); font-style: italic; }
+.wall-caption { font-size: 14.5px; color: var(--ink-soft); margin-top: 14px; }
+
+.ink-btn {
+  font-family: var(--serif);
+  font-size: 16.5px;
+  padding: 9px 20px;
+  background: var(--ink);
+  color: var(--paper);
+  border: 1.5px solid var(--ink);
+  border-radius: 3px;
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  transition: transform 0.12s ease;
+}
+.ink-btn:hover { transform: translateY(-1px); }
+.ink-btn.ghost { background: transparent; color: var(--ink); }
+.ink-btn:disabled { opacity: 0.45; cursor: default; transform: none; }
+
+/* ── September 1752 grid ──────────────────────────────────── */
+.monthgrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  background: var(--paper);
+}
+.monthgrid .hd {
+  text-align: center;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  color: var(--ink-soft);
+  padding-bottom: 4px;
+  border-bottom: 1.5px solid var(--rule);
+}
+.monthgrid .cell {
+  aspect-ratio: 1.25;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  background: rgba(255, 252, 243, 0.55);
+}
+.monthgrid .cell.sun { color: var(--red); border-color: color-mix(in srgb, var(--red) 40%, var(--rule)); }
+.monthgrid .cell.hole {
+  background: repeating-linear-gradient(45deg, transparent 0 6px, var(--hole) 6px 12px);
+  border: 1px dashed var(--ghost);
+  color: transparent;
+}
+.monthgrid .cell.hole::after {
+  content: "∅";
+  color: color-mix(in srgb, var(--red) 45%, var(--paper));
+  font-size: 15px;
+}
+.monthgrid .cell .wk { font-size: 11px; color: var(--ink-soft); margin-top: -2px; }
+.monthgrid .cell.last-j { outline: 2px solid var(--red-deep); outline-offset: -2px; font-weight: 700; }
+.monthgrid .cell.first-g { outline: 2px solid var(--blue); outline-offset: -2px; font-weight: 700; }
+
+/* ── fact rows / formula cards ────────────────────────────── */
+.factrow { display: flex; gap: 14px; margin: 16px 0 6px; flex-wrap: wrap; }
+.fact {
+  flex: 1;
+  min-width: 100px;
+  border: 1.5px solid var(--rule);
+  border-radius: 6px;
+  text-align: center;
+  padding: 12px 8px 10px;
+  background: rgba(255, 252, 243, 0.5);
+}
+.fact-n { font-size: 34px; font-weight: 700; color: var(--red-deep); line-height: 1.1; }
+.fact-l { font-size: 13px; color: var(--ink-soft); letter-spacing: 0.08em; }
+
+.rxcard {
+  border: 1.5px solid var(--rule);
+  border-left: 5px solid var(--red);
+  border-radius: 4px;
+  padding: 13px 16px 10px;
+  margin-bottom: 14px;
+  background: rgba(255, 252, 243, 0.55);
+}
+.rx-title { font-size: 14px; letter-spacing: 0.16em; color: var(--ink-soft); }
+.rx-formula { font-size: 23px; margin: 3px 0 5px; color: var(--red-deep); }
+.rxcard p { margin: 0; font-size: 15px; }
+
+.chartbox {
+  border: 1.5px solid var(--rule);
+  border-radius: 6px;
+  background: rgba(255, 252, 243, 0.6);
+  padding: 10px 12px 6px;
+}
+.chartbox.short { max-width: 480px; }
+.chartbox canvas { width: 100%; height: auto; display: block; }
+
+.yearslide { margin: 18px 4px 4px; }
+.yearslide label { font-size: 15px; letter-spacing: 0.1em; color: var(--ink-soft); }
+.yearslide output { font-weight: 700; color: var(--red-deep); font-size: 19px; margin-left: 8px; }
+input[type="range"] { width: 100%; accent-color: var(--red-deep); margin-top: 6px; }
+
+/* ── doomsday trainer ─────────────────────────────────────── */
+.datepick { display: flex; gap: 14px; align-items: end; flex-wrap: wrap; margin-bottom: 12px; }
+.datepick label { display: flex; flex-direction: column; font-size: 14px; color: var(--ink-soft); gap: 4px; }
+.datepick input {
+  width: 92px;
+  font-family: var(--serif);
+  font-size: 20px;
+  padding: 6px 8px;
+  border: 1.5px solid var(--rule);
+  border-radius: 4px;
+  background: rgba(255, 252, 243, 0.8);
+  color: var(--ink);
+}
+.dd-result {
+  font-size: 40px;
+  font-weight: 700;
+  color: var(--red-deep);
+  margin: 2px 0 14px;
+  letter-spacing: 0.05em;
+}
+.worksteps { display: flex; flex-direction: column; gap: 9px; }
+.step {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 8px 12px;
+  font-size: 15px;
+  background: rgba(255, 252, 243, 0.5);
+}
+.step .no {
+  font-size: 12px;
+  color: var(--paper);
+  background: var(--ink);
+  border-radius: 50%;
+  width: 20px; height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  transform: translateY(3px);
+}
+.step b { color: var(--red-deep); }
+
+.doomsgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 7px; }
+.doomsgrid .dcell {
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  text-align: center;
+  padding: 9px 4px;
+  font-size: 16px;
+  background: rgba(255, 252, 243, 0.5);
+}
+.doomsgrid .dcell .sub { display: block; font-size: 12px; color: var(--ink-soft); }
+
+.quiz { border: 1.5px solid var(--rule); border-radius: 6px; padding: 14px; background: rgba(255, 252, 243, 0.55); }
+.quiz-q { font-size: 21px; margin-bottom: 10px; }
+.quiz-q b { color: var(--red-deep); }
+.quiz-choices { display: flex; gap: 6px; flex-wrap: wrap; }
+.quiz-choices button {
+  font-family: var(--serif);
+  font-size: 15px;
+  padding: 7px 12px;
+  border: 1.5px solid var(--ink);
+  background: transparent;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.quiz-choices button:hover { background: var(--ink); color: var(--paper); }
+.quiz-choices button.right { background: #2e6b3f; border-color: #2e6b3f; color: #fff; }
+.quiz-choices button.wrong { background: var(--red); border-color: var(--red); color: #fff; opacity: 0.75; }
+.quiz-score { margin-top: 10px; font-size: 14px; color: var(--ink-soft); font-style: italic; }
+.quiz-explain { margin-top: 8px; font-size: 14.5px; }
+
+/* ── computus ─────────────────────────────────────────────── */
+.yearpick { display: flex; gap: 10px; align-items: center; margin: 6px 0 16px; }
+.yearpick output { font-size: 30px; font-weight: 700; color: var(--red-deep); min-width: 100px; text-align: center; }
+.eastertable { display: flex; flex-direction: column; gap: 10px; }
+.e-row {
+  border: 1.5px solid var(--rule);
+  border-radius: 6px;
+  padding: 10px 16px;
+  background: rgba(255, 252, 243, 0.55);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 2px 12px;
+}
+.e-row.west { border-left: 5px solid var(--blue); }
+.e-row.east { border-left: 5px solid var(--red); }
+.e-who { font-size: 14px; letter-spacing: 0.12em; color: var(--ink-soft); }
+.e-date { font-size: 30px; font-weight: 700; color: var(--ink); grid-row: span 2; }
+.e-row.west .e-date { color: var(--blue); }
+.e-row.east .e-date { color: var(--red-deep); }
+.e-sub { font-size: 13.5px; color: var(--ink-soft); }
+
+.etable { width: 100%; border-collapse: collapse; font-size: 15px; }
+.etable th, .etable td { border-bottom: 1px solid var(--rule); padding: 6px 6px; text-align: center; }
+.etable th { font-size: 13px; letter-spacing: 0.1em; color: var(--ink-soft); }
+.etable td.same { color: var(--red-deep); font-weight: 700; }
+.etable td.y { text-align: left; color: var(--ink-soft); }
+
+/* ── timeline & fossils ───────────────────────────────────── */
+.timeline {
+  position: relative;
+  height: 120px;
+  margin: 26px 6px 8px;
+  border-bottom: 3px double var(--rule);
+}
+.timeline .tl-year {
+  position: absolute;
+  bottom: -24px;
+  transform: translateX(-50%);
+  font-size: 12.5px;
+  color: var(--ink-soft);
+}
+.timeline .pin {
+  position: absolute;
+  bottom: 0;
+  transform: translateX(-50%);
+  cursor: pointer;
+}
+.timeline .pin .stem {
+  display: block;
+  width: 2px;
+  height: var(--h, 40px);
+  background: var(--ink-soft);
+  margin: 0 auto;
+}
+.timeline .pin .head {
+  display: block;
+  width: 13px; height: 13px;
+  border-radius: 50%;
+  background: var(--red);
+  border: 2px solid var(--red-deep);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+.timeline .pin.on .head { background: var(--ink); border-color: var(--ink); transform: scale(1.25); }
+.timeline .pin .who {
+  position: absolute;
+  bottom: calc(var(--h, 40px) + 16px);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 12px;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.timeline .pin:hover .who, .timeline .pin.on .who { opacity: 1; }
+
+.jumpcard {
+  margin: 44px 0 26px;
+  border: 1.5px solid var(--ink);
+  border-radius: 8px;
+  padding: 18px 22px;
+  background: rgba(255, 252, 243, 0.65);
+  display: none;
+}
+.jumpcard.show { display: grid; grid-template-columns: 1fr auto; gap: 4px 18px; align-items: center; }
+.jumpcard .j-who { font-size: 22px; font-weight: 700; grid-row: span 2; }
+.jumpcard .j-dates { font-size: 18px; }
+.jumpcard .j-dates .to { color: var(--red-deep); font-weight: 700; }
+.jumpcard .j-note { font-size: 14.5px; color: var(--ink-soft); }
+
+.fossils { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+.fossil {
+  border: 1.5px solid var(--rule);
+  border-radius: 6px;
+  padding: 14px 16px;
+  background: rgba(255, 252, 243, 0.55);
+}
+.fossil .f-head { display: flex; gap: 10px; align-items: baseline; margin-bottom: 6px; }
+.fossil .f-icon { font-size: 22px; }
+.fossil .f-title { font-weight: 700; font-size: 17px; letter-spacing: 0.04em; }
+.fossil p { margin: 0; font-size: 15px; }
+
+/* ── colophon ─────────────────────────────────────────────── */
+.colophon {
+  max-width: 1180px;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 14px;
+  color: #d8c9a4;
+  padding: 18px 20px 46px;
+  font-style: italic;
+}
+.colophon .dim { color: #b3a37d; font-size: 13px; }

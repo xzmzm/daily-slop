@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>eleven-days · video card</title>
+  <style>
+    :root {
+      --paper: #f1e8d2;
+      --paper-deep: #e2d4b0;
+      --ink: #2b2113;
+      --ink-soft: #5a4a30;
+      --red: #a3282a;
+      --red-deep: #7e1f21;
+      --rule: #b9a679;
+      --ghost: #cabf9f;
+    }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; }
+    body {
+      overflow: hidden; color: var(--ink);
+      background:
+        radial-gradient(ellipse at 18% -8%, #f8f0dc 0%, var(--paper) 52%, var(--paper-deep) 100%);
+      font-family: Georgia, "Iowan Old Style", "Songti SC", "STSong", "Hiragino Sans GB", serif;
+    }
+    .card {
+      position: relative; width: 100%; height: 100%;
+      display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 88px;
+      padding: 56px 84px;
+    }
+    .sheet { position: relative; flex: none; }
+    .copy { max-width: 700px; }
+    .eyebrow {
+      color: var(--red-deep); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 3px; font-size: 14px; text-transform: uppercase; margin-bottom: 18px;
+    }
+    h1 { margin: 0; font-size: 78px; line-height: 1.02; letter-spacing: 1px; font-weight: 800; }
+    h1 .red { color: var(--red); }
+    h1 .cn {
+      display: block; font-size: 27px; font-weight: 600; letter-spacing: 0.55em; text-indent: 0.55em;
+      color: var(--ink-soft); margin-top: 16px;
+    }
+    h2 { margin: 24px 0 0; font-size: 23.5px; line-height: 1.58; font-weight: 500; color: #3c3020; max-width: 660px; }
+    h2 b { color: var(--red-deep); }
+    .formula {
+      margin-top: 26px; color: var(--red-deep);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 20px; letter-spacing: 0.5px;
+    }
+    .formula .num { color: var(--ink); }
+    .formula small { color: var(--ink-soft); font-size: 14px; display: block; margin-top: 7px; letter-spacing: .5px;
+      font-family: -apple-system, "Hiragino Sans GB", sans-serif; }
+    .meta { display: flex; align-items: center; gap: 12px; margin-top: 30px; color: var(--ink-soft); font-size: 15px; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--red); box-shadow: 0 0 14px rgba(163,40,42,.55); }
+    .scene.end { display: none; }
+    body[data-scene="end"] .scene.intro { display: none; }
+    body[data-scene="end"] .scene.end { display: block; }
+  </style>
+</head>
+<body data-scene="intro">
+  <div class="card">
+    <div class="sheet">
+      <svg viewBox="0 0 460 620" width="460" height="620" aria-hidden="true">
+        <defs>
+          <linearGradient id="sheetface" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#faf4e3"/>
+            <stop offset="72%" stop-color="#f3ead0"/>
+            <stop offset="100%" stop-color="#eadfc0"/>
+          </linearGradient>
+          <pattern id="hatch" width="9" height="9" patternTransform="rotate(45)" patternUnits="userSpaceOnUse">
+            <rect width="9" height="9" fill="rgba(163,40,42,0.07)"/>
+            <line x1="0" y1="0" x2="0" y2="9" stroke="rgba(163,40,42,0.16)" stroke-width="2"/>
+          </pattern>
+        </defs>
+        <!-- the wall pin -->
+        <rect x="223" y="-2" width="14" height="34" rx="4" fill="#7e1f21"/>
+        <!-- the sheet, slightly tilted -->
+        <g transform="rotate(-1.6 230 310)">
+          <rect x="18" y="26" width="424" height="566" rx="9" fill="url(#sheetface)" stroke="#2b2113" stroke-width="2"/>
+          <text x="230" y="78" text-anchor="middle" fill="#5a4a30" font-size="21" letter-spacing="4">SEPTEMBER · 1752</text>
+          <line x1="60" y1="100" x2="400" y2="100" stroke="#b9a679" stroke-width="1.6"/>
+          <!-- Wednesday the 2nd -->
+          <text x="230" y="152" text-anchor="middle" fill="#2b2113" font-size="33" letter-spacing="8">星期三</text>
+          <text x="230" y="322" text-anchor="middle" fill="#a3282a" font-size="196" font-weight="700">2</text>
+          <text x="230" y="376" text-anchor="middle" fill="#5a4a30" font-size="17" font-style="italic">大不列颠 · 儒略历的最后一日</text>
+          <line x1="60" y1="404" x2="400" y2="404" stroke="#b9a679" stroke-width="1.6"/>
+          <!-- the never-printed dates -->
+          <g font-family="ui-monospace, Menlo, monospace" font-size="16.5" fill="#8a7a5c">
+            <rect x="46" y="428" width="368" height="126" rx="6" fill="url(#hatch)" stroke="#cabf9f" stroke-dasharray="5 5"/>
+            <text x="230" y="482" text-anchor="middle" letter-spacing="6">9 月 3 日 — 9 月 13 日</text>
+            <text x="230" y="514" text-anchor="middle" font-style="italic" font-family="Georgia, serif" font-size="15.5">十一个从未印出的日期</text>
+          </g>
+          <text x="230" y="578" text-anchor="middle" fill="#2b2113" font-size="20" letter-spacing="6" font-weight="700">次日：9 月 14 日 · 星期四</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="scene intro copy">
+      <div class="eyebrow">2 SEP 1752 · BRITAIN'S LAST JULIAN DAY · 274 YEARS TODAY</div>
+      <h1>Eleven <span class="red">Days</span><span class="cn">失踪的十一天</span></h1>
+      <h2>星期三 9 月 2 日的下一个早晨，日历上写着<b>星期四 9 月 14 日</b>。
+        中间的十一个日期被一条法律删除；一分钟都没少睡，少掉的只是数字。
+        七天一轮的星期<b>从没断过</b>——断的只是凯撒历的算术。</h2>
+      <div class="formula">D(y) = ⌊y/100⌋ − ⌊y/400⌋ − 2 &nbsp;=&nbsp; <span class="num">10</span> → <span class="num">11</span> → <span class="num">13</span> → <span class="num">14</span>
+        <small>365.25 − 365.2422 = 每年 11 分 14 秒 · 春分每 128 年提前一天 · 格里历每 3,333 年才差一天</small>
+      </div>
+      <div class="meta"><span class="dot"></span><span>2026-09-02 · daily-slop 第 41 天 · 历法齿轮工作室</span></div>
+    </div>
+
+    <div class="scene end copy">
+      <div class="eyebrow">2026-09-02 · DAILY-SLOP</div>
+      <h1>明天见<span class="red"> · 明天见</span></h1>
+      <h2>这十一天今天还活着：英国的纳税年从 4 月 6 日开始，
+        东正教的圣诞节落在 1 月 7 日，「十月革命」发生在 11 月 7 日。
+        到 2100 年，差距会变成十四天——现在你知道它为什么会变了。</h2>
+      <div class="formula">「274 年后的今天，9 月 2 日又是星期三。」<span class="num">— 引擎当场算出</span>
+        <small>Built by GLM-5.3 · dailyslop.pages.dev</small>
+      </div>
+    </div>
+  </div>
+  <script>
+    const scene = new URLSearchParams(location.search).get("scene") || "intro";
+    document.body.dataset.scene = scene;
+    document.title = `eleven-days · ${scene}`;
+  </script>
+</body>
+</html>
