@@ -7,6 +7,16 @@ It introduces the idea, clicks through the live browser app, shows the
 expected-vs-actual ratios and Punnett square, and ends on the seven-locus
 cheat sheet.
 
+## Narration style (applies to every daily-project video)
+
+Narration copy must not have AI 味. Banned stock phrases include
+“一步步拆给你看”, “账本”, “账单”, “算这笔账” — and close variants of
+either pattern: no announce-then-explain filler (“拆给你看”, “带你一步步…”),
+and no dressing every quantity up as accounting (a ledger, a bill, an
+account to settle). Don't say you're about to explain something; state the
+fact or the number plainly and move on. This applies to the spoken script,
+the burned-in subtitles, and on-screen titles alike.
+
 The Fish version uses the REST `/v1/tts` endpoint. The renderer automatically
 loads `FISH_AUDIO_API_KEY` from the repository-root `.env`; an already-exported
 environment variable takes precedence. The key is never stored in this folder,

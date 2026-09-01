@@ -143,6 +143,13 @@ rendering workflow already established for `2026-08-08-cattery`:
   Do not say the project has no API, and do not add implementation-stack
   explanations such as “原生 HTML、CSS 和 JavaScript”. Say “GLM 五点二”, not
   “GLM 负五点二”.
+- Narration copy must not have AI 味. Banned stock phrases include
+  “一步步拆给你看”, “账本”, “账单”, “算这笔账” — and close variants of
+  either pattern: no announce-then-explain filler (“拆给你看”, “带你一步步
+  …”), and no dressing every quantity up as accounting (a ledger, a bill, an
+  account to settle). Don't say you're about to explain something; state the
+  fact or the number plainly and move on. This applies to the spoken script,
+  the burned-in subtitles, and on-screen titles alike.
 - The visible cursor is a small overlay for the headless recording. Keep it
   parked during narration and scrolling; move it only shortly before a real
   click (for example `mate`, opening the mother picker, and closing it). Use
