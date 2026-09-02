@@ -67,6 +67,11 @@ Short and practical: what it is, and a **"How to run"** section. Examples:
 > port **8000** — it's reserved. Use `8765` (or any other free port) for all
 > local servers, and write that port into the project READMEs.
 
+The first paragraph after the `#` title is the project's **tagline** — it is
+what the gallery shows on its card (`tools/build_gallery.py` parses it, and
+long ones get visually clamped). Keep it to a sentence or two; the deep
+detail belongs further down the README and in `NOTES.md`.
+
 ### `NOTES.md` — the story behind the build
 
 The interesting part. Written the same day, while it's fresh. Suggested
@@ -118,7 +123,12 @@ README when that warning appears.
 6. **Make sure it runs** — actually verify it, don't assume.
 7. **Write the docs** — `README.md` (what + how to run) and `NOTES.md`
    (why / how it works / interesting notes), same day.
-8. **Add it to the top-level `README.md` index.**
+8. **Add it to the top-level `README.md` index.** Keep the description
+   brief: one line, roughly ≤ 120 characters — what it is plus at most one
+   hook. No formula dumps, feature walkthroughs, or anniversaries-as-essays
+   in the index; that detail belongs in the project's `README.md` and
+   `NOTES.md`. If the row wraps past a line or two of the table, it's too
+   long — cut it down.
 9. **Rebuild the gallery** — `python3 tools/build_gallery.py`. This regenerates
    `gallery/manifest.js` and the screenshots in `gallery/shots/` from the
    project folders; the root `index.html` showcase and `view.html` notes
