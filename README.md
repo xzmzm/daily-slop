@@ -80,3 +80,4 @@ Cloudflare Pages.
 | 2026-08-31 | [montessori-shelf](./2026-08-31-montessori-shelf/) — Montessori math materials; golden-bead bank exchanges, the pink tower's cubic identity, and the binomial cube in wood | Vanilla HTML/CSS/JS | GLM-5.3 |
 | 2026-09-01 | [carrington-storm](./2026-09-01-carrington-storm/) — Carrington Event studio; light beats plasma by 17 hours, the magnetopause bows, and the telegraph runs on aurora alone | Vanilla HTML/CSS/JS | GLM-5.3 |
 | 2026-09-02 | [eleven-days](./2026-09-02-eleven-days/) — the eleven days Britain skipped in 1752; dual calendars, Conway's doomsday, and the Easter computus behind the reform | Vanilla HTML/CSS/JS | GLM-5.3 |
+| 2026-09-03 | [bluebird-301](./2026-09-03-bluebird-301/) — Campbell's 301 mph Blue Bird run; the cube law of speed, Cardano's exact terminal speed, and the two-run wind rule | Vanilla HTML/CSS/JS | GLM-5.3 |

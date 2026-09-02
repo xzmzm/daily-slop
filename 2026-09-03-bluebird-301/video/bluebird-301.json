@@ -1,0 +1,17 @@
+{
+  "output": "/Users/hm/prj/daily-slop/2026-09-03-bluebird-301/video/bluebird-301.mp4",
+  "provider": "Fish Audio REST API",
+  "model": "s2.1-pro-free",
+  "voice_id": "ae5adc6778ac459e8d6106b82f88fa2b",
+  "segment_durations": [
+    45.557551,
+    38.739592,
+    36.754286,
+    40.489796,
+    27.271837,
+    34.481633
+  ],
+  "video_duration": 225.866667,
+  "fps": 15,
+  "resolution": "1920x1080"
+}

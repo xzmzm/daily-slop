@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bluebird 301 · 盐上的立方定律</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="mast-rule"></div>
+  <h1>Bluebird <span class="red">301</span> <span class="cn">盐上的立方定律</span></h1>
+  <p class="tagline">1935 年 9 月 3 日，邦纳维尔盐滩。50 岁的马尔科姆·坎贝尔爵士开着 27 英尺长的蓝鸟，
+  用一台 2,300 马力的劳斯莱斯航空发动机跑出 <b>301.129 mph</b> —— 人类第一次在陆地上冲过 300 英里每小时，
+  余量 1.1。本届 91 周年：飞驰英里的秒表、卡尔达诺的极限解、轮缘上三千九百个 g。</p>
+  <div class="presets" id="presets"></div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button data-tab="mile" class="on">那一英里</button>
+  <button data-tab="cube">立方定律</button>
+  <button data-tab="limit">极限速度</button>
+  <button data-tab="rim">轮缘的张力</button>
+  <button data-tab="ladder">纪录阶梯</button>
+</nav>
+
+<main>
+
+<!-- ── 1 · 那一英里 ───────────────────────────────────────────── -->
+<section id="tab-mile" class="tab on">
+  <div class="cols">
+    <div class="widecol">
+      <div class="stagebox">
+        <canvas id="salt-canvas" width="1280" height="560"></canvas>
+      </div>
+      <div class="run-controls">
+        <button id="btn-launch" class="ink-btn">发车 · 去程</button>
+        <button id="btn-return" class="ink-btn" disabled>返程</button>
+        <button id="btn-reset-run" class="ink-btn ghost">清空秒表</button>
+        <label class="inline-slide">风
+          <input type="range" id="wind" min="-20" max="20" step="1" value="5">
+          <output id="wind-out">+5</output> mph
+        </label>
+        <label class="inline-slide">时间倍率
+          <select id="factor">
+            <option value="4">×4</option>
+            <option value="8" selected>×8</option>
+            <option value="16">×16</option>
+          </select>
+        </label>
+      </div>
+      <p class="caption" id="run-status">纪录不是速度计说了算：一台车，一段<b>飞驰的测量英里</b>（1,609.344 米），
+      两只百分之一秒的秒表，一小时内<b>相反方向跑两趟</b>，取调和平均。点「发车」看全过程。</p>
+    </div>
+
+    <div class="sidecol">
+      <div class="clockcard" id="clock-card">
+        <div class="clock-label">测量英里秒表</div>
+        <div class="clock-big" id="trap-clock">--.-- <span>s</span></div>
+        <div class="clock-mph" id="trap-mph">— mph</div>
+      </div>
+      <div class="runlist" id="runlist">
+        <div class="run-row"><span class="run-name">第一趟（去程）</span><span id="run1-out">—</span></div>
+        <div class="run-row"><span class="run-name">第二趟（返程）</span><span id="run2-out">—</span></div>
+        <div class="run-row total"><span class="run-name">纪录 = 2d/(t₁+t₂)</span><span id="record-out">—</span></div>
+      </div>
+      <div class="cert" id="certificate" hidden></div>
+      <p class="caption">秒表只量<b>时间</b>。速度是除出来的：一英里 3,600 秒，所以
+      <b>v = 3600 / t</b>。301.129 mph 对应 11.955 秒 —— 差百分之一秒，就是 2.5 mph。</p>
+    </div>
+  </div>
+
+  <div class="prose">
+    <h2 class="sec">为什么必须跑两趟</h2>
+    <p>规则把两趟的成绩合成一个数：<b>总路程 ÷ 总时间</b>，也就是两趟速度的<b>调和平均</b>。这不是随便的算法 ——
+    逆着风跑慢一点、顺着风跑快一点，一阶的风速差在调和平均里<b>正好抵消</b>；剩下抹不掉的只有二阶项
+    <b>w²/v</b>：15 mph 的稳定风，在 301 mph 上只值 0.75 mph。要是只跑一趟，风就是全部；要是按两趟速度的算术平均，
+    你得先分别算出两个速度 —— 而秒表量的是时间，物理上诚实的平均只有一种。</p>
+    <p>1935 年 9 月 3 日那天，坎贝尔以 272 mph 的旧纪录（他自己的，1933 年代托纳沙滩）来到盐滩，是为了躲开沙滩的颠簸和涨潮。
+    两趟之后，成绩 301.129 mph —— 第一个 300。九天后他封车，从此再没碰过陆速纪录。</p>
+  </div>
+</section>
+
+<!-- ── 2 · 立方定律 ───────────────────────────────────────────── -->
+<section id="tab-cube" class="tab">
+  <div class="cols">
+    <div class="gridcol">
+      <div class="chartbox"><canvas id="cube-chart" width="980" height="620"></canvas></div>
+    </div>
+    <div class="gridcol">
+      <h2 class="sec">八年，还是四百五十倍</h2>
+      <div class="yearslide">
+        <label>轮上功率 <output id="cube-power-out">2,070</output> hp</label>
+        <input type="range" id="cube-power" min="20" max="4500" step="10" value="2070">
+      </div>
+      <div class="factrow">
+        <div class="fact"><div class="fact-n" id="cube-speed">301</div><div class="fact-l">这台车能到的 mph</div></div>
+        <div class="fact"><div class="fact-n">×8</div><div class="fact-l">2 倍速度要的功率</div></div>
+        <div class="fact"><div class="fact-n" id="cube-ratio">×452</div><div class="fact-l">1898→1935 的功率倍数</div></div>
+      </div>
+      <p class="caption">阻力功率 P = ½ρ C<sub>d</sub>A v³ —— 曲线在双对数图上是斜率 3 的直线。蓝鸟的参数让它恰好从
+      1935 那个点上穿过。拖着发动机上速度，就是沿着这条线往上爬。</p>
+      <div class="rxcard">
+        <div class="rx-title">为什么活塞车死在 403</div>
+        <p>轴上的功率是死的：4,500 马力就是 4,500 马力，速度翻倍还得再翻三倍。而推力机器的「等效功率」是
+        <b>F·v</b>，跟着速度自己长大 —— 曲线从立方变成平方以下的赛跑。1970 年之后，纪录全是火箭和喷气的。</p>
+      </div>
+      <div class="rxcard">
+        <div class="rx-title">两个点为什么悬在曲线上方</div>
+        <p>火箭和喷气的点是<b>等效功率</b> F·v（按各自纪录速度折算）：蓝色火焰 ≈ 36,500 hp，ThrustSSC ≈ 102,000 hp。
+        它们不在蓝鸟的曲线上，因为它们的 C<sub>d</sub>A 大得多，还要吃超音速的波阻。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 3 · 极限速度 ───────────────────────────────────────────── -->
+<section id="tab-limit" class="tab">
+  <div class="cols">
+    <div class="gridcol">
+      <h2 class="sec">卡尔达诺的解</h2>
+      <div class="bigresult"><span class="v" id="limit-v">301</span><span class="unit">mph</span>
+        <span class="sub" id="limit-kmh">484.6 km/h</span></div>
+      <div class="barsplit">
+        <div class="seg drag" id="seg-drag"></div>
+        <div class="seg roll" id="seg-roll"></div>
+      </div>
+      <div class="split-label"><span class="sw drag"></span>风阻 <b id="share-drag">94%</b>
+        <span class="sw roll"></span>滚阻 <b id="share-roll">6%</b></div>
+      <div class="sliderstack" id="limit-sliders">
+        <label>发动机功率 <output id="o-p">2,300</output> hp
+          <input type="range" id="s-p" min="20" max="5000" step="10" value="2300"></label>
+        <label>迎风面积 A <output id="o-a">2.05</output> m²
+          <input type="range" id="s-a" min="0.8" max="3.5" step="0.05" value="2.05"></label>
+        <label>风阻系数 C<sub>d</sub> <output id="o-cd">0.53</output>
+          <input type="range" id="s-cd" min="0.2" max="1.4" step="0.01" value="0.53"></label>
+        <label>整备质量 m <output id="o-m">4,830</output> kg
+          <input type="range" id="s-m" min="600" max="7000" step="10" value="4830"></label>
+        <label>盐面滚阻 μ <output id="o-mu">0.015</output>
+          <input type="range" id="s-mu" min="0.005" max="0.05" step="0.001" value="0.015"></label>
+        <label>海拔 h <output id="o-h">1,282</output> m
+          <input type="range" id="s-h" min="0" max="2800" step="2" value="1282"></label>
+        <label class="checkline"><input type="checkbox" id="s-boost" checked> 机械增压（增压泵顶住稀薄空气）</label>
+      </div>
+    </div>
+    <div class="gridcol">
+      <h2 class="sec">三次方程，1545 年的解</h2>
+      <div class="formula-card" id="cardano-work">…</div>
+      <p class="caption">在车轮上，稳态就是一个三次方程：<b>a v³ + b v = P</b>，a = ½ρC<sub>d</sub>A，b = μmg。
+      卡尔达诺在《大术》里给出的显式解，上面直接代入当前数字。下面一行是用二分法逐次逼近的数值解 —— 两条路到同一个数，误差 10⁻⁶ 以下。</p>
+      <div class="crosscheck" id="bisect-line">…</div>
+      <h2 class="sec">海拔这笔账</h2>
+      <div class="alt-table" id="alt-table"></div>
+      <p class="caption">ISA 大气：ρ(h) = 1.225 (1 − 2.2558×10⁻⁵ h)<sup>4.2559</sup>。邦纳维尔在 1,282 米，
+      空气稀 12%，风阻跟着少 12%。自然吸气的发动机会把这 12% 原样吐回去 —— <b>上高原对它们是白跑</b>；
+      蓝鸟的 R 型发动机戴着机械增压，功率几乎不缩水，稀薄的空气只剩下好处。这就是纪录从海边的代托纳
+      搬到盐湖城边上的原因。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── 4 · 轮缘的张力 ─────────────────────────────────────────── -->
+<section id="tab-rim" class="tab">
+  <div class="cols">
+    <div class="gridcol">
+      <div class="stagebox dark">
+        <canvas id="rim-canvas" width="900" height="560"></canvas>
+      </div>
+      <div class="sliderstack">
+        <label>车速 <output id="o-rspeed">301</output> mph
+          <input type="range" id="s-rspeed" min="0" max="450" step="1" value="301"></label>
+        <label>轮胎滚动半径 r <output id="o-rr">0.47</output> m
+          <input type="range" id="s-rr" min="0.32" max="0.65" step="0.01" value="0.47"></label>
+      </div>
+    </div>
+    <div class="gridcol">
+      <h2 class="sec">比发动机转得还快的轮子</h2>
+      <div class="factrow">
+        <div class="fact"><div class="fact-n" id="rim-rpm">2,737</div><div class="fact-l">rpm</div></div>
+        <div class="fact"><div class="fact-n" id="rim-g">3,937</div><div class="fact-l">轮缘向心加速度（g）</div></div>
+      </div>
+      <div class="gscale"><div class="gscale-bar" id="gscale-bar"></div><div class="gscale-marks" id="gscale-marks"></div></div>
+      <p class="caption">a = v²/r。301 mph 时轮缘的「重力」是 <b>3,937 g</b>。粘在胎面上的一粒
+      <b>28 克</b>的盐渣，此刻压着轮缘的力相当于 <b id="pebble-kg">110</b> 公斤。1935 年的轮胎是帘布和橡胶，
+      外面拿钢丝箍住 —— 转速再往上，先散架的不是发动机，是轮胎。</p>
+      <div class="rxcard">
+        <div class="rx-title">刻度上没有的东西</div>
+        <p>长期飞行的宇航员 0 g，战斗机飞行员短时 9 g，训练离心机到 10 g 就叫极限 ——
+        而这只是一个匀速滚动、毫无加速度的车轮。离心应力不看你的参考系，只看 v²/r。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 5 · 纪录阶梯 ───────────────────────────────────────────── -->
+<section id="tab-ladder" class="tab">
+  <div class="chartbox"><svg id="ladder-chart" viewBox="0 0 1280 420" width="100%"></svg></div>
+  <div class="record-card" id="record-card">点一枚图钉，看那台车的故事。五角星是今天。</div>
+  <div class="prose">
+    <h2 class="sec">39 到 763</h2>
+    <p>第一项官方陆速纪录本身就是电动车（1898，39.24 mph），第一个 100 km/h 也是电动车（1899）。
+    活塞发动机从 1927 年的 200 mph 一路推到 1947 年的 394；唐纳德·坎贝尔用燃气涡轮把<b>轮驱动</b>的终点线
+    定格在 403.10（1964）。之后纪录换了物理：推力机器不吃变速箱的亏，等效功率随速度自己膨胀，
+    1970 年蓝色火焰 622，1997 年 ThrustSSC 在黑岩沙漠<b>冲破音障</b> —— 763.035 mph，至今没人再快过。</p>
+    <p>马尔科姆·坎贝尔创下的 301.129 站在这条阶梯的正中间：往上数是推力时代的 460%，往下数是电机初世纪的 768%。
+    他 50 岁那年跑完这一趟就退休了 —— 儿子唐纳德 29 年后在澳大利亚的盐湖上把家族数字推进到 403。</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <span>2026-09-03 · daily-slop 第 42 天</span>
+  <span class="dim">Built by GLM-5.3</span>
+</footer>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

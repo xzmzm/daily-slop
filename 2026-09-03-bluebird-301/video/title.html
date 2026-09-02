@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>bluebird-301 · video card</title>
+  <style>
+    :root {
+      --paper: #f2f0ea;
+      --paper-deep: #e4e2d9;
+      --ink: #22262c;
+      --ink-soft: #555c66;
+      --red: #a3282a;
+      --red-deep: #7e1f21;
+      --blue: #1c4f9c;
+      --blue-deep: #143a73;
+      --rule: #b8b2a2;
+    }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; }
+    body {
+      overflow: hidden; color: var(--ink);
+      background:
+        radial-gradient(ellipse at 20% -10%, #faf9f5 0%, var(--paper) 55%, var(--paper-deep) 100%);
+      font-family: Georgia, "Iowan Old Style", "Songti SC", "STSong", "Hiragino Sans GB", serif;
+    }
+    .card {
+      position: relative; width: 100%; height: 100%;
+      display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 88px;
+      padding: 56px 84px;
+    }
+    .stage { position: relative; flex: none; }
+    .copy { max-width: 700px; }
+    .eyebrow {
+      color: var(--red-deep); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 3px; font-size: 14px; text-transform: uppercase; margin-bottom: 18px;
+    }
+    h1 { margin: 0; font-size: 82px; line-height: 1.02; letter-spacing: 1px; font-weight: 800; }
+    h1 .red { color: var(--red); }
+    h1 .cn {
+      display: block; font-size: 27px; font-weight: 600; letter-spacing: 0.55em; text-indent: 0.55em;
+      color: var(--ink-soft); margin-top: 16px;
+    }
+    h2 { margin: 24px 0 0; font-size: 23.5px; line-height: 1.58; font-weight: 500; color: #34383f; max-width: 660px; }
+    h2 b { color: var(--blue-deep); }
+    .formula {
+      margin-top: 26px; color: var(--red-deep);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 20px; letter-spacing: 0.5px;
+    }
+    .formula .num { color: var(--ink); }
+    .formula small { color: var(--ink-soft); font-size: 14px; display: block; margin-top: 7px; letter-spacing: .5px;
+      font-family: -apple-system, "Hiragino Sans GB", sans-serif; }
+    .meta { display: flex; align-items: center; gap: 12px; margin-top: 30px; color: var(--ink-soft); font-size: 15px; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 14px rgba(28,79,156,.55); }
+    .scene.end { display: none; }
+    body[data-scene="end"] .scene.intro { display: none; }
+    body[data-scene="end"] .scene.end { display: block; }
+  </style>
+</head>
+<body data-scene="intro">
+  <div class="card">
+    <div class="stage">
+      <svg viewBox="0 0 520 620" width="520" height="620" aria-hidden="true">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#8fbdd8"/>
+            <stop offset="100%" stop-color="#eef2e9"/>
+          </linearGradient>
+          <linearGradient id="saltg" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#f2efe6"/>
+            <stop offset="100%" stop-color="#dcd7c8"/>
+          </linearGradient>
+          <linearGradient id="body" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#3a6fc4"/>
+            <stop offset="0.55%" stop-color="#1c4f9c"/>
+            <stop offset="100%" stop-color="#12315f"/>
+          </linearGradient>
+        </defs>
+        <!-- the salt flat panel -->
+        <rect x="10" y="10" width="500" height="600" rx="10" fill="url(#sky)" stroke="#22262c" stroke-width="2.5"/>
+        <rect x="10" y="300" width="500" height="310" fill="url(#saltg)"/>
+        <!-- ridges -->
+        <path d="M10 300 Q 90 240 170 282 T 330 272 T 510 288 L510 300 Z" fill="#b7c6d4"/>
+        <path d="M10 300 Q 130 268 250 292 T 510 296 L510 300 Z" fill="#c7d3dd"/>
+        <!-- timing posts -->
+        <g stroke="#8d8776" stroke-width="3">
+          <line x1="96" y1="300" x2="96" y2="206"/>
+          <line x1="424" y1="300" x2="424" y2="206"/>
+        </g>
+        <g fill="#a3282a">
+          <rect x="94.5" y="206" width="3" height="22"/>
+          <rect x="422.5" y="206" width="3" height="22"/>
+        </g>
+        <text x="96" y="192" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="13" fill="#555c66">MILE START</text>
+        <text x="424" y="192" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="13" fill="#555c66">MILE END</text>
+        <line x1="10" y1="303" x2="510" y2="303" stroke="#a3282a" stroke-width="1.6" stroke-dasharray="7 7"/>
+        <!-- the car, mid-mile -->
+        <g transform="translate(260 372)">
+          <ellipse cx="0" cy="26" rx="150" ry="9" fill="rgba(90,84,66,.30)"/>
+          <path d="M132 -20 C132 -37 97 -46 52 -46 C-2 -49 -60 -52 -104 -49 C-140 -47 -152 -38 -152 -30 L-152 -16 C-152 -13 -149 -10 -144 -9 L124 -9 C129 -14 132 -16 132 -20 Z" fill="url(#body)" stroke="#0d2547" stroke-width="2.5"/>
+          <path d="M-46 -53 C-30 -62 -6 -62 8 -53 Z" fill="#2a5dab"/>
+          <path d="M-104 -49 C-90 -56 -70 -56 -58 -49 Z" fill="#2a5dab"/>
+          <ellipse cx="12" cy="-50" rx="20" ry="8" fill="#101317"/>
+          <path d="M-146 -30 L-170 -14 L-146 -10 Z" fill="#143a73"/>
+          <rect x="124" y="-34" width="10" ry="3" height="18" fill="#d8dde2"/>
+          <circle cx="64" cy="-9" r="19" fill="#1d2025"/>
+          <circle cx="64" cy="-9" r="8" fill="#7c7f86"/>
+          <circle cx="-76" cy="-9" r="21" fill="#1d2025"/>
+          <circle cx="-76" cy="-9" r="8" fill="#7c7f86"/>
+          <!-- speed lines -->
+          <g stroke="rgba(255,255,255,.85)" stroke-width="4" stroke-linecap="round">
+            <line x1="-190" y1="-44" x2="-236" y2="-44"/>
+            <line x1="-172" y1="-28" x2="-248" y2="-28"/>
+            <line x1="-186" y1="-12" x2="-224" y2="-12"/>
+          </g>
+        </g>
+        <!-- the clock -->
+        <g font-family="ui-monospace, Menlo, monospace">
+          <rect x="330" y="30" width="164" height="86" rx="9" fill="rgba(16,19,23,.82)"/>
+          <text x="348" y="56" font-size="12" fill="#9aa4b0">THE MEASURED MILE</text>
+          <text x="348" y="98" font-size="38" font-weight="700" fill="#ffd98a">11.95 s</text>
+        </g>
+        <text x="30" y="66" font-family="Georgia, serif" font-size="21" fill="#555c66" font-style="italic">Bonneville · 3 September 1935</text>
+        <text x="30" y="596" font-family="ui-monospace, Menlo, monospace" font-size="15" fill="#7d7466">v = 3600 / t · 记录 = 两趟的调和平均</text>
+      </svg>
+    </div>
+
+    <div class="scene intro copy">
+      <div class="eyebrow">3 SEP 1935 · BONNEVILLE SALT FLATS · 91 YEARS TODAY</div>
+      <h1>Bluebird <span class="red">301</span><span class="cn">盐上的立方定律</span></h1>
+      <h2>50 岁的坎贝尔爵士，27 英尺长的蓝鸟，一台 2,300 马力的劳斯莱斯航空发动机。
+        两趟往返，成绩 <b>301.129 mph</b> —— 人类第一次在陆地上冲过 300 英里每小时，
+        余量 <b>1.1</b>。</h2>
+      <div class="formula">P = ½ρ·C_dA·v³ &nbsp;·&nbsp; <span class="num">2×</span> 速度 = <span class="num">8×</span> 功率
+        <small>一次飞驰的测量英里 = 11.955 秒 · 极限速度是卡尔达诺 1545 年解出的三次方程</small>
+      </div>
+      <div class="meta"><span class="dot"></span><span>2026-09-03 · daily-slop 第 42 天 · 陆地极速工作室</span></div>
+    </div>
+
+    <div class="scene end copy">
+      <div class="eyebrow">2026-09-03 · DAILY-SLOP</div>
+      <h1>明天见<span class="red"> · 明天见</span></h1>
+      <h2>阶梯的最后一级还停在 1997：ThrustSSC，763 mph，陆地上唯一的超音速。
+        活塞车轮驱动的终点线是 403 —— 立方定律是一堵墙，
+        推力把墙变成了斜坡。</h2>
+      <div class="formula">「301.129 mph = 11.955 s / 英里」<span class="num">— 秒表只量时间，速度是除出来的</span>
+        <small>Built by GLM-5.3 · dailyslop.pages.dev</small>
+      </div>
+    </div>
+  </div>
+  <script>
+    const scene = new URLSearchParams(location.search).get("scene") || "intro";
+    document.body.dataset.scene = scene;
+    document.title = `bluebird-301 · ${scene}`;
+  </script>
+</body>
+</html>
