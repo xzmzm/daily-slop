@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pearl Street 110 · 铜的一万倍</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="mast-rule"></div>
+  <h1>Pearl Street <span class="red">110</span> <span class="cn">铜的一万倍</span></h1>
+  <p class="tagline">1882 年 9 月 4 日下午三点，爱迪生在 J.P. 摩根的办公室拉下开关，106 盏灯亮起 ——
+  世界第一座商用电站开始供电：59 家客户、400 盏灯、六台 27 吨的「巨象」发电机、110 伏直流。
+  本届 144 周年：一根铜线为什么把爱迪生的世界锁死在一平方英里，电压又怎么把它解开。</p>
+  <div class="presets" id="presets"></div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button data-tab="copper" class="on">铜的定律</button>
+  <button data-tab="street">沿街的黄昏</button>
+  <button data-tab="lamps">110 伏的出身</button>
+  <button data-tab="reach">半径与电压</button>
+  <button data-tab="ladder">时间线</button>
+</nav>
+
+<main>
+
+<!-- ── 1 · 铜的定律 ───────────────────────────────────────────── -->
+<section id="tab-copper" class="tab on">
+  <div class="cols">
+    <div class="gridcol">
+      <div class="chartbox"><canvas id="copper-chart" width="980" height="640"></canvas></div>
+      <p class="caption">铜的质量随电压沿 <b>1/V²</b> 下坠 —— 双对数图上斜率 −2 的直线。
+      三个时代的真线（星是今天的主角）各自贴着自己的参数落在同一片坡上。</p>
+    </div>
+    <div class="gridcol">
+      <h2 class="sec">送 100 千瓦过一条街</h2>
+      <div class="bigresult"><span class="v" id="copper-mass">46.3</span><span class="unit" id="copper-mass-unit">吨铜</span>
+        <span class="sub" id="copper-compare">≈ 1.7 台巨象发电机</span></div>
+      <div class="factrow">
+        <div class="fact"><div class="fact-n" id="copper-area">2,846</div><div class="fact-l">导线截面 mm²</div></div>
+        <div class="fact"><div class="fact-n" id="copper-diam">6.0</div><div class="fact-l">实心圆直径 cm</div></div>
+        <div class="fact"><div class="fact-n" id="copper-loss">9.1</div><div class="fact-l">线损 %</div></div>
+      </div>
+      <div class="sliderstack">
+        <label>输送功率 P <output id="o-p">100 kW</output>
+          <input type="range" id="s-p" min="0" max="1000" value="165"></label>
+        <label>输送距离 L <output id="o-l">908 m</output>
+          <input type="range" id="s-l" min="0" max="1000" value="211"></label>
+        <label>线电压 V <output id="o-v">110 V</output>
+          <input type="range" id="s-v" min="0" max="1000" value="0"></label>
+        <label>送端效率 η <output id="o-eta">90.9</output> %
+          <input type="range" id="s-eta" min="50" max="99" step="0.1" value="90.9"></label>
+      </div>
+      <div class="rxcard">
+        <div class="rx-title">1882 年那根铜，抬压降能送多远</div>
+        <p>主馈线不换（2,846 mm²），预算还是 10 伏：在 110 伏上它送 0.9 公里；
+        抬到 15,000 伏，送 <b id="copper-reach">124 km</b>；
+        抬到 ±1,100,000 伏，送 <b id="copper-reach-mv">9,080 km</b>。
+        距离和电压成正比 —— 这就是「半径」的来历。</p>
+      </div>
+      <div class="formula-card" id="copper-formula">…</div>
+      <p class="caption">截面 A = 2ρLP/(ΔV·V)，铜质量 m = 4ρρ<sub>m</sub>L²P/(ΔV·V²)。
+      上面一行是逐步算（电阻 → 电流 → 压降 → 质量），下面一行是闭式 —— 两路到同一个数，误差 10⁻⁹ 以下。</p>
+      <div class="crosscheck" id="copper-crosscheck">…</div>
+    </div>
+  </div>
+  <div class="prose">
+    <h2 class="sec">一平方英里的判决</h2>
+    <p>Edison 的系统跑在 110 伏直流上：灯要在 100 伏以上才亮，站里最多给到 110，压降预算只剩 10 伏。
+    把 P = 100 千瓦、L = 908 米（一平方英里等价的圆）、ΔV = 10 伏代进去，一根主馈线就是 <b>2,846 mm²</b> 的铜 ——
+    直径六厘米，<b>46 吨</b>，比驱动它的 27 吨「巨象」发电机还重七成。铜价当年每磅不到两毛钱，
+    可六台巨象满发也才 600 千瓦：电还没送到几个街区，铜钱已经超过黄铜机器。爱迪生的世界，
+    就被这 1/V² 锁死在从 Canal 街到华尔街的一平方英里里。</p>
+    <p>解法只有一个字：抬。电压翻倍，电流减半，截面减半再减半 —— 铜 <b>1/4</b>。
+    1886 年斯坦利的变压器让电压可以「批发」，1891 年劳芬到法兰克福的 15 千伏把同一条公式跑出 175 公里；
+    到 2019 年，昌吉—古泉在 ±1,100 千伏上把 12,000 兆瓦送出 3,293 公里 —— 电压抬了一万倍，铜轻了一亿倍。
+    而那条线，是直流的。爱迪生输在电压上，赢回了远方。</p>
+  </div>
+</section>
+
+<!-- ── 2 · 沿街的黄昏 ─────────────────────────────────────────── -->
+<section id="tab-street" class="tab">
+  <div class="cols">
+    <div class="widecol">
+      <div class="stagebox dark">
+        <canvas id="street-canvas" width="1280" height="560"></canvas>
+      </div>
+      <div class="run-controls">
+        <button id="btn-switch" class="ink-btn">合闸</button>
+        <label class="inline-slide">这条主线上的灯
+          <input type="range" id="s-lamps" min="0" max="2000" step="10" value="400">
+          <output id="o-lamps">400</output> 盏
+        </label>
+        <div class="modebtns">
+          <button id="btn-end" class="ink-btn ghost on">全挂街尾</button>
+          <button id="btn-dist" class="ink-btn ghost">均匀铺满</button>
+        </div>
+      </div>
+      <p class="caption" id="street-status">1882 年 9 月 4 日晚：59 家客户、400 盏灯。点「合闸」，看灯沿珍珠街次第亮起 ——
+      再把灯数推上去，看街尾先暗下来。</p>
+    </div>
+
+    <div class="sidecol">
+      <div class="clockcard">
+        <div class="clock-label">街尾电压表</div>
+        <div class="clock-big" id="far-volt">— <span>V</span></div>
+        <div class="clock-mph" id="far-bright">—</div>
+      </div>
+      <div class="runlist">
+        <div class="run-row"><span class="run-name">全挂街尾的压降</span><span id="street-end">—</span></div>
+        <div class="run-row"><span class="run-name">均匀铺满的压降</span><span id="street-dist">—</span></div>
+        <div class="run-row total"><span class="run-name">比值 = 恰好 ½</span><span id="street-half">—</span></div>
+      </div>
+      <div class="cert">
+        <h3>街尾那盏灯</h3>
+        <div class="cert-lines" id="lamp-cert">…</div>
+        <div class="stamp" id="street-stamp">110 V<br>合格</div>
+      </div>
+      <p class="caption">同样 2,000 盏灯：全挂街尾，线路电流全程满额；均匀铺满，越靠站电流越细。
+      逐段积分正好是一个三角形对矩形 —— <b>压降减半</b>。爱迪生的客户沿街分布，天然吃了这个二分之一。</p>
+    </div>
+  </div>
+  <div class="prose">
+    <h2 class="sec">昏暗的长寿灯</h2>
+    <p>灯丝的亮度随 <b>V<sup>3.4</sup></b> 走，寿命随 <b>V<sup>−13</sup></b> 走 ——
+    电压跌到 0.9 倍，亮度只剩七成，寿命却翻到 3.9 倍。所以电压跌的街区有个倒错的现象：
+    <b>街尾的灯最暗，也最耐用</b>。反过来，谁家偷接了太多灯、电压蹿上去，灯是亮了，丝却一个月一断。
+    1880 年代的电工靠眼睛就知道哪段馈线超载 —— 看哪排灯发红。</p>
+  </div>
+</section>
+
+<!-- ── 3 · 110 伏的出身 ───────────────────────────────────────── -->
+<section id="tab-lamps" class="tab">
+  <div class="cols">
+    <div class="gridcol">
+      <div class="stagebox dark">
+        <canvas id="lamp-canvas" width="900" height="520"></canvas>
+      </div>
+      <div class="sliderstack">
+        <label>灯丝热阻 R <output id="o-r">133</output> Ω
+          <input type="range" id="s-r" min="50" max="400" step="1" value="133"></label>
+        <label>灯端电压比 V/V₀ <output id="o-ratio">1.00</output>
+          <input type="range" id="s-ratio" min="50" max="130" step="1" value="100"></label>
+      </div>
+    </div>
+    <div class="gridcol">
+      <h2 class="sec">灯就是 P = V²/R</h2>
+      <div class="factrow">
+        <div class="fact"><div class="fact-n" id="lamp-w">91</div><div class="fact-l">每盏 W</div></div>
+        <div class="fact"><div class="fact-n" id="lamp-a">0.83</div><div class="fact-l">每盏 A</div></div>
+        <div class="fact"><div class="fact-n" id="lamp-flux">100</div><div class="fact-l">亮度 %</div></div>
+        <div class="fact"><div class="fact-n" id="lamp-life">×1.0</div><div class="fact-l">寿命</div></div>
+      </div>
+      <div class="formula-card" id="lamp-formula">…</div>
+      <div class="rxcard">
+        <div class="rx-title">爱迪生的高电阻灯丝</div>
+        <p>他的对手们把低电阻的碳棒串成电弧灯线路，一串就是一台发电机的电流。
+        爱迪生 1879 年反着做：把碳化竹丝拉成<b>高电阻</b>细丝 —— 同样一安培，
+        P = I²R 吐出更多的光；同样一片住宅区，铜可以细一大圈。灯丝电阻是配电经济学的开关。</p>
+      </div>
+      <div class="rxcard">
+        <div class="rx-title">为什么是 110，不是 55 也不是 220</div>
+        <p>碳丝灯在 100 伏上下亮度与寿命最划算，站端 110 伏给压降留了 10 伏预算。
+        再低，电流翻倍、铜翻四倍；再高，当年的碳丝和绝缘受不了。
+        110 伏是灯的化学和铜的经济学中间的一格 —— 后来欧洲抬到 220/230 伏，
+        用的是灯丝换钨、绝缘换橡胶之后才有的自由。</p>
+      </div>
+      <p class="caption">满发的六台巨象 = 600 千瓦 = 6,600 盏灯 = <b>5,455 安培</b>在 110 伏上 ——
+      这些安培就是主馈线粗得像手臂的原因。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── 4 · 半径与电压 ─────────────────────────────────────────── -->
+<section id="tab-reach" class="tab">
+  <div class="cols">
+    <div class="gridcol">
+      <div class="chartbox"><canvas id="reach-chart" width="980" height="640"></canvas></div>
+    </div>
+    <div class="gridcol">
+      <h2 class="sec">从一条街到大陆</h2>
+      <div class="sliderstack">
+        <label>铜截面倍率（1882 主线 = ×1） <output id="o-scale">×1.0</output>
+          <input type="range" id="s-scale" min="10" max="1000" value="100"></label>
+      </div>
+      <div class="linelist" id="line-list"></div>
+      <p class="caption">双对数图上，固定铜截面的可达距离是<b>斜率 1 的直线</b>：电压 ×10，半径 ×10。
+      灰线是 1882 年那根 2,846 mm² 的主馈线在今天还能干什么 —— 把它直接架到 15 千伏，
+      一条街就变成 124 公里。真实的线（点）各自带自己的铜，但都朝同一个方向爬。</p>
+      <div class="rxcard">
+        <div class="rx-title">为什么交流的点在线上方</div>
+        <p>变压器把发电、输电、用电拆成三档电压，三相还让三根线轮流共用电流 ——
+        同样的铜效率更高。1891 年劳芬的 15 千伏在灰线上方 40%，那是斯坦利 1886 年那枚变压器的贡献。</p>
+      </div>
+      <div class="rxcard">
+        <div class="rx-title">终点又是直流</div>
+        <p>3,000 公里以外，交流的容抗先把无功送满了线，直流反而干净：没有相位、没有感抗容抗、
+        只烧纯电阻。2019 年昌吉—古泉 ±1,100 千伏、3,293 公里、12,000 兆瓦 ——
+        输电的远方奖牌最后挂回爱迪生名下，只是电压高了一万倍。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 5 · 时间线 ─────────────────────────────────────────────── -->
+<section id="tab-ladder" class="tab">
+  <div class="chartbox"><svg id="ladder-chart" viewBox="0 0 1280 420" width="100%"></svg></div>
+  <div class="record-card" id="record-card">点一枚图钉，看那一年的电网。五角星是今天的主角。</div>
+  <div class="prose">
+    <h2 class="sec">125 年的一根线</h2>
+    <p>1882 年的珍珠街只有一平方英里；1891 年劳芬的三相交流跑完 175 公里；1896 年尼亚加拉的水电点亮布法罗。
+    而爱迪生的 110 伏直流并没有立刻死：它在自己的一平方英里里活了 125 年 ——
+    直到 2007 年 11 月 14 日，联合爱迪生公司在东 40 街 10 号剪断曼哈顿最后一根直流馈线。
+    同一年份表上还有一条更长的线：±1,100 千伏的昌吉—古泉，3,293 公里。
+    电压赢下了那场电流战争，直流赢回了远方。</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <span>2026-09-04 · daily-slop 第 43 天</span>
+  <span class="dim">Built by GLM-5.3</span>
+</footer>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

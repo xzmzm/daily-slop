@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>pearl-street · video card</title>
+  <style>
+    :root {
+      --paper: #f2f0ea;
+      --paper-deep: #e4e2d9;
+      --ink: #22262c;
+      --ink-soft: #555c66;
+      --red: #a3282a;
+      --red-deep: #7e1f21;
+      --copper: #9a5b21;
+      --copper-deep: #6f3f12;
+      --volt: #1c4f9c;
+      --gold: #c9a227;
+      --rule: #b8b2a2;
+    }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; }
+    body {
+      overflow: hidden; color: var(--ink);
+      background:
+        radial-gradient(ellipse at 20% -10%, #faf9f5 0%, var(--paper) 55%, var(--paper-deep) 100%);
+      font-family: Georgia, "Iowan Old Style", "Songti SC", "STSong", "Hiragino Sans GB", serif;
+    }
+    .card {
+      position: relative; width: 100%; height: 100%;
+      display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 88px;
+      padding: 56px 84px;
+    }
+    .stage { position: relative; flex: none; }
+    .copy { max-width: 700px; }
+    .eyebrow {
+      color: var(--red-deep); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 3px; font-size: 14px; text-transform: uppercase; margin-bottom: 18px;
+    }
+    h1 { margin: 0; font-size: 80px; line-height: 1.02; letter-spacing: 1px; font-weight: 800; }
+    h1 .red { color: var(--red); }
+    h1 .cn {
+      display: block; font-size: 27px; font-weight: 600; letter-spacing: 0.55em; text-indent: 0.55em;
+      color: var(--ink-soft); margin-top: 16px;
+    }
+    h2 { margin: 24px 0 0; font-size: 23.5px; line-height: 1.58; font-weight: 500; color: #34383f; max-width: 660px; }
+    h2 b { color: var(--copper-deep); }
+    .formula {
+      margin-top: 26px; color: var(--copper-deep);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 20px; letter-spacing: 0.5px;
+    }
+    .formula .num { color: var(--ink); }
+    .formula small { color: var(--ink-soft); font-size: 14px; display: block; margin-top: 7px; letter-spacing: .5px;
+      font-family: -apple-system, "Hiragino Sans GB", sans-serif; }
+    .meta { display: flex; align-items: center; gap: 12px; margin-top: 30px; color: var(--ink-soft); font-size: 15px; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--copper); box-shadow: 0 0 14px rgba(154,91,33,.55); }
+    .scene.end { display: none; }
+    body[data-scene="end"] .scene.intro { display: none; }
+    body[data-scene="end"] .scene.end { display: block; }
+  </style>
+</head>
+<body data-scene="intro">
+  <div class="card">
+    <div class="stage">
+      <svg viewBox="0 0 520 620" width="520" height="620" aria-hidden="true">
+        <defs>
+          <linearGradient id="night" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#171a1f"/>
+            <stop offset="100%" stop-color="#2b2620"/>
+          </linearGradient>
+          <radialGradient id="lampglow">
+            <stop offset="0%" stop-color="rgba(255,214,130,0.95)"/>
+            <stop offset="100%" stop-color="rgba(255,214,130,0)"/>
+          </radialGradient>
+        </defs>
+        <!-- the night district panel -->
+        <rect x="10" y="10" width="500" height="600" rx="10" fill="url(#night)" stroke="#22262c" stroke-width="2.5"/>
+        <!-- street -->
+        <rect x="10" y="470" width="500" height="140" fill="#23262c"/>
+        <rect x="60" y="516" width="400" height="12" rx="3" fill="#6f3f12" stroke="#9a5b21" stroke-width="1"/>
+        <text x="260" y="549" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="13" fill="#9a5b21">地下铜管 · 908 m · 2,846 mm²</text>
+        <!-- the station -->
+        <g>
+          <rect x="52" y="380" width="120" height="90" fill="#2e2420" stroke="#3d2f27" stroke-width="2"/>
+          <rect x="52" y="380" width="120" height="12" fill="#3d2f27"/>
+          <rect x="76" y="336" width="15" height="44" fill="#241d18"/>
+          <rect x="70" y="404" width="26" height="20" fill="#ffd98a"/>
+          <rect x="128" y="404" width="26" height="20" fill="#ffd98a"/>
+          <text x="112" y="459" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="12" fill="#9aa4b0">珍珠街 257 号 · 6×JUMBO</text>
+        </g>
+        <!-- lamp posts with glow -->
+        <g font-family="ui-monospace, Menlo, monospace">
+          <g>
+            <circle cx="240" cy="360" r="52" fill="url(#lampglow)"/>
+            <line x1="240" y1="470" x2="240" y2="372" stroke="#4a4038" stroke-width="4"/>
+            <circle cx="240" cy="364" r="7" fill="#ffe9b8"/>
+          </g>
+          <g>
+            <circle cx="340" cy="360" r="46" fill="url(#lampglow)"/>
+            <line x1="340" y1="470" x2="340" y2="372" stroke="#4a4038" stroke-width="4"/>
+            <circle cx="340" cy="364" r="7" fill="#ffdf9e"/>
+          </g>
+          <g>
+            <circle cx="440" cy="360" r="34" fill="url(#lampglow)"/>
+            <line x1="440" y1="470" x2="440" y2="372" stroke="#4a4038" stroke-width="4"/>
+            <circle cx="440" cy="364" r="7" fill="#f5b96a"/>
+          </g>
+        </g>
+        <!-- the voltmeter -->
+        <g font-family="ui-monospace, Menlo, monospace">
+          <rect x="316" y="40" width="164" height="86" rx="9" fill="rgba(16,19,23,.82)"/>
+          <text x="334" y="66" font-size="12" fill="#9aa4b0">FAR-END VOLTAGE</text>
+          <text x="334" y="108" font-size="38" font-weight="700" fill="#ffd98a">91.8 V</text>
+        </g>
+        <text x="30" y="76" font-family="Georgia, serif" font-size="21" fill="#8d8776" font-style="italic">Pearl Street · 4 September 1882</text>
+        <text x="30" y="586" font-family="ui-monospace, Menlo, monospace" font-size="15" fill="#b7a97e">A = 2ρLP/(ΔV·V) · m ∝ 1/V²</text>
+      </svg>
+    </div>
+
+    <div class="scene intro copy">
+      <div class="eyebrow">4 SEP 1882 · 257 PEARL STREET · 144 YEARS TODAY</div>
+      <h1>Pearl Street <span class="red">110</span><span class="cn">铜的一万倍</span></h1>
+      <h2>下午三点，爱迪生在 J.P. 摩根的办公室合闸，<b>106 盏灯</b>亮起 —— 世界第一座商用电站开始供电：
+        59 家客户、400 盏灯、六台 27 吨的巨象、<b>110 伏直流</b>。</h2>
+      <div class="formula">A = 2ρLP/(ΔV·V) &nbsp;·&nbsp; <span class="num">m ∝ 1/V²</span>
+        <small>46 吨铜送 100 千瓦过一条街 · 同一根铜，半径和电压成正比</small>
+      </div>
+      <div class="meta"><span class="dot"></span><span>2026-09-04 · daily-slop 第 43 天 · 电网物理工作室</span></div>
+    </div>
+
+    <div class="scene end copy">
+      <div class="eyebrow">2026-09-04 · DAILY-SLOP</div>
+      <h1>明天见<span class="red"> · 明天见</span></h1>
+      <h2>曼哈顿的 110 伏直流活到 <b>2007 年 11 月 14 日</b> —— 整整 125 年。
+        世界最长的一条线也是直流：昌吉—古泉，±1,100 千伏，<b>3,293 公里</b>，
+        电压抬了一万倍，铜轻了一亿倍。</h2>
+      <div class="formula">「ΔV/V 就是线损」<span class="num">— 铜的一万倍</span>
+        <small>Built by GLM-5.3 · dailyslop.pages.dev</small>
+      </div>
+    </div>
+  </div>
+  <script>
+    const scene = new URLSearchParams(location.search).get("scene") || "intro";
+    document.body.dataset.scene = scene;
+    document.title = `pearl-street · ${scene}`;
+  </script>
+</body>
+</html>
