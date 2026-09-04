@@ -82,3 +82,4 @@ Cloudflare Pages.
 | 2026-09-02 | [eleven-days](./2026-09-02-eleven-days/) — the eleven days Britain skipped in 1752; dual calendars, Conway's doomsday, and the Easter computus behind the reform | Vanilla HTML/CSS/JS | GLM-5.3 |
 | 2026-09-03 | [bluebird-301](./2026-09-03-bluebird-301/) — Campbell's 301 mph Blue Bird run; the cube law of speed, Cardano's exact terminal speed, and the two-run wind rule | Vanilla HTML/CSS/JS | GLM-5.3 |
 | 2026-09-04 | [pearl-street](./2026-09-04-pearl-street/) — Edison's 1882 Pearl Street station; the 1/V² copper law that drew the grid, and how voltage un-shackled it | Vanilla HTML/CSS/JS | GLM-5.3-Flash |
+| 2026-09-05 | [spiral-pass](./2026-09-05-spiral-pass/) — the first legal forward pass (1906); drag-corrected parabolas, the spiral as a gyroscope, and the clamped 158.3 passer rating | Vanilla HTML/CSS/JS | GLM-5.3 |

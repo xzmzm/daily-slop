@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Forward Pass 1906 · 第一传的物理</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="mast-rule"></div>
+  <h1>Forward Pass <span class="red">1906</span> <span class="cn">第一传的物理</span></h1>
+  <p class="tagline">1906 年 9 月 5 日，圣路易斯大学的罗宾逊掷出美式橄榄球史上第一记合法前传——
+  落地未接，按当年规则球权直接交给对方；随后他找到施奈德，20 码达阵。前传被合法化，
+  是因为 1905 年那个赛季死了 19 个人。本届 120 周年：一道有阻力的抛物线、一个会进动的陀螺，
+  和一台封顶 158.3 的评分机器。</p>
+  <div class="presets" id="presets"></div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button data-tab="field" class="on">一传的抛物线</button>
+  <button data-tab="gyro">螺旋是陀螺</button>
+  <button data-tab="rating">158.3 的配方</button>
+  <button data-tab="ladder">时间线</button>
+</nav>
+
+<main>
+
+<!-- ── 1 · 一传的抛物线 ─────────────────────────────────────── -->
+<section id="tab-field" class="tab on">
+  <div class="cols">
+    <div class="widecol">
+      <div class="stagebox field">
+        <canvas id="field-canvas" width="1280" height="560"></canvas>
+      </div>
+      <div class="run-controls">
+        <button id="btn-throw" class="ink-btn">传球</button>
+        <label class="inline-slide">弹速
+          <input type="range" id="s-v" min="20" max="70" step="0.5" value="39.3">
+          <output id="o-v">39.3</output> mph
+        </label>
+        <label class="inline-slide">出手角
+          <input type="range" id="s-angle" min="5" max="60" step="0.5" value="12">
+          <output id="o-angle">12</output>°
+        </label>
+        <label class="inline-slide">出手高度
+          <input type="range" id="s-h" min="1.6" max="2.3" step="0.01" value="1.9">
+          <output id="o-h">1.90</output> m
+        </label>
+      </div>
+      <p class="caption" id="field-status">虚线是真空里的抛物线，实线是尖头破风的带阻弹道。
+      红线是 20 码——施奈德接到达阵的地方。点「传球」，看球飞。</p>
+    </div>
+
+    <div class="sidecol">
+      <div class="bigresult"><span class="v" id="field-range">20.0</span><span class="unit">码（带阻）</span>
+        <span class="sub" id="field-vac">真空 21.8 码</span></div>
+      <div class="factrow">
+        <div class="fact"><div class="fact-n" id="field-hang">1.10</div><div class="fact-l">滞空 s</div></div>
+        <div class="fact"><div class="fact-n" id="field-apex">2.8</div><div class="fact-l">最高点 m</div></div>
+        <div class="fact"><div class="fact-n" id="field-opt">42.9</div><div class="fact-l">阻力最优角 °</div></div>
+      </div>
+      <div class="formula-card" id="field-formula">…</div>
+      <div class="crosscheck" id="field-crosscheck">…</div>
+      <div class="cert">
+        <h3>传球卡 · 1906-09-05</h3>
+        <div class="cert-lines" id="field-cert-lines">…</div>
+        <div class="stamp" id="field-stamp">达阵</div>
+      </div>
+      <p class="caption">出手点抬高一点，最佳角度就从 45° 往下掉——闭式是
+      θ* = arctan(v/√(v²+2gh))。带阻之后最优点还要再低半度：阻力在上升段吃掉的速度，
+      让抛物线越陡越亏。</p>
+    </div>
+  </div>
+  <div class="prose">
+    <h2 class="sec">第一记没接住</h2>
+    <p>1906 年 9 月 5 日下午，圣路易斯大学对卡罗尔学院，罗宾逊退后几步，把球扔了出去——
+    没接住。按当年的规则，不完整的前传直接把球权交给对方，教练科切姆斯的奇招第一眼看上去
+    像是白送。随后罗宾逊又找到了施奈德：20 码，达阵。这是美式橄榄球历史上第一记合法的
+    前传达阵，出自一项本意用来「泄压」的规则补丁。</p>
+    <p>球在空中的部分没有争议：真空中是一道抛物线，出手高度把最佳角度从 45° 拉低到 44° 上下；
+    空气中的关键是<b>螺旋本身</b>。尖头朝前、带自转的橄榄球阻力系数只有约 0.1——一颗圆球的
+    四分之一——同样 55 mph 的出手，真空里最远 69 码，带阻恰好落在 60 码线上。
+    转得稳的球飞得更远：下一间房讲为什么。</p>
+  </div>
+</section>
+
+<!-- ── 2 · 螺旋是陀螺 ───────────────────────────────────────── -->
+<section id="tab-gyro" class="tab">
+  <div class="cols">
+    <div class="gridcol">
+      <div class="stagebox field">
+        <canvas id="gyro-canvas" width="900" height="520"></canvas>
+      </div>
+      <div class="run-controls">
+        <div class="modebtns">
+          <button id="btn-spin-mode" class="ink-btn ghost on">螺旋自转</button>
+          <button id="btn-tumble-mode" class="ink-btn ghost">端对端弃踢</button>
+        </div>
+        <label class="inline-slide">转速
+          <input type="range" id="s-spin" min="0" max="15" step="0.1" value="10">
+          <output id="o-spin">10.0</output> 圈/秒
+        </label>
+      </div>
+      <p class="caption">后视图（八分之一慢放）。晃动的幅度由稳定系数决定：s 越大，
+      鼻尖把速度方向咬得越死。球一翻过临界转速，晃动就开始收敛。</p>
+    </div>
+    <div class="gridcol">
+      <h2 class="sec">转起来的球是一个陀螺</h2>
+      <div class="bigresult"><span class="v" id="gyro-s">10.9</span><span class="unit">稳定系数 s</span>
+        <span class="sub" id="gyro-verdict">稳如炮弹</span></div>
+      <div class="factrow">
+        <div class="fact"><div class="fact-n" id="gyro-crit">3.0</div><div class="fact-l">临界转速 圈/秒</div></div>
+        <div class="fact"><div class="fact-n" id="gyro-L">0.075</div><div class="fact-l">角动量 kg·m²/s</div></div>
+        <div class="fact"><div class="fact-n" id="gyro-prec">46.8</div><div class="fact-l">进动一圈 s</div></div>
+      </div>
+      <div class="formula-card" id="gyro-formula">…</div>
+      <div class="chartbox"><canvas id="stab-chart" width="900" height="300"></canvas></div>
+      <p class="caption">空气想掀翻任何鼻尖偏离速度的球，力矩 M = M<sub>α</sub>·α。
+      有了自转，轴不倒，而是以 Ω = τ/(I<sub>a</sub>ω) 缓慢进动——炮弹的「追踪」就是这么来的。
+      惯量用均匀密度长椭球算：I<sub>a</sub> = (2/5)mb²，I<sub>t</sub> = (1/5)m(a²+b²)，
+      两者之比 1.87，是「橄榄球为什么好转」的几何答案。</p>
+    </div>
+  </div>
+  <div class="prose">
+    <h2 class="sec">为什么弃踢不转螺旋</h2>
+    <p>弃踢手要的是滞空和落点，不是方向：端对端翻跟头，绕横轴（I<sub>t</sub> 更大）慢慢转，
+    阻力系数涨到 0.7 上下，球像一片叶子挂在天上。四分卫要的是又快又准：绕长轴转出每秒十圈，
+    稳定系数过 10——鼻尖被空气的力矩「扶」着走完整条弹道。同一个球，两种转法，
+    两个工种。</p>
+  </div>
+</section>
+
+<!-- ── 3 · 158.3 的配方 ─────────────────────────────────────── -->
+<section id="tab-rating" class="tab">
+  <div class="cols">
+    <div class="gridcol">
+      <h2 class="sec">四项指标，四个夹子</h2>
+      <div class="presets local" id="rating-presets"></div>
+      <div class="sliderstack">
+        <label>完成率 <output id="o-comp">67.6</output> %
+          <input type="range" id="s-comp" min="0" max="100" step="0.1" value="67.6"></label>
+        <label>每次尝试码数 <output id="o-ypa">9.17</output>
+          <input type="range" id="s-ypa" min="0" max="15" step="0.05" value="9.17"></label>
+        <label>达阵率 <output id="o-td">9.9</output> %
+          <input type="range" id="s-td" min="0" max="12" step="0.05" value="9.86"></label>
+        <label>被截率 <output id="o-int">2.0</output> %
+          <input type="range" id="s-int" min="0" max="12" step="0.05" value="2.01"></label>
+      </div>
+      <button id="btn-baseline" class="ink-btn ghost">回到 1.0 基线（66.7）</button>
+      <p class="caption">灰点是「想去的」原始值，实心是夹住之后的：每一项都封顶 2.375、封底 0。
+      把完成率推到 77.5% 以上试试——第四个夹子纹丝不动，评分只涨这么多。</p>
+    </div>
+    <div class="gridcol">
+      <div class="bigresult"><span class="v" id="rating-value">121.1</span><span class="unit">传球者评分</span>
+        <span class="sub" id="rating-pin">0 项封顶 · 0 项封底</span></div>
+      <div class="bars" id="bars"></div>
+      <div class="formula-card" id="rating-formula">…</div>
+      <div class="crosscheck" id="rating-crosscheck">…</div>
+      <div class="rxcard">
+        <div class="rx-title">天花板是焊死的</div>
+        <p>1973 年名人堂的唐·史密斯受命做一个跨时代的四分卫数字。四项各占 2.375，
+        平均后乘一百：满分 <b>158.3</b>。一场 10 传 10 中 250 码 5 达阵 0 被截的比赛顶满四个夹子；
+        再好的数据也顶不破——公式里没有那一项。</p>
+      </div>
+    </div>
+  </div>
+  <div class="prose">
+    <h2 class="sec">121.1 与 122.5</h2>
+    <p>曼宁 2004 赛季：497 传 336 中、4,557 码、49 达阵、10 被截，四项都够高但都没封顶，
+    评分 <b>121.1</b>。罗杰斯 2011 赛季：502 传 343 中、4,643 码、45 达阵、只有 6 次被截，
+    评分 <b>122.5</b>——单季历史最高。这个公式的脾气是<b>惩罚短板</b>：任何一项掉到底，
+    满分的那 1/4 就没了；想逼近 158.3，四件事必须同时做好。</p>
+  </div>
+</section>
+
+<!-- ── 4 · 时间线 ───────────────────────────────────────────── -->
+<section id="tab-ladder" class="tab">
+  <div class="chartbox"><svg id="ladder-chart" viewBox="0 0 1280 420" width="100%"></svg></div>
+  <div class="record-card" id="record-card">点一枚图钉，看那一年发生了什么。五角星是今天的主角。</div>
+  <div class="prose">
+    <h2 class="sec">一条安全补丁的一百二十年</h2>
+    <p>1905 年的 19 例死亡把橄榄球推到被取缔的边缘；1906 年的规则委员会把前传写进规则书，
+    本意是让堆人的阵型失去意义。此后的每一步都在给这条补丁让路：1912 年的六分达阵和第四档，
+    1934 年被改细的球，1978 年的五码撞人线。一个为了少死人而合法化的动作，
+    成了这项运动最好看的部分。</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <span>2026-09-05 · daily-slop 第 44 天</span>
+  <span class="dim">Built by GLM-5.3</span>
+</footer>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>spiral-pass · video card</title>
+  <style>
+    :root {
+      --paper: #f3f0e7;
+      --paper-deep: #e5e2d6;
+      --ink: #232823;
+      --ink-soft: #5a6058;
+      --red: #a3282a;
+      --red-deep: #7e1f21;
+      --pigskin: #8a4b1f;
+      --pigskin-deep: #5f3212;
+      --field: #1d4a2c;
+      --field-deep: #12331d;
+      --gold: #c9a227;
+      --rule: #b6b1a1;
+    }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; }
+    body {
+      overflow: hidden; color: var(--ink);
+      background:
+        radial-gradient(ellipse at 20% -10%, #fbfaf4 0%, var(--paper) 55%, var(--paper-deep) 100%);
+      font-family: Georgia, "Iowan Old Style", "Songti SC", "STSong", "Hiragino Sans GB", serif;
+    }
+    .card {
+      position: relative; width: 100%; height: 100%;
+      display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 88px;
+      padding: 56px 84px;
+    }
+    .stage { position: relative; flex: none; }
+    .copy { max-width: 700px; }
+    .eyebrow {
+      color: var(--red-deep); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 3px; font-size: 14px; text-transform: uppercase; margin-bottom: 18px;
+    }
+    h1 { margin: 0; font-size: 80px; line-height: 1.02; letter-spacing: 1px; font-weight: 800; }
+    h1 .red { color: var(--red); }
+    h1 .cn {
+      display: block; font-size: 27px; font-weight: 600; letter-spacing: 0.55em; text-indent: 0.55em;
+      color: var(--ink-soft); margin-top: 16px;
+    }
+    h2 { margin: 24px 0 0; font-size: 23.5px; line-height: 1.58; font-weight: 500; color: #343834; max-width: 660px; }
+    h2 b { color: var(--pigskin-deep); }
+    .formula {
+      margin-top: 26px; color: var(--pigskin-deep);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 20px; letter-spacing: 0.5px;
+    }
+    .formula .num { color: var(--ink); }
+    .formula small { color: var(--ink-soft); font-size: 14px; display: block; margin-top: 7px; letter-spacing: .5px;
+      font-family: -apple-system, "Hiragino Sans GB", sans-serif; }
+    .meta { display: flex; align-items: center; gap: 12px; margin-top: 30px; color: var(--ink-soft); font-size: 15px; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--pigskin); box-shadow: 0 0 14px rgba(138,75,31,.55); }
+    .scene.end { display: none; }
+    body[data-scene="end"] .scene.intro { display: none; }
+    body[data-scene="end"] .scene.end { display: block; }
+  </style>
+</head>
+<body data-scene="intro">
+  <div class="card">
+    <div class="stage">
+      <svg viewBox="0 0 520 620" width="520" height="620" aria-hidden="true">
+        <defs>
+          <linearGradient id="night" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1d4a2c"/>
+            <stop offset="100%" stop-color="#0f2a18"/>
+          </linearGradient>
+        </defs>
+        <!-- the field panel -->
+        <rect x="10" y="10" width="500" height="600" rx="10" fill="url(#night)" stroke="#232823" stroke-width="2.5"/>
+        <!-- yard lines -->
+        <g stroke="rgba(247,245,239,.22)" stroke-width="1.5">
+          <line x1="60" y1="80" x2="60" y2="520"/>
+          <line x1="120" y1="80" x2="120" y2="520"/>
+          <line x1="180" y1="80" x2="180" y2="520"/>
+          <line x1="240" y1="80" x2="240" y2="520"/>
+          <line x1="300" y1="80" x2="300" y2="520"/>
+          <line x1="360" y1="80" x2="360" y2="520"/>
+          <line x1="420" y1="80" x2="420" y2="520"/>
+        </g>
+        <g stroke="rgba(247,245,239,.4)" stroke-width="2.5">
+          <line x1="10" y1="80" x2="510" y2="80"/>
+          <line x1="10" y1="520" x2="510" y2="520"/>
+        </g>
+        <g font-family="ui-monospace, Menlo, monospace" font-size="13" fill="rgba(247,245,239,.55)" text-anchor="middle">
+          <text x="90" y="545">0</text>
+          <text x="150" y="545">5</text>
+          <text x="210" y="545">10</text>
+          <text x="270" y="545">15</text>
+          <text x="330" y="545">20</text>
+        </g>
+        <!-- the first-down line at 20 yd -->
+        <line x1="360" y1="80" x2="360" y2="520" stroke="rgba(212,80,80,.95)" stroke-width="3" stroke-dasharray="10 7"/>
+        <text x="360" y="66" text-anchor="middle" font-family="ui-monospace, Menlo, monospace" font-size="13" fill="rgba(240,150,150,.95)">SCHNEIDER · 20 YD</text>
+        <!-- the chalk play: X passer, O receiver, spiral arc -->
+        <path d="M 96 470 Q 230 190 352 462" fill="none" stroke="#e8c766" stroke-width="4" stroke-linecap="round"/>
+        <path d="M 96 470 Q 230 190 352 462" fill="none" stroke="rgba(232,199,102,.35)" stroke-width="12" stroke-linecap="round"/>
+        <g font-family="Georgia, serif" font-weight="700">
+          <text x="88" y="486" font-size="34" fill="#f7f5ef">X</text>
+          <circle cx="352" cy="470" r="17" fill="none" stroke="#f7f5ef" stroke-width="3.5"/>
+        </g>
+        <!-- the ball mid-arc, nose to velocity -->
+        <g transform="translate(232,300) rotate(24)">
+          <ellipse cx="0" cy="0" rx="26" ry="13" fill="#8a4b1f" stroke="#f2ead8" stroke-width="2.5"/>
+        </g>
+        <!-- scoreboard -->
+        <g font-family="ui-monospace, Menlo, monospace">
+          <rect x="56" y="100" width="408" height="92" rx="9" fill="rgba(12,26,16,.85)"/>
+          <text x="260" y="130" text-anchor="middle" font-size="13" fill="#9ab09c">5 SEPTEMBER 1906 · ST. LOUIS</text>
+          <text x="260" y="172" text-anchor="middle" font-size="34" font-weight="700" fill="#ffd98a">FIRST FORWARD PASS</text>
+        </g>
+        <text x="30" y="46" font-family="Georgia, serif" font-size="21" fill="#8d8776" font-style="italic">SLU 22 · Carroll 0</text>
+        <text x="30" y="588" font-family="ui-monospace, Menlo, monospace" font-size="15" fill="#b7a97e">θ* = arctan(v/√(v²+2gh)) · s = I²ω²/(2IMα)</text>
+      </svg>
+    </div>
+
+    <div class="scene intro copy">
+      <div class="eyebrow">5 SEP 1906 · ST. LOUIS UNIVERSITY · 120 YEARS TODAY</div>
+      <h1>Forward Pass <span class="red">1906</span><span class="cn">第一传的物理</span></h1>
+      <h2>罗宾逊掷出史上第一记合法前传——第一掷没接住，<b>球权交给对方</b>；
+        第二掷找到施奈德，<b>20 码达阵</b>。前传被合法化，是因为 1905 年那个赛季
+        <b>死了 19 个人</b>。</h2>
+      <div class="formula">R = (v·cosθ/g)(v·sinθ + √(v²sin²θ+2gh)) &nbsp;·&nbsp; <span class="num">评分 ≤ 158.3</span>
+        <small>真空 69 码，带阻 60 码 · 临界转速 3 圈/秒 · 四项各封顶 2.375</small>
+      </div>
+      <div class="meta"><span class="dot"></span><span>2026-09-05 · daily-slop 第 44 天 · 传球物理工作室</span></div>
+    </div>
+
+    <div class="scene end copy">
+      <div class="eyebrow">2026-09-05 · DAILY-SLOP</div>
+      <h1>明天见<span class="red"> · 明天见</span></h1>
+      <h2>一条<b>为了少死人</b>的规则补丁，长成了这项运动最好看的动作。
+        一道有阻力的抛物线，一个会进动的陀螺，一台<b>封顶 158.3</b> 的评分机器——
+        第一记没接住的球和第一记达阵，隔了不到一场比赛。</h2>
+      <div class="formula">「s &gt; 1，球就稳」<span class="num">— 第一传的物理</span>
+        <small>Built by GLM-5.3 · dailyslop.pages.dev</small>
+      </div>
+    </div>
+  </div>
+  <script>
+    const scene = new URLSearchParams(location.search).get("scene") || "intro";
+    document.body.dataset.scene = scene;
+    document.title = `spiral-pass · ${scene}`;
+  </script>
+</body>
+</html>
