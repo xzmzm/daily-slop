@@ -160,6 +160,12 @@ rendering workflow already established for `2026-08-08-cattery`:
   account to settle). Don't say you're about to explain something; state the
   fact or the number plainly and move on. This applies to the spoken script,
   the burned-in subtitles, and on-screen titles alike.
+- **Years are read digit by digit in the spoken script.** Spell every year in
+  the TTS `SEGMENTS` text as spoken Chinese digits — 一九零六年 9 月 5 日,
+  二零一一赛季 — never as an Arabic numeral like “1906 年”: TTS then reads
+  一千九百零六年, which sounds wrong for years. Non-year quantities
+  (158.3, 2.375, 60 码) stay as ordinary numbers. Burned-in subtitles keep
+  Arabic numerals (“1906 年”); the rule is about the narration text only.
 - The visible cursor is a small overlay for the headless recording. Keep it
   parked during narration and scrolling; move it only shortly before a real
   click (for example `mate`, opening the mother picker, and closing it). Use

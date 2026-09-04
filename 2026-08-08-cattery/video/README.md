@@ -17,6 +17,13 @@ account to settle). Don't say you're about to explain something; state the
 fact or the number plainly and move on. This applies to the spoken script,
 the burned-in subtitles, and on-screen titles alike.
 
+**Years are read digit by digit.** In the spoken script (the TTS `SEGMENTS`
+text) spell every year in Chinese digits — 一九零六年 9 月 5 日, 二零一一赛季 —
+never as an Arabic numeral: TTS reads “1906 年” as 一千九百零六年, which is
+wrong for years. Quantities that are not years (158.3, 2.375, 60 码) stay
+written as normal numbers. The burned-in subtitles keep Arabic numerals
+(“1906 年”) — the rule is about the spoken track only.
+
 The Fish version uses the REST `/v1/tts` endpoint. The renderer automatically
 loads `FISH_AUDIO_API_KEY` from the repository-root `.env`; an already-exported
 environment variable takes precedence. The key is never stored in this folder,
