@@ -1,0 +1,18 @@
+{
+  "output": "/Users/hm/prj/daily-slop/2026-09-06-bushnells-turtle/video/bushnells-turtle.mp4",
+  "provider": "Fish Audio REST API",
+  "model": "s2.1-pro-free",
+  "voice_id": "ae5adc6778ac459e8d6106b82f88fa2b",
+  "segment_durations": [
+    35.970612,
+    36.963265,
+    29.33551,
+    23.14449,
+    33.541224,
+    29.23102,
+    11.389388
+  ],
+  "video_duration": 195.0,
+  "fps": 15,
+  "resolution": "1920x1080"
+}

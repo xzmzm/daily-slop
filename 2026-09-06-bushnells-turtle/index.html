@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Turtle 1776 · 第一场潜艇攻击的物理</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="mast-rule"></div>
+  <h1>Turtle <span class="red">1776</span> <span class="cn">海龟号的第一夜</span></h1>
+  <p class="tagline">1776 年 9 月 6 日夜，军士李乘布什内尔的「海龟」潜到英舰「鹰」号船底，
+  想用木钻把一百五十磅火药拧上船壳——人类第一次潜艇攻击，也是螺旋桨推进的第一次记载。
+  距今二百五十年。本届四个房间：阿基米德的配平、摇曲柄的立方根、三十分钟的二氧化碳钟，
+  和一条由潮流决定成败的攻击航线。</p>
+  <div class="presets" id="presets"></div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button data-tab="trim" class="on">配平的刀刃</button>
+  <button data-tab="crank">曲柄对潮流</button>
+  <button data-tab="air">三十分钟</button>
+  <button data-tab="mission">攻击之夜</button>
+  <button data-tab="ladder">时间线</button>
+</nav>
+
+<main>
+
+<!-- ── 1 · 配平的刀刃 ─────────────────────────────────────── -->
+<section id="tab-trim" class="tab on">
+  <div class="cols">
+    <div class="widecol">
+      <div class="stagebox sea">
+        <canvas id="trim-canvas" width="1280" height="560"></canvas>
+      </div>
+      <div class="run-controls">
+        <label class="inline-slide">舱底水
+          <input type="range" id="s-ballast" min="0" max="1400" step="5" value="0">
+          <output id="o-ballast">0</output> kg
+        </label>
+        <button id="btn-blow" class="ink-btn">丢掉 200 磅铅</button>
+        <button id="btn-reset-trim" class="ink-btn ghost">重置</button>
+      </div>
+      <p class="caption" id="trim-status">橡木桶十英尺长、六英尺高、三英尺宽，满排水 2.74 吨。
+      干重一吨半——剩下的一千一百五十公斤，全靠往舱底注水补齐。悬停是一把刀刃：多一桶水就沉，
+      少一桶就浮。</p>
+    </div>
+
+    <div class="sidecol">
+      <div class="bigresult"><span class="v" id="trim-state">漂浮</span><span class="unit" id="trim-state-sub">吃水 1.01 m</span></div>
+      <div class="factrow">
+        <div class="fact"><div class="fact-n">2.74</div><div class="fact-l">满排水 t</div></div>
+        <div class="fact"><div class="fact-n" id="fact-ballast">1150</div><div class="fact-l">中性压载 kg</div></div>
+        <div class="fact"><div class="fact-n">802</div><div class="fact-l">气袋 L</div></div>
+      </div>
+      <div class="formula-card" id="trim-formula">…</div>
+      <div class="crosscheck" id="trim-crosscheck">…</div>
+      <div class="cert">
+        <h3>配平卡 · 1776-09</h3>
+        <div class="cert-lines" id="trim-cert-lines">…</div>
+        <div class="stamp" id="trim-stamp">漂浮</div>
+      </div>
+      <p class="caption">木桶太轻，铁件换空气：每公斤铁龙骨买回 0.85 升气袋，每公斤橡木吃掉 0.36 升。
+      没有那八百九十公斤铁，气袋就只剩下一口气。</p>
+    </div>
+  </div>
+  <div class="prose">
+    <h2 class="sec">一间自己会呼吸的木桶</h2>
+    <p>「海龟」是两只橡木壳箍成的桶，六块厚玻璃窗采光，黄铜件出自纽黑文钟表匠杜立特尔。
+    潜浮靠舱底水柜：脚泵注水增重下潜，强力水泵排水上浮；另有二百磅铅块拴在龙骨下，
+    一旦机械全失，解开栓绳、丢掉铅块，桶就会自己浮上来。本页把这套逻辑写成一个恒等式：
+    中性配平时，气袋体积 = 干重折合水量 − 实际构件体积——铁越多，气越多。</p>
+  </div>
+</section>
+
+<!-- ── 2 · 曲柄对潮流 ─────────────────────────────────────── -->
+<section id="tab-crank" class="tab">
+  <div class="cols">
+    <div class="gridcol">
+      <div class="chartbox"><canvas id="crank-chart" width="900" height="430"></canvas></div>
+      <div class="sliderstack">
+        <label>曲柄功率 <output id="o-power">100</output> W
+          <input type="range" id="s-power" min="40" max="400" step="1" value="100"></label>
+      </div>
+      <div class="presets local" id="crank-presets"></div>
+      <p class="caption">对数横轴。曲线是立方根：功率翻八倍，速度才翻一倍。
+      把滑块推到头也追不上那条 3 mph 虚线——它要 1452 瓦，是环法冲刺的腿。</p>
+    </div>
+    <div class="gridcol">
+      <h2 class="sec">第一台螺旋桨，一匹人的胳膊</h2>
+      <div class="bigresult"><span class="v" id="crank-speed">1.23</span><span class="unit">mph 水中</span>
+        <span class="sub" id="crank-ground">顺流 +1 kn 时 2.2 mph</span></div>
+      <div class="factrow">
+        <div class="fact"><div class="fact-n">1452</div><div class="fact-l">3 mph 需求 W</div></div>
+        <div class="fact"><div class="fact-n">0.65</div><div class="fact-l">螺旋桨效率</div></div>
+        <div class="fact"><div class="fact-n" id="fact-ground2">−1.5</div><div class="fact-l">顶 1.5 kn 时 mph</div></div>
+      </div>
+      <div class="formula-card" id="crank-formula">…</div>
+      <div class="crosscheck" id="crank-crosscheck">…</div>
+      <div class="rxcard">
+        <div class="rx-title">潮流是看不见的对手</div>
+        <p>东河的流速能到两节，海龟全力才一节出头。史载那晚李「与潮流搏斗约两小时」；
+        攻击夜的时间窗，本质上不是勇气问题，是一道减法：<b>地面速度 = 曲柄速度 − 潮流</b>。</p>
+      </div>
+    </div>
+  </div>
+  <div class="prose">
+    <h2 class="sec">宣传册速度</h2>
+    <p>「静水中约三英里每小时」是当时的说法。按阻力算账：湿面积十一平方米，
+    形状阻力系数按带炮塔、外露机构的钝桶拟合为 0.55，三英里每小时需要 1452 瓦的曲柄功率——
+    一条胳膊持续输出一百瓦就算壮汉，冲刺四百瓦顶天。诚实的巡航速度是一点二英里；
+    而当晚东河的流速，比它快一倍。</p>
+  </div>
+</section>
+
+<!-- ── 3 · 三十分钟 ───────────────────────────────────────── -->
+<section id="tab-air" class="tab">
+  <div class="cols">
+    <div class="gridcol">
+      <div class="chartbox"><canvas id="air-chart" width="900" height="430"></canvas></div>
+      <div class="sliderstack">
+        <label>曲柄功率 <output id="o-airpower">56</output> W
+          <input type="range" id="s-airpower" min="0" max="160" step="1" value="56"></label>
+      </div>
+      <div class="presets local" id="air-presets"></div>
+      <p class="caption">红线是二氧化碳百分比，蓝线是氧气。红实线先撞上 3% 虚线——
+      卡住你的从来不是氧气不够，是你呼出的二氧化碳。</p>
+    </div>
+    <div class="gridcol">
+      <h2 class="sec">杀死任务的是呼气</h2>
+      <div class="bigresult"><span class="v" id="air-time">30.0</span><span class="unit">分钟到 3% CO₂</span>
+        <span class="sub" id="air-o2">氧气同期 17.6%</span></div>
+      <div class="factrow">
+        <div class="fact"><div class="fact-n">802</div><div class="fact-l">气袋 L</div></div>
+        <div class="fact"><div class="fact-n" id="fact-vco2">0.79</div><div class="fact-l">V̇CO₂ L/min</div></div>
+        <div class="fact"><div class="fact-n" id="fact-o2time">50.9</div><div class="fact-l">到 15% O₂ 分钟</div></div>
+      </div>
+      <div class="formula-card" id="air-formula">…</div>
+      <div class="crosscheck" id="air-crosscheck">…</div>
+      <div class="rxcard">
+        <div class="rx-title">李出发时只剩二十分钟</div>
+        <p>下潜前开小通风管换气；按史载，接近「鹰」号时袋里的新鲜空气已经用掉三分之一，
+        只剩约二十分钟。本页的钟从满袋走起——钻头一档（130 W）十六分钟见底，
+        和「他一直钻到喘不上气才撒手」的记载对得上。</p>
+      </div>
+    </div>
+  </div>
+  <div class="prose">
+    <h2 class="sec">八十万毫升的房间</h2>
+    <p>中性配平后壳里剩下 802 升空气——一张单人床的大小。静坐时二氧化碳两小时才到 3%；
+    摇 56 瓦曲柄，正好三十分钟；顶着木钻用 130 瓦，十六分钟。阈值是生理学的：
+    3% 开始呼吸加深、头晕、出汗，5% 剧烈头痛。李军士在船底下的每一分钟，
+    都在跟自己呼出的每一口气赛跑。</p>
+  </div>
+</section>
+
+<!-- ── 4 · 攻击之夜 ───────────────────────────────────────── -->
+<section id="tab-mission" class="tab">
+  <div class="cols">
+    <div class="widecol">
+      <div class="stagebox night">
+        <canvas id="mission-canvas" width="1280" height="620"></canvas>
+      </div>
+      <div class="run-controls">
+        <label class="inline-slide">出发时刻
+          <input type="range" id="s-launch" min="19" max="30.5" step="0.25" value="23">
+          <output id="o-launch">23:00</output>
+        </label>
+        <button id="btn-launch" class="ink-btn">出航</button>
+      </div>
+      <p class="caption" id="mission-status">把出发时刻拨到 23:00，点「出航」。时刻是重建的：
+      拖带距离、锚位、潮流相位都是按史载节奏拟合的合理值，事件序列——拖带、顶流、下潜、
+      钻不进、放雷、起爆——忠于记载。</p>
+    </div>
+    <div class="sidecol">
+      <div class="chartbox tight"><canvas id="tide-chart" width="620" height="300"></canvas></div>
+      <div class="cert">
+        <h3>攻击证书 · 1776-09-06/07</h3>
+        <div class="cert-lines" id="mission-cert">先出航，证书在这里盖章。</div>
+        <div class="stamp hidden" id="mission-stamp">未附着</div>
+      </div>
+    </div>
+  </div>
+  <div class="prose">
+    <h2 class="sec">重建那一夜</h2>
+    <p>23:00 从白厅滑道下水，捕鲸艇拖到离舰队几百米处解缆；顶流自摇约一小时，
+    距船一百五十米注水下潜；潜到「鹰」号船底，启动木钻——咬到的是舵铁的垫铁，
+    铜皮太薄、反而不是对手。二氧化碳到 3%，撒手上浮，解脱火药桶；钟表引信四十分钟后
+    在东河炸起「惊人威力的水柱」。他抢在起爆前爬上白厅石阶。二十三点整，是那晚窗口的
+    最后一格——再晚半小时，潮流就把整夜都收走了。</p>
+    <p class="dim" style="font-size:14px">质疑者也存在：有海军史家认为以「海龟」的浮力与潮汐条件，
+    这次攻击无法完成，记载可能出自宣传。物理不站在任何一边——它只把两边都要服从的
+    那几条约束摆出来。</p>
+  </div>
+</section>
+
+<!-- ── 5 · 时间线 ─────────────────────────────────────────── -->
+<section id="tab-ladder" class="tab">
+  <div class="chartbox"><svg id="ladder-chart" viewBox="0 0 1280 420" width="100%"></svg></div>
+  <div class="record-card" id="record-card">点一枚图钉，看那一年发生了什么。五角星是今晚的主角。</div>
+  <div class="prose">
+    <h2 class="sec">从木桶到「亨利」号</h2>
+    <p>「海龟」自己没炸沉过任何东西——第一次潜艇攻击之后八十八年，南军的「亨利」号才
+    真正用杆式水雷击沉了「豪萨托尼克」号，并与之同沉。布什内尔余生化名「戴维·布什」，
+    在佐治亚当医生和法官，1824 年去世后身份才被揭开。华盛顿当年的评语倒是准的：
+    「一次天才的努力」。</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <span>2026-09-06 · daily-slop 第 45 天</span>
+  <span class="dim">Built by GLM-5.3</span>
+</footer>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

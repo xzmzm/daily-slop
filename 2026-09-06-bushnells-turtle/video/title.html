@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>bushnells-turtle · video card</title>
+  <style>
+    :root {
+      --paper: #f2edda;
+      --paper-deep: #e4ddc4;
+      --ink: #1c2430;
+      --ink-soft: #59616d;
+      --red: #a3282a;
+      --red-deep: #7e1f21;
+      --brass: #8a6b2f;
+      --brass-deep: #5f4718;
+      --sea: #16455c;
+      --sea-deep: #0d2438;
+      --night: #0b1b2c;
+      --gold: #c9a227;
+      --rule: #b3ac93;
+    }
+    * { box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; margin: 0; }
+    body {
+      overflow: hidden; color: var(--ink);
+      background:
+        radial-gradient(ellipse at 20% -10%, #faf7ea 0%, var(--paper) 55%, var(--paper-deep) 100%);
+      font-family: Georgia, "Iowan Old Style", "Songti SC", "STSong", "Hiragino Sans GB", serif;
+    }
+    .card {
+      position: relative; width: 100%; height: 100%;
+      display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 88px;
+      padding: 56px 84px;
+    }
+    .stage { position: relative; flex: none; }
+    .copy { max-width: 700px; }
+    .eyebrow {
+      color: var(--red-deep); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      letter-spacing: 3px; font-size: 14px; text-transform: uppercase; margin-bottom: 18px;
+    }
+    h1 { margin: 0; font-size: 80px; line-height: 1.02; letter-spacing: 1px; font-weight: 800; }
+    h1 .red { color: var(--red); }
+    h1 .cn {
+      display: block; font-size: 27px; font-weight: 600; letter-spacing: 0.55em; text-indent: 0.55em;
+      color: var(--ink-soft); margin-top: 16px;
+    }
+    h2 { margin: 24px 0 0; font-size: 23.5px; line-height: 1.58; font-weight: 500; color: #2c333d; max-width: 660px; }
+    h2 b { color: var(--brass-deep); }
+    .formula {
+      margin-top: 26px; color: var(--brass-deep);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 20px; letter-spacing: 0.5px;
+    }
+    .formula .num { color: var(--ink); }
+    .formula small { color: var(--ink-soft); font-size: 14px; display: block; margin-top: 7px; letter-spacing: .5px;
+      font-family: -apple-system, "Hiragino Sans GB", sans-serif; }
+    .meta { display: flex; align-items: center; gap: 12px; margin-top: 30px; color: var(--ink-soft); font-size: 15px; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--brass); box-shadow: 0 0 14px rgba(138,107,47,.55); }
+    .scene.end { display: none; }
+    body[data-scene="end"] .scene.intro { display: none; }
+    body[data-scene="end"] .scene.end { display: block; }
+  </style>
+</head>
+<body data-scene="intro">
+  <div class="card">
+    <div class="stage">
+      <svg viewBox="0 0 520 620" width="520" height="620" aria-hidden="true">
+        <defs>
+          <linearGradient id="river" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#123244"/>
+            <stop offset="100%" stop-color="#081724"/>
+          </linearGradient>
+          <radialGradient id="moon" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0%" stop-color="rgba(238,230,190,.95)"/>
+            <stop offset="45%" stop-color="rgba(238,230,190,.28)"/>
+            <stop offset="100%" stop-color="rgba(238,230,190,0)"/>
+          </radialGradient>
+        </defs>
+        <!-- the night panel -->
+        <rect x="10" y="10" width="500" height="600" rx="10" fill="#0a1626" stroke="#1c2430" stroke-width="2.5"/>
+        <!-- stars + moon -->
+        <g fill="rgba(232,228,208,.8)">
+          <circle cx="70" cy="52" r="1.4"/><circle cx="150" cy="34" r="1.1"/><circle cx="240" cy="60" r="1.5"/>
+          <circle cx="330" cy="40" r="1.2"/><circle cx="410" cy="70" r="1.4"/><circle cx="470" cy="36" r="1.1"/>
+        </g>
+        <circle cx="388" cy="96" r="58" fill="url(#moon)"/>
+        <circle cx="388" cy="96" r="21" fill="#e8e4d0"/>
+        <!-- skyline -->
+        <g fill="#0e1a24">
+          <rect x="10" y="176" width="42" height="54"/>
+          <rect x="60" y="150" width="30" height="80"/>
+          <rect x="98" y="190" width="46" height="40"/>
+          <rect x="152" y="132" width="34" height="98"/>
+          <rect x="194" y="176" width="40" height="54"/>
+          <rect x="242" y="158" width="28" height="72"/>
+          <rect x="278" y="186" width="44" height="44"/>
+        </g>
+        <!-- the river -->
+        <rect x="10" y="230" width="500" height="380" fill="url(#river)"/>
+        <line x1="10" y1="230" x2="510" y2="230" stroke="rgba(214,228,224,.5)" stroke-width="2"/>
+        <!-- tide arrows -->
+        <g stroke="rgba(150,205,225,.5)" stroke-width="2.4" fill="none">
+          <line x1="60" y1="286" x2="128" y2="286"/><path d="M128 286 l-8 -5 M128 286 l-8 5"/>
+          <line x1="330" y1="322" x2="398" y2="322"/><path d="M398 322 l-8 -5 M398 322 l-8 5"/>
+          <line x1="110" y1="520" x2="178" y2="520"/><path d="M178 520 l-8 -5 M178 520 l-8 5"/>
+          <line x1="300" y1="556" x2="368" y2="556"/><path d="M368 556 l-8 -5 M368 556 l-8 5"/>
+        </g>
+        <!-- the Eagle, anchored right -->
+        <g>
+          <path d="M 330 230 L 338 262 L 486 262 L 504 230 Z" fill="#0f1d29"/>
+          <g fill="#060d13">
+            <rect x="352" y="243" width="12" height="10"/><rect x="380" y="243" width="12" height="10"/>
+            <rect x="408" y="243" width="12" height="10"/><rect x="436" y="243" width="12" height="10"/>
+            <rect x="464" y="243" width="12" height="10"/>
+          </g>
+          <g stroke="#1a2a36" stroke-width="4">
+            <line x1="376" y1="230" x2="376" y2="128"/><line x1="430" y1="230" x2="430" y2="112"/><line x1="478" y1="230" x2="478" y2="132"/>
+          </g>
+          <g stroke="#1a2a36" stroke-width="3">
+            <line x1="346" y1="152" x2="406" y2="152"/><line x1="356" y1="186" x2="396" y2="186"/>
+            <line x1="400" y1="136" x2="460" y2="136"/><line x1="410" y1="170" x2="450" y2="170"/>
+          </g>
+          <circle cx="430" cy="106" r="3.2" fill="#e8d9a8"/>
+          <circle cx="430" cy="106" r="12" fill="rgba(232,217,168,.28)"/>
+          <text x="356" y="286" font-family="ui-monospace, Menlo, monospace" font-size="13" fill="rgba(233,238,226,.9)">HMS 鹰号</text>
+        </g>
+        <!-- the Turtle, drilling under the keel -->
+        <g>
+          <path d="M 396 262 L 504 262" stroke="rgba(233,238,226,.25)" stroke-width="1.5" stroke-dasharray="4 5"/>
+          <ellipse cx="300" cy="330" rx="27" ry="13" fill="#96744a" stroke="#241a10" stroke-width="2"/>
+          <g stroke="#39414b" stroke-width="2">
+            <line x1="286" y1="318" x2="286" y2="342"/><line x1="298" y1="317" x2="298" y2="343"/><line x1="310" y1="318" x2="310" y2="342"/>
+          </g>
+          <path d="M 300 317 a 8 8 0 0 1 0 -16" fill="none"/>
+          <circle cx="300" cy="304" r="8" fill="#a8874f" stroke="#241a10" stroke-width="1.6"/>
+          <line x1="327" y1="333" x2="337" y2="333" stroke="#c9a227" stroke-width="3"/>
+          <!-- the auger up to the keel -->
+          <line x1="300" y1="317" x2="300" y2="264" stroke="#c9a227" stroke-width="2.4"/>
+          <g stroke="rgba(224,161,62,.85)" fill="none">
+            <path d="M 294 268 a 6 6 0 0 0 12 0"/><path d="M 294 276 a 6 6 0 0 0 12 0"/><path d="M 294 284 a 6 6 0 0 0 12 0"/>
+          </g>
+          <!-- bubbles -->
+          <g fill="rgba(220,236,240,.5)">
+            <circle cx="272" cy="316" r="2"/><circle cx="264" cy="304" r="2.6"/><circle cx="268" cy="292" r="1.6"/>
+          </g>
+          <text x="252" y="366" font-family="ui-monospace, Menlo, monospace" font-size="13" fill="rgba(233,238,226,.85)">海龟号 · 1776</text>
+        </g>
+        <!-- HUD plate -->
+        <g font-family="ui-monospace, Menlo, monospace">
+          <rect x="40" y="410" width="330" height="86" rx="9" fill="rgba(8,15,24,.85)"/>
+          <text x="205" y="440" text-anchor="middle" font-size="13" fill="#9ab0bc">6–7 SEPTEMBER 1776 · EAST RIVER</text>
+          <text x="205" y="474" text-anchor="middle" font-size="30" font-weight="700" fill="#ffd98a">FIRST SUBMARINE ATTACK</text>
+        </g>
+        <text x="30" y="46" font-family="Georgia, serif" font-size="21" fill="#8d8776" font-style="italic">250 years tonight</text>
+        <text x="30" y="588" font-family="ui-monospace, Menlo, monospace" font-size="15" fill="#b7a97e">V_air = M/ρ − V_solids · t(3%) = 30 min @ 56 W</text>
+      </svg>
+    </div>
+
+    <div class="scene intro copy">
+      <div class="eyebrow">6 SEP 1776 · NEW YORK HARBOR · 250 YEARS TONIGHT</div>
+      <h1>Turtle <span class="red">1776</span><span class="cn">海龟号的第一夜</span></h1>
+      <h2>军士李钻进一只橡木桶，潜到英舰「鹰」号船底，想用木钻把一桶火药
+        拧上船壳——<b>人类第一次潜艇攻击</b>，也是手摇螺旋桨第一次下水。
+        钻不进去，火药照样在东河<b>炸起了冲天水柱</b>。</h2>
+      <div class="formula">V_air = M/ρ − V_solids <span class="num">· 802 L</span> &nbsp;·&nbsp; <span class="num">30 min @ 56 W</span>
+        <small>配平 2.74 t · 曲柄 1.2 mph · 潮流窗口 23:00 最后一格</small>
+      </div>
+      <div class="meta"><span class="dot"></span><span>2026-09-06 · daily-slop 第 45 天 · 潜艇物理工作室</span></div>
+    </div>
+
+    <div class="scene end copy">
+      <div class="eyebrow">2026-09-06 · DAILY-SLOP</div>
+      <h1>明天见<span class="red"> · 明天见</span></h1>
+      <h2>海龟一炮未响，却把四道题留给了此后每一个潜艇：<b>配平、功率、
+        空气、潮流</b>。八十八年后「亨利」号才第一次真正炸沉军舰——
+        也把自己沉了进去。</h2>
+      <div class="formula">「铁换空气，潮定生死」<span class="num">— 海龟号的第一夜</span>
+        <small>Built by GLM-5.3 · dailyslop.pages.dev</small>
+      </div>
+    </div>
+  </div>
+  <script>
+    const scene = new URLSearchParams(location.search).get("scene") || "intro";
+    document.body.dataset.scene = scene;
+    document.title = `bushnells-turtle · ${scene}`;
+  </script>
+</body>
+</html>
