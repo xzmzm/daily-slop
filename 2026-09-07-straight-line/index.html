@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>一条直线 1927 · 电子电视的第一张图</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="mast-rule"></div>
+  <h1>一条<span class="green">直线</span> 1927 <span class="cn">电子电视的第一张图</span></h1>
+  <p class="tagline">1927 年 9 月 7 日，旧金山绿街 202 号，21 岁的法恩斯沃斯把涂黑玻璃上的一道直线
+  变成电流、又在隔壁房间拼回图像，姐夫加德纳把玻璃片一转——人类第一张全电子电视图像动了。
+  距今九十九年。本届四个房间：把画犁成行的扫描器、行数平方的带宽定律、1953 年 3.579545 MHz
+  的兼容彩色折衷，和一条从尼普科夫圆盘到模拟关机的时间线。</p>
+  <div class="presets" id="presets"></div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button data-tab="scan" class="on">解剖一条直线</button>
+  <button data-tab="band">行数的平方</button>
+  <button data-tab="color">兼容彩色</button>
+  <button data-tab="ladder">时间线</button>
+</nav>
+
+<main>
+
+<!-- ── 1 · 解剖一条直线 ─────────────────────────────────────── -->
+<section id="tab-scan" class="tab on">
+  <div class="cols">
+    <div class="widecol">
+      <div class="stagebox crt-glow">
+        <canvas id="scan-canvas" width="1280" height="560"></canvas>
+      </div>
+      <div class="run-controls">
+        <div class="presets local" id="scan-presets"></div>
+        <label class="inline-slide">行数
+          <input type="range" id="s-lines" min="0" max="12" step="1" value="2">
+          <output id="o-lines">60</output>
+        </label>
+        <label class="inline-slide">帧率
+          <input type="range" id="s-fps" min="0" max="6" step="1" value="0">
+          <output id="o-fps">12.5</output>/s
+        </label>
+        <label class="checkline"><input type="checkbox" id="c-interlace"> 隔行</label>
+        <button id="btn-turn" class="ink-btn">转动玻璃片 90°</button>
+        <button id="btn-reset-scan" class="ink-btn ghost">重置</button>
+      </div>
+      <p class="caption" id="scan-status">左边是涂黑的玻璃片（ Bright 光源在后），中间是这一行的
+      复合信号，右边是萤光屏：像素逐行点亮、又按萤光余辉衰减。把行数从 30 拉到 525，
+      再点「转动玻璃片」——重演 1927 年 9 月 7 日那一晚。</p>
+    </div>
+
+    <div class="sidecol">
+      <div class="bigresult"><span class="v" id="scan-lines">60</span><span class="unit">扫描行</span>
+        <span class="sub" id="scan-kell">眼睛只拿到 42 行</span></div>
+      <div class="factrow">
+        <div class="fact"><div class="fact-n" id="fact-fline">750</div><div class="fact-l">行频 Hz</div></div>
+        <div class="fact"><div class="fact-n" id="fact-linems">1.33</div><div class="fact-l">行周期 ms</div></div>
+        <div class="fact"><div class="fact-n" id="fact-pxus">25.4</div><div class="fact-l">每像素 µs</div></div>
+      </div>
+      <div class="formula-card" id="scan-formula">…</div>
+      <div class="rxcard">
+        <div class="rx-title">犁沟即扫描线</div>
+        <p>1922 年，爱达荷州里格比，14 岁的法恩斯沃斯在马铃薯地里跟在犁后面试图走直线：
+        一垄一垄、往返覆盖整块田。他忽然明白电视也该这样干——不必一次传整幅画，
+        只需一行一行地「犁」过去。他把这套想法画在黑板上交给了化学老师托尔曼，
+        十三年后，这位老师在专利法庭上凭记忆重画了它。</p>
+      </div>
+    </div>
+  </div>
+  <div class="prose">
+    <h2 class="sec">为什么是一条直线</h2>
+    <p>1927 年 9 月 7 日晚，绿街 202 号阁楼。玻璃片涂黑、中间刻一道水平直线，强光从背后打透
+    「影像解剖管」（法恩斯沃斯自铸的名字：把图像解剖成一行行电流）。隔壁房间，接收机的萤光屏
+    亮起一条颤动的直线。然后姐夫加德纳把玻璃片转了 90°——屏上的线跟着立了起来。
+    法恩斯沃斯在工作日志里只写了一句：这次的线图清楚收到了。一条会跟着实物转动的线，
+    证明这不是静电，是<b>图像</b>。半个世纪后，电视机走进了几乎所有美国家庭。</p>
+  </div>
+</section>
+
+<!-- ── 2 · 行数的平方 ──────────────────────────────────────── -->
+<section id="tab-band" class="tab">
+  <div class="cols">
+    <div class="gridcol">
+      <div class="chartbox"><canvas id="band-chart" width="900" height="430"></canvas></div>
+      <div class="sliderstack">
+        <label>行数 <output id="o-bandlines">525</output> 行
+          <input type="range" id="s-bandlines" min="30" max="1125" step="1" value="525"></label>
+      </div>
+      <div class="presets local" id="band-presets"></div>
+      <p class="caption">对数-对数坐标。圆点是真实制式的<b>史载</b>视频带宽，× 是平衡定律算出的
+      下限，虚线是行数平方律。拖动行数，看每乘 2 倍行数，带宽翻 4 倍。</p>
+    </div>
+    <div class="gridcol">
+      <h2 class="sec">带宽是行数的平方</h2>
+      <div class="bigresult"><span class="v" id="band-b">4.27</span><span class="unit">MHz 平衡带宽</span>
+        <span class="sub" id="band-doc">史载 4.2 MHz</span></div>
+      <div class="factrow">
+        <div class="fact"><div class="fact-n">×4</div><div class="fact-l">行数×2 的代价</div></div>
+        <div class="fact"><div class="fact-n">9.2</div><div class="fact-l">kHz · 贝尔德 30 行</div></div>
+        <div class="fact"><div class="fact-n">148.5</div><div class="fact-l">MHz · 1080p60</div></div>
+      </div>
+      <div class="formula-card" id="band-formula">…</div>
+      <div class="crosscheck" id="band-crosscheck">…</div>
+      <div class="rxcard">
+        <div class="rx-title">机械的死路 · 尼普科夫圆盘</div>
+        <p>圆盘转一圈出一幅画，边缘线速度 v = πD·帧率；每个像素只亮一瞬。拨动盘径——
+        <span id="nipkow-read">…</span></p>
+        <label class="inline-slide">盘径
+          <input type="range" id="s-disk" min="0.3" max="2" step="0.05" value="1"> m
+        </label>
+        <p class="dim" style="font-size:13px;margin-top:8px">30 行 12.5 帧的邮票画还能转；
+        525 行时硒光电池要应付 82 纳秒一个像素——差三个数量级。电子束没有惯性，
+        这就是绿街那间阁楼赢的原因。</p>
+      </div>
+    </div>
+  </div>
+  <div class="prose">
+    <h2 class="sec">谁也逃不掉的平方</h2>
+    <p>贝尔德 30 行的整幅图像只有 9.2 kHz，塞进中波电台的声音频道就行；英国 405 行要 3 MHz；
+    美国 525 行 4.2 MHz，一个 VHF 频道 6 MHz 装下图像加声音；法国 819 行直接吃掉 10 MHz。
+    行数乘二，带宽乘四——因为竖直方向密一倍（多一倍的行），同时每行还要多容纳一倍的黑白竖线
+    （水平也密一倍）。这道平方律画出了整个频谱地图：VHF 六个频道、UHF 七十个，
+    全是从这条曲线上切出来的格子。数字电视的 1080p60 每秒要采样 2.2 亿个像素——
+    148.5 MHz，正好是它的曾曾祖父那条 9.2 kHz 的十六万倍。</p>
+  </div>
+</section>
+
+<!-- ── 3 · 兼容彩色 ────────────────────────────────────────── -->
+<section id="tab-color" class="tab">
+  <div class="cols">
+    <div class="gridcol">
+      <div class="chartbox"><canvas id="color-canvas" width="900" height="520"></canvas></div>
+      <div class="sliderstack">
+        <label>色调旋钮 <output id="o-tint">0</output>°
+          <input type="range" id="s-tint" min="0" max="360" step="1" value="0"></label>
+        <div class="btnrow">
+          <button id="btn-bw" class="ink-btn ghost">用 1950 年黑白机看</button>
+          <button id="btn-dots" class="ink-btn ghost">隔行抵消（关）</button>
+        </div>
+      </div>
+      <p class="caption">上：彩条与矢量示波器——转动「色调」，六个色矢量整体旋转，亮度阶梯纹丝不动。
+      下：副载波频率阶梯：227.5 个行频落在亮度频谱的梳齿之间，4.5 MHz 声音恰好是 286 个行频。</p>
+    </div>
+    <div class="gridcol">
+      <h2 class="sec">1953 年的折衷</h2>
+      <div class="bigresult"><span class="v">3.579545</span><span class="unit">MHz 副载波</span>
+        <span class="sub">= 227.5 × 行频 = 315/88 MHz（精确）</span></div>
+      <div class="factrow">
+        <div class="fact"><div class="fact-n">29.97</div><div class="fact-l">帧率（原 30）</div></div>
+        <div class="fact"><div class="fact-n">108</div><div class="fact-l">每小时丢的帧</div></div>
+        <div class="fact"><div class="fact-n">0.299</div><div class="fact-l">Y 里的红</div></div>
+      </div>
+      <div class="formula-card" id="color-formula">…</div>
+      <div class="rxcard">
+        <div class="rx-title">一台信号，两种电视机</div>
+        <p>彩色电视最大的难题不是发彩色，是<b>一亿台黑白机已经在了</b>。NTSC 的答案：
+        把亮度 Y 原样发出去（黑白机只看它），色度 I/Q 骑在一个精心挑选的副载波上——
+        227.5 个行周期，奇半整数：彩色点阵逐行反转、眼睛自动平均成灰；
+        声音 4.5 MHz 保持 286 个行周期（整数，安静）。代价：行频被拽下来 0.1%，
+        30 帧变 29.97，时码从此每小时丢 108 帧。</p>
+      </div>
+      <div class="chartbox tight"><canvas id="dot-canvas" width="620" height="170"></canvas></div>
+    </div>
+  </div>
+  <div class="prose">
+    <h2 class="sec">矢量示波器上的一圈</h2>
+    <p>彩条的颜色在 I/Q 平面上是一把摊开的扇子：白在正中央（I=Q=0，纯亮度），
+    黄橙红排在一边，青绿蓝紫排在另一边。电视机修理工不看画面，就看这把扇子——
+    拧「色调」旋钮是整把扇子的整体旋转，拧「饱和度」是离中心的远近。本页的旋钮只动色调：
+    注意亮度阶梯（黑白机看到的全部）自始至终一动不动。</p>
+  </div>
+</section>
+
+<!-- ── 4 · 时间线 ──────────────────────────────────────────── -->
+<section id="tab-ladder" class="tab">
+  <div class="chartbox"><svg id="ladder-chart" viewBox="0 0 1280 420" width="100%"></svg></div>
+  <div class="record-card" id="record-card">点一枚图钉，看那一年发生了什么。五角星是今晚的主角。</div>
+  <div class="prose">
+    <h2 class="sec">从圆盘到关机</h2>
+    <p>法恩斯沃斯赢了专利、输了钱包：RCA 用十年诉讼拖垮了他的公司，1939 年才低头取得授权——
+    这是那家「只收租」的公司唯一一次向外部发明人买许可。他后来转向聚变，晚年一度对电视节目
+    深感失望；1969 年和家人看登月直播时，他说：这一切都值了。
+    2009 年 6 月 12 日，美国模拟电视关机，525 行信号退役——距绿街那条直线，八十二年。</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <span>2026-09-07 · daily-slop 第 46 天</span>
+  <span class="dim">Built by GLM-5.3</span>
+</footer>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

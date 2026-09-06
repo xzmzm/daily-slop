@@ -1,0 +1,17 @@
+{
+  "output": "/Users/hm/prj/daily-slop/2026-09-07-straight-line/video/straight-line.mp4",
+  "provider": "Fish Audio REST API",
+  "model": "s2.1-pro-free",
+  "voice_id": "ae5adc6778ac459e8d6106b82f88fa2b",
+  "segment_durations": [
+    34.298776,
+    30.406531,
+    36.937143,
+    46.210612,
+    35.683265,
+    16.692245
+  ],
+  "video_duration": 203.028005,
+  "fps": 15,
+  "resolution": "1920x1080"
+}
