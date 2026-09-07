@@ -24,4 +24,4 @@ The paragraph-wide idea is inspired by [Knuth and Plass, “Breaking paragraphs 
 - Mobile preserves the requested typographic width in a horizontally scrollable sheet, while the surrounding layout stacks. Silently shrinking the text would make the width control dishonest.
 - The tests use exhaustive legal-break enumeration as an independent oracle. The fixed example [3, 2, 2, 5], space 1, width 6 scores 16 greedily and 10 optimally.
 - Video uses the existing cattery Fish renderer through a small project-module extension, preserving its voice settings and default command. Static frames with unchanged captions are hard-linked to avoid taking hundreds of identical screenshots.
-- The spoken opening follows the repository’s GLM 五点二 house narration rule. The app, gallery attribution, and narration’s project credit identify the actual builder as GPT-6 Astra.
+- The spoken opening and subtitles identify the builder as GPT-6 Astra, following the user’s correction to the older house narration template.
