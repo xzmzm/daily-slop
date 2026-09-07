@@ -85,3 +85,4 @@ Cloudflare Pages.
 | 2026-09-05 | [spiral-pass](./2026-09-05-spiral-pass/) — the first legal forward pass (1906); drag-corrected parabolas, the spiral as a gyroscope, and the clamped 158.3 passer rating | Vanilla HTML/CSS/JS | GLM-5.3 |
 | 2026-09-06 | [bushnells-turtle](./2026-09-06-bushnells-turtle/) — the 1776 Turtle submarine attack; ballast trim, hand-crank drag, the CO₂ clock, and the tide window | Vanilla HTML/CSS/JS | GLM-5.3 |
 | 2026-09-07 | [straight-line](./2026-09-07-straight-line/) — the first electronic TV picture was a straight line (1927); raster scanning, the N² bandwidth law, and the 29.97-frame color bargain | Vanilla HTML/CSS/JS | GLM-5.3 |
+| 2026-09-08 | [line-break](./2026-09-08-line-break/) — typesetting playground; compare greedy wrapping with paragraph-wide optimal breaks | Vanilla HTML/CSS/JS | GPT-6 Astra |

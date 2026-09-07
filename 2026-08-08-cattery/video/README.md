@@ -50,3 +50,13 @@ MP4 plus its matching `.srt` file. The cursor stays still during explanation
 and scrolling, and only makes short eased movements before real clicks; this
 avoids the unnatural long linear drifts from the first recording. The mother
 picker is held open for about 1.8 seconds so its choices are visible.
+
+## Reuse for a later daily project
+
+The Fish renderer accepts `--project-module path/to/render_video.py` plus
+`--output path/to/video.mp4`. The module supplies narration, subtitle writing,
+frame capture, assembly and timing helpers with the same interface as the
+cattery local renderer. The default cattery command and voice remain unchanged.
+See `2026-09-08-line-break/video/render_video.py` for an adapter that reuses
+cattery's caption, cursor and encoding helpers. Build directories are created
+beside the adapter and must be moved to Trash after verification.

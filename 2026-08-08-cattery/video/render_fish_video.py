@@ -9,6 +9,7 @@ The endpoint/model/voice settings mirror Fish Audio's REST TTS contract.
 from __future__ import annotations
 
 import argparse
+import importlib.util
 import json
 import os
 import subprocess
@@ -87,8 +88,7 @@ def make_fish_audio(work_dir: Path, api_key: str) -> tuple[Path, list[float]]:
             with urllib.request.urlopen(request, timeout=180) as response:
                 audio_bytes = response.read()
         except urllib.error.HTTPError as error:
-            details = error.read().decode("utf-8", errors="replace")
-            raise RuntimeError(f"Fish Audio request failed for segment {index}: {error.code} {details}") from error
+            raise RuntimeError(f"Fish Audio request failed for segment {index}: HTTP {error.code}") from None
         mp3.write_bytes(audio_bytes)
         run(["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", "-i", str(mp3),
              "-ar", "44100", "-ac", "1", "-c:a", "pcm_s16le", str(wav)])
@@ -120,15 +120,28 @@ def make_fish_audio(work_dir: Path, api_key: str) -> tuple[Path, list[float]]:
 
 
 def main() -> None:
+    global local
     parser = argparse.ArgumentParser()
-    parser.add_argument("--output", type=Path, default=VIDEO_DIR / "cattery-zh-fish.mp4")
+    parser.add_argument("--project-module", type=Path, help="Project-specific capture module implementing the local renderer interface")
+    parser.add_argument("--output", type=Path)
     args = parser.parse_args()
+    video_dir = VIDEO_DIR
+    if args.project_module:
+        module_path = args.project_module.resolve()
+        spec = importlib.util.spec_from_file_location("daily_video", module_path)
+        local = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(local)
+        video_dir = module_path.parent
+    if args.output is None:
+        args.output = video_dir / "cattery-zh-fish.mp4"
+    args.output = args.output.resolve()
+    args.output.parent.mkdir(parents=True, exist_ok=True)
     load_workspace_env()
     api_key = os.environ.get("FISH_AUDIO_API_KEY")
     if not api_key:
         raise SystemExit("Set FISH_AUDIO_API_KEY in the environment or workspace .env before running this script.")
 
-    work_dir = Path(tempfile.mkdtemp(prefix="cattery-fish-video-build-", dir=str(VIDEO_DIR)))
+    work_dir = Path(tempfile.mkdtemp(prefix="cattery-fish-video-build-", dir=str(video_dir)))
     print(f"work directory: {work_dir}")
     narration, durations = make_fish_audio(work_dir, api_key)
     subtitles = args.output.with_suffix(".srt")
