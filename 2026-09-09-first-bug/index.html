@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>First Bug (1947) · Harvard Mark II Relay Studio</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐛</text></svg>">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Header -->
+    <header class="studio-header">
+      <div class="header-content">
+        <div class="header-titles">
+          <div class="badge-row">
+            <span class="badge badge-primary">1947 HARVARD MARK II</span>
+            <span class="badge badge-accent">79TH ANNIVERSARY · 1947–2026</span>
+            <span class="badge badge-amber" id="machine-status-badge">PANEL F: CHECK OK</span>
+          </div>
+          <h1>First Bug <span class="h1-sub">1947 Aiken Relay Calculator & Relay #70</span></h1>
+          <p class="tagline">
+            At 15:45 on September 9, 1947, an actual moth halted the Harvard Mark II in Relay #70, Panel F.
+            Explore the electromechanical relay cross-section, contact bounce, dual check circuits, and the birth of "debugging".
+          </p>
+        </div>
+        <div class="header-actions">
+          <button id="btn-audio" class="btn btn-outline" title="Toggle audio sound effects">
+            <span id="audio-icon">🔊</span> <span id="audio-text">Audio: ON</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <nav class="studio-nav">
+        <button class="nav-tab active" data-tab="bench">
+          <span class="tab-num">1</span>
+          <span class="tab-label">Relay #70 Cross-Section</span>
+        </button>
+        <button class="nav-tab" data-tab="rack">
+          <span class="tab-num">2</span>
+          <span class="tab-label">Panel F Rack & Check</span>
+        </button>
+        <button class="nav-tab" data-tab="logic">
+          <span class="tab-num">3</span>
+          <span class="tab-label">Relay Logic & Adder</span>
+        </button>
+        <button class="nav-tab" data-tab="logbook">
+          <span class="tab-num">4</span>
+          <span class="tab-label">1947 Logbook & Timeline</span>
+        </button>
+      </nav>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="studio-main">
+      <!-- TAB 1: RELAY #70 BENCH -->
+      <section id="tab-bench" class="tab-pane active">
+        <div class="bench-layout">
+          <!-- Left: Relay Physical Visualizer -->
+          <div class="bench-visual-panel card">
+            <div class="panel-header">
+              <h3>Aiken High-Speed Multi-Contact Relay (Panel F, No. 70)</h3>
+              <div class="panel-actions">
+                <span class="status-pill" id="relay-state-pill">STATUS: RESTING</span>
+              </div>
+            </div>
+            
+            <div class="canvas-container">
+              <canvas id="relay-canvas" width="800" height="520"></canvas>
+              <!-- Tweezers Tool Overlay -->
+              <div id="tweezers-cursor" class="tweezers-overlay hidden">
+                <div class="tweezer-tip"></div>
+              </div>
+            </div>
+
+            <!-- Interactive Relay Controls -->
+            <div class="bench-controls-bar">
+              <div class="ctrl-group">
+                <button id="btn-power-coil" class="btn btn-primary">
+                  <span class="btn-icon">⚡</span> Power Coil (50V DC)
+                </button>
+                <button id="btn-pulse-coil" class="btn btn-secondary">
+                  Pulse 20ms
+                </button>
+              </div>
+
+              <div class="ctrl-group">
+                <button id="btn-toggle-moth" class="btn btn-warning">
+                  <span class="btn-icon">🥢</span> <span id="moth-btn-text">Extract Moth (镊子夹出)</span>
+                </button>
+                <button id="btn-snubber" class="btn btn-outline active">
+                  RC Snubber: ON
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Telemetry & Oscillograph -->
+          <div class="bench-data-panel">
+            <!-- Telemetry Gauges -->
+            <div class="card telemetry-card">
+              <h4>Real-time Telemetry</h4>
+              <div class="meter-grid">
+                <div class="meter-box">
+                  <span class="meter-label">Coil Voltage</span>
+                  <span class="meter-value" id="m-volt">0.0 <small>V</small></span>
+                  <div class="meter-bar"><div class="meter-fill" id="bar-volt" style="width: 0%"></div></div>
+                </div>
+                <div class="meter-box">
+                  <span class="meter-label">Coil Current (I)</span>
+                  <span class="meter-value" id="m-curr">0.0 <small>mA</small></span>
+                  <div class="meter-bar"><div class="meter-fill" id="bar-curr" style="width: 0%"></div></div>
+                </div>
+                <div class="meter-box">
+                  <span class="meter-label">Armature Travel (x)</span>
+                  <span class="meter-value" id="m-gap">0.00 <small>mm</small></span>
+                  <div class="meter-bar"><div class="meter-fill" id="bar-gap" style="width: 0%"></div></div>
+                </div>
+                <div class="meter-box">
+                  <span class="meter-label">Contact Resistance</span>
+                  <span class="meter-value val-danger" id="m-res">∞ <small>Ω</small></span>
+                  <div class="meter-status" id="m-contact-status">OPEN (AIR GAP)</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Oscillograph Display -->
+            <div class="card osc-card">
+              <div class="panel-header">
+                <h4>Contact Bounce & Current Oscillograph</h4>
+                <span class="osc-legend">
+                  <span class="legend-dot dot-yellow"></span> Current I(t)
+                  <span class="legend-dot dot-cyan"></span> Contact V_out
+                </span>
+              </div>
+              <canvas id="osc-canvas" width="400" height="180"></canvas>
+              <div class="osc-caption">
+                Clean silver contacts bounce 2–3 times over 1.2 ms before settling. A trapped moth stops travel at 0.62 mm, preventing closure entirely.
+              </div>
+            </div>
+
+            <!-- Physical Notes Card -->
+            <div class="card info-card">
+              <h4>Why Did the Moth Stop the Mark II?</h4>
+              <p>
+                The Harvard Mark II used 13,000 electromechanical relays running at 50V DC. When energized, magnetic flux pulls the armature with ~1.2 N force.
+                On September 9, 1947, a 2-inch moth entered Relay #70's contact gap. Its dry organic cuticle (thickness ~0.38 mm) halted the armature before the silver studs could touch, leaving an open circuit of &gt;100 MΩ.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: PANEL F RACK & HARDWARE CHECK -->
+      <section id="tab-rack" class="tab-pane">
+        <div class="rack-layout">
+          <!-- Top: Rack Relays Visual -->
+          <div class="card rack-panel">
+            <div class="panel-header">
+              <div>
+                <h3>Harvard Mark II · Panel F Arithmetic Register Bank</h3>
+                <p class="deck">Relays 64 through 71 forming the 8-bit accumulator register. Relay #70 controls Bit 6 (Value 64).</p>
+              </div>
+              <div class="alarm-box" id="rack-alarm-indicator">
+                <div class="alarm-lamp" id="alarm-lamp"></div>
+                <span id="alarm-text">CHECK CIRCUIT NORMAL</span>
+              </div>
+            </div>
+
+            <!-- Relays Bay -->
+            <div class="relay-rack-bay" id="relay-rack-bay">
+              <!-- Dynamically populated 8 relays -->
+            </div>
+          </div>
+
+          <!-- Bottom Grid: Testbench & Check Circuit -->
+          <div class="rack-grid">
+            <!-- Operand & Clock Controls -->
+            <div class="card">
+              <h4>Arithmetic Operations (125 ms Cycle)</h4>
+              <div class="form-row">
+                <label>Operand A (Decimal):</label>
+                <input type="number" id="input-op-a" min="0" max="255" value="65">
+                <span class="bin-repr" id="bin-op-a">01000001₂</span>
+              </div>
+              <div class="form-row">
+                <label>Operand B (Decimal):</label>
+                <input type="number" id="input-op-b" min="0" max="255" value="10">
+                <span class="bin-repr" id="bin-op-b">00001010₂</span>
+              </div>
+
+              <div class="preset-buttons">
+                <span class="preset-title">Historical Presets:</span>
+                <button class="btn btn-xs" id="preset-1947">1947 Bug Test (65 + 10 = 75)</button>
+                <button class="btn btn-xs" id="preset-clean">Low Bit Test (12 + 15 = 27)</button>
+                <button class="btn btn-xs" id="preset-ripple">Ripple Carry (127 + 1 = 128)</button>
+              </div>
+
+              <div class="action-row">
+                <button id="btn-clock-step" class="btn btn-primary">
+                  ▶ Single Clock Step (125 ms)
+                </button>
+                <button id="btn-clock-run" class="btn btn-outline">
+                  ⏱ Auto Run (8 Hz)
+                </button>
+                <button id="btn-rack-moth" class="btn btn-warning">
+                  Moth on Relay #70: ON
+                </button>
+              </div>
+            </div>
+
+            <!-- Dual Check Circuit Comparator -->
+            <div class="card">
+              <h4>Mark II Dual Checking Circuit</h4>
+              <div class="check-table">
+                <div class="check-row">
+                  <span>Expected True Arithmetic (A + B):</span>
+                  <strong id="chk-expected">75 (01001011₂)</strong>
+                </div>
+                <div class="check-row">
+                  <span>Computed by Panel F Relays:</span>
+                  <strong id="chk-computed">11 (00001011₂)</strong>
+                </div>
+                <div class="check-row error-row" id="chk-discrepancy-row">
+                  <span>Arithmetic Discrepancy:</span>
+                  <strong id="chk-discrepancy">-64 (Missing Bit 6)</strong>
+                </div>
+              </div>
+
+              <div class="trip-result-box" id="trip-result-box">
+                <div class="trip-icon" id="trip-icon">⚠️</div>
+                <div class="trip-details">
+                  <div class="trip-title" id="trip-title">HALT: FAULT DETECTED AT RELAY #70</div>
+                  <div class="trip-desc" id="trip-desc">
+                    Dual arithmetic comparator detected a discrepancy of 64 on Bit 6. Sequence halted at 15:45. Operator inspection required.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 3: RELAY LOGIC & ADDER -->
+      <section id="tab-logic" class="tab-pane">
+        <div class="logic-layout">
+          <!-- Gate Selector -->
+          <div class="card logic-picker-card">
+            <div class="panel-header">
+              <div>
+                <h3>How Relays Compute: Electromechanical Logic</h3>
+                <p class="deck">Before vacuum tubes and transistors, Boolean gates were built using normally-open (NO), normally-closed (NC), and Form-C changeover contacts.</p>
+              </div>
+              <div class="gate-tabs">
+                <button class="btn btn-sm active" data-gate="adder">1-Bit Full Adder</button>
+                <button class="btn btn-sm" data-gate="and">AND (Series NO)</button>
+                <button class="btn btn-sm" data-gate="or">OR (Parallel NO)</button>
+                <button class="btn btn-sm" data-gate="not">NOT (Invert NC)</button>
+                <button class="btn btn-sm" data-gate="xor">XOR (Form-C)</button>
+              </div>
+            </div>
+
+            <!-- Gate Schematic & Interactive Simulator -->
+            <div class="gate-stage">
+              <canvas id="gate-canvas" width="880" height="420"></canvas>
+            </div>
+
+            <!-- Gate Inputs & Truth Table -->
+            <div class="gate-controls-bar">
+              <div class="input-toggles" id="gate-inputs-container">
+                <!-- Dynamically populated based on active gate -->
+              </div>
+              <div class="gate-output-readout" id="gate-output-container">
+                <!-- Output indicators -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 4: 1947 LOGBOOK & TIMELINE -->
+      <section id="tab-logbook" class="tab-pane">
+        <div class="logbook-layout">
+          <!-- Left: The Historic 15:45 Logbook Page -->
+          <div class="card logbook-card">
+            <div class="logbook-sheet">
+              <div class="sheet-header">
+                <div class="sheet-title">NAVAL PROVING GROUND · DAHLGREN, VA. / HARVARD COMPUTATION LAB</div>
+                <div class="sheet-date">DATE: Tuesday, September 9, 1947</div>
+              </div>
+
+              <div class="sheet-entries">
+                <div class="entry-line">
+                  <span class="entry-time">0800</span>
+                  <span class="entry-text">Turned on Mark II. Aiken Relay Calculator in operation.</span>
+                </div>
+                <div class="entry-line">
+                  <span class="entry-time">1000</span>
+                  <span class="entry-text">Test of multiplier and adder with tape input.</span>
+                </div>
+                <div class="entry-line">
+                  <span class="entry-time">1100</span>
+                  <span class="entry-text">Started cosine sequence test.</span>
+                </div>
+                <div class="entry-line error-line">
+                  <span class="entry-time">1525</span>
+                  <span class="entry-text">Machine stopped. Discrepancy on Panel F check circuit.</span>
+                </div>
+                <div class="entry-line highlight-line">
+                  <span class="entry-time">1545</span>
+                  <span class="entry-text">Relay #70 Panel F (moth) in relay.</span>
+                </div>
+              </div>
+
+              <!-- The Preserved Taped Moth Graphic -->
+              <div class="taped-moth-artifact">
+                <div class="cellotape tape-top"></div>
+                <div class="moth-specimen">
+                  <div class="moth-art">
+                    <svg viewBox="0 0 100 80" width="120" height="96">
+                      <!-- Moth wings -->
+                      <ellipse cx="35" cy="40" rx="28" ry="16" fill="#8d7256" transform="rotate(-25 35 40)" opacity="0.9"/>
+                      <ellipse cx="65" cy="40" rx="28" ry="16" fill="#8d7256" transform="rotate(25 65 40)" opacity="0.9"/>
+                      <ellipse cx="32" cy="48" rx="18" ry="12" fill="#6d553e" transform="rotate(-15 32 48)" opacity="0.8"/>
+                      <ellipse cx="68" cy="48" rx="18" ry="12" fill="#6d553e" transform="rotate(15 68 48)" opacity="0.8"/>
+                      <!-- Body -->
+                      <ellipse cx="50" cy="42" rx="6" ry="18" fill="#3b2b1d"/>
+                      <!-- Head & Antennae -->
+                      <circle cx="50" cy="22" r="4.5" fill="#291e14"/>
+                      <path d="M 48 18 Q 40 10 32 12" stroke="#291e14" stroke-width="1.8" fill="none"/>
+                      <path d="M 52 18 Q 60 10 68 12" stroke="#291e14" stroke-width="1.8" fill="none"/>
+                    </svg>
+                  </div>
+                  <div class="handwritten-caption">
+                    "First actual case of bug being found."
+                  </div>
+                </div>
+                <div class="cellotape tape-bottom"></div>
+              </div>
+
+              <div class="sheet-footer">
+                <div class="entry-line">
+                  <span class="entry-time">1700</span>
+                  <span class="entry-text">Moth extracted by W.N. Burke. Calculator closed down for the night.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Historical Timeline & Smithsonian Details -->
+          <div class="timeline-container">
+            <div class="card">
+              <h4>Milestones of Computing & Debugging</h4>
+              <div class="timeline-stream" id="timeline-stream">
+                <!-- Dynamically populated from TIMELINE_EVENTS -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="studio-footer">
+      <div class="footer-left">
+        <span>Harvard Mark II Aiken Relay Calculator (1947) · Daily Build 2026-09-09</span>
+      </div>
+      <div class="footer-right">
+        <span class="model-tag">Built by Gemini 3.8 Flash</span>
+      </div>
+    </footer>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

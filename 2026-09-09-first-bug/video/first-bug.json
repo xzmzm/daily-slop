@@ -1,0 +1,16 @@
+{
+  "output": "/Users/hm/prj/daily-slop/2026-09-09-first-bug/video/first-bug.mp4",
+  "provider": "Fish Audio REST API",
+  "model": "s2.1-pro-free",
+  "voice_id": "ae5adc6778ac459e8d6106b82f88fa2b",
+  "segment_durations": [
+    32.914286,
+    33.358367,
+    30.902857,
+    25.861224,
+    24.398367
+  ],
+  "video_duration": 149.915011,
+  "fps": 15,
+  "resolution": "1920x1080"
+}
