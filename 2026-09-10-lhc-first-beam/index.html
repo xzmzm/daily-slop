@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LHC First Beam 2008 · 大型强子对撞机首束流实验室</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top-header">
+    <div class="header-left">
+      <div class="cern-badge">CERN CCC</div>
+      <div class="header-titles">
+        <h1>LHC FIRST BEAM 2008 · 首束流实验室</h1>
+        <p class="subtitle">纪念 2008 年 9 月 10 日大型强子对撞机 27 公里全环首次贯通 18 周年</p>
+      </div>
+    </div>
+    <div class="header-metrics">
+      <div class="metric-pill">
+        <span class="m-label">周长</span>
+        <span class="m-val">26,659 m</span>
+      </div>
+      <div class="metric-pill">
+        <span class="m-label">主偶极磁铁</span>
+        <span class="m-val">1,232 台</span>
+      </div>
+      <div class="metric-pill">
+        <span class="m-label">超流氦温</span>
+        <span class="m-val">1.9 K</span>
+      </div>
+      <div class="metric-pill">
+        <span class="m-label">每秒转数</span>
+        <span class="m-val">11,245 圈</span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="tab-nav">
+    <button class="nav-btn active" data-tab="threading" id="tab-btn-threading">
+      <span class="nav-num">1</span>
+      <span class="nav-txt">27 km 束流贯通</span>
+    </button>
+    <button class="nav-btn" data-tab="dipoles" id="tab-btn-dipoles">
+      <span class="nav-num">2</span>
+      <span class="nav-txt">超导磁体与相对论</span>
+    </button>
+    <button class="nav-btn" data-tab="bucket" id="tab-btn-bucket">
+      <span class="nav-num">3</span>
+      <span class="nav-txt">射频相空间与稳定桶</span>
+    </button>
+    <button class="nav-btn" data-tab="page1" id="tab-btn-page1">
+      <span class="nav-num">4</span>
+      <span class="nav-txt">控制大屏与历史</span>
+    </button>
+  </nav>
+
+  <main class="main-container">
+    <!-- ================= TAB 1: THREADING ================= -->
+    <section class="tab-pane active" id="pane-threading">
+      <div class="studio-grid">
+        <!-- Left: Ring Overview -->
+        <div class="card ring-card">
+          <div class="card-header">
+            <h2>27 公里主环全貌 (LHC Ring Sectors)</h2>
+            <div class="beam-toggle-group">
+              <button class="btn-toggle active" id="btn-beam-1" data-beam="1">Beam 1 (顺时针)</button>
+              <button class="btn-toggle" id="btn-beam-2" data-beam="2">Beam 2 (逆时针)</button>
+            </div>
+          </div>
+          <div class="ring-view-wrap">
+            <svg id="svg-ring" viewBox="0 0 600 600" class="ring-svg">
+              <!-- Background Ring Track -->
+              <circle cx="300" cy="300" r="230" class="ring-track-bg" />
+              <!-- 8 Sector Segments -->
+              <g id="ring-sectors"></g>
+              <!-- Beam Flight Trail -->
+              <path id="ring-beam-path" d="" class="ring-beam-line" />
+              <!-- Interaction Points & Caverns -->
+              <g id="ring-points"></g>
+              <!-- Beam Head Pulse -->
+              <circle id="ring-beam-head" cx="300" cy="300" r="6" class="ring-beam-head" />
+            </svg>
+            <div class="ring-overlay-legend">
+              <div class="legend-item"><span class="leg-color point-atlas"></span>Point 1: ATLAS</div>
+              <div class="legend-item"><span class="leg-color point-alice"></span>Point 2: ALICE / TI2 注入</div>
+              <div class="legend-item"><span class="leg-color point-rf"></span>Point 4: 400 MHz 射频腔</div>
+              <div class="legend-item"><span class="leg-color point-cms"></span>Point 5: CMS</div>
+              <div class="legend-item"><span class="leg-color point-dump"></span>Point 6: 束流倾卸 (Dump)</div>
+              <div class="legend-item"><span class="leg-color point-lhcb"></span>Point 8: LHCb / TI8 注入</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Screen & Alignment Instrumentation -->
+        <div class="card instr-card">
+          <div class="card-header">
+            <h2>束流诊断荧光屏 (Fluorescent Screen BTV)</h2>
+            <span class="badge" id="badge-sector-status">SECTOR 2-3 READY</span>
+          </div>
+
+          <div class="screen-box-wrap">
+            <div class="screen-canvas-container">
+              <canvas id="canvas-btv" width="340" height="340"></canvas>
+              <div class="screen-crosshair"></div>
+              <div class="screen-tolerance-ring"></div>
+            </div>
+            <div class="screen-readouts">
+              <div class="readout-row">
+                <span class="lbl">当前扇区:</span>
+                <span class="val highlight" id="lbl-sector-name">Sector 2-3 (Point 2 → 3)</span>
+              </div>
+              <div class="readout-row">
+                <span class="lbl">荧光监视靶:</span>
+                <span class="val" id="lbl-screen-name">BTV.3R2 (YAG:Ce)</span>
+              </div>
+              <div class="readout-row">
+                <span class="lbl">水平质心 X:</span>
+                <span class="val" id="lbl-spot-x">+2.18 mm</span>
+              </div>
+              <div class="readout-row">
+                <span class="lbl">垂直质心 Y:</span>
+                <span class="val" id="lbl-spot-y">+0.42 mm</span>
+              </div>
+              <div class="readout-row">
+                <span class="lbl">允许容差:</span>
+                <span class="val">± 1.00 mm</span>
+              </div>
+              <div class="readout-row">
+                <span class="lbl">对准状态:</span>
+                <span class="val status-tag" id="lbl-align-status">NEED ALIGNMENT</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Controls for Alignment -->
+          <div class="control-panel">
+            <div class="slider-group">
+              <div class="slider-header">
+                <label for="slider-corrector">水平校正偶极子磁场踢角 (Corrector Kick Δx'):</label>
+                <span class="slider-val" id="val-corrector">0.00 mrad</span>
+              </div>
+              <input type="range" id="slider-corrector" min="-1.5" max="1.5" step="0.02" value="0.0">
+            </div>
+
+            <div class="action-btn-row">
+              <button class="btn btn-secondary" id="btn-auto-align">一键校正磁场 (Auto Align)</button>
+              <button class="btn btn-primary" id="btn-advance-sector">抽出荧光屏并打入下一扇区 ➔</button>
+            </div>
+            <div class="action-btn-row secondary-row">
+              <button class="btn btn-outline" id="btn-reset-threading">重置首束流注入</button>
+              <button class="btn btn-outline" id="btn-toggle-circulation" disabled>启动连续回旋测试</button>
+            </div>
+          </div>
+
+          <!-- Historic Twin-Dots Celebration Card -->
+          <div class="twin-dots-card hidden" id="card-twin-dots">
+            <div class="twin-dots-header">
+              <span class="sparkle">★</span> 10:28 CEST: 束流贯通完成 (CIRCULATION ACHIEVED)
+            </div>
+            <p class="twin-dots-desc">
+              10 时 28 分，质子束流成功穿过全部八个扇区，环绕 26.66 公里后重返起点！两颗并排的绿色荧光点在屏幕上亮起，标志着人类有史以来最宏大的科学装置完成首圈闭合！
+            </p>
+            <div class="twin-dots-stats">
+              <div class="stat-item">
+                <span class="s-lbl">已运行圈数:</span>
+                <span class="s-val" id="lbl-turn-count">1</span>
+              </div>
+              <div class="stat-item">
+                <span class="s-lbl">单圈飞行耗时:</span>
+                <span class="s-val">88.92 μs</span>
+              </div>
+              <div class="stat-item">
+                <span class="s-lbl">每秒飞行路程:</span>
+                <span class="s-val">299,792 km</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TAB 2: DIPOLES & RELATIVITY ================= -->
+    <section class="tab-pane" id="pane-dipoles">
+      <div class="studio-grid">
+        <!-- Left: Relativistic Kinematics Bench -->
+        <div class="card">
+          <div class="card-header">
+            <h2>超高能质子相对论动力学 (Relativistic Drive)</h2>
+            <span class="badge badge-accent" id="badge-energy">450 GeV 注入</span>
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-header">
+              <label for="slider-energy">质子束流能量 (Beam Energy E):</label>
+              <span class="slider-val highlight-large" id="val-energy">450 GeV</span>
+            </div>
+            <input type="range" id="slider-energy" min="450" max="7000" step="50" value="450">
+            <div class="preset-pills">
+              <button class="pill-btn active" data-energy="450">450 GeV (SPS注入)</button>
+              <button class="pill-btn" data-energy="3500">3.5 TeV (2010首撞)</button>
+              <button class="pill-btn" data-energy="6500">6.5 TeV (Run 2)</button>
+              <button class="pill-btn" data-energy="7000">7.0 TeV (额定设计)</button>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-box">
+              <span class="sb-lbl">洛伦兹因子 γ</span>
+              <span class="sb-val" id="val-gamma">479.61</span>
+              <span class="sb-sub">γ = E / m_p c²</span>
+            </div>
+            <div class="stat-box">
+              <span class="sb-lbl">相对论速度 β (v/c)</span>
+              <span class="sb-val" id="val-beta">0.9999978</span>
+              <span class="sb-sub">√(1 - 1/γ²)</span>
+            </div>
+            <div class="stat-box">
+              <span class="sb-lbl">光速落后差额 (c - v)</span>
+              <span class="sb-val" id="val-deficit">652.8 m/s</span>
+              <span class="sb-sub">7 TeV 仅差 2.7 m/s</span>
+            </div>
+            <div class="stat-box">
+              <span class="sb-lbl">单圈公转周期 T_rev</span>
+              <span class="sb-val" id="val-trev">88.92 μs</span>
+              <span class="sb-sub">11,245.5 圈/秒</span>
+            </div>
+            <div class="stat-box">
+              <span class="sb-lbl">主偶极弯转磁场 B</span>
+              <span class="sb-val" id="val-bfield">0.535 T</span>
+              <span class="sb-sub">B = p / (0.29979 · ρ)</span>
+            </div>
+            <div class="stat-box">
+              <span class="sb-lbl">超导线圈励磁电流 I</span>
+              <span class="sb-val" id="val-current">761.8 A</span>
+              <span class="sb-sub">7 TeV 达 11,850 A</span>
+            </div>
+          </div>
+
+          <div class="formula-banner">
+            <code>B [T] = \frac{p [GeV/c]}{0.29979 \times \rho [m]} \quad (\rho = 2803.93 \text{ m})</code>
+            <p class="formula-explanation">
+              要将以 0.999999991 倍光速飞行的 7 TeV 质子弯转在 27 公里圆环内，1,232 台主偶极磁铁必须提供均匀的 8.33 特斯拉磁场。
+            </p>
+          </div>
+        </div>
+
+        <!-- Right: Superconducting Magnet Cutaway & 1.9 K Physics -->
+        <div class="card">
+          <div class="card-header">
+            <h2>双孔径超导主偶极磁铁截面 (1.9 K Superfluid He-II)</h2>
+            <span class="badge" id="badge-cryo">1.90 K SUPERFLUID</span>
+          </div>
+
+          <div class="magnet-cutaway-wrap">
+            <svg id="svg-magnet" viewBox="0 0 460 320" class="magnet-svg">
+              <!-- Outer Cryostat Vessel -->
+              <circle cx="230" cy="160" r="145" class="cryo-vessel" />
+              <!-- Thermal Shield -->
+              <circle cx="230" cy="160" r="132" class="thermal-shield" />
+              <!-- Cold Mass Yoke -->
+              <circle cx="230" cy="160" r="115" class="cold-yoke" />
+              <!-- Left Beam Bore (Beam 1) -->
+              <g class="bore-group" transform="translate(150, 160)">
+                <circle cx="0" cy="0" r="42" class="collar-outer" />
+                <circle cx="0" cy="0" r="32" class="sc-coil" />
+                <circle cx="0" cy="0" r="20" class="beam-pipe" />
+                <circle cx="0" cy="0" r="5" class="beam-spot spot-b1" />
+                <text x="0" y="5" class="bore-txt">V1</text>
+              </g>
+              <!-- Right Beam Bore (Beam 2) -->
+              <g class="bore-group" transform="translate(310, 160)">
+                <circle cx="0" cy="0" r="42" class="collar-outer" />
+                <circle cx="0" cy="0" r="32" class="sc-coil" />
+                <circle cx="0" cy="0" r="20" class="beam-pipe" />
+                <circle cx="0" cy="0" r="5" class="beam-spot spot-b2" />
+                <text x="0" y="5" class="bore-txt">V2</text>
+              </g>
+              <!-- Annotations -->
+              <text x="230" y="38" class="cryo-label">1.9 K 超流氦浴 (He II)</text>
+              <text x="230" y="300" class="cryo-label">直径 980 mm 奥氏体不锈钢真空外桶</text>
+            </svg>
+          </div>
+
+          <div class="cryo-control-block">
+            <div class="slider-group">
+              <div class="slider-header">
+                <label for="slider-temp">超导磁铁浴槽温度 (Cryo Bath Temperature):</label>
+                <span class="slider-val" id="val-temp">1.90 K</span>
+              </div>
+              <input type="range" id="slider-temp" min="1.5" max="5.0" step="0.05" value="1.9">
+            </div>
+            <div class="cryo-warning" id="cryo-status-box">
+              <span class="status-dot green"></span>
+              <span id="cryo-status-text">超流氦态稳定：临界磁场 13.88 T，高于工作磁场 8.33 T，安全裕度充足。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TAB 3: RF BUCKET ================= -->
+    <section class="tab-pane" id="pane-bucket">
+      <div class="studio-grid">
+        <!-- Left: RF Phase Space Canvas -->
+        <div class="card bucket-canvas-card">
+          <div class="card-header">
+            <h2>纵向相空间稳定桶 (RF Bucket & Separatrix)</h2>
+            <span class="badge badge-accent">Veksler-McMillan 相位稳定性</span>
+          </div>
+
+          <div class="canvas-phase-wrap">
+            <canvas id="canvas-rf" width="560" height="360"></canvas>
+            <div class="phase-axis-labels">
+              <span class="axis-x-lbl">RF 相位差 Δϕ (-π 到 +π)</span>
+              <span class="axis-y-lbl">相对能量偏差 ΔE / E</span>
+            </div>
+          </div>
+
+          <div class="bucket-legend">
+            <div class="leg-item"><span class="leg-line separatrix-line"></span>稳定桶分界线 (Separatrix)</div>
+            <div class="leg-item"><span class="leg-dot trapped-dot"></span>稳定俘获质子 (Trapped)</div>
+            <div class="leg-item"><span class="leg-dot lost-dot"></span>滑移丢失粒子 (Lost)</div>
+          </div>
+        </div>
+
+        <!-- Right: RF Controls & Parameters -->
+        <div class="card bucket-controls-card">
+          <div class="card-header">
+            <h2>射频加速腔参数 (400.789 MHz Superconducting Cavities)</h2>
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-header">
+              <label for="slider-vrf">射频腔峰值电压 (Peak Voltage V_RF):</label>
+              <span class="slider-val" id="val-vrf">6.0 MV</span>
+            </div>
+            <input type="range" id="slider-vrf" min="3.0" max="16.0" step="0.5" value="6.0">
+            <div class="preset-pills">
+              <button class="pill-btn active" data-vrf="6.0">6.0 MV (450 GeV 注入)</button>
+              <button class="pill-btn" data-vrf="10.0">10.0 MV (加速斜坡)</button>
+              <button class="pill-btn" data-vrf="16.0">16.0 MV (7 TeV 碰撞)</button>
+            </div>
+          </div>
+
+          <div class="action-btn-row">
+            <button class="btn btn-primary" id="btn-inject-spray">注入离散粒子束 (Inject Spray)</button>
+            <button class="btn btn-outline" id="btn-reset-bunch">重置聚束 (Reset Bunch)</button>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-box">
+              <span class="sb-lbl">RF 谐波数 h</span>
+              <span class="sb-val">35,640</span>
+              <span class="sb-sub">2³ · 3⁴ · 5 · 11</span>
+            </div>
+            <div class="stat-box">
+              <span class="sb-lbl">滑移因子 η</span>
+              <span class="sb-val" id="val-eta">3.18 × 10⁻⁴</span>
+              <span class="sb-sub">α_c - 1/γ² (恒大于 0)</span>
+            </div>
+            <div class="stat-box">
+              <span class="sb-lbl">稳定桶半高 ΔE_max</span>
+              <span class="sb-val" id="val-bucket-height">± 387 MeV</span>
+              <span class="sb-sub">能量接收度 δ_max</span>
+            </div>
+            <div class="stat-box">
+              <span class="sb-lbl">同步振荡频率 f_s</span>
+              <span class="sb-val" id="val-synch-freq">55.1 Hz</span>
+              <span class="sb-sub">Q_s = 0.0049</span>
+            </div>
+          </div>
+
+          <div class="physics-note">
+            <h3>为什么高能粒子跑得更“慢”？</h3>
+            <p>
+              在跃迁能量（$\gamma_{tr} \approx 55.7$）之上，质子接近光速（$\beta \approx 1$），再增加能量已几乎无法提高速度，反而使粒子轨迹向外扩张变长，导致公转周期变长。因此高能粒子到达射频腔反而“迟到”。Veksler-McMillan 原理使滞后粒子经历减速或更低电压，从而被自动拉回同步轨道！
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TAB 4: PAGE 1 & TIMELINE ================= -->
+    <section class="tab-pane" id="pane-page1">
+      <div class="studio-grid">
+        <!-- Left: Authentic LHC Page 1 -->
+        <div class="card page1-card">
+          <div class="page1-topbar">
+            <span class="p1-title">LHC Page1</span>
+            <span class="p1-fill">Fill: <strong id="lbl-fill-num">7108</strong></span>
+            <span class="p1-energy">E: <strong id="lbl-p1-energy">450 GeV</strong></span>
+            <span class="p1-clock" id="lbl-p1-clock">10-09-2008 10:28:00</span>
+          </div>
+
+          <div class="page1-status-banner" id="p1-beam-status">
+            INJECTION PROBE BEAM
+          </div>
+
+          <div class="page1-beams-grid">
+            <div class="beam-box b1-box">
+              <div class="bb-title">Beam 1 (Clockwise)</div>
+              <div class="bb-val" id="lbl-b1-intensity">1.15 × 10¹¹ p⁺</div>
+              <div class="bb-status" id="lbl-b1-circ">CIRCULATING (Turn #1)</div>
+            </div>
+            <div class="beam-box b2-box">
+              <div class="bb-title">Beam 2 (Counter-Clockwise)</div>
+              <div class="bb-val" id="lbl-b2-intensity">1.15 × 10¹¹ p⁺</div>
+              <div class="bb-status" id="lbl-b2-circ">INJECTION READY</div>
+            </div>
+          </div>
+
+          <!-- Machine Mode Switchers -->
+          <div class="p1-modes-bar">
+            <button class="p1-mode-btn active" data-mode="INJECTION PROBE BEAM">INJECTION</button>
+            <button class="p1-mode-btn" data-mode="PREPARE RAMP">PREPARE RAMP</button>
+            <button class="p1-mode-btn" data-mode="RAMPING">RAMPING</button>
+            <button class="p1-mode-btn" data-mode="FLAT TOP 7 TeV">FLAT TOP</button>
+            <button class="p1-mode-btn" data-mode="SQUEEZE β*">SQUEEZE</button>
+            <button class="p1-mode-btn" data-mode="STABLE BEAMS">STABLE BEAMS</button>
+          </div>
+
+          <!-- Luminosity Readouts for 4 Experiments -->
+          <div class="p1-lum-grid">
+            <div class="lum-card">
+              <div class="exp-name">ATLAS (Point 1)</div>
+              <div class="exp-lum" id="lum-atlas">1.01 × 10³⁴</div>
+              <div class="exp-unit">cm⁻² s⁻¹</div>
+            </div>
+            <div class="lum-card">
+              <div class="exp-name">CMS (Point 5)</div>
+              <div class="exp-lum" id="lum-cms">1.01 × 10³⁴</div>
+              <div class="exp-unit">cm⁻² s⁻¹</div>
+            </div>
+            <div class="lum-card">
+              <div class="exp-name">ALICE (Point 2)</div>
+              <div class="exp-lum" id="lum-alice">1.20 × 10³⁰</div>
+              <div class="exp-unit">cm⁻² s⁻¹</div>
+            </div>
+            <div class="lum-card">
+              <div class="exp-name">LHCb (Point 8)</div>
+              <div class="exp-lum" id="lum-lhcb">4.00 × 10³²</div>
+              <div class="exp-unit">cm⁻² s⁻¹</div>
+            </div>
+          </div>
+
+          <div class="p1-footer-bar">
+            <span class="p1-cryo-ok">CRYO: 8 SECTORS @ 1.9 K (OK)</span>
+            <span class="p1-vac-ok">VACUUM: 1.2 × 10⁻¹⁰ mbar</span>
+          </div>
+        </div>
+
+        <!-- Right: Collision Visualizer & Timeline -->
+        <div class="card timeline-card">
+          <div class="card-header">
+            <h2>对撞探测与历史纪事 (Event & Milestones)</h2>
+            <button class="btn btn-sm btn-primary" id="btn-fire-collision">模拟质子对撞 (Event)</button>
+          </div>
+
+          <div class="collision-view-wrap">
+            <canvas id="canvas-collision" width="380" height="220"></canvas>
+            <div class="collision-info" id="lbl-collision-info">
+              对撞产物: 候选希格斯玻色子事件 H → 4μ (四缪子金色通道)
+            </div>
+          </div>
+
+          <div class="timeline-container">
+            <div class="timeline-track">
+              <div class="tl-node" data-year="1984">
+                <div class="tl-dot"></div>
+                <div class="tl-year">1984</div>
+                <div class="tl-title">洛桑研讨会</div>
+                <div class="tl-desc">提出在 LEP 27 km 隧道内建造双环大型强子对撞机。</div>
+              </div>
+              <div class="tl-node" data-year="1994">
+                <div class="tl-dot"></div>
+                <div class="tl-year">1994</div>
+                <div class="tl-title">CERN 理事会批准</div>
+                <div class="tl-desc">正式立项批准 LHC 建造工程。</div>
+              </div>
+              <div class="tl-node active" data-year="2008-09-10">
+                <div class="tl-dot star">★</div>
+                <div class="tl-year">2008.09.10</div>
+                <div class="tl-title">首束流贯通</div>
+                <div class="tl-desc">10:28 束流 1 完成全环 26.66 km 贯通，双点荧光闪烁。</div>
+              </div>
+              <div class="tl-node" data-year="2008-09-19">
+                <div class="tl-dot"></div>
+                <div class="tl-year">2008.09.19</div>
+                <div class="tl-title">超导失超事故</div>
+                <div class="tl-desc">3-4 扇区母线接头电弧引发氦泄漏爆炸，停机大修 14 个月。</div>
+              </div>
+              <div class="tl-node" data-year="2012">
+                <div class="tl-dot"></div>
+                <div class="tl-year">2012.07.04</div>
+                <div class="tl-title">发现上帝粒子</div>
+                <div class="tl-desc">ATLAS 与 CMS 联合宣布发现 125 GeV 希格斯玻色子。</div>
+              </div>
+              <div class="tl-node" data-year="2026">
+                <div class="tl-dot"></div>
+                <div class="tl-year">2026</div>
+                <div class="tl-title">Run 3 与高亮度升级</div>
+                <div class="tl-desc">13.6 TeV 质心能量碰撞，迈向高亮度 HL-LHC 时代。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bottom-footer">
+    <span>Built by Gemini 3.8 Flash · 2026-09-10</span>
+    <span class="sep">|</span>
+    <span>CERN Large Hadron Collider First Beam Simulator</span>
+  </footer>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

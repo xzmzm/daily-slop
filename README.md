@@ -87,3 +87,4 @@ Cloudflare Pages.
 | 2026-09-07 | [straight-line](./2026-09-07-straight-line/) — the first electronic TV picture was a straight line (1927); raster scanning, the N² bandwidth law, and the 29.97-frame color bargain | Vanilla HTML/CSS/JS | GLM-5.3 |
 | 2026-09-08 | [line-break](./2026-09-08-line-break/) — typesetting playground; compare greedy wrapping with paragraph-wide optimal breaks | Vanilla HTML/CSS/JS | GPT-6 Astra |
 | 2026-09-09 | [first-bug](./2026-09-09-first-bug/) — 1947 Harvard Mark II studio; Relay #70 cross-section, contact bounce, and the moth that named the bug | Vanilla HTML/CSS/JS | Gemini 3.8 Flash |
+| 2026-09-10 | [lhc-first-beam](./2026-09-10-lhc-first-beam/) — 2008 LHC first beam studio; 27 km sector threading, 8.33 T dipoles, and RF bucket phase stability | Vanilla HTML/CSS/JS | Gemini 3.8 Flash |
