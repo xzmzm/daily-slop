@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stibitz Remote Console (1940) — Bell Labs CNC & The Dawn of Telecomputing</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Top Navigation / Header -->
+  <header class="app-header">
+    <div class="header-main">
+      <div class="header-titles">
+        <div class="badge-row">
+          <span class="badge badge-amber">11 SEPTEMBER 1940</span>
+          <span class="badge badge-cyan">BELL TELEPHONE LABORATORIES</span>
+          <span class="badge badge-green">MODEL I CNC</span>
+          <span class="badge badge-red">250-MILE TELEGRAPH LOOP</span>
+        </div>
+        <h1>STIBITZ REMOTE CONSOLE <span class="year">1940</span></h1>
+        <p class="tagline">The Bell Labs Complex Number Calculator &amp; The World's First Remote Computing Terminal</p>
+      </div>
+      <div class="header-controls">
+        <button id="soundToggleBtn" class="btn btn-outline" title="Toggle Mechanical Audio Synthesis">
+          <span id="soundIcon">🔊</span> <span id="soundStatus">AUDIO: ON</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs" role="tablist">
+      <button class="nav-tab active" data-tab="tab-network" role="tab" id="nav-network">
+        <span class="tab-num">01</span>
+        <span class="tab-label">250-MILE TELETYPE NETWORK</span>
+      </button>
+      <button class="nav-tab" data-tab="tab-excess3" role="tab" id="nav-excess3">
+        <span class="tab-num">02</span>
+        <span class="tab-label">EXCESS-3 RELAY LOGIC</span>
+      </button>
+      <button class="nav-tab" data-tab="tab-complex" role="tab" id="nav-complex">
+        <span class="tab-num">03</span>
+        <span class="tab-label">COMPLEX ALGEBRA &amp; ARGAND PLANE</span>
+      </button>
+      <button class="nav-tab" data-tab="tab-modelk" role="tab" id="nav-modelk">
+        <span class="tab-num">04</span>
+        <span class="tab-label">1937 "MODEL K" &amp; MILESTONES</span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- Main Workspace -->
+  <main class="main-content">
+
+    <!-- ==================== TAB 1: 250-Mile Teletype Network ==================== -->
+    <section id="tab-network" class="tab-pane active" role="tabpanel">
+      <div class="pane-grid network-grid">
+
+        <!-- Left: The Remote Teletype Terminal at Hanover, NH -->
+        <div class="card teletype-card">
+          <div class="card-header">
+            <div class="station-tag">
+              <span class="pulse-indicator"></span>
+              <strong>HANOVER, NH</strong> · McNUTT HALL (DARTMOUTH COLLEGE)
+            </div>
+            <span class="station-sub">MODEL 14 TELETYPE TELEPRINTER</span>
+          </div>
+
+          <!-- Teletype Roll / Platen Output -->
+          <div class="teletype-platen-wrapper">
+            <div class="platen-roller"></div>
+            <div class="paper-roll" id="teletypePaper">
+              <div class="paper-header">
+                === AMERICAN MATHEMATICAL SOCIETY SUMMER MEETING ===<br>
+                HANOVER, NH · SEPTEMBER 11, 1940<br>
+                DR. GEORGE R. STIBITZ DEMONSTRATION OF TELECOMPUTING<br>
+                CIRCUIT TO BELL LABS, 463 WEST ST, NEW YORK CITY<br>
+                ---------------------------------------------------
+              </div>
+              <div id="paperContent" class="paper-lines"></div>
+              <div class="paper-active-line">
+                <span id="typedBuffer" class="typed-text"></span><span class="type-cursor">█</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Terminal Input & Controls -->
+          <div class="teletype-controls">
+            <div class="input-row">
+              <input type="text" id="calcInput" class="vintage-input" placeholder="Type equation, e.g. (12+5i)*(8-3i)=" autocomplete="off" spellcheck="false">
+              <button id="sendTelegraphBtn" class="btn btn-primary">TRANSMIT (SEND)</button>
+            </div>
+
+            <!-- Historical Presets -->
+            <div class="preset-row">
+              <span class="preset-label">HISTORIC PRESETS:</span>
+              <button class="btn btn-preset" data-expr="(12 + 5i) * (8 - 3i) =">Wiener's Impedance</button>
+              <button class="btn btn-preset" data-expr="(15 + 20i) / (4 + 3i) =">Filter Ratio</button>
+              <button class="btn btn-preset" data-expr="(3.5 + 2.1i) * (4.2 - 1.8i) =">Stibitz Demo</button>
+              <button class="btn btn-preset" data-expr="(50 - 25i) / (5 + 10i) =">AC Phasor</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: The 250-Mile Transmission Line & Relay Status -->
+        <div class="card circuit-card">
+          <div class="card-header">
+            <div class="station-tag">
+              <span class="line-status-dot" id="lineStateDot"></span>
+              <strong>AT&amp;T TELEGRAPH LINE</strong> · 250 MILES OPEN WIRE
+            </div>
+            <span class="station-sub">60 mA NEUTRAL CURRENT LOOP</span>
+          </div>
+
+          <!-- Map & Repeater Route Visualizer -->
+          <div class="route-visualizer">
+            <div class="node-station start-station" id="nodeHanover">
+              <div class="node-icon">⌨️</div>
+              <div class="node-name">Hanover, NH</div>
+              <div class="node-detail">McNutt Hall</div>
+            </div>
+            <div class="wire-segment" id="wire1">
+              <div class="signal-packet" id="packet1"></div>
+            </div>
+            <div class="node-station repeater" id="nodeSpringfield">
+              <div class="node-icon">⚡</div>
+              <div class="node-name">Springfield</div>
+              <div class="node-detail">Repeater 1</div>
+            </div>
+            <div class="wire-segment" id="wire2">
+              <div class="signal-packet" id="packet2"></div>
+            </div>
+            <div class="node-station repeater" id="nodeHartford">
+              <div class="node-icon">⚡</div>
+              <div class="node-name">Hartford</div>
+              <div class="node-detail">Repeater 2</div>
+            </div>
+            <div class="wire-segment" id="wire3">
+              <div class="signal-packet" id="packet3"></div>
+            </div>
+            <div class="node-station repeater" id="nodeNewHaven">
+              <div class="node-icon">⚡</div>
+              <div class="node-name">New Haven</div>
+              <div class="node-detail">Repeater 3</div>
+            </div>
+            <div class="wire-segment" id="wire4">
+              <div class="signal-packet" id="packet4"></div>
+            </div>
+            <div class="node-station end-station" id="nodeNYC">
+              <div class="node-icon">🏢</div>
+              <div class="node-name">New York City</div>
+              <div class="node-detail">Bell Labs Rm 914</div>
+            </div>
+          </div>
+
+          <!-- Oscilloscope: 60mA Current Loop Waveform -->
+          <div class="scope-container">
+            <div class="scope-header">
+              <span>TELEGRAPH CURRENT LOOP OSCILLOSCOPE (60 mA)</span>
+              <span id="baudotCodeDisplay">CURRENT CHAR: IDLE</span>
+            </div>
+            <canvas id="scopeCanvas" width="560" height="110"></canvas>
+            <div class="scope-legend">
+              <span>SPACE (0 mA) = OPEN</span>
+              <span>MARK (60 mA) = CLOSED LOOP</span>
+              <span>BIT TIME: 22.0 ms (45.45 BAUD)</span>
+            </div>
+          </div>
+
+          <!-- Network Metrics & Status Cards -->
+          <div class="metrics-grid">
+            <div class="metric-box">
+              <span class="metric-title">PHYSICAL DISTANCE</span>
+              <span class="metric-val">250 mi</span>
+              <span class="metric-unit">402 km</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-title">EM WAVE SPEED</span>
+              <span class="metric-val">0.70 c</span>
+              <span class="metric-unit">~130,400 mi/s</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-title">ONE-WAY PROPAGATION</span>
+              <span class="metric-val" id="metricPropDelay">1.92 ms</span>
+              <span class="metric-unit">Speed of Light in Cu</span>
+            </div>
+            <div class="metric-box">
+              <span class="metric-title">REPEATER LATENCY</span>
+              <span class="metric-val">18.0 ms</span>
+              <span class="metric-unit">3 × Armature Transit</span>
+            </div>
+          </div>
+
+          <!-- Destination: Bell Labs CNC Rack Status -->
+          <div class="rack-summary">
+            <div class="rack-header">
+              <span>BELL LABS CNC ROOM 914 · STATUS MATRIX</span>
+              <span class="cnc-state-badge" id="cncStatusBadge">STANDBY / READY</span>
+            </div>
+            <div class="relay-led-bar" id="relayLedBar">
+              <!-- 16 simulated relay register LEDs -->
+            </div>
+            <div class="rack-detail-line" id="cncActionDetail">
+              Waiting for Baudot teletype transmission from Hanover...
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 2: Excess-3 Relay Logic ==================== -->
+    <section id="tab-excess3" class="tab-pane" role="tabpanel">
+      <div class="pane-grid excess3-grid">
+
+        <!-- Interactive 1-Digit Excess-3 Relay Bench -->
+        <div class="card adder-card">
+          <div class="card-header">
+            <div class="station-tag">
+              <span class="pulse-indicator"></span>
+              <strong>STIBITZ EXCESS-3 (XS-3) RELAY ARITHMETIC UNIT</strong>
+            </div>
+            <span class="station-sub">SELF-COMPLEMENTING BCD ARITHMETIC</span>
+          </div>
+
+          <div class="adder-controls">
+            <!-- Operand A -->
+            <div class="operand-block">
+              <label for="digitAInput">DIGIT A (0..9): <span id="valDigitA" class="highlight-val">7</span></label>
+              <input type="range" id="digitAInput" min="0" max="9" value="7" class="slider">
+              <div class="code-pill-row">
+                <span class="code-pill">Decimal: <b id="dispDecA">7</b></span>
+                <span class="code-pill">XS-3: <b id="dispXsA">10 (1010₂)</b></span>
+              </div>
+            </div>
+
+            <!-- Operator -->
+            <div class="operator-block">
+              <span class="op-label">OPERATION:</span>
+              <div class="btn-group">
+                <button class="btn btn-op active" id="opAddBtn" data-op="+">ADD (+)</button>
+                <button class="btn btn-op" id="opSubBtn" data-op="-">SUBTRACT (-)</button>
+              </div>
+              <label class="carry-toggle">
+                <input type="checkbox" id="carryInToggle"> Carry-in (Cin = 1)
+              </label>
+            </div>
+
+            <!-- Operand B -->
+            <div class="operand-block">
+              <label for="digitBInput">DIGIT B (0..9): <span id="valDigitB" class="highlight-val">8</span></label>
+              <input type="range" id="digitBInput" min="0" max="9" value="8" class="slider">
+              <div class="code-pill-row">
+                <span class="code-pill">Decimal: <b id="dispDecB">8</b></span>
+                <span class="code-pill">XS-3: <b id="dispXsB">11 (1011₂)</b></span>
+                <span class="code-pill" id="dispCompBPill" style="display:none;">9's Comp: <b id="dispCompB">1 (0100₂)</b></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Relay Ladder Circuit Visualization -->
+          <div class="relay-ladder-view">
+            <div class="ladder-title">4-BIT RELAY ARMATURE COILS &amp; CONTACT BUS</div>
+            <div class="ladder-coils" id="ladderCoilsContainer">
+              <!-- 4 relay pairs for Bit 3, 2, 1, 0 -->
+            </div>
+          </div>
+
+          <!-- Excess-3 Calculation Breakdown -->
+          <div class="arithmetic-breakdown">
+            <div class="breakdown-col">
+              <div class="step-title">STEP 1: RAW 4-BIT BINARY SUM</div>
+              <div class="step-math" id="step1Math">
+                (A + 3) + (B + 3) = (7 + 3) + (8 + 3) = 10 + 11 = 21 (Excess-6)
+              </div>
+              <div class="step-desc">
+                In 4-bit binary, 21 overflows: <b>Raw 4-bit = 5</b> (0101₂), <b>Carry Out Cout = 1</b>.
+              </div>
+            </div>
+
+            <div class="breakdown-col">
+              <div class="step-title">STEP 2: STIBITZ EXCESS CORRECTION</div>
+              <div class="step-math" id="step2Math">
+                Cout = 1 ⇒ Add +3 (0011₂): 5 + 3 = 8 (1000₂)
+              </div>
+              <div class="step-desc" id="step2Desc">
+                When sum ≥ 10, binary adder subtracted 16 instead of 10. Adding +3 restores Excess-3 representation!
+              </div>
+            </div>
+
+            <div class="breakdown-col result-col">
+              <div class="step-title">FINAL RESULT DIGIT</div>
+              <div class="step-math result-highlight" id="step3Math">
+                XS-3 Code: 8 (1000₂) ⇒ Decimal Digit: 5 (Carry: 1)
+              </div>
+              <div class="step-desc">
+                Combined result: <b>7 + 8 = 15</b>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Why Excess-3? The 9's Complement & Error Detection Theorem -->
+        <div class="card theory-card">
+          <div class="card-header">
+            <div class="station-tag">
+              <strong>STIBITZ'S EXCESS-3 THEOREM</strong>
+            </div>
+            <span class="station-sub">WHY 1930s BELL LABS REPLACED STANDARD BCD</span>
+          </div>
+
+          <div class="theory-body">
+            <div class="callout callout-amber">
+              <h4>1. Self-Complementing 9's Complement</h4>
+              <p>In standard 8421 BCD, 9's complement required complex multi-stage correction logic. In Stibitz XS-3, <strong>9's complement is literally bitwise NOT</strong>!</p>
+              <div class="formula-box">
+                ~XS3(D) = ~(D + 3) = 15 - (D + 3) = (9 - D) + 3 = XS3(9 - D)
+              </div>
+              <p>Stibitz simply swapped the normally-open (NO) and normally-closed (NC) relay contacts—zero extra relays required for decimal subtraction!</p>
+            </div>
+
+            <div class="callout callout-cyan">
+              <h4>2. Line Fault &amp; Wire-Break Detection</h4>
+              <p>In standard BCD, decimal <code>0</code> is encoded as <code>0000₂</code>. A broken wire or disconnected relay also yields <code>0000₂</code>, masking fatal hardware faults.</p>
+              <p>In Excess-3, decimal <code>0</code> is <code>0011₂</code>. The states <code>0000₂</code> and <code>1111₂</code> are completely invalid—any open circuit or stuck relay triggers an immediate hardware alarm!</p>
+            </div>
+
+            <!-- Live Table of All 10 Digits in XS-3 -->
+            <div class="table-container">
+              <table class="xs3-table">
+                <thead>
+                  <tr>
+                    <th>Dec</th>
+                    <th>8421 BCD</th>
+                    <th>Excess-3</th>
+                    <th>Bitwise NOT</th>
+                    <th>9's Comp</th>
+                  </tr>
+                </thead>
+                <tbody id="xs3TableBody">
+                  <!-- Generated dynamically in app.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== TAB 3: Complex Algebra & Argand Plane ==================== -->
+    <section id="tab-complex" class="tab-pane" role="tabpanel">
+      <div class="pane-grid complex-grid">
+
+        <!-- Complex Calculator Controls & Sequence -->
+        <div class="card cnc-engine-card">
+          <div class="card-header">
+            <div class="station-tag">
+              <span class="pulse-indicator"></span>
+              <strong>COMPLEX NUMBER CALCULATOR (MODEL I) ARITHMETIC ENGINE</strong>
+            </div>
+            <span class="station-sub">450 TELEPHONE RELAYS · 10 CROSSBAR SWITCHES</span>
+          </div>
+
+          <!-- Vector Inputs -->
+          <div class="complex-inputs-grid">
+            <!-- Operand Z1 -->
+            <div class="z-input-card">
+              <div class="z-title">OPERAND Z₁ = X₁ + i Y₁</div>
+              <div class="input-pair">
+                <label>Real X₁: <input type="number" id="z1Real" value="12" step="0.5" class="num-input"></label>
+                <label>Imag Y₁: <input type="number" id="z1Imag" value="5" step="0.5" class="num-input"></label>
+              </div>
+              <div class="polar-preview" id="z1PolarPreview">
+                r₁ = 13.00, θ₁ = 22.62°
+              </div>
+            </div>
+
+            <!-- Operator Select -->
+            <div class="op-select-card">
+              <span class="z-title">OPERATOR</span>
+              <div class="op-buttons-row">
+                <button class="btn btn-op-calc active" data-op="*">×</button>
+                <button class="btn btn-op-calc" data-op="/">÷</button>
+                <button class="btn btn-op-calc" data-op="+">+</button>
+                <button class="btn btn-op-calc" data-op="-">−</button>
+              </div>
+              <button id="calcExecuteBtn" class="btn btn-primary" style="margin-top: 10px; width: 100%;">
+                EXECUTE RELAYS
+              </button>
+            </div>
+
+            <!-- Operand Z2 -->
+            <div class="z-input-card">
+              <div class="z-title">OPERAND Z₂ = X₂ + i Y₂</div>
+              <div class="input-pair">
+                <label>Real X₂: <input type="number" id="z2Real" value="8" step="0.5" class="num-input"></label>
+                <label>Imag Y₂: <input type="number" id="z2Imag" value="-3" step="0.5" class="num-input"></label>
+              </div>
+              <div class="polar-preview" id="z2PolarPreview">
+                r₂ = 8.54, θ₂ = -20.56°
+              </div>
+            </div>
+          </div>
+
+          <!-- Sequence Step Runner / Relay Cycle Log -->
+          <div class="relay-cycle-box">
+            <div class="cycle-box-header">
+              <span>RELAY CONTACT SEQUENCE CYCLES</span>
+              <span id="cycleTimingBadge">ESTIMATED TIME: ~170 ms</span>
+            </div>
+            <div class="cycle-list" id="cycleListContainer">
+              <!-- Dynamically populated with relay cycles -->
+            </div>
+          </div>
+
+          <!-- Result Display -->
+          <div class="complex-result-banner">
+            <div class="res-tag">OUTPUT RESULT Z_out:</div>
+            <div class="res-val" id="complexResultVal">111 + 4i</div>
+            <div class="res-polar" id="complexResultPolar">Magnitude r = 111.07, Phase θ = 2.06°</div>
+          </div>
+        </div>
+
+        <!-- Argand Plane Phasor Display -->
+        <div class="card argand-card">
+          <div class="card-header">
+            <div class="station-tag">
+              <strong>ARGAND COMPLEX PLANE</strong> · LIVE PHASOR DIAGRAM
+            </div>
+            <span class="station-sub">POLAR FORM: r·e^(iθ)</span>
+          </div>
+
+          <div class="argand-canvas-wrapper">
+            <canvas id="argandCanvas" width="480" height="420"></canvas>
+          </div>
+
+          <div class="argand-legend">
+            <div class="legend-item"><span class="legend-color legend-z1"></span> <b>Z₁ (Blue)</b>: Input Phasor 1</div>
+            <div class="legend-item"><span class="legend-color legend-z2"></span> <b>Z₂ (Amber)</b>: Input Phasor 2</div>
+            <div class="legend-item"><span class="legend-color legend-zout"></span> <b>Z_out (Green)</b>: Product / Quotient</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== TAB 4: 1937 Model K & Timeline ==================== -->
+    <section id="tab-modelk" class="tab-pane" role="tabpanel">
+      <div class="pane-grid modelk-grid">
+
+        <!-- 1937 Kitchen Table Simulator -->
+        <div class="card kitchen-card">
+          <div class="card-header">
+            <div class="station-tag">
+              <span class="pulse-indicator"></span>
+              <strong>NOVEMBER 1937: THE "MODEL K" ON THE KITCHEN TABLE</strong>
+            </div>
+            <span class="station-sub">BOONTON, NEW JERSEY · GEORGE R. STIBITZ</span>
+          </div>
+
+          <div class="kitchen-body">
+            <p class="kitchen-intro">
+              In late autumn 1937, Bell Labs mathematician George Stibitz observed that telephone relays functioned as two-state Boolean devices. He brought home two surplus telephone relays, a dry cell battery, flashlight bulbs, and strips of a tin can cut with kitchen shears. That evening on his kitchen table, he assembled the world's first electromechanical binary 1-bit adder:
+            </p>
+
+            <div class="modelk-interactive-board">
+              <!-- Switch Controls -->
+              <div class="toggles-panel">
+                <div class="toggle-group">
+                  <span class="tin-label">TIN CAN SWITCH A:</span>
+                  <button class="btn btn-switch" id="toggleSwitchA">0 (OFF)</button>
+                </div>
+                <div class="toggle-group">
+                  <span class="tin-label">TIN CAN SWITCH B:</span>
+                  <button class="btn btn-switch" id="toggleSwitchB">0 (OFF)</button>
+                </div>
+                <div class="toggle-group">
+                  <span class="tin-label">CARRY IN SWITCH:</span>
+                  <button class="btn btn-switch" id="toggleSwitchCin">0 (OFF)</button>
+                </div>
+              </div>
+
+              <!-- Relay Coils & Light Bulbs -->
+              <div class="modelk-schematic">
+                <div class="relay-graphic" id="graphicRelayA">
+                  <div class="coil-cylinder">COIL A</div>
+                  <div class="armature-blade" id="armatureA">ARMATURE</div>
+                  <span class="relay-state-label" id="stateLabelA">RELAXED</span>
+                </div>
+
+                <div class="relay-graphic" id="graphicRelayB">
+                  <div class="coil-cylinder">COIL B</div>
+                  <div class="armature-blade" id="armatureB">ARMATURE</div>
+                  <span class="relay-state-label" id="stateLabelB">RELAXED</span>
+                </div>
+
+                <div class="bulbs-fixture">
+                  <div class="bulb-socket" id="socketSum">
+                    <div class="bulb-glass" id="bulbSum">💡</div>
+                    <div class="bulb-name">SUM (A ⊕ B ⊕ Cin)</div>
+                    <div class="bulb-status" id="statusSum">OFF (0)</div>
+                  </div>
+                  <div class="bulb-socket" id="socketCarry">
+                    <div class="bulb-glass" id="bulbCarry">💡</div>
+                    <div class="bulb-name">CARRY (A·B + Cin·(A⊕B))</div>
+                    <div class="bulb-status" id="statusCarry">OFF (0)</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="quote-card">
+              “I observed that relays were binary in nature... They were either open or closed. I asked myself whether relays could perform arithmetic. My wife and I called it the Model K, for kitchen table.”
+              <div class="quote-author">— Dr. George R. Stibitz (1904–1995)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Historical Timeline: 1937 - 1964 -->
+        <div class="card timeline-card">
+          <div class="card-header">
+            <div class="station-tag">
+              <strong>TELECOMPUTING &amp; RELAY COMPUTERS TIMELINE</strong>
+            </div>
+            <span class="station-sub">1937 – 1964</span>
+          </div>
+
+          <div class="timeline-container">
+            <div class="timeline-item">
+              <div class="timeline-year">NOV 1937</div>
+              <div class="timeline-content">
+                <h4>Model K Kitchen Table Adder</h4>
+                <p>George Stibitz builds 1-bit binary adder with 2 Bell relays, dry cells, flashlight bulbs, and cut tobacco tin can in Boonton, NJ.</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-year">FEB 1938</div>
+              <div class="timeline-content">
+                <h4>Bell Labs Research Memo</h4>
+                <p>Stibitz submits proposal to Bell Labs management demonstrating how telephone relay networks can solve complex number filter equations for carrier telephony.</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-year">NOV 1939</div>
+              <div class="timeline-content">
+                <h4>Complex Number Calculator (Model I) Completed</h4>
+                <p>Designed by Stibitz and engineered by Samuel B. Williams. 450 relays and 10 crossbar switches installed in Room 914, 463 West Street, Manhattan.</p>
+              </div>
+            </div>
+
+            <div class="timeline-item highlight-item">
+              <div class="timeline-year">11 SEP 1940 ★</div>
+              <div class="timeline-content">
+                <h4>Dartmouth College Demonstration (World First)</h4>
+                <p>At the AMS meeting in Hanover, NH, Stibitz connects a Model 14 Teletype over 250 miles of telegraph wire to the NYC calculator. Norbert Wiener and John von Neumann attend; remote computing is born.</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-year">1941–1945</div>
+              <div class="timeline-content">
+                <h4>Wartime Relay Computers (Model II, III, IV)</h4>
+                <p>Specialized relay computers developed for National Defense Research Committee (NDRC) to test the M-9 anti-aircraft gun director and fire control tables.</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-year">1946</div>
+              <div class="timeline-content">
+                <h4>Model V Relay Computer</h4>
+                <p>First general-purpose, fully programmable floating-point relay computer with dual processing units and paper tape CADET diagnostic system.</p>
+              </div>
+            </div>
+
+            <div class="timeline-item">
+              <div class="timeline-year">1964</div>
+              <div class="timeline-content">
+                <h4>Stibitz Joins Dartmouth Medical Faculty</h4>
+                <p>Dr. Stibitz returns to Dartmouth College as professor of physiology, pioneering computer modeling of renal physiology and pharmacokinetics.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="footer-inner">
+      <span>Built for the 86th Anniversary of the First Remote Computer Demonstration (11 September 1940)</span>
+      <span>Model attribution: <strong>Gemini 3.8 Flash</strong></span>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script type="module" src="app.js"></script>
+</body>
+</html>
