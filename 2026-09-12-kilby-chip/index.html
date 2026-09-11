@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kilby's Germanium Bar (1958) — The First Integrated Circuit Studio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-main">
+      <div class="header-titles">
+        <div class="badge-row">
+          <span class="badge badge-gold">12 SEPTEMBER 1958</span>
+          <span class="badge badge-blue">TEXAS INSTRUMENTS · DALLAS</span>
+          <span class="badge badge-green">FIRST WORKING IC</span>
+          <span class="badge badge-red">TYRANNY OF NUMBERS</span>
+        </div>
+        <h1>KILBY'S GERMANIUM BAR <span class="year">1958</span></h1>
+        <p class="tagline">One switch, one sine wave — how a lonely July idea ended the tyranny of numbers</p>
+      </div>
+      <div class="header-controls">
+        <button id="soundToggleBtn" class="btn btn-outline" title="Toggle the oscillator hum">
+          <span id="soundIcon">🔊</span> <span id="soundStatus">AUDIO: ON</span>
+        </button>
+      </div>
+    </div>
+
+    <nav class="nav-tabs" role="tablist">
+      <button class="nav-tab active" data-tab="tab-tyranny" role="tab" id="nav-tyranny">
+        <span class="tab-num">01</span>
+        <span class="tab-label">TYRANNY OF NUMBERS</span>
+      </button>
+      <button class="nav-tab" data-tab="tab-bar" role="tab" id="nav-bar">
+        <span class="tab-num">02</span>
+        <span class="tab-label">THE GERMANIUM BAR</span>
+      </button>
+      <button class="nav-tab" data-tab="tab-osc" role="tab" id="nav-osc">
+        <span class="tab-num">03</span>
+        <span class="tab-label">PHASE-SHIFT OSCILLATOR</span>
+      </button>
+      <button class="nav-tab" data-tab="tab-moore" role="tab" id="nav-moore">
+        <span class="tab-num">04</span>
+        <span class="tab-label">FLYING WIRES → MOORE'S LAW</span>
+      </button>
+    </nav>
+  </header>
+
+  <main class="app-main">
+
+    <!-- ======================= TAB 1: TYRANNY ======================= -->
+    <section class="tab-panel active" id="tab-tyranny">
+      <div class="panel-grid tyranny-grid">
+        <aside class="control-card">
+          <h2 class="card-title">Circuit Assembly Desk</h2>
+          <p class="card-blurb">Kilby's problem: every part costs two solder joints and a wire. Build a circuit, watch the work pile up.</p>
+          <div class="mode-toggle" role="group" aria-label="Assembly mode">
+            <button id="modeDiscrete" class="mode-btn active">DISCRETE 1958</button>
+            <button id="modeMono" class="mode-btn">MONOLITHIC</button>
+          </div>
+          <label class="slider-block">
+            <span class="slider-head"><span>Logic gates</span><span id="gatesReadout" class="mono">1,400</span></span>
+            <input type="range" id="gatesSlider" min="0" max="1000" value="425">
+          </label>
+          <div id="yearBlock" class="slider-block hidden">
+            <label class="slider-block">
+              <span class="slider-head"><span>Chip vintage</span><span id="yearReadout" class="mono">1966</span></span>
+              <input type="range" id="yearSlider" min="1958" max="2026" value="1966">
+            </label>
+            <p class="slider-note mono" id="perChipReadout">≈ 116 transistors per chip</p>
+          </div>
+          <div class="preset-col">
+            <p class="preset-label">Presets</p>
+            <button class="btn btn-preset" data-gates="1" data-year="1958">Kilby's oscillator (1 gate)</button>
+            <button class="btn btn-preset" data-gates="36" data-year="1957">Pocket radio (1957, 12 transistors)</button>
+            <button class="btn btn-preset" data-gates="5600" data-year="1966">Apollo AGC (1966, 5,600 gates)</button>
+            <button class="btn btn-preset" data-gates="776000" data-year="1993">Pentium logic (1993)</button>
+          </div>
+          <div class="eniac-note">
+            <p><strong>ENIAC reality check</strong> — 17,468 tubes, one failure every ~2 days. MTBF = 1/(N·λ).</p>
+          </div>
+        </aside>
+
+        <div class="board-card">
+          <div class="board-head">
+            <span class="board-title mono" id="boardTitle">ASSEMBLY BOARD — DISCRETE</span>
+            <span class="board-fill mono" id="boardFill">0%</span>
+          </div>
+          <canvas id="tyrannyBoard" width="1000" height="560"></canvas>
+        </div>
+
+        <aside class="stats-card">
+          <h2 class="card-title">The Numbers</h2>
+          <div class="stat-row"><span class="stat-label">Parts to place</span><span class="stat-value mono" id="statParts">—</span></div>
+          <div class="stat-row"><span class="stat-label">Solder joints</span><span class="stat-value mono hot" id="statJoints">—</span></div>
+          <div class="stat-row"><span class="stat-label">Hookup wires</span><span class="stat-value mono" id="statWires">—</span></div>
+          <div class="stat-row"><span class="stat-label">Board area</span><span class="stat-value mono" id="statArea">—</span></div>
+          <div class="stat-row"><span class="stat-label">Assembly time</span><span class="stat-value mono" id="statAssembly">—</span></div>
+          <div class="stat-row"><span class="stat-label">MTBF</span><span class="stat-value mono" id="statMtbf">—</span></div>
+          <div class="stat-footnote" id="statFootnote">Series reliability: MTBF = 1/(N·λ). Every joint is a chance to fail.</div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ======================= TAB 2: BAR ======================= -->
+    <section class="tab-panel" id="tab-bar">
+      <div class="panel-grid bar-grid">
+        <aside class="control-card">
+          <h2 class="card-title">Bar Controls</h2>
+          <p class="card-blurb">The whole circuit on one 7/16 × 1/16 in germanium bar. Tune the physics of its parts.</p>
+          <label class="slider-block">
+            <span class="slider-head"><span>Resistivity ρ</span><span id="rhoReadout" class="mono">12 Ω·cm</span></span>
+            <input type="range" id="rhoSlider" min="1" max="45" step="0.5" value="12">
+          </label>
+          <label class="slider-block">
+            <span class="slider-head"><span>Neck cross-section</span><span id="neckReadout" class="mono">0.9 × 0.4 mm</span></span>
+            <input type="range" id="neckSlider" min="10" max="100" value="36">
+          </label>
+          <label class="slider-block">
+            <span class="slider-head"><span>Junction area</span><span id="jareaReadout" class="mono">1.6 mm²</span></span>
+            <input type="range" id="jareaSlider" min="4" max="80" value="32">
+          </label>
+          <label class="slider-block">
+            <span class="slider-head"><span>Reverse bias V<sub>R</sub></span><span id="vrReadout" class="mono">2.0 V</span></span>
+            <input type="range" id="vrSlider" min="0" max="10" step="0.1" value="2">
+          </label>
+          <button id="sendToOscBtn" class="btn btn-primary">Use this R &amp; C in the oscillator →</button>
+        </aside>
+
+        <div class="bar-card">
+          <div class="board-head">
+            <span class="board-title mono">GERMANIUM BAR — CROSS SECTION</span>
+            <span class="board-scale mono">7/16 in × 1/16 in (11.1 × 1.6 mm)</span>
+          </div>
+          <svg id="barSvg" viewBox="0 0 1000 480" role="img" aria-label="Cross section of Kilby's germanium bar integrated circuit">
+            <!-- dimension line -->
+            <g class="dims">
+              <line x1="70" y1="440" x2="930" y2="440" class="dim-line"/>
+              <line x1="70" y1="430" x2="70" y2="450" class="dim-tick"/>
+              <line x1="930" y1="430" x2="930" y2="450" class="dim-tick"/>
+              <text x="500" y="468" class="dim-text" text-anchor="middle">7/16 in — one bar, one circuit</text>
+            </g>
+            <!-- terminal header posts -->
+            <g id="headerPosts"></g>
+            <!-- the bar -->
+            <g id="barBody">
+              <rect x="70" y="300" width="860" height="90" rx="6" class="ge-slab"/>
+              <text x="500" y="384" class="bar-label" text-anchor="middle" opacity="0.55">N-TYPE GERMANIUM</text>
+            </g>
+            <!-- clickable regions injected by app.js -->
+            <g id="barRegions"></g>
+            <!-- flying wires injected by app.js -->
+            <g id="flyingWires"></g>
+          </svg>
+        </div>
+
+        <aside class="info-card" id="barInfoCard">
+          <h2 class="card-title" id="barInfoTitle">Select a region</h2>
+          <div id="barInfoBody">
+            <p class="card-blurb">Click the transistor, a resistor neck, the junction capacitor, or a gold flying wire on the bar.</p>
+          </div>
+          <div class="derived-box">
+            <div class="derived-row"><span>Bar resistor R = ρL/A</span><span class="mono" id="derivedR">—</span></div>
+            <div class="derived-row"><span>Junction capacitor C = εA/W</span><span class="mono" id="derivedC">—</span></div>
+            <div class="derived-row"><span>Depletion width W</span><span class="mono" id="derivedW">—</span></div>
+            <div class="derived-row accent"><span>Oscillator f₀ = 1/(2πRC√6)</span><span class="mono" id="derivedF">—</span></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ======================= TAB 3: OSCILLATOR ======================= -->
+    <section class="tab-panel" id="tab-osc">
+      <div class="panel-grid osc-grid">
+        <aside class="control-card">
+          <h2 class="card-title">Bench Controls</h2>
+          <button id="powerBtn" class="power-switch off" aria-pressed="false">
+            <span class="power-label">POWER</span>
+            <span class="power-state">OFF</span>
+          </button>
+          <label class="slider-block">
+            <span class="slider-head"><span>Section resistance R</span><span id="oscrReadout" class="mono">4.7 kΩ</span></span>
+            <input type="range" id="oscrSlider" min="1000" max="10000" step="50" value="4700">
+          </label>
+          <label class="slider-block">
+            <span class="slider-head"><span>Section capacitance C</span><span id="osccReadout" class="mono">0.22 µF</span></span>
+            <input type="range" id="osccSlider" min="20" max="600" value="220">
+          </label>
+          <label class="slider-block">
+            <span class="slider-head"><span>Amplifier gain |A|</span><span id="osckReadout" class="mono">35</span></span>
+            <input type="range" id="osckSlider" min="24" max="60" step="0.5" value="35">
+          </label>
+          <div class="barkhausen">
+            <div class="bh-head"><span>LOOP GAIN |A|/29</span><span class="mono" id="bhRatio">1.21</span></div>
+            <div class="bh-bar"><div class="bh-fill" id="bhFill"></div><div class="bh-mark"></div></div>
+            <div class="bh-states">
+              <span id="bhState" class="bh-state warn">DECAYS — below Barkhausen</span>
+            </div>
+          </div>
+        </aside>
+
+        <div class="scope-card">
+          <div class="board-head">
+            <span class="board-title mono">OSCILLOSCOPE — V<sub>out</sub> (gold) / V<sub>base</sub> (cyan)</span>
+            <span class="board-scale mono" id="scopeTimebase">2.0 ms/div</span>
+          </div>
+          <canvas id="oscScope" width="1000" height="430"></canvas>
+          <div class="scope-readouts">
+            <div class="scope-ro"><span class="ro-label">f₀ = 1/(2πRC√6)</span><span class="ro-value mono" id="roTheory">627 Hz</span></div>
+            <div class="scope-ro"><span class="ro-label">measured f</span><span class="ro-value mono" id="roMeasured">— Hz</span></div>
+            <div class="scope-ro"><span class="ro-label">growth σ (theory / sim)</span><span class="ro-value mono" id="roSigma">—</span></div>
+            <div class="scope-ro"><span class="ro-label">loop phase</span><span class="ro-value mono">3 × 60° + 180° = 360°</span></div>
+          </div>
+        </div>
+
+        <aside class="phase-card">
+          <h2 class="card-title">Why It Oscillates</h2>
+          <svg id="phaseSvg" viewBox="0 0 320 300" role="img" aria-label="Phasor diagram of three 60 degree phase shifts"></svg>
+          <p class="card-blurb small" id="phaseBlurb">
+            Each RC section hands the signal 60° forward; three sections give 180°, the inverting amplifier
+            gives another 180°. The returning wave arrives in phase with itself — and if |A| ≥ 29, louder.
+          </p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ======================= TAB 4: MOORE ======================= -->
+    <section class="tab-panel" id="tab-moore">
+      <div class="panel-grid moore-grid">
+        <div class="vs-card">
+          <div class="vs-half">
+            <svg id="kilbyStack" viewBox="0 0 460 240"></svg>
+            <h3>KILBY 1958 — FLYING WIRES</h3>
+            <p>Every connection hand-soldered in gold wire above the bar. Works for one bar; hopeless for a million.</p>
+          </div>
+          <div class="vs-divider"></div>
+          <div class="vs-half">
+            <svg id="noyceStack" viewBox="0 0 460 240"></svg>
+            <h3>NOYCE 1961 — PLANAR METAL</h3>
+            <p>Hoerni's oxide seals the junctions <em>and</em> insulates. Aluminum traces cross over it freely. Every chip since is this idea.</p>
+          </div>
+        </div>
+
+        <div class="moore-card">
+          <div class="board-head">
+            <span class="board-title mono">TRANSISTORS PER CHIP 1958–2026 (LOG SCALE)</span>
+            <span class="board-scale mono">click any two points</span>
+          </div>
+          <canvas id="mooreCanvas" width="1300" height="520"></canvas>
+          <div class="doubling-box" id="doublingBox">
+            <span class="doubling-hint" id="doublingHint">Pick two anchor points to compute the implied doubling time.</span>
+          </div>
+        </div>
+
+        <div class="timeline-card">
+          <h2 class="card-title">Milestones</h2>
+          <div class="timeline-strip" id="timelineStrip"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="app-footer">
+    <span>Kilby's Germanium Bar — 68th anniversary of the first working integrated circuit (12 Sep 1958)</span>
+    <span class="mono">f₀ = 1/(2πRC√6) · |A| ≥ 29 · β = −1/29</span>
+  </footer>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
