@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RAMAC Disk File (1956) — The First Hard Drive Studio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-main">
+      <div class="header-titles">
+        <div class="badge-row">
+          <span class="badge badge-blue">SEPTEMBER 1956 · SAN JOSÉ</span>
+          <span class="badge badge-amber">70 YEARS OF THE HARD DRIVE</span>
+          <span class="badge badge-oxide">3.75 MEGABYTES · ONE TON</span>
+          <span class="badge badge-green">600 MS TO ANY RECORD</span>
+        </div>
+        <h1>RAMAC DISK FILE <span class="year">1956</span></h1>
+        <p class="tagline">Fifty 24-inch platters, one ton of iron oxide paint — the IBM 350 and the seventy-year sentence it started</p>
+      </div>
+      <div class="header-controls">
+        <div class="header-formula mono">100 × 100 × 500 = 5,000,000 characters</div>
+      </div>
+    </div>
+
+    <nav class="nav-tabs" role="tablist">
+      <button class="nav-tab active" data-tab="tab-stack" role="tab" id="nav-stack">
+        <span class="tab-num">01</span>
+        <span class="tab-label">THE DISK FILE</span>
+      </button>
+      <button class="nav-tab" data-tab="tab-race" role="tab" id="nav-race">
+        <span class="tab-num">02</span>
+        <span class="tab-label">600 MS VS 3 MINUTES</span>
+      </button>
+      <button class="nav-tab" data-tab="tab-track" role="tab" id="nav-track">
+        <span class="tab-num">03</span>
+        <span class="tab-label">ONE TRACK, CLOSE UP</span>
+      </button>
+      <button class="nav-tab" data-tab="tab-years" role="tab" id="nav-years">
+        <span class="tab-num">04</span>
+        <span class="tab-label">SEVENTY YEARS OF DENSITY</span>
+      </button>
+    </nav>
+  </header>
+
+  <main class="app-main">
+
+    <!-- ======================= TAB 1: THE STACK ======================= -->
+    <section class="tab-panel active" id="tab-stack">
+      <div class="panel-grid stack-grid">
+        <aside class="control-card">
+          <h2 class="card-title">Access Mechanism</h2>
+          <p class="card-blurb">One boom, two heads: it slides vertically to choose a surface, slides radially to choose a track. Pick an address and seek.</p>
+          <label class="slider-block">
+            <span class="slider-head"><span>Surface</span><span id="surfaceReadout" class="mono">01 / 100</span></span>
+            <input type="range" id="surfaceSlider" min="1" max="100" value="19">
+          </label>
+          <label class="slider-block">
+            <span class="slider-head"><span>Track</span><span id="trackReadout" class="mono">042 / 100</span></span>
+            <input type="range" id="trackSlider" min="1" max="100" value="42">
+          </label>
+          <label class="slider-block">
+            <span class="slider-head"><span>Record on track</span><span id="recordReadout" class="mono">1 / 5</span></span>
+            <input type="range" id="recordSlider" min="1" max="5" value="1">
+          </label>
+          <div class="button-row">
+            <button id="seekBtn" class="btn btn-primary">SEEK</button>
+            <button id="randomBtn" class="btn btn-outline">RANDOM ADDRESS</button>
+          </div>
+          <label class="check-block">
+            <input type="checkbox" id="slowmoCheck" checked>
+            <span>Slow motion ×10 — the real boom finishes in under a second</span>
+          </label>
+          <div class="spec-note">
+            <p><strong>IBM's documented totals</strong> — average access 600 ms, worst case 0.8 s, on any of 5 million characters.</p>
+          </div>
+        </aside>
+
+        <div class="stage-card">
+          <div class="board-head">
+            <span class="board-title mono">IBM 350 — FIFTY 24-IN PLATTERS AT 1,200 RPM</span>
+            <span class="board-scale mono" id="spinReadout">head: surface 19 · track 42</span>
+          </div>
+          <svg id="stackSvg" viewBox="0 0 1000 520" role="img" aria-label="Oblique view of the fifty platter stack with the access boom">
+            <g id="stackPlatters"></g>
+            <g id="stackBoom"></g>
+            <g id="stackLabels"></g>
+          </svg>
+          <div class="timing-strip" id="timingStrip">
+            <div class="timing-seg seg-settle"><span class="seg-name">SETTLE</span><span class="seg-val mono" id="segSettle">487 ms</span></div>
+            <div class="timing-seg seg-vert"><span class="seg-name">SURFACE Δ</span><span class="seg-val mono" id="segVert">— ms</span></div>
+            <div class="timing-seg seg-horiz"><span class="seg-name">TRACK Δ</span><span class="seg-val mono" id="segHoriz">— ms</span></div>
+            <div class="timing-seg seg-latency"><span class="seg-name">LATENCY</span><span class="seg-val mono" id="segLatency">— ms</span></div>
+            <div class="timing-total"><span class="seg-name">TOTAL</span><span class="seg-val mono" id="segTotal">— ms</span></div>
+          </div>
+        </div>
+
+        <aside class="stats-card">
+          <h2 class="card-title">Address Register</h2>
+          <div class="stat-row"><span class="stat-label">Character address</span><span class="stat-value mono" id="statAddress">—</span></div>
+          <div class="stat-row"><span class="stat-label">Record transfer</span><span class="stat-value mono" id="statTransfer">11.4 ms</span></div>
+          <div class="stat-row"><span class="stat-label">Records per 8-h day</span><span class="stat-value mono hot" id="statRpd">—</span></div>
+          <div class="stat-row"><span class="stat-label">Whole file</span><span class="stat-value mono" id="statFile">5,000,000 chars</span></div>
+          <div class="stat-row"><span class="stat-label">As punched cards</span><span class="stat-value mono" id="statCards">62,500 cards</span></div>
+          <div class="stat-row"><span class="stat-label">As IBM 727 tape</span><span class="stat-value mono" id="statTape">1.04 reels</span></div>
+          <div class="stat-row"><span class="stat-label">Lease (IBM never sold it)</span><span class="stat-value mono" id="statLease">unit $650/mo · 305 $3,200/mo</span></div>
+          <div class="stat-footnote">The unit alone weighed about a ton and crossed oceans in cargo planes.</div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ======================= TAB 2: THE RACE ======================= -->
+    <section class="tab-panel" id="tab-race">
+      <div class="panel-grid race-grid">
+        <aside class="control-card">
+          <h2 class="card-title">One Ledger Update</h2>
+          <p class="card-blurb">1956's other option: reels of tape that streamed <em>faster</em> than the disk but only in order. Fetch one 100-character record from a 5-million-character file.</p>
+          <label class="slider-block">
+            <span class="slider-head"><span>Updates per day</span><span id="updatesReadout" class="mono">2,000</span></span>
+            <input type="range" id="updatesSlider" min="1" max="6" step="1" value="3">
+          </label>
+          <button id="raceBtn" class="btn btn-primary">RUN THE FETCH</button>
+          <div class="ledger-note">
+            <p><strong>RAMAC</strong> = Random Access <em>Method of Accounting and Control</em> — the point was updating one account while the customer waited, not batch-processing overnight.</p>
+          </div>
+        </aside>
+
+        <div class="stage-card">
+          <div class="board-head">
+            <span class="board-title mono">TIME TO ONE RANDOM RECORD (LOG SCALE)</span>
+            <span class="board-scale mono">1953 tape · 1956 disk · 2026 flash</span>
+          </div>
+          <canvas id="raceCanvas" width="1000" height="470"></canvas>
+          <div class="race-readouts">
+            <div class="race-ro"><span class="ro-label">IBM 727 tape</span><span class="ro-value mono" id="roTape">192,000 ms</span></div>
+            <div class="race-ro"><span class="ro-label">IBM 350 RAMAC</span><span class="ro-value mono hot" id="roRamac">— ms</span></div>
+            <div class="race-ro"><span class="ro-label">NVMe 2026</span><span class="ro-value mono" id="roNvme">0.1 ms</span></div>
+            <div class="race-ro"><span class="ro-label">tape ÷ RAMAC</span><span class="ro-value mono" id="roRatio">—×</span></div>
+          </div>
+        </div>
+
+        <aside class="stats-card">
+          <h2 class="card-title">The Working Day</h2>
+          <div class="stat-row"><span class="stat-label">Updates requested</span><span class="stat-value mono" id="statUpdates">2,000</span></div>
+          <div class="stat-row"><span class="stat-label">On tape</span><span class="stat-value mono" id="statTapeDay">— h</span></div>
+          <div class="stat-row"><span class="stat-label">On RAMAC</span><span class="stat-value mono hot" id="statRamacDay">— h</span></div>
+          <div class="stat-row"><span class="stat-label">On NVMe</span><span class="stat-value mono" id="statNvmeDay">— h</span></div>
+          <div class="stat-row"><span class="stat-label">RAMAC ceiling</span><span class="stat-value mono" id="statCeiling">≈ 47,000/day</span></div>
+          <div class="stat-footnote">Tape reads half a reel on average: 2.88M characters streamed at 15,000 per second, just to find the entry.</div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ======================= TAB 3: ONE TRACK ======================= -->
+    <section class="tab-panel" id="tab-track">
+      <div class="panel-grid track-grid">
+        <aside class="control-card">
+          <h2 class="card-title">Keypunch</h2>
+          <p class="card-blurb">Type a record — up to 100 characters of A–Z, 0–9 and spaces. It is encoded in IBM's six-bit BCD, given a parity bit and a space bit, and laid down as eight cells per character.</p>
+          <label class="slider-block msg-block">
+            <span class="slider-head"><span>Record text</span><span id="msgCount" class="mono">24 / 100</span></span>
+            <textarea id="msgInput" rows="3" maxlength="100" spellcheck="false">RAMAC 350 DISK FILE IBM SAN JOSE 1956</textarea>
+          </label>
+          <p class="msg-warn hidden mono" id="msgWarn">↯ characters off the RAMAC keypunch were dropped</p>
+          <div class="derived-box">
+            <div class="derived-row"><span>Characters</span><span class="mono" id="dChars">—</span></div>
+            <div class="derived-row"><span>Bit cells (8 per char)</span><span class="mono" id="dCells">—</span></div>
+            <div class="derived-row"><span>Share of one track</span><span class="mono" id="dShare">—</span></div>
+            <div class="derived-row"><span>Time past the head</span><span class="mono" id="dTime">—</span></div>
+          </div>
+        </aside>
+
+        <div class="stage-card">
+          <div class="board-head">
+            <span class="board-title mono">UNROLLED TRACK — MAGNETISATION CELLS UNDER THE HEAD</span>
+            <span class="board-scale mono" id="trackScale">≈ 4,096× slow motion</span>
+          </div>
+          <canvas id="trackCanvas" width="1000" height="470"></canvas>
+          <div class="readback-box">
+            <span class="readback-label">READBACK BUFFER</span>
+            <span class="readback-text mono" id="readbackText"></span>
+          </div>
+        </div>
+
+        <aside class="stats-card">
+          <h2 class="card-title">Cell Geometry</h2>
+          <div class="stat-row"><span class="stat-label">Recorded band</span><span class="stat-value mono" id="gBand">— in radius</span></div>
+          <div class="stat-row"><span class="stat-label">Band width</span><span class="stat-value mono" id="gWidth">—</span></div>
+          <div class="stat-row"><span class="stat-label">Track pitch</span><span class="stat-value mono" id="gPitch">—</span></div>
+          <div class="stat-row"><span class="stat-label">Bit cell (innermost)</span><span class="stat-value mono hot" id="gCell">—</span></div>
+          <div class="stat-row"><span class="stat-label">Areal density</span><span class="stat-value mono">2,000 bit/in²</span></div>
+          <div class="stat-row"><span class="stat-label">One 1956 bit cell =</span><span class="stat-value mono" id="gModern">— 2024 cells</span></div>
+          <div class="stat-footnote">The band radii solve a quadratic: every track holds 4,000 cells, so the inner edge sets the areal density. Derived, not documented — see NOTES.</div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ======================= TAB 4: SEVENTY YEARS ======================= -->
+    <section class="tab-panel" id="tab-years">
+      <div class="panel-grid years-grid">
+        <aside class="control-card">
+          <h2 class="card-title">Scrub Seventy Years</h2>
+          <p class="card-blurb">Slide through the decades of magnetic recording. Both curves are built from documented anchor points only.</p>
+          <label class="slider-block">
+            <span class="slider-head"><span>Year</span><span id="yearReadout" class="mono">1956</span></span>
+            <input type="range" id="yearSlider" min="1956" max="2026" value="1956">
+          </label>
+          <div class="preset-col">
+            <p class="preset-label">Jump to</p>
+            <div class="preset-row" id="yearPresets"></div>
+          </div>
+          <div class="derived-box">
+            <div class="derived-row"><span>Areal density</span><span class="mono" id="yDensity">—</span></div>
+            <div class="derived-row"><span>Flagship drive</span><span class="mono" id="yCapacity">—</span></div>
+            <div class="derived-row"><span>Price per MB</span><span class="mono" id="yCost">—</span></div>
+            <div class="derived-row"><span>$100 buys</span><span class="mono" id="yHundred">—</span></div>
+            <div class="derived-row accent"><span>2 TB microSD ≈</span><span class="mono" id="yTranslate">—</span></div>
+          </div>
+          <div class="spec-note">
+            <p id="yDoubling">Density doubling time across the whole span: 2.25 years.</p>
+          </div>
+        </aside>
+
+        <div class="stage-card">
+          <div class="board-head">
+            <span class="board-title mono">DENSITY (BLUE) AND FLAGSHIP CAPACITY (AMBER), 1956–2026, LOG SCALE</span>
+            <span class="board-scale mono">dots are documented anchors</span>
+          </div>
+          <canvas id="yearsCanvas" width="1000" height="500"></canvas>
+        </div>
+
+        <div class="timeline-card">
+          <h2 class="card-title">Milestones</h2>
+          <div class="timeline-strip" id="timelineStrip"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="app-footer">
+    <span>RAMAC Disk File — the IBM 350, announced September 1956, seventy years ago</span>
+    <span class="mono">100×100×500 chars · 2,000 bit/in² · 600 ms · 8,800 char/s</span>
+  </footer>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

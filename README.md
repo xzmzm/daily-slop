@@ -90,3 +90,4 @@ Cloudflare Pages.
 | 2026-09-10 | [lhc-first-beam](./2026-09-10-lhc-first-beam/) — 2008 LHC first beam studio; 27 km sector threading, 8.33 T dipoles, and RF bucket phase stability | Vanilla HTML/CSS/JS | Gemini 3.8 Flash |
 | 2026-09-11 | [remote-console](./2026-09-11-remote-console/) — 1940 Stibitz telecomputing studio; 250-mile telegraph loop, Excess-3 relay logic, and complex arithmetic | Vanilla HTML/CSS/JS | Gemini 3.8 Flash |
 | 2026-09-12 | [kilby-chip](./2026-09-12-kilby-chip/) — Kilby's 1958 first-IC studio; the tyranny of numbers, one germanium bar, and the sine wave that started it all | Vanilla HTML/CSS/JS | GLM-5.3 |
+| 2026-09-13 | [ramac-disk](./2026-09-13-ramac-disk/) — the 1956 first hard drive studio; 600 ms to any of 5M characters, BCD bit cells, and 70 years of areal density | Vanilla HTML/CSS/JS | GLM-5.3 |
