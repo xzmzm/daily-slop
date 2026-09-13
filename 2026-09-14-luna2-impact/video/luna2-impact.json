@@ -1,0 +1,16 @@
+{
+  "output": "/Users/hm/prj/daily-slop/2026-09-14-luna2-impact/video/luna2-impact.mp4",
+  "provider": "Fish Audio REST API",
+  "model": "s2.1-pro-free",
+  "voice_id": "ae5adc6778ac459e8d6106b82f88fa2b",
+  "segment_durations": [
+    43.650612,
+    33.933061,
+    39.732245,
+    49.345306,
+    37.851429
+  ],
+  "video_duration": 206.991995,
+  "fps": 15,
+  "resolution": "1920x1080"
+}

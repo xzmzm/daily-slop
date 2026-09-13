@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Luna 2 (1959) — First Object on the Moon Studio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-main">
+      <div class="header-titles">
+        <div class="badge-row">
+          <span class="badge badge-red">12–14 SEPTEMBER 1959</span>
+          <span class="badge badge-blue">FIRST HUMAN-MADE OBJECT ON ANOTHER WORLD</span>
+          <span class="badge badge-amber">38 H 22 M OF BALLISTIC COAST</span>
+          <span class="badge badge-green">ARRIVAL PREDICTED WITHIN 84 S</span>
+        </div>
+        <h1>LUNA 2 <span class="year">1959</span></h1>
+        <p class="tagline">A 390-kg instrument sphere with no engine, thrown at the empty space ahead of the Moon — the night the first human-made mark landed on another world</p>
+      </div>
+      <div class="header-controls">
+        <div class="header-formula mono">v<sub>impact</sub> = √(v<sub>esc,☾</sub>² + v<sub>∞,☾</sub>²) = 3.33 km/s</div>
+      </div>
+    </div>
+
+    <nav class="nav-tabs" role="tablist">
+      <button class="nav-tab active" data-tab="tab-shot" role="tab" id="nav-shot">
+        <span class="tab-num">01</span>
+        <span class="tab-label">THE SHOT</span>
+      </button>
+      <button class="nav-tab" data-tab="tab-ascent" role="tab" id="nav-ascent">
+        <span class="tab-num">02</span>
+        <span class="tab-label">DIRECT ASCENT, 11.2 KM/S</span>
+      </button>
+      <button class="nav-tab" data-tab="tab-impact" role="tab" id="nav-impact">
+        <span class="tab-num">03</span>
+        <span class="tab-label">THE LAST HOUR</span>
+      </button>
+      <button class="nav-tab" data-tab="tab-comet" role="tab" id="nav-comet">
+        <span class="tab-num">04</span>
+        <span class="tab-label">THE ARTIFICIAL COMET</span>
+      </button>
+    </nav>
+  </header>
+
+  <main class="app-main">
+
+    <!-- ======================= TAB 1: THE SHOT ======================= -->
+    <section class="tab-panel active" id="tab-shot">
+      <div class="panel-grid shot-grid">
+        <aside class="control-card">
+          <h2 class="card-title">Translunar Shooting Range</h2>
+          <p class="card-blurb">The Moon is a moving target: it walks <em>21.1°</em> along its orbit while the probe coasts. You launch at empty space and let the Moon arrive. Set the injection and the timing.</p>
+          <label class="slider-block">
+            <span class="slider-head"><span>Hyperbolic excess v<sub>∞</sub></span><span id="vinfReadout" class="mono">1.65 km/s</span></span>
+            <input type="range" id="vinfSlider" min="1.0" max="2.2" step="0.01" value="1.65">
+          </label>
+          <label class="slider-block">
+            <span class="slider-head"><span>Launch timing error</span><span id="timingReadout" class="mono">on time</span></span>
+            <input type="range" id="timingSlider" min="-30000" max="30000" step="50" value="0">
+          </label>
+          <div class="button-row">
+            <button id="flyBtn" class="btn btn-primary">FLY THE 38 HOURS</button>
+          </div>
+          <div class="preset-col">
+            <p class="preset-label">Presets</p>
+            <div class="preset-row" id="shotPresets">
+              <button class="btn-preset active" data-vinf="1.65" data-timing="0">LUNA 2 · SEPT 1959</button>
+              <button class="btn-preset" data-vinf="1.65" data-timing="84">84 S LATE (STILL HITS)</button>
+              <button class="btn-preset" data-vinf="1.65" data-timing="6285">LUNA 1-SIZED MISS</button>
+            </div>
+          </div>
+          <div class="spec-note">
+            <p><strong>Radio Moscow announced the impact time in advance</strong> — the carrier tone stopped within <em>84 seconds</em> of it, after 38 hours of unpowered coasting.</p>
+          </div>
+        </aside>
+
+        <div class="stage-card">
+          <div class="board-head">
+            <span class="board-title mono">EARTH-CENTRED VIEW — CONIC PROPAGATED IN CLOSED FORM</span>
+            <span class="board-scale mono" id="shotScale">ticks every 6 h of coast</span>
+          </div>
+          <canvas id="shotCanvas" width="1000" height="540"></canvas>
+          <div class="verdict-strip" id="verdictStrip">
+            <span class="verdict-name mono" id="verdictName">AWAITING LAUNCH</span>
+            <span class="verdict-val mono" id="verdictVal">closest approach — km</span>
+          </div>
+        </div>
+
+        <aside class="stats-card">
+          <h2 class="card-title">Ballistics Card</h2>
+          <div class="stat-row"><span class="stat-label">Flight to lunar distance</span><span class="stat-value mono" id="stFlight">—</span></div>
+          <div class="stat-row"><span class="stat-label">Perigee speed (docs: 11.2)</span><span class="stat-value mono" id="stVp">—</span></div>
+          <div class="stat-row"><span class="stat-label">Moon lead at launch</span><span class="stat-value mono hot" id="stLead">—</span></div>
+          <div class="stat-row"><span class="stat-label">Closest approach</span><span class="stat-value mono hot" id="stMiss">—</span></div>
+          <div class="stat-row"><span class="stat-label">Timing slack from Moon's radius</span><span class="stat-value mono" id="stSlack">±1,698 s</span></div>
+          <div class="stat-row"><span class="stat-label">±1 m/s of injection costs</span><span class="stat-value mono" id="stSens">±13 km at the Moon</span></div>
+          <div class="stat-row"><span class="stat-label">Straight-line average</span><span class="stat-value mono" id="stAvg">2.78 km/s</span></div>
+          <div class="stat-footnote">Luna 1 missed by 5,995 km in January — about 1 h 45 m of equivalent timing error. The spent third stage followed ~30 min behind Luna 2; nobody knows where it hit.</div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ======================= TAB 2: DIRECT ASCENT ======================= -->
+    <section class="tab-panel" id="tab-ascent">
+      <div class="panel-grid ascent-grid">
+        <aside class="control-card">
+          <h2 class="card-title">The 11.2 km/s Question</h2>
+          <p class="card-blurb">The 8K72's third stage could not restart, so there was no parking orbit: the stack climbed <em>straight out</em> and the whole 38-hour flight was decided in the final seconds of one burn. Pick the injection speed.</p>
+          <label class="slider-block">
+            <span class="slider-head"><span>Perigee speed at 200 km</span><span id="vpReadout" class="mono">11.14 km/s</span></span>
+            <input type="range" id="vpSlider" min="10.90" max="11.40" step="0.005" value="11.137">
+          </label>
+          <div class="preset-col">
+            <p class="preset-label">Jump to</p>
+            <div class="preset-row" id="ascentPresets">
+              <button class="btn-preset" data-vp="10.917">HOHMANN · 119 H</button>
+              <button class="btn-preset" data-vp="11.0146">ESCAPE · 51 H</button>
+              <button class="btn-preset active" data-vp="11.137">LUNA 2 · 38 H</button>
+              <button class="btn-preset" data-vp="11.35">HOT AND FAST · ~30 H</button>
+            </div>
+          </div>
+          <div class="derived-box">
+            <div class="derived-row"><span>Trajectory type</span><span class="mono" id="acType">hyperbola</span></div>
+            <div class="derived-row"><span>Eccentricity e</span><span class="mono" id="acEcc">—</span></div>
+            <div class="derived-row"><span>v<sub>∞</sub> / apogee</span><span class="mono" id="acApo">—</span></div>
+            <div class="derived-row accent"><span>Flight to the Moon</span><span class="mono" id="acTime">—</span></div>
+          </div>
+          <div class="spec-note">
+            <p><strong>Baikonur, 45.965° N</strong> — launching east, the spinning Earth hands the rocket <em>0.323 km/s</em> for free. Luna 2 itself: 390.2 kg, no engine, no fuel — a thrown stone with instruments.</p>
+          </div>
+        </aside>
+
+        <div class="stage-card">
+          <div class="board-head">
+            <span class="board-title mono">TIME TO REACH 384,400 KM vs INJECTION SPEED</span>
+            <span class="board-scale mono">three conics, one Kepler solver</span>
+          </div>
+          <canvas id="ascentCanvas" width="1000" height="520"></canvas>
+          <div class="budget-strip">
+            <div class="budget-row"><span class="budget-label">geocentric injection needed</span><span class="budget-bar"><i id="barIdeal" style="--w:100%"></i><b id="barIdealVal" class="mono">11.14 km/s</b></span></div>
+            <div class="budget-row"><span class="budget-label">Earth rotation, free</span><span class="budget-bar"><i id="barSpin" class="spin" style="--w:2.9%"></i><b id="barSpinVal" class="mono">0.32</b></span></div>
+          </div>
+        </div>
+
+        <aside class="stats-card">
+          <h2 class="card-title">Why Direct Ascent</h2>
+          <div class="stat-row"><span class="stat-label">Third stage</span><span class="stat-value mono">B1-E, no restart</span></div>
+          <div class="stat-row"><span class="stat-label">Parking orbit</span><span class="stat-value mono">none</span></div>
+          <div class="stat-row"><span class="stat-label">Launch window</span><span class="stat-value mono">Moon crossing the flight plane</span></div>
+          <div class="stat-row"><span class="stat-label">Course corrections en route</span><span class="stat-value mono">impossible</span></div>
+          <div class="stat-row"><span class="stat-label">Hohmann would take</span><span class="stat-value mono" id="stHoh">119.5 h = 5 days</span></div>
+          <div class="stat-row"><span class="stat-label">Documented injection</span><span class="stat-value mono">≈11.2 km/s</span></div>
+          <div class="stat-footnote">Five days was beyond the batteries of 1959 — Luna 2's silver-zinc cells were rated for roughly two days. The extra ~0.2 km/s over Hohmann bought the mission its lifetime.</div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ======================= TAB 3: THE LAST HOUR ======================= -->
+    <section class="tab-panel" id="tab-impact">
+      <div class="panel-grid impact-grid">
+        <aside class="control-card">
+          <h2 class="card-title">Falling Onto the Moon</h2>
+          <p class="card-blurb">At lunar distance the probe crosses the Moon's orbit at <em>2.19 km/s</em>, nearly radially, while the Moon runs at <em>1.02 km/s</em>. The vector difference is what the Moon's gravity turns into impact speed. Rotate the encounter.</p>
+          <label class="slider-block">
+            <span class="slider-head"><span>Angle between velocities</span><span id="phiReadout" class="mono">85°</span></span>
+            <input type="range" id="phiSlider" min="30" max="150" step="0.5" value="85">
+          </label>
+          <button id="impactBtn" class="btn btn-primary">REPLAY THE FINAL HOUR</button>
+          <div class="derived-box">
+            <div class="derived-row"><span>v<sub>∞</sub> w.r.t. the Moon</span><span class="mono" id="imVinf">2.34 km/s</span></div>
+            <div class="derived-row"><span>+ Moon escape speed</span><span class="mono">√(2.375² + v<sub>∞</sub>²)</span></div>
+            <div class="derived-row accent"><span>Impact speed</span><span class="mono" id="imVimp">3.33 km/s</span></div>
+            <div class="derived-row"><span>Impact energy</span><span class="mono" id="imEnergy">2.16 GJ = 0.52 t TNT</span></div>
+          </div>
+          <div class="spec-note">
+            <p><strong>Two titanium spheres</strong>, each tiled with 72 pentagonal shields stamped СССР СЕНТЯБРЬ 1959 and packed with explosive, were meant to shatter and scatter <em>144 engraved pennants</em> across Mare Imbrium. Khrushchev handed Eisenhower a replica at Camp David two weeks later.</p>
+          </div>
+        </aside>
+
+        <div class="stage-card">
+          <div class="board-head">
+            <span class="board-title mono">PATCHED CONIC AT THE MOON — AND THE MAGNETOMETER'S VERDICT</span>
+            <span class="board-scale mono">field in gamma (nT), log scale</span>
+          </div>
+          <canvas id="impactCanvas" width="1000" height="540"></canvas>
+          <div class="race-readouts">
+            <div class="race-ro"><span class="ro-label">FLUXGATE RANGE</span><span class="ro-value mono">±750 γ</span></div>
+            <div class="race-ro"><span class="ro-label">TELEMETRY QUANTUM</span><span class="ro-value mono">±12 γ</span></div>
+            <div class="race-ro"><span class="ro-label">LUNAR FIELD BOUND</span><span class="ro-value mono hot">&lt; 20–30 γ</span></div>
+            <div class="race-ro"><span class="ro-label">RADIATION BELT AT MOON</span><span class="ro-value mono hot">none found</span></div>
+          </div>
+        </div>
+
+        <aside class="stats-card">
+          <h2 class="card-title">Instrument Manifest</h2>
+          <div class="stat-row"><span class="stat-label">Magnetometer</span><span class="stat-value mono">3-axis fluxgate</span></div>
+          <div class="stat-row"><span class="stat-label">Gas-discharge counters</span><span class="stat-value mono">6</span></div>
+          <div class="stat-row"><span class="stat-label">Scintillation + Cherenkov</span><span class="stat-value mono">2 + 1</span></div>
+          <div class="stat-row"><span class="stat-label">Ion traps</span><span class="stat-value mono">first solar wind beyond the magnetosphere</span></div>
+          <div class="stat-row"><span class="stat-label">Science teletype tape</span><span class="stat-value mono">14 km</span></div>
+          <div class="stat-row"><span class="stat-label">Spin rate</span><span class="stat-value mono">14 min/rev</span></div>
+          <div class="stat-footnote">Ion flux rose near the Moon — a hint of a lunar ionosphere. The data became a spring-1960 report. Jodrell Bank's tape of the carrier simply stops at 21:02:24 UT.</div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ======================= TAB 4: THE ARTIFICIAL COMET ======================= -->
+    <section class="tab-panel" id="tab-comet">
+      <div class="panel-grid comet-grid">
+        <aside class="control-card">
+          <h2 class="card-title">One Kilogram of Sodium</h2>
+          <p class="card-blurb">No radar of 1959 could follow the probe. But sodium vapour sung back in the D-lines — an <em>artificial orange comet</em> that observatories could photograph against the stars. Twelve hours after launch, at 156,000 km out, the departing stack vented a kilogram of it.</p>
+          <label class="slider-block">
+            <span class="slider-head"><span>Sodium temperature</span><span id="tempReadout" class="mono">500 K</span></span>
+            <input type="range" id="tempSlider" min="300" max="900" step="10" value="500">
+          </label>
+          <label class="slider-block">
+            <span class="slider-head"><span>Time since release</span><span id="scrubReadout" class="mono">0:00</span></span>
+            <input type="range" id="scrubSlider" min="0" max="1800" step="5" value="480">
+          </label>
+          <div class="preset-col">
+            <p class="preset-label">Jump to</p>
+            <div class="preset-row" id="cometPresets">
+              <button class="btn-preset" data-scrub="300">5 MIN</button>
+              <button class="btn-preset active" data-scrub="480">650 KM CLOUD</button>
+              <button class="btn-preset" data-scrub="1200">20 MIN — FADED</button>
+            </div>
+          </div>
+          <div class="derived-box">
+            <div class="derived-row"><span>Thermal speed √(8kT/πm)</span><span class="mono" id="soVth">0.68 km/s</span></div>
+            <div class="derived-row"><span>Cloud diameter</span><span class="mono" id="soDiam">— km</span></div>
+            <div class="derived-row"><span>Angular size</span><span class="mono" id="soAng">—′</span></div>
+            <div class="derived-row accent"><span>vs the full Moon</span><span class="mono" id="soMoon">—</span></div>
+          </div>
+        </aside>
+
+        <div class="stage-card">
+          <div class="board-head">
+            <span class="board-title mono">THE VIEW FROM ALMA-ATA — SODIUM D-LINE, 589.0 / 589.6 nm</span>
+            <span class="board-scale mono">dashed circle = the full Moon, to scale</span>
+          </div>
+          <canvas id="cometCanvas" width="1000" height="540"></canvas>
+          <div class="readback-box">
+            <span class="readback-label">PHOTOGRAPHED FROM</span>
+            <span class="readback-text mono" id="obsText">ALMA-ATA · BYURAKAN · ABASTUMANI · TBILISI · STALINABAD</span>
+          </div>
+        </div>
+
+        <div class="timeline-card">
+          <h2 class="card-title">Milestones</h2>
+          <div class="timeline-strip" id="timelineStrip"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="app-footer">
+    <span>Luna 2 — Вторая советская космическая ракета — 12–14 September 1959, the 67th anniversary</span>
+    <span class="mono">384,400 km · 38 h 22 m · 3.33 km/s · 144 pennants · 14 km of tape</span>
+  </footer>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
