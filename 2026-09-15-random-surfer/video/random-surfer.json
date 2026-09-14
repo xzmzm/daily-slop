@@ -1,0 +1,16 @@
+{
+  "output": "/Users/hm/prj/daily-slop/2026-09-15-random-surfer/video/random-surfer.mp4",
+  "provider": "Fish Audio REST API",
+  "model": "s2.1-pro-free",
+  "voice_id": "ae5adc6778ac459e8d6106b82f88fa2b",
+  "segment_durations": [
+    38.530612,
+    34.429388,
+    36.336327,
+    28.839184,
+    36.649796
+  ],
+  "video_duration": 177.265011,
+  "fps": 15,
+  "resolution": "1920x1080"
+}

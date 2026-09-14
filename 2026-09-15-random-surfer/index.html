@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Surfer (1997) — The Day googol Became google Studio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-main">
+      <div class="header-titles">
+        <div class="badge-row">
+          <span class="badge badge-blue">15 SEPTEMBER 1997</span>
+          <span class="badge badge-red">googol.com WAS TAKEN — ONE TYPO LATER</span>
+          <span class="badge badge-amber">d = 0.85 · 52 ITERATIONS ON 322 M LINKS</span>
+          <span class="badge badge-green">24 MILLION PAGES, RANKED BY WHO LINKS TO WHOM</span>
+        </div>
+        <h1>RANDOM SURFER <span class="year">1997</span></h1>
+        <p class="tagline">The eigenvector that named a company — a 16-page snapshot of the web the day before the googol typo found zero results and became a domain</p>
+      </div>
+      <div class="header-controls">
+        <div class="header-formula mono">r<sub>i</sub> = (1−d)/N + d·Σ<sub>j→i</sub> r<sub>j</sub>/outdeg(j)</div>
+      </div>
+    </div>
+
+    <nav class="nav-tabs" role="tablist">
+      <button class="nav-tab active" data-tab="tab-surfer" role="tab" id="nav-surfer">
+        <span class="tab-num">01</span>
+        <span class="tab-label">THE RANDOM SURFER</span>
+      </button>
+      <button class="nav-tab" data-tab="tab-d85" role="tab" id="nav-d85">
+        <span class="tab-num">02</span>
+        <span class="tab-label">WHY 0.85</span>
+      </button>
+      <button class="nav-tab" data-tab="tab-index" role="tab" id="nav-index">
+        <span class="tab-num">03</span>
+        <span class="tab-label">THE INVERTED INDEX</span>
+      </button>
+      <button class="nav-tab" data-tab="tab-1998" role="tab" id="nav-1998">
+        <span class="tab-num">04</span>
+        <span class="tab-label">THE FIRST RESULTS PAGE</span>
+      </button>
+    </nav>
+  </header>
+
+  <main class="app-main">
+
+    <!-- ======================= TAB 1: THE RANDOM SURFER ======================= -->
+    <section class="tab-panel active" id="tab-surfer">
+      <div class="panel-grid surfer-grid">
+        <aside class="control-card">
+          <h2 class="card-title">The Web, As a Markov Chain</h2>
+          <p class="card-blurb">A surfer lands on a page and keeps clicking links. The fraction of all eternity she spends on page <em>i</em> is that page's rank — no words read, only arrows followed. Click two nodes to add or remove a link, then re-run the iteration.</p>
+          <div class="preset-col">
+            <p class="preset-label">Web graph</p>
+            <div class="preset-row" id="graphPresets">
+              <button class="btn-preset active" data-graph="snapshot">SNAPSHOT '97 · 16 PAGES</button>
+              <button class="btn-preset" data-graph="cycle">CYCLE 8</button>
+              <button class="btn-preset" data-graph="star">STAR 8</button>
+            </div>
+          </div>
+          <div class="button-row">
+            <button id="stepBtn" class="btn btn-primary">STEP ×1</button>
+            <button id="runBtn" class="btn">RUN ×60</button>
+            <button id="resetBtn" class="btn">RESET</button>
+          </div>
+          <div class="spec-note">
+            <p><strong>Teleportation at d = 0.85.</strong> With probability <em>0.15</em> the bored surfer jumps to a uniformly random page — that single tweak is what makes the ranking exist at all. The googol page has <em>no outlinks</em>: its column leaks, so the repair spreads it uniformly.</p>
+          </div>
+        </aside>
+
+        <div class="stage-card">
+          <div class="board-head">
+            <span class="board-title mono">LINK GRAPH — NODE SIZE = RANK, TRAIL = ONE SEEDED SURFER</span>
+            <span class="board-scale mono" id="surferMeta">iteration 0 · d = 0.85</span>
+          </div>
+          <canvas id="surferCanvas" width="1000" height="540"></canvas>
+          <div class="verdict-strip" id="surferVerdict">
+            <span class="verdict-name mono" id="iterName">ITERATION 0</span>
+            <span class="verdict-val mono" id="residualOut">residual ‖Δr‖₁ = —</span>
+            <span class="verdict-val mono hot" id="ratioOut">decay ratio = —</span>
+            <span class="verdict-val mono" id="sumOut">Σr = 1.000000000</span>
+          </div>
+        </div>
+
+        <aside class="stats-card">
+          <h2 class="card-title">Rank Board</h2>
+          <div id="rankList" class="rank-list"></div>
+          <div class="stat-footnote">The surfer never reads a word: Yahoo wins because six pages point at it, and the pages pointing at it are themselves pointed at. A link is a vote; a vote from a ranked page weighs more.</div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ======================= TAB 2: WHY 0.85 ======================= -->
+    <section class="tab-panel" id="tab-d85">
+      <div class="panel-grid d85-grid">
+        <aside class="control-card">
+          <h2 class="card-title">The Damping Knob</h2>
+          <p class="card-blurb">Power iteration converges at the rate of the second eigenvalue: <em>|λ₂(G)| = d·|μ₂(A)| ≤ d</em>. Small d converges fast but flattens opinion; d → 1 preserves the pure link structure — and stops converging at all on cycles.</p>
+          <label class="slider-block">
+            <span class="slider-head"><span>Damping factor d</span><span id="dReadout" class="mono">0.85</span></span>
+            <input type="range" id="dSlider" min="0.50" max="1.00" step="0.01" value="0.85">
+          </label>
+          <div class="preset-col">
+            <p class="preset-label">Bench graph</p>
+            <div class="preset-row" id="specPresets">
+              <button class="btn-preset active" data-graph="cycle">CYCLE 8</button>
+              <button class="btn-preset" data-graph="pair">TWO WORLDS · 2×K₄</button>
+              <button class="btn-preset" data-graph="star">STAR 8</button>
+              <button class="btn-preset" data-graph="line">DEAD END LINE 6</button>
+            </div>
+          </div>
+          <div class="button-row">
+            <button id="runPowBtn" class="btn btn-primary">RUN 120 ITERATIONS</button>
+            <button id="showdownBtn" class="btn">d = 1 SHOWDOWN</button>
+          </div>
+          <label class="check-block">
+            <input type="checkbox" id="repairCheck" checked>
+            <span>Repair dangling links (spread to all pages)</span>
+          </label>
+          <div class="spec-note">
+            <p><strong>The paper's number.</strong> On <em>322 million links</em> the rank vector converged in <em>52 iterations</em>. The worst-case factor is d, and <em>0.85⁵² = 2.14×10⁻⁴</em> — exactly the tolerance you would expect.</p>
+          </div>
+        </aside>
+
+        <div class="stage-card">
+          <div class="board-head">
+            <span class="board-title mono">RESIDUAL ‖rₖ₊₁ − rₖ‖₁ PER ITERATION — LOG SCALE, SLOPE = ln(d·|μ₂|)</span>
+            <span class="board-scale mono" id="convMeta">—</span>
+          </div>
+          <canvas id="convCanvas" width="1000" height="540"></canvas>
+          <div class="verdict-strip" id="convVerdict">
+            <span class="verdict-name mono" id="convName">AWAITING RUN</span>
+            <span class="verdict-val mono" id="convVal">—</span>
+            <span class="verdict-val mono hot" id="factorVal">—</span>
+          </div>
+        </div>
+
+        <aside class="stats-card">
+          <h2 class="card-title">Spectrum Card</h2>
+          <div class="stat-row"><span class="stat-label">Theory: iterations to 10⁻⁶</span><span class="stat-value mono" id="itersOut">—</span></div>
+          <div class="stat-row"><span class="stat-label">Measured decay factor</span><span class="stat-value mono hot" id="measOut">—</span></div>
+          <div class="stat-row"><span class="stat-label">Spectral factor d·|μ₂(A)|</span><span class="stat-value mono" id="specOut">—</span></div>
+          <div class="stat-row"><span class="stat-label">0.85⁵² (the 1998 run)</span><span class="stat-value mono">2.138×10⁻⁴</span></div>
+          <div class="stat-row"><span class="stat-label">Mass Σr after run</span><span class="stat-value mono" id="massOut">—</span></div>
+          <div id="eigenList" class="eigen-list"></div>
+          <div class="stat-footnote">spec(G) = {1} ∪ {d·μ : μ ∈ spec(A), μ ≠ 1}. Every eigenvalue except 1 sits inside the circle of radius d — that disk is why the iteration always converges for d &lt; 1, whatever the web looks like.</div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ======================= TAB 3: THE INVERTED INDEX ======================= -->
+    <section class="tab-panel" id="tab-index">
+      <div class="panel-grid index-grid">
+        <aside class="control-card">
+          <h2 class="card-title">Ranking Without Links</h2>
+          <p class="card-blurb">PageRank is blind to words. The index is blind to links. The 1998 engine was an <em>AND</em> engine: a page must contain every query term, found by intersecting posting lists.</p>
+          <label class="query-block">
+            <span class="slider-head"><span>Query</span></span>
+            <div class="query-row">
+              <input type="text" id="queryInput" value="web search" spellcheck="false">
+              <button id="searchBtn" class="btn btn-primary">SEARCH</button>
+            </div>
+          </label>
+          <div class="preset-col">
+            <p class="preset-label">Try</p>
+            <div class="preset-row" id="queryPresets">
+              <button class="btn-preset active" data-q="web search">web search</button>
+              <button class="btn-preset" data-q="search engine">search engine</button>
+              <button class="btn-preset" data-q="googol">googol</button>
+              <button class="btn-preset" data-q="google">google</button>
+            </div>
+          </div>
+          <label class="slider-block">
+            <span class="slider-head"><span>Term-frequency saturation k₁</span><span id="k1Readout" class="mono">1.2</span></span>
+            <input type="range" id="k1Slider" min="0" max="2" step="0.05" value="1.2">
+          </label>
+          <label class="slider-block">
+            <span class="slider-head"><span>Length normalization b</span><span id="bReadout" class="mono">0.75</span></span>
+            <input type="range" id="bSlider" min="0" max="1" step="0.05" value="0.75">
+          </label>
+          <div class="spec-note">
+            <p><strong>Zero-result queries get a second chance.</strong> <em>google</em> matches no page in the snapshot; the nearest index word is <em>googol</em>, two edits away (Levenshtein distance 2 — googol's “ol” shuffled to “le”). Nobody clicked that suggestion on 14 Sep 1997; the next day it was a domain.</p>
+          </div>
+        </aside>
+
+        <div class="stage-card">
+          <div class="board-head">
+            <span class="board-title mono">POSTING LISTS — AND INTERSECTION, THEN BM25 RE-RANK</span>
+            <span class="board-scale mono" id="indexMeta">—</span>
+          </div>
+          <div id="postingsWrap" class="postings-wrap"></div>
+          <div id="bmResults" class="bm-results"></div>
+          <div id="formulaLine" class="formula-line mono"></div>
+        </div>
+
+        <aside class="stats-card">
+          <h2 class="card-title">Corpus Card</h2>
+          <div class="stat-row"><span class="stat-label">Pages in snapshot</span><span class="stat-value mono" id="corpusN">16</span></div>
+          <div class="stat-row"><span class="stat-label">Vocabulary size</span><span class="stat-value mono" id="corpusV">—</span></div>
+          <div class="stat-row"><span class="stat-label">Average doc length</span><span class="stat-value mono" id="corpusAvg">—</span></div>
+          <div class="stat-row"><span class="stat-label">Snapshot date</span><span class="stat-value mono">14 SEP 1997</span></div>
+          <div class="sat-block">
+            <p class="preset-label">BM25 saturation: score vs tf</p>
+            <canvas id="satCanvas" width="300" height="170"></canvas>
+          </div>
+          <div class="stat-footnote">At k₁ = 0 every hit scores the same; as tf → ∞ the term score saturates at idf·(k₁+1). Length normalization b punishes long pages — a spray of keywords dilutes nothing.</div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ======================= TAB 4: THE FIRST RESULTS PAGE ======================= -->
+    <section class="tab-panel" id="tab-1998">
+      <div class="panel-grid retro-grid">
+        <aside class="control-card">
+          <h2 class="card-title">Authority × Relevance</h2>
+          <p class="card-blurb">The 1998 engine married the two scores: BM25 says what a page <em>is about</em>, the eigenvector says how much the web <em>trusts</em> it. Slide the blend and watch the winner change.</p>
+          <label class="slider-block">
+            <span class="slider-head"><span>Blend α</span><span id="alphaReadout" class="mono">α = 0.35</span></span>
+            <input type="range" id="alphaSlider" min="0" max="1" step="0.05" value="0.35">
+          </label>
+          <div class="preset-col">
+            <p class="preset-label">The evening queries</p>
+            <div class="preset-row" id="q4Presets">
+              <button class="btn-preset active" data-q="web search">web search</button>
+              <button class="btn-preset" data-q="googol">googol</button>
+              <button class="btn-preset" data-q="google">google</button>
+            </div>
+          </div>
+          <div class="spec-note">
+            <p><strong>α = 0</strong> is pure text: the fan page out-talks everyone. <strong>α = 1</strong> is pure links: Yahoo collects votes. The blend is the whole product — relevant <em>and</em> trusted, at 0.00 seconds.</p>
+          </div>
+        </aside>
+
+        <div class="stage-card retro-stage">
+          <div class="board-head">
+            <span class="board-title mono">SNAPSHOT ENGINE — THE RESULTS PAGE AS IT MIGHT HAVE BEEN, SEPTEMBER 1997</span>
+            <span class="board-scale mono">SERIF · 256 COLORS · 28.8K MODEM</span>
+          </div>
+          <div id="retroPage" class="retro-page"></div>
+        </div>
+
+        <aside class="stats-card">
+          <h2 class="card-title">Scale Card</h2>
+          <div class="stat-row"><span class="stat-label">Pure relevance says (α=0)</span><span class="stat-value mono" id="winnerBm">—</span></div>
+          <div class="stat-row"><span class="stat-label">Pure authority says (α=1)</span><span class="stat-value mono hot" id="winnerPr">—</span></div>
+          <div class="stat-row"><span class="stat-label">lev(google, googol)</span><span class="stat-value mono">2 — “ol” → “le”</span></div>
+          <div class="stat-row"><span class="stat-label">A googol, in atoms</span><span class="stat-value mono">10¹⁰⁰ vs 10⁸⁰ universe</span></div>
+          <div class="stat-row"><span class="stat-label">1998 crawl (paper)</span><span class="stat-value mono">24 M pages · 322 M links</span></div>
+          <div class="stat-row"><span class="stat-label">Jun 2000</span><span class="stat-value mono">1 B URLs indexed</span></div>
+          <div class="stat-row"><span class="stat-label">Jul 2008</span><span class="stat-value mono">1 T unique URLs found</span></div>
+          <div class="stat-row"><span class="stat-label">2016</span><span class="stat-value mono">130 T documents</span></div>
+          <div class="stat-footnote">Sixteen pages here, 24 million there — the same two matrices, G and the inverted index, just taller. The typo turned 29 today.</div>
+        </aside>
+
+        <div class="timeline-card">
+          <h2 class="card-title">From BackRub to a Trillion</h2>
+          <div class="timeline-strip" id="timelineStrip"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <span class="mono">RANDOM SURFER · 1997–2026 · one typo, one eigenvector</span>
+  </footer>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
