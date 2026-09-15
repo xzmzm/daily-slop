@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Scorch Machine — Xerox 914 · 16 September 1959</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-head">
+  <div class="kicker">16 September 1959 · Sherry-Netherland Hotel, New York · 67 years ago today</div>
+  <h1>The Scorch Machine <span class="nine">914</span></h1>
+  <p class="tagline">
+    A Xerox 914 studio for the anniversary of the first plain-paper copy — demonstrated on live
+    television in a hotel ballroom where one of the two machines caught fire, and 650&nbsp;lb of
+    selenium, corona wire and cascading beads quietly rebuilt the office around a nickel.
+  </p>
+  <p class="intro">
+    Chester Carlson's xerography writes with <b>static electricity and dry powder</b>: charge a
+    selenium drum in the dark, expose it to light (charge flows away wherever light lands), dust
+    it with charged toner, transfer, fuse. No liquid, no negative, no master — plain paper in,
+    plain paper out, seven copies a minute. The four machines below run the actual closed-form
+    physics of that chain, from Peek's-law corona to the triboelectric release threshold, plus
+    the lease arithmetic that let a $27,500 machine into every office for $95 a month.
+    <span class="mono" style="color:var(--text-dim)">Built by GLM-5.3</span>
+  </p>
+</header>
+
+<main>
+
+  <!-- ======================= MACHINE 1 ======================= -->
+  <section class="machine" id="machine-process">
+    <header>
+      <div class="m-index">MACHINE Ⅰ</div>
+      <h2>Six hundred fifty pounds of dry lightning</h2>
+      <p>The 914 end to end. The lamp slit-scans your original, the selenium drum turns once per
+      copy through <b>charge → expose → develop → transfer → fuse → clean</b>, and the finished
+      page lands in the tray — every voltage on the readout is computed live from the physics
+      sliders in Machines Ⅱ and Ⅲ. Pick a heavy original (a payroll full of zeros and O's was
+      the notorious case) and watch the fuser: Xerox shipped a small fire extinguisher with each
+      machine, informally the <b>“scorch eliminator.”</b></p>
+    </header>
+    <div class="m-body">
+      <div class="m-row">
+        <div class="canvas-wrap">
+          <canvas id="processCanvas" class="stage" width="980" height="600"></canvas>
+        </div>
+        <aside class="readout" id="processReadout"></aside>
+      </div>
+      <div class="controls">
+        <div class="doc-picker" style="grid-column: 1 / -1;">
+          <span class="mono" style="font-size:11.5px;color:var(--text-dim)">ORIGINAL ON THE PLATEN:</span>
+          <button class="doc-btn" data-doc="astoria">“10.-22.-38 ASTORIA.”</button>
+          <button class="doc-btn active" data-doc="memo">interoffice memo</button>
+          <button class="doc-btn" data-doc="zeros">payroll · zeros &amp; O's</button>
+          <button class="action primary" id="copyBtn">MAKE COPY</button>
+          <span class="mono" id="copyCounter" style="font-size:12px;color:var(--text-muted)"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= MACHINE 2 ======================= -->
+  <section class="machine" id="machine-corona">
+    <header>
+      <div class="m-index">MACHINE Ⅱ</div>
+      <h2>Charge it with lightning, then let light erase</h2>
+      <p>A thin wire at kilovolts breaks the air down (<b>Peek's law</b>) and sprays ions onto the
+      selenium: the drum becomes a capacitor you can see through. Selenium holds the charge in
+      the dark for τ = ρε seconds and conducts it away under light — one absorbed photon, one
+      electron–hole pair, one unit of charge neutralised. Push the wavelength past the 610&nbsp;nm
+      band edge and selenium goes <b>blind</b>: red light is dark to it.</p>
+    </header>
+    <div class="m-body">
+      <div class="m-row" style="grid-template-columns: minmax(0,1fr) minmax(0,1fr);">
+        <div class="canvas-wrap">
+          <canvas id="coronaCanvas" class="stage" width="560" height="380"></canvas>
+        </div>
+        <div class="canvas-wrap">
+          <canvas id="seCanvas" class="stage" width="560" height="380"></canvas>
+        </div>
+      </div>
+      <div class="controls">
+        <div class="ctl"><label>wire radius <span class="val" id="v-wireR"></span></label>
+          <input type="range" id="in-wireR" min="25" max="150" step="1"></div>
+        <div class="ctl"><label>wire–drum distance <span class="val" id="v-coronaGap"></span></label>
+          <input type="range" id="in-coronaGap" min="6" max="13" step="0.5"></div>
+        <div class="ctl"><label>corona supply <span class="val" id="v-coronaV"></span></label>
+          <input type="range" id="in-coronaV" min="4000" max="8000" step="100"></div>
+        <div class="ctl"><label>selenium thickness <span class="val" id="v-d"></span></label>
+          <input type="range" id="in-d" min="25" max="60" step="1"></div>
+        <div class="ctl"><label>dark resistivity ρ <span class="val" id="v-rhoDark"></span></label>
+          <input type="range" id="in-rhoDark" min="12" max="15" step="0.25"></div>
+        <div class="ctl"><label>exposure λ <span class="val" id="v-lambda"></span></label>
+          <input type="range" id="in-lambda" min="400" max="700" step="5"></div>
+        <div class="ctl"><label>quantum efficiency η <span class="val" id="v-eta"></span></label>
+          <input type="range" id="in-eta" min="0.2" max="0.9" step="0.05"></div>
+        <div class="ctl"><label>exposure (white areas) <span class="val" id="v-fluence"></span></label>
+          <input type="range" id="in-fluence" min="0.5" max="6" step="0.1"></div>
+        <div class="ctl"><label>ink density of original <span class="val" id="v-printOD"></span></label>
+          <input type="range" id="in-printOD" min="0.3" max="2" step="0.05"></div>
+        <div class="ctl"><label>corona charge V₀ <span class="val" id="v-V0"></span></label>
+          <input type="range" id="in-V0" min="700" max="1100" step="10"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= MACHINE 3 ======================= -->
+  <section class="machine" id="machine-cascade">
+    <header>
+      <div class="m-index">MACHINE Ⅲ</div>
+      <h2>Beads, dust, and the release threshold</h2>
+      <p>Development is a bucket of glass beads rolling over the drum, each bead wearing a fur of
+      toner charged by <b>triboelectric friction</b> (the same physics as the 1938 handkerchief).
+      Coulomb's law has to beat the toner's own image-force adhesion — which grows with radius —
+      and the toner keeps depositing until its charge <b>screens the field exactly</b>:
+      M/A = ε₀E/(q/m). Too much charge-to-mass and nothing releases (a white copy); too little
+      and the background dirties (a grey one).</p>
+    </header>
+    <div class="m-body">
+      <div class="m-row">
+        <div class="canvas-wrap">
+          <canvas id="cascadeCanvas" class="stage" width="660" height="430"></canvas>
+        </div>
+        <aside class="readout" id="devReadout"></aside>
+      </div>
+      <div class="controls">
+        <div class="ctl"><label>toner charge-to-mass <span class="val" id="v-qm"></span></label>
+          <input type="range" id="in-qm" min="1" max="20" step="0.5"></div>
+        <div class="ctl"><label>toner radius <span class="val" id="v-tonerR"></span></label>
+          <input type="range" id="in-tonerR" min="2" max="12" step="0.5"></div>
+        <div class="ctl"><label>development gap <span class="val" id="v-gap"></span></label>
+          <input type="range" id="in-gap" min="100" max="500" step="10"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= MACHINE 4 ======================= -->
+  <section class="machine" id="machine-economy">
+    <header>
+      <div class="m-index">MACHINE Ⅳ</div>
+      <h2>The nickel machine</h2>
+      <p>Nobody would buy a $27,500 copier, so Haloid rented it: <b>$95 a month including 2,000
+      copies, then about 4¢ each</b> — cheaper than a 35¢ Photostat from roughly 49 copies a
+      month. The mimeograph stayed cheaper for long runs of one original; the 914 won everywhere
+      else by skipping the stencil. By 1965 the machine was credited with about two-thirds of
+      Xerox's revenue, and “to xerox” was on its way into the dictionary.</p>
+    </header>
+    <div class="m-body">
+      <div class="m-row">
+        <div class="canvas-wrap">
+          <canvas id="costCanvas" class="stage" width="700" height="430"></canvas>
+        </div>
+        <aside class="readout" id="econReadout"></aside>
+      </div>
+      <div class="controls">
+        <div class="ctl"><label>copies per month <span class="val" id="v-volume"></span></label>
+          <input type="range" id="in-volume" min="100" max="100000" step="100"></div>
+        <div class="ctl"><label>distinct originals / month <span class="val" id="v-originals"></span></label>
+          <input type="range" id="in-originals" min="1" max="80" step="1"></div>
+      </div>
+      <div class="timeline" id="timeline"><h3>Astoria → verb · 1938–1977</h3><div class="tl-track"></div></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  All process numbers are computed live from the closed-form physics in
+  <span class="mono">engine.js</span> (81 exact-formula assertions in
+  <span class="mono">test_xerox.mjs</span>). History anchors from Wikipedia's “Xerox 914,”
+  “Xerography” and “Chester Carlson,” the Smithsonian, The Henry Ford, and David Owen's
+  <i>Copies in Seconds</i>; physics constants are textbook electrophotography values, not
+  factory data — see <span class="mono">NOTES.md</span> for what is documented and what is
+  modelled.
+</footer>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>

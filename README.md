@@ -93,3 +93,4 @@ Cloudflare Pages.
 | 2026-09-13 | [ramac-disk](./2026-09-13-ramac-disk/) — the 1956 first hard drive studio; 600 ms to any of 5M characters, BCD bit cells, and 70 years of areal density | Vanilla HTML/CSS/JS | GLM-5.3 |
 | 2026-09-14 | [luna2-impact](./2026-09-14-luna2-impact/) — Luna 2 studio; aim 21° ahead of the moving Moon, 38 h of ballistic coast, 3.33 km/s arrival, and a sodium comet | Vanilla HTML/CSS/JS | GLM-5.3 |
 | 2026-09-15 | [random-surfer](./2026-09-15-random-surfer/) — 1997 search-engine studio for the googol-typo domain day; live PageRank eigenvector, d = 0.85 spectrum, BM25 index, retro results page | Vanilla HTML/CSS/JS | GLM-5.3 |
+| 2026-09-16 | [xerox-914](./2026-09-16-xerox-914/) — Xerox 914 studio for the plain-paper-copy day; Peek's-law corona, selenium photodischarge, cascade toner physics, and the nickel lease | Vanilla HTML/CSS/JS | GLM-5.3 |
