@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Little Animals — 17 September 1683</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-head">
+  <div class="kicker">17 September 1683 · Delft · 343 years ago today</div>
+  <h1>The Little Animals</h1>
+  <p class="tagline">
+    A Leeuwenhoek studio for the anniversary of the letter that described bacteria for the
+    first time: a Delft draper scraped the batter-thick film off his own teeth, looked at it
+    through a bead of glass he had ground himself, and wrote to London about creatures
+    "very prettily a-moving".
+  </p>
+  <p class="intro">
+    Antony van Leeuwenhoek kept a draper's shop, gauged wine for the city, and in his spare
+    time made <b>the best lenses on Earth</b> — tiny single glass beads that magnified
+    100–275× while Hooke's compound microscopes fogged out past 30×. On 17 September 1683 he
+    sent Francis Aston the letter with the dental plaque drawings. The four machines below run
+    the actual closed-form optics of that bead, the colour/diffraction trade that set its
+    resolution near 1–2 µm, the plaque itself at true scale, and the road from his bench to
+    the electron microscope.
+    <span class="mono" style="color:var(--text-dim)">Built by GLM-5.3</span>
+  </p>
+</header>
+
+<main>
+
+  <!-- ======================= MACHINE 1 ======================= -->
+  <section class="machine" id="machine-bead">
+    <header>
+      <div class="m-index">MACHINE Ⅰ</div>
+      <h2>A bead of glass</h2>
+      <p>His microscope was a <b>single ball lens</b>, 1–2 mm across, sandwiched between two
+      brass plates with the specimen stuck on a pointed pin in front and a screw to nudge it
+      toward focus. Focus a sphere and the algebra collapses to three lines: focal length,
+      magnification, and a numerical aperture that depends on nothing but the glass index.
+      The ray fan below is traced exactly — Snell's law twice per ray, no paraxial
+      shortcuts — from the specimen at the front focus into the eye's side.</p>
+    </header>
+    <div class="m-body">
+      <div class="m-row">
+        <div class="canvas-wrap">
+          <canvas id="cv-bead" class="stage" width="780" height="430"></canvas>
+          <div class="controls">
+            <div class="ctl">
+              <label>bead diameter D <span class="val" id="v-diameter"></span></label>
+              <input type="range" id="in-diameter" min="0.6" max="3" step="0.01" value="1.6">
+            </div>
+            <div class="ctl">
+              <label>glass index n <span class="val" id="v-index"></span></label>
+              <input type="range" id="in-index" min="1.45" max="1.9" step="0.005" value="1.52">
+            </div>
+            <div class="ctl">
+              <label>eye pupil / effective cone NA <span class="val" id="v-pupil"></span></label>
+              <input type="range" id="in-pupil" min="0.06" max="0.68" step="0.002" value="0.152">
+            </div>
+            <div class="ctl ctl-btns">
+              <button class="action" id="btn-275">match the 275× survivor</button>
+              <button class="action" id="btn-open-pupil">open the pupil wide</button>
+            </div>
+          </div>
+        </div>
+        <aside class="readout" id="ro-bead"></aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= MACHINE 2 ======================= -->
+  <section class="machine" id="machine-colour">
+    <header>
+      <div class="m-index">MACHINE Ⅱ</div>
+      <h2>The colour trap</h2>
+      <p>Why did the best lenses of the age stop at 1–2 µm instead of the 0.4 µm diffraction
+      promises? <b>Dispersion.</b> Blue and red focus microns apart, and the smear grows with
+      the cone you accept, while diffraction shrinks with it. Minimising the sum of the two
+      has a closed form — the bead's own sweet spot — and it lands right where the surviving
+      instruments measure.</p>
+    </header>
+    <div class="m-body">
+      <div class="m-row">
+        <div class="canvas-wrap">
+          <canvas id="cv-colour" class="stage" width="780" height="430"></canvas>
+          <div class="controls">
+            <div class="ctl">
+              <label>bead diameter D <span class="val" id="v-diameter2"></span></label>
+              <input type="range" id="in-diameter2" min="0.8" max="3" step="0.01" value="1.6">
+            </div>
+            <div class="ctl">
+              <label>accepted cone NA <span class="val" id="v-na"></span></label>
+              <input type="range" id="in-na" min="0.06" max="0.7" step="0.002" value="0.152">
+            </div>
+            <div class="ctl ctl-btns" id="glass-btns"></div>
+          </div>
+        </div>
+        <aside class="readout" id="ro-colour"></aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= MACHINE 3 ======================= -->
+  <section class="machine" id="machine-letter">
+    <header>
+      <div class="m-index">MACHINE Ⅲ</div>
+      <h2>The scurf of the teeth</h2>
+      <p>The letter of 17 September 1683, live. He sampled himself and four other people —
+      one an old man who had <b>never cleaned his teeth</b> — and found
+      "an unbelievably great company of living animalcules". Below, the plaque ecosystem at
+      true µm scale as his bead would render it: every creature blurred by the machine's own
+      resolution, so you can see exactly why the pike was a darting thread and the smallest
+      sort barely dots. Drop the wine vinegar, as he did, and watch the swimmers lie still.</p>
+    </header>
+    <div class="m-body">
+      <div class="m-row">
+        <div class="canvas-wrap">
+          <canvas id="cv-letter" class="stage" width="780" height="470"></canvas>
+          <div class="controls">
+            <div class="ctl ctl-btns">
+              <button class="doc-btn active" id="btn-sample-self">from his own teeth</button>
+              <button class="doc-btn" id="btn-sample-oldman">from the old man</button>
+              <button class="action primary" id="btn-vinegar">drop the wine vinegar</button>
+            </div>
+            <div class="ctl">
+              <label>scrape on the pin <span class="val" id="v-scrape"></span></label>
+              <input type="range" id="in-scrape" min="0" max="100" step="1" value="18">
+            </div>
+          </div>
+          <div class="quotes">
+            <p>"…in the said matter there were many very little living animalcules,
+            <b>very prettily a-moving</b>."</p>
+            <p>"The biggest sort… had a very strong and swift motion, and
+            <b>shot through the water (or spittle) like a pike does through the water</b>."</p>
+            <p>"The second sort… <b>oft-times spun round like a top</b>… and these were far
+            more in number."</p>
+          </div>
+        </div>
+        <aside class="readout" id="ro-letter"></aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= MACHINE 4 ======================= -->
+  <section class="machine" id="machine-ladder">
+    <header>
+      <div class="m-index">MACHINE Ⅳ</div>
+      <h2>From Delft to the strong room</h2>
+      <p>He never told anyone how he ground the beads. More than 500 lenses, roughly 560
+      letters, a Fellowship he never collected in person — and then two centuries of quiet
+      until Pasteur and Koch gave the little animals a job. Drag the <b>resolution floor</b>
+      down the years and watch each creature come into view; at the bottom of the ladder,
+      in 1981, Brian Ford opened Leeuwenhoek's original specimen packets in the Royal
+      Society's strong room and re-photographed what was really on his pins.</p>
+    </header>
+    <div class="m-body">
+      <div class="m-row">
+        <div class="canvas-wrap">
+          <canvas id="cv-ladder" class="stage" width="780" height="380"></canvas>
+          <div class="controls">
+            <div class="ctl" style="grid-column: 1 / -1">
+              <label>resolution floor <span class="val" id="v-floor"></span></label>
+              <input type="range" id="in-floor" min="0" max="1000" step="1" value="480">
+            </div>
+            <div class="ctl ctl-btns" id="floor-btns"></div>
+          </div>
+        </div>
+        <aside class="readout" id="ro-ladder"></aside>
+      </div>
+      <div class="timeline">
+        <h3>1632 — today</h3>
+        <div class="tl-track" id="tl-track"></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-foot">
+  Sources: Dobell, <i>Antony van Leeuwenhoek and his "Little Animals"</i> (1932) · van Zuylen,
+  <i>The microscopes of Antoni van Leeuwenhoek</i> (1981) · Wikipedia · Lens on Leeuwenhoek
+  (letter L-135) · UCMP Berkeley · Ed Yong, <i>I Contain Multitudes</i>. Modern sizes and
+  plaque density from standard oral microbiology. The focus-screw pitch and the
+  chromatic-blur model are stated in NOTES.md, not measured history.
+</footer>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
