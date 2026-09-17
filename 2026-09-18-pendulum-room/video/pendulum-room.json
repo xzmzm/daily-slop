@@ -1,0 +1,17 @@
+{
+  "output": "/Users/hm/prj/daily-slop/2026-09-18-pendulum-room/video/pendulum-room.mp4",
+  "provider": "Fish Audio REST API",
+  "model": "s2.1-pro-free",
+  "voice_id": "ae5adc6778ac459e8d6106b82f88fa2b",
+  "segment_durations": [
+    25.077551,
+    19.931429,
+    15.386122,
+    15.673469,
+    15.621224,
+    30.589388
+  ],
+  "video_duration": 124.979002,
+  "fps": 15,
+  "resolution": "1920x1080"
+}

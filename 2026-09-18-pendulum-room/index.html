@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A small observatory for a turning Earth. Move a Foucault pendulum between latitudes and watch six hours of invisible motion become visible.">
+  <title>Pendulum Room — a turning Earth</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='20' fill='%23192325'/%3E%3Cpath d='M20 6L28 29' stroke='%23edd5a5' stroke-width='2'/%3E%3Ccircle cx='28' cy='29' r='5' fill='%23eeab63'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <script src="core.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main>
+    <header class="masthead"><a href="../" class="wordmark">daily slop <span>/</span> no. 057</a><span>18 SEPTEMBER 2026</span><span class="edition">A SMALL OBSERVATORY</span></header>
+    <section class="intro" aria-labelledby="title">
+      <div><p class="eyebrow">THE PENDULUM ROOM</p><h1 id="title">The floor is <em>moving.</em></h1></div>
+      <p class="intro-copy">A swinging weight. A turning planet. <br>Change your latitude and let the hours pass.<br><span>For Léon Foucault, born on this day in 1819.</span></p>
+    </section>
+    <section class="observatory" aria-label="Foucault pendulum experiment">
+      <div class="instrument">
+        <div class="instrument-top"><span><i class="status-dot"></i> VIEW FROM ABOVE</span><span id="location-tag">PARIS · 48.86° N</span></div>
+        <canvas id="dial" width="900" height="640" role="img" aria-label="Top-down pendulum: gold lines mark its swing direction each hour, relative to the fixed floor. Read the numerical results beside it."></canvas>
+        <div class="dial-caption"><span><i class="legend current"></i> NOW</span><span><i class="legend history"></i> EACH PAST HOUR</span><span><i class="legend original"></i> RELEASE LINE</span></div>
+        <div class="instrument-bottom"><span>FLOOR-FIXED REFERENCE</span><span id="turn-label">67.98° CLOCKWISE</span></div>
+      </div>
+      <aside class="controls" aria-label="Experiment controls">
+        <div class="control-heading"><span class="eyebrow">01 / PLACE THE PENDULUM</span><span class="small-star">✳</span></div>
+        <div class="latitude-heading"><div><h2 id="place-name">Paris</h2><output for="latitude" id="latitude-value">48.86° N</output></div>
+          <svg class="globe" viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="40"/><ellipse cx="50" cy="50" rx="18" ry="40"/><path d="M10 50H90M50 5V95"/><path id="latitude-chord" class="selected-latitude"/><circle id="latitude-dot" class="latitude-dot" r="3.5"/></svg>
+        </div>
+        <label class="sr-only" for="latitude">Latitude in degrees, south negative</label>
+        <input id="latitude" type="range" min="-90" max="90" step="0.01" value="48.86">
+        <div class="range-labels"><span>90° S</span><span>EQUATOR</span><span>90° N</span></div>
+        <div class="places" aria-label="Choose a latitude"><button data-place="paris" aria-pressed="true">Paris</button><button data-place="kl" aria-pressed="false">Kuala Lumpur</button><button data-place="equator" aria-pressed="false">Equator</button><button data-place="sydney" aria-pressed="false">Sydney</button><button data-place="pole" aria-pressed="false">North Pole</button></div>
+        <div class="readings"><div><span class="reading-label">TURN PER HOUR</span><p><strong id="rate-value">11.33</strong><span>° / h</span></p><span id="direction-value">Clockwise, seen from above</span></div><div><span class="reading-label">TIME FOR A FULL TURN</span><p id="period-value">31<span>h</span> 47<span>m</span></p><span id="period-note">A 360° precession cycle</span></div></div>
+        <p class="place-note" id="place-note">In Paris, the swing direction makes a full turn in almost 32 hours. Stay a little longer than a day.</p>
+      </aside>
+      <div class="time-controls">
+        <div class="time-heading"><span class="eyebrow">02 / LET TIME PASS</span><output for="elapsed" id="time-value">06<span>h</span> 00<span>m</span></output></div>
+        <div class="timeline"><label class="sr-only" for="elapsed">Elapsed hours</label><input id="elapsed" type="range" min="0" max="48" step="0.01" value="6"><div class="range-labels"><span>RELEASE</span><span>12 h</span><span>24 h</span><span>36 h</span><span>48 h</span></div></div>
+        <div class="playback"><button id="play" class="primary" aria-pressed="false">▶ Run time</button><button id="six-hours">+6 hours</button><button id="reset" aria-label="Reset elapsed time to release">↺ Reset</button></div>
+      </div>
+    </section>
+    <p class="model-note">Time-lapse: 1 hour every 2 seconds. The bob’s swing is paced for visibility; gold lines record hourly directions, not its continuous path.</p>
+    <section class="field-notes" aria-label="About this experiment">
+      <div class="story"><p class="eyebrow">A PLANET, CAUGHT IN THE ACT</p><h2>Nothing up his sleeve.<br>Just 67 metres of wire.</h2><p>In 1851, Foucault hung a brass-and-lead sphere inside the Panthéon in Paris. Its slow change of direction made Earth’s rotation visible indoors. This room lets you take that experiment anywhere.</p></div>
+      <div class="explanation"><p class="eyebrow">THE LATITUDE MAKES THE DIFFERENCE</p><p class="equation">turn rate = 15.041° × sin(latitude) / hour</p><p>Only the vertical component of Earth’s spin drives this precession. At either pole, a full turn takes one sidereal day. At the equator, that component is zero. South of it, the direction reverses.</p><p class="fine-print">Ideal small-angle model. No drag, imperfect release, or elliptical drift. The dial stays attached to the floor; compass directions do not move. Changing latitude keeps the same elapsed time for comparison.</p></div>
+    </section>
+    <footer><span>Built by GPT-6 Astra</span><nav aria-label="Sources"><a href="https://mathshistory.st-andrews.ac.uk/Biographies/Foucault/">The birthday ↗</a><a href="https://www.paris-pantheon.fr/en/discover/foucault-s-pendulum">The experiment ↗</a><a href="https://www.phys.unsw.edu.au/~jw/pendulumdetails.html">The physics ↗</a></nav><span>ONE SMALL THING, EVERY DAY.</span></footer>
+  </main>
+</body>
+</html>
