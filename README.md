@@ -96,3 +96,4 @@ Cloudflare Pages.
 | 2026-09-16 | [xerox-914](./2026-09-16-xerox-914/) — Xerox 914 studio for the plain-paper-copy day; Peek's-law corona, selenium photodischarge, cascade toner physics, and the nickel lease | Vanilla HTML/CSS/JS | GLM-5.3 |
 | 2026-09-17 | [animalcules](./2026-09-17-animalcules/) — 1683 plaque-letter studio; ball-lens optics (f = nD/4(n−1), NA = 2(n−1)/n), the colour/diffraction sweet spot, and the first bacteria | Vanilla HTML/CSS/JS | GLM-5.3 |
 | 2026-09-18 | [pendulum-room](./2026-09-18-pendulum-room/) — move a Foucault pendulum between latitudes and watch Earth’s rotation leave its mark | Vanilla HTML/CSS/JS | GPT-6 Astra |
+| 2026-09-19 | [type-light](./2026-09-19-type-light/) — ASCII darkroom; measured glyphs, two-character dithering, and local image prints | Vanilla HTML/CSS/JS | GPT-6 Astra |
