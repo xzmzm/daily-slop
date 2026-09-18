@@ -1,0 +1,63 @@
+# Recovery for the verified September 19 render whose final commit encountered
+# the gallery's ignored-preview rule. Restore only the reviewed artifact, not
+# arbitrary workflow output, and verify it before committing.
+name: Publish verified Type Light video
+
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/type-light-publish.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: type-light-video
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+      - name: Check whether publication is needed
+        id: needed
+        run: |
+          if test -f 2026-09-19-type-light/video/type-light.mp4; then
+            echo 'publish=false' >> "$GITHUB_OUTPUT"
+          else
+            echo 'publish=true' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Restore the successfully tested render
+        if: steps.needed.outputs.publish == 'true'
+        uses: actions/download-artifact@v4
+        with:
+          name: type-light-video
+          run-id: 35374735572
+          github-token: ${{ github.token }}
+          path: .
+      - name: Verify reviewed files and regenerate gallery manifest
+        if: steps.needed.outputs.publish == 'true'
+        run: |
+          echo '4c7a72100343c4da65ed4dfbaa2ac59cd3d4084be1d5a8924f1e57007cd5b770  2026-09-19-type-light/video/type-light.mp4' | sha256sum --check
+          echo 'cd64240c82b0fb626c28b50a89abbc032ff733f29f5f1d0b0e65c160c1742da0  2026-09-19-type-light/video/type-light.srt' | sha256sum --check
+          echo 'f1a0f40cdb4bf34e59da12b37ffba84f21d6cb4442cb1c9e3dc68586c90a2259  2026-09-19-type-light/video/type-light.json' | sha256sum --check
+          python tools/build_gallery.py --no-shots
+      - name: Commit the video, captions, metadata, and thumbnail
+        if: steps.needed.outputs.publish == 'true'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add 2026-09-19-type-light/video/type-light.mp4 2026-09-19-type-light/video/type-light.srt 2026-09-19-type-light/video/type-light.json gallery/manifest.js
+          git add -f gallery/shots/2026-09-19-type-light.png
+          git diff --cached --check
+          if ! git diff --cached --quiet; then
+            git commit -m 'media: publish verified Type Light video and gallery preview'
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi

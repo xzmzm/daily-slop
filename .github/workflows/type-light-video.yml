@@ -5,7 +5,9 @@ on:
     branches: [main]
     paths:
       - '2026-09-19-type-light/**'
-      - '.github/workflows/type-light-video.yml'
+      - '!2026-09-19-type-light/video/type-light.mp4'
+      - '!2026-09-19-type-light/video/type-light.srt'
+      - '!2026-09-19-type-light/video/type-light.json'
   workflow_dispatch:
 
 permissions:
@@ -21,31 +23,16 @@ jobs:
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v6
-      - name: Preserve build context
-        uses: actions/upload-artifact@v4
-        with:
-          name: type-light-build-context
-          path: |
-            README.md
-            AGENTS.md
-            tools/
-            gallery/manifest.js
-            2026-08-08-cattery/video/*.py
-            2026-08-08-cattery/video/README.md
-          retention-days: 2
       - uses: actions/setup-python@v6
-        if: ${{ hashFiles('2026-09-19-type-light/video/render_video.py') != '' }}
         with:
           python-version: '3.12'
       - name: Install capture tools
-        if: ${{ hashFiles('2026-09-19-type-light/video/render_video.py') != '' }}
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y ffmpeg fonts-noto-cjk
           python -m pip install playwright pillow
           python -m playwright install --with-deps chromium
       - name: Test and render
-        if: ${{ hashFiles('2026-09-19-type-light/video/render_video.py') != '' }}
         env:
           FISH_AUDIO_API_KEY: ${{ secrets.FISH_AUDIO_API_KEY }}
         run: |
@@ -56,7 +43,6 @@ jobs:
           ffmpeg -v error -i 2026-09-19-type-light/video/type-light.mp4 -f null -
           git diff --check
       - name: Upload finished video
-        if: ${{ hashFiles('2026-09-19-type-light/video/type-light.mp4') != '' }}
         uses: actions/upload-artifact@v4
         with:
           name: type-light-video
@@ -65,13 +51,16 @@ jobs:
             2026-09-19-type-light/video/type-light.srt
             2026-09-19-type-light/video/type-light.json
             gallery/shots/2026-09-19-type-light.png
+          if-no-files-found: error
           retention-days: 30
       - name: Commit generated assets
-        if: ${{ hashFiles('2026-09-19-type-light/video/type-light.mp4') != '' }}
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add 2026-09-19-type-light/video/type-light.mp4 2026-09-19-type-light/video/type-light.srt 2026-09-19-type-light/video/type-light.json gallery/shots/2026-09-19-type-light.png gallery/manifest.js
+          git add 2026-09-19-type-light/video/type-light.mp4 2026-09-19-type-light/video/type-light.srt 2026-09-19-type-light/video/type-light.json gallery/manifest.js
+          # Most gallery shots are generated at deploy time; retain this project's verified preview explicitly.
+          git add -f gallery/shots/2026-09-19-type-light.png
+          git diff --cached --check
           if ! git diff --cached --quiet; then
             git commit -m 'media: render Type Light demo and gallery preview'
             git pull --rebase origin main
