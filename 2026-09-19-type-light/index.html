@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Turn light into letters. An interactive ASCII darkroom with measured glyph density, real dithering, local image import, and text / PNG exports.">
+  <meta name="theme-color" content="#eeede7"><title>Type Light — an ASCII darkroom</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' rx='16' fill='%23161d1b'/%3E%3Ctext x='10' y='55' fill='%23c1f5bd' font-size='42' font-family='monospace'%3E@%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css"><script defer src="core.js"></script><script defer src="app.js"></script>
+</head>
+<body>
+<main>
+  <header class="masthead"><a class="brand" href="../" aria-label="Daily Slop gallery"><span class="brandmark">:)</span> DAILY SLOP <span class="brand-divider">/</span> LIGHT STUDIES</a><span class="issue">NO. 058 <i></i> 19 SEP 2026</span></header>
+  <section class="intro"><div><p class="eyebrow">THE ASCII DARKROOM</p><h1>Light, <em>set in type.</em></h1></div><div class="intro-note"><span class="tinyface">:-)</span><p>A little punctuation can make a face.<br>A few thousand characters can make a world.</p><a href="#field-notes">From a smiley to a small darkroom <span>↘</span></a></div></section>
+  <section class="studio" aria-label="ASCII image studio">
+    <div class="viewer">
+      <div class="view-head"><span><i class="status-dot"></i> <b id="source-name">TORUS KNOT</b> <span class="muted">/ LIVE STUDY</span></span><span id="grid-size">132 × 54</span></div>
+      <div class="stage" id="drop-zone">
+        <canvas id="display" role="img" aria-label="Animated three-dimensional knot converted into ASCII characters. Use the controls to change its appearance."></canvas>
+        <div class="source-label" id="source-label">LIGHT</div><div class="type-label">TYPE</div>
+        <div id="compare-line" aria-hidden="true"><span>‹ ›</span></div>
+        <div class="stage-stamp" aria-hidden="true">FIG. 01<br>LIGHT → LETTERS</div>
+        <div class="drop-hint" id="drop-hint">Drop an image into the darkroom</div>
+      </div>
+      <div class="view-foot"><button id="play" class="play" aria-label="Pause animation" aria-pressed="false"><span id="play-icon">Ⅱ</span><span id="play-label">Pause</span></button><label class="reveal-label" for="reveal">Source reveal</label><input id="reveal" type="range" min="0" max="100" value="50" aria-label="Source reveal percentage"><output id="reveal-value" for="reveal">50%</output><span class="local-mark">LOCAL ONLY ↗</span></div>
+    </div>
+    <aside class="controls" aria-label="Image controls">
+      <div class="panel-title"><h2>The light table</h2><button id="reset" class="reset" title="Reset all controls">Reset ↺</button></div>
+      <div class="control-group"><label class="control-label" for="source">01 <span>Choose a subject</span></label><select id="source"><option value="knot">Torus knot</option><option value="orbits">Orbital still life</option><option value="signal">Test signal</option></select><button id="upload" class="upload">↑ &nbsp; Open your own image <span>↗</span></button><input id="file" type="file" accept="image/*" hidden></div>
+      <div class="control-group"><label class="control-label" for="columns">02 <span>Character resolution</span><output id="columns-value" for="columns">132</output></label><input id="columns" type="range" min="48" max="180" step="4" value="132"><div class="range-notes"><span>coarse / 48</span><span>fine / 180</span></div></div>
+      <div class="control-pair"><div><label class="minor-label" for="charset">Alphabet</label><select id="charset"><option value="classic">10 characters</option><option value="binary">2 characters</option><option value="extended">23 characters</option></select></div><div><label class="minor-label" for="dither">Dithering</label><select id="dither"><option value="none">None</option><option value="ordered">Bayer 4 × 4</option><option value="diffusion">Floyd–Steinberg</option></select></div></div>
+      <div class="control-pair sliders"><div><label class="minor-label" for="exposure">Exposure <output id="exposure-value" for="exposure">+0.8</output></label><input id="exposure" type="range" min="-2" max="2" step="0.1" value="0.8"></div><div><label class="minor-label" for="contrast">Contrast <output id="contrast-value" for="contrast">1.2×</output></label><input id="contrast" type="range" min="0.5" max="2" step="0.1" value="1.2"></div></div>
+      <fieldset class="palette"><legend class="minor-label">03 &nbsp; Print color</legend><button data-palette="mint" class="swatch mint selected" aria-label="Mint palette" aria-pressed="true"></button><button data-palette="amber" class="swatch amber" aria-label="Amber palette" aria-pressed="false"></button><button data-palette="paper" class="swatch paper" aria-label="Ink on paper palette" aria-pressed="false"></button><button data-palette="color" class="swatch color" aria-label="Original color palette" aria-pressed="false"></button><span id="palette-name">Phosphor</span></fieldset>
+      <div class="exports"><button id="save-png" class="primary">Save PNG <span>↓</span></button><button id="save-text" aria-label="Save ASCII text">.txt ↓</button><button id="copy" aria-label="Copy ASCII text">Copy</button></div>
+      <p id="message" class="message" role="status">No uploads. Your images stay in this tab.</p>
+    </aside>
+  </section>
+  <section class="ramp" aria-label="Measured character density"><div class="ramp-caption"><span class="eyebrow">THE CHARACTER RAMP</span><span>Measured ink, not alphabetical order.</span></div><div id="glyph-ramp"></div><div class="ramp-end">DARK<br><span>→</span><br>LIGHT</div></section>
+  <section class="field-notes" id="field-notes"><article><p class="eyebrow">01 / A FACE IN THREE KEYSTROKES</p><h2>Read it sideways.</h2><p>On September 19, 1982, Scott Fahlman proposed <code>:-)</code> and <code>:-(</code> on a Carnegie Mellon bulletin board. Today’s experiment takes a different route: characters become tiny patches of light, not expressions.</p><a href="https://www.cs.cmu.edu/~sef/Orig-Smiley.htm" target="_blank" rel="noopener noreferrer">The original message ↗</a></article><article><p class="eyebrow">02 / THE DARKROOM TRICK</p><h2>Less ink. More image.</h2><p>Each cell samples linear-light brightness. The browser measures the ink coverage of every glyph, sorts the alphabet, then chooses a match. Dithering spreads the leftover tone between neighbors. Try two characters to see it work.</p><p class="note-small">Character coverage is normalized to the densest glyph; this is a tonal interpretation, not a photometric display calibration.</p></article><article class="try-note"><p class="eyebrow">A SMALL EXPERIMENT</p><p>Two characters.<br>One whole picture.</p><button id="experiment">Try the two-character print <span>↗</span></button><span>Then switch dithering off.<br>Same letters. Much less detail.</span></article></section>
+  <footer><span>TYPE LIGHT <span class="footer-slash">/</span> 2026-09-19</span><span>Built by GPT-6 Astra</span><a href="../view.html?p=2026-09-19-type-light">Read the notes ↗</a></footer>
+</main>
+</body>
+</html>
