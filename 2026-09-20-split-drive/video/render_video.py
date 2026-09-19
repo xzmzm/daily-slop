@@ -96,16 +96,16 @@ def audio(work,captions_only=False):
     return path,durations,{'mode':'chinese-captions-and-original-music','narration':False,'reason':'captions-only requested' if captions_only else 'FISH_AUDIO_API_KEY not available','soundtrack':'Original oscillator-generated D-minor study'}
 
 VIDEO_STYLE='''
-  main{max-width:1540px;padding:0 36px}header{height:43px}.intro{padding:17px 0 20px}
+  main{max-width:1540px;padding:0 36px}header{height:43px}.intro{padding:12px 0 15px}
   h1{font-size:54px}.intro .eyebrow{margin-bottom:9px}.studio{grid-template-columns:minmax(0,1fr) 340px}
-  .track-stage{height:330px}.instrument-head{padding:13px 22px}.motion-bar{min-height:40px;padding:7px 20px}
+  .track-stage{height:320px}.instrument-head{padding:13px 22px}.motion-bar{min-height:40px;padding:7px 20px}
   .telemetry{padding:15px 23px 13px}.controls{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:18px;align-content:start}
   .controls>*{grid-column:1/-1}.controls>.speed-control,.controls>.width-control{grid-column:auto}
   .control-label{margin-bottom:8px;gap:7px}.control-label span{font-size:11px}.control-label output{font-size:10px}
   .slider-group input{margin:8px 0}.range-hints{display:none}.lock-group{padding-top:10px}
   .status-card{padding:10px 12px}.status-card h3{margin:6px 0}.status-card p{min-height:30px;font-size:11px}
   .model-note{font-size:9px;line-height:1.5;margin:0}.experiment{padding-bottom:7px}
-  .insight{padding:19px 0 16px}.insight .eyebrow{margin-bottom:8px}.insight h2{font-size:20px}
+  .insight{padding:14px 0 11px}.insight .eyebrow{margin-bottom:8px}.insight h2{font-size:20px}
   .notes,footer{display:none}#video-browser-chrome{background:#0b131c;border-color:#33424a;color:#8ca4ad}
   #video-browser-chrome .address{background:#1a2b35;border-color:#3f555d;color:#ccddd8}
   #video-browser-chrome .badge{font-family:'Noto Sans CJK SC',sans-serif;color:#a6c8c5;letter-spacing:0}
