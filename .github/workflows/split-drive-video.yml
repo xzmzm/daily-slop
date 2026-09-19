@@ -1,0 +1,98 @@
+name: Split Drive tests and video
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '2026-09-20-split-drive/**'
+      - '!2026-09-20-split-drive/video/split-drive.mp4'
+      - '!2026-09-20-split-drive/video/split-drive.srt'
+      - '!2026-09-20-split-drive/video/split-drive.json'
+      - '!2026-09-20-split-drive/VALIDATION.md'
+      - '.github/workflows/split-drive-video.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: split-drive-video
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install test and capture dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg fonts-noto-cjk
+          python -m pip install playwright pillow
+          python -m playwright install --with-deps chromium
+      - name: Test the real app and verify video composition
+        run: |
+          node 2026-09-20-split-drive/test.cjs
+          python 2026-09-20-split-drive/test_browser.py
+          python 2026-09-20-split-drive/video/render_video.py --preview /tmp/split-drive-checks
+      - name: Preserve screenshots and test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: split-drive-checks
+          path: /tmp/split-drive-checks/
+          retention-days: 14
+      - name: Render walkthrough
+        env:
+          FISH_AUDIO_API_KEY: ${{ secrets.FISH_AUDIO_API_KEY }}
+        run: python 2026-09-20-split-drive/video/render_video.py
+      - name: Update index and gallery
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('README.md')
+          text=p.read_text()
+          if './2026-09-20-split-drive/' not in text:
+              text=text.rstrip()+'\n| 2026-09-20 | [split-drive](./2026-09-20-split-drive/) — cornering lab; open versus locked axles, wheel speeds, and unequal paths | Vanilla HTML/CSS/JS | GPT-6 Astra |\n'
+              p.write_text(text)
+          PY
+          python tools/build_gallery.py --no-shots
+      - name: Verify media and check secrets
+        env:
+          FISH_AUDIO_API_KEY: ${{ secrets.FISH_AUDIO_API_KEY }}
+        run: |
+          python 2026-09-20-split-drive/verify_build.py
+          git diff --check
+      - name: Preserve finished video
+        uses: actions/upload-artifact@v4
+        with:
+          name: split-drive-video
+          path: |
+            2026-09-20-split-drive/video/split-drive.mp4
+            2026-09-20-split-drive/video/split-drive.srt
+            2026-09-20-split-drive/video/split-drive.json
+            2026-09-20-split-drive/VALIDATION.md
+            gallery/shots/2026-09-20-split-drive.png
+          if-no-files-found: error
+          retention-days: 30
+      - name: Publish generated media and gallery to main
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add README.md gallery/manifest.js 2026-09-20-split-drive/VALIDATION.md 2026-09-20-split-drive/video/split-drive.mp4 2026-09-20-split-drive/video/split-drive.srt 2026-09-20-split-drive/video/split-drive.json
+          git add -f gallery/shots/2026-09-20-split-drive.png
+          git diff --cached --check
+          if ! git diff --cached --quiet; then
+            git commit -m 'media: publish verified Split Drive walkthrough and gallery'
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
+      - name: Deploy the main revision including finished media
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy-pages.yml --ref main

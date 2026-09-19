@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0e1922"><meta name="description" content="A tiny cornering lab. Change the bend, lock the axle, and see why two wheels need different speeds.">
+<title>Split Drive — one turn, two speeds</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230e1922'/%3E%3Cpath d='M12 18v28M52 18v28M12 32h40' stroke='%23e8a870' stroke-width='7'/%3E%3Ccircle cx='32' cy='32' r='9' fill='%236fd8cd'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css"><script defer src="core.js"></script><script defer src="app.js"></script>
+</head>
+<body><main>
+<header><a class="brand" href="../"><span class="brand-icon">↔</span> DAILY SLOP <span class="slash">/</span> MECHANICAL STUDIES</a><span class="edition">EXPERIMENT 059 <i></i> 20 SEP 2026</span></header>
+<section class="intro"><div><p class="eyebrow">A SMALL MACHINE WITH ROOM TO DISAGREE</p><h1>One turn. <em>Two speeds.</em></h1></div><div class="intro-copy"><span class="tiny-number">01 / DIFFERENTIAL</span><p>The outside wheel has farther to go.<br>Let the axle make room for the difference.</p></div></section>
+<section class="studio" aria-label="Cornering experiment">
+<div class="instrument">
+<div class="instrument-head"><span><i class="live-dot"></i> SPLIT DRIVE <span class="dim">/ PLAN VIEW</span></span><span id="run-label">LEFT-HAND BEND</span></div>
+<div class="track-stage"><canvas id="track-canvas" role="img" aria-label="Top-down animated car with teal left-wheel and orange right-wheel paths"></canvas><div class="stage-legend"><span class="left-dot">LEFT WHEEL</span><span class="right-dot">RIGHT WHEEL</span></div><div class="stage-note">GEOMETRY LAB<br><span>Equal tires · Rear-wheel drive</span></div></div>
+<div class="motion-bar"><button id="play" aria-label="Pause animation" aria-pressed="false"><span id="play-icon">Ⅱ</span> <span id="play-text">Pause</span></button><span>Motion <b>¼×</b> <span class="bar-separator">/</span> readouts at real speed</span><button id="export">Save study <span>↓</span></button></div>
+<div class="telemetry" aria-label="Rear-wheel rotational speeds">
+<div class="wheel-metric left"><div class="metric-caption"><span>LEFT WHEEL</span><span id="left-role">INSIDE</span></div><div class="rpm"><strong id="left-rpm">134</strong><small>rpm</small><canvas id="left-dial" width="64" height="64" aria-hidden="true"></canvas></div><div class="speed-bars"><i class="required" id="left-required"></i><i class="delivered" id="left-delivered"></i></div><p id="left-slip">Rolling without slip</p></div>
+<div class="carrier-metric"><span class="metric-caption">DIFFERENTIAL CARRIER</span><strong id="carrier-rpm">149</strong><small>rpm · the average</small><div class="average-rule">( L + R ) ÷ 2</div></div>
+<div class="wheel-metric right"><div class="metric-caption"><span>RIGHT WHEEL</span><span id="right-role">OUTSIDE</span></div><div class="rpm"><strong id="right-rpm">164</strong><small>rpm</small><canvas id="right-dial" width="64" height="64" aria-hidden="true"></canvas></div><div class="speed-bars"><i class="required" id="right-required"></i><i class="delivered" id="right-delivered"></i></div><p id="right-slip">Rolling without slip</p></div>
+</div>
+</div>
+<aside class="controls">
+<div class="panel-heading"><h2>Set up the turn</h2><button id="reset">Reset ↺</button></div>
+<fieldset class="turns"><legend class="control-label">01 <span>Direction</span></legend><button data-turn="1" class="selected" aria-pressed="true">↶ Left</button><button data-turn="0" aria-pressed="false">↑ Straight</button><button data-turn="-1" aria-pressed="false">↷ Right</button></fieldset>
+<div class="slider-group"><label class="control-label" for="radius">02 <span>Turn radius</span><output id="radius-value">8.0 m</output></label><input id="radius" type="range" min="3.5" max="16" step=".5" value="8"><div class="range-hints"><span>tight / 3.5 m</span><span>wide / 16 m</span></div></div>
+<div class="slider-group speed-control"><label class="control-label" for="speed">03 <span>Forward speed</span><output id="speed-value">18 km/h</output></label><input id="speed" type="range" min="0" max="36" step="1" value="18"></div>
+<div class="slider-group width-control"><label class="control-label" for="track">04 <span>Axle track width</span><output id="track-value">1.6 m</output></label><input id="track" type="range" min="1" max="2.4" step=".1" value="1.6"></div>
+<div class="lock-group"><div><h3>Lock the axle</h3><p>Make both wheels turn together.</p></div><button id="lock" role="switch" aria-checked="false" aria-label="Lock the axle"><span></span></button></div>
+<div id="status-card" class="status-card" role="status"><span id="status-tag">OPEN DIFFERENTIAL</span><h3 id="status-title">Different speeds. Same turn.</h3><p id="status-copy">Each wheel rolls the distance its own path needs.</p></div>
+<button class="experiment" id="tight-turn">Try a tight, locked turn <span>↗</span></button>
+<p class="model-note">Kinematics, not a driving simulator. The path is imposed even when locked; colored marks indicate required tire slip, not a prediction of grip or wear.</p>
+</aside>
+</section>
+<section class="insight" aria-label="Distance comparison">
+<div class="insight-title"><p class="eyebrow">ONE COMPLETE CIRCLE</p><h2 id="gap-title">Same arrival. <em>Different journeys.</em></h2><p id="gap-copy">The outside wheel travels <strong id="lap-gap">10.05 m</strong> farther per lap.</p></div>
+<div class="lap-data"><div><span class="left-dot">LEFT PATH</span><strong id="left-lap">45.24 <small>m</small></strong></div><div class="lap-link">≠</div><div><span class="right-dot">RIGHT PATH</span><strong id="right-lap">55.29 <small>m</small></strong></div></div>
+<div class="insight-formula"><span>THE SURPRISE</span><p>Extra distance = 2π × track width</p><small id="surprise-note">Change the radius. The per-lap difference stays.</small></div>
+</section>
+<section class="notes"><article><span class="eyebrow">WHAT THE DIFFERENTIAL DOES</span><p>The carrier speed is the average of the two axle speeds. It allows a difference; it does not decide the required split from steering. Here, the prescribed road geometry supplies it.</p></article><article><span class="eyebrow">WHAT LOCKING CHANGES</span><p>Equal wheel speeds cannot match unequal path lengths on this imposed bend. The inner tire's surface runs too fast; the outer runs too slowly. The little bars compare road demand (outline) with axle delivery (solid).</p></article><a href="https://web.mit.edu/2.972/www/reports/differential/differential.html" target="_blank" rel="noopener noreferrer">Differential mechanics<br><span>MIT 2.972 reference ↗</span></a></section>
+<footer><span>SPLIT DRIVE <span class="slash">/</span> 2026-09-20</span><span>Built by GPT-6 Astra</span><a href="README.md">About this experiment ↗</a></footer>
+</main></body></html>
