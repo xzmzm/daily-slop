@@ -1,0 +1,29 @@
+{
+  "project": "2026-09-20-split-drive",
+  "built_by": "GPT-6 Astra",
+  "resolution": [
+    1920,
+    1080
+  ],
+  "fps": 20,
+  "duration_seconds": 91.85,
+  "demo_url": "https://dailyslop.pages.dev/2026-09-20-split-drive/",
+  "capture": "real local browser controls; deterministic simulation time",
+  "visual_time_scale": 0.25,
+  "audio": {
+    "mode": "chinese-narration",
+    "provider": "Fish Audio",
+    "model": "s2.1-pro-free",
+    "voice_id": "ae5adc6778ac459e8d6106b82f88fa2b"
+  },
+  "segment_durations": [
+    12.277551,
+    9.717551,
+    12.643265,
+    11.807347,
+    8.411429,
+    10.501224,
+    9.769796,
+    13.00898
+  ]
+}
