@@ -1,0 +1,143 @@
+{
+  "project": "2026-09-21-echo-room",
+  "built_by": "GPT-6 Astra",
+  "resolution": [
+    1920,
+    1080
+  ],
+  "fps": 20,
+  "duration_seconds": 104.221995,
+  "demo_url": "https://dailyslop.pages.dev/2026-09-21-echo-room/",
+  "capture": "real app controls in a local browser; deterministic visual time",
+  "audio": {
+    "mode": "chinese-narration-and-app-audio",
+    "provider": "Fish Audio",
+    "model": "s2.1-pro-free",
+    "voice_id": "ae5adc6778ac459e8d6106b82f88fa2b"
+  },
+  "visual_time_scale": 0.06,
+  "segment_durations": [
+    10.736327,
+    10.657959,
+    7.497143,
+    10.422857,
+    8.150204,
+    9.456327,
+    12.173061,
+    11.128163
+  ],
+  "sound_effects": [
+    {
+      "time": 11.45,
+      "mode": "room",
+      "source": "unchanged WAV samples synthesized by the app"
+    },
+    {
+      "time": 25.1,
+      "mode": "room",
+      "source": "unchanged WAV samples synthesized by the app"
+    },
+    {
+      "time": 35.6,
+      "mode": "direct",
+      "source": "unchanged WAV samples synthesized by the app"
+    },
+    {
+      "time": 49.0,
+      "mode": "room",
+      "source": "unchanged WAV samples synthesized by the app"
+    },
+    {
+      "time": 60.15,
+      "mode": "room",
+      "source": "unchanged WAV samples synthesized by the app"
+    },
+    {
+      "time": 72.6,
+      "mode": "room",
+      "source": "unchanged WAV samples synthesized by the app"
+    },
+    {
+      "time": 87.8,
+      "mode": "room",
+      "source": "unchanged WAV samples synthesized by the app"
+    }
+  ],
+  "actions": [
+    {
+      "time": 11.45,
+      "action": "click",
+      "target": "#play"
+    },
+    {
+      "time": 15.35,
+      "action": "drag",
+      "target": "#listener"
+    },
+    {
+      "time": 25.1,
+      "action": "click",
+      "target": "#play"
+    },
+    {
+      "time": 27.95,
+      "action": "click",
+      "target": "[data-mode=\"direct\"]"
+    },
+    {
+      "time": 35.6,
+      "action": "click",
+      "target": "#play"
+    },
+    {
+      "time": 38.45,
+      "action": "click",
+      "target": "[data-mode=\"room\"]"
+    },
+    {
+      "time": 49.0,
+      "action": "click",
+      "target": "#play"
+    },
+    {
+      "time": 52.9,
+      "action": "drag",
+      "target": "#absorption"
+    },
+    {
+      "time": 60.15,
+      "action": "click",
+      "target": "#play"
+    },
+    {
+      "time": 63.0,
+      "action": "click",
+      "target": "[data-preset=\"corridor\"]"
+    },
+    {
+      "time": 72.6,
+      "action": "click",
+      "target": "#play"
+    },
+    {
+      "time": 75.45,
+      "action": "click",
+      "target": "[data-preset=\"studio\"]"
+    },
+    {
+      "time": 87.8,
+      "action": "click",
+      "target": "#play"
+    },
+    {
+      "time": 90.65,
+      "action": "click",
+      "target": "#reset"
+    },
+    {
+      "time": 91.25,
+      "action": "click",
+      "target": "#export"
+    }
+  ]
+}

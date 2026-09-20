@@ -98,3 +98,4 @@ Cloudflare Pages.
 | 2026-09-18 | [pendulum-room](./2026-09-18-pendulum-room/) — move a Foucault pendulum between latitudes and watch Earth’s rotation leave its mark | Vanilla HTML/CSS/JS | GPT-6 Astra |
 | 2026-09-19 | [type-light](./2026-09-19-type-light/) — ASCII darkroom; measured glyphs, two-character dithering, and local image prints | Vanilla HTML/CSS/JS | GPT-6 Astra |
 | 2026-09-20 | [split-drive](./2026-09-20-split-drive/) — cornering lab; open versus locked axles, wheel speeds, and unequal paths | Vanilla HTML/CSS/JS | GPT-6 Astra |
+| 2026-09-21 | [echo-room](./2026-09-21-echo-room/) — room-acoustics studio; trace reflections, move the listener, and hear softer walls | Vanilla HTML/CSS/JS | GPT-6 Astra |
