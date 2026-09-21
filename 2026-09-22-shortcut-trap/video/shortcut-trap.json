@@ -1,0 +1,402 @@
+{
+  "provider": "Fish Audio",
+  "model": "s2.1-pro-free",
+  "voice_id": "ae5adc6778ac459e8d6106b82f88fa2b",
+  "date": "2026-09-22",
+  "built_by": "GPT-6 Astra",
+  "resolution": "1920x1080",
+  "fps": 20,
+  "duration_seconds": 104.6,
+  "segment_durations": [
+    12.382041,
+    10.475102,
+    9.586939,
+    10.788571,
+    9.404082,
+    11.206531,
+    10.971429,
+    12.8
+  ],
+  "language": "zh-CN",
+  "subtitle_cues": 24,
+  "burned_in_subtitles": true,
+  "capture": "real Chromium browser; deterministic animation; local HTTP",
+  "display_url": "https://dailyslop.pages.dev/2026-09-22-shortcut-trap/",
+  "actions": [
+    {
+      "time": 27.4,
+      "action": "click",
+      "target": "#shortcut"
+    },
+    {
+      "time": 39.0,
+      "action": "click",
+      "target": "[data-route=\"2\"]"
+    },
+    {
+      "time": 51.8,
+      "action": "click",
+      "target": "[data-route=\"2\"]"
+    },
+    {
+      "time": 53.25,
+      "action": "slider",
+      "target": "#demand",
+      "value": 1000
+    },
+    {
+      "time": 64.05,
+      "action": "slider",
+      "target": "#demand",
+      "value": 9000
+    },
+    {
+      "time": 77.25,
+      "action": "slider",
+      "target": "#demand",
+      "value": 4000
+    },
+    {
+      "time": 77.85,
+      "action": "click",
+      "target": "[data-policy=\"coordinated\"]"
+    },
+    {
+      "time": 89.35,
+      "action": "click",
+      "target": "[data-policy=\"selfish\"]"
+    },
+    {
+      "time": 89.95,
+      "action": "click",
+      "target": "#shortcut"
+    },
+    {
+      "time": 98.3,
+      "action": "click",
+      "target": "#export"
+    }
+  ],
+  "scene_states": [
+    {
+      "segment": 0,
+      "time": 0.0,
+      "demand": 4000,
+      "delay": 0,
+      "open": false,
+      "policy": "selfish",
+      "flows": [
+        2000,
+        2000,
+        0
+      ],
+      "costs": [
+        65,
+        65,
+        40
+      ],
+      "edges": [
+        2000,
+        2000,
+        2000,
+        2000,
+        0
+      ],
+      "times": [
+        20,
+        45,
+        45,
+        20,
+        0
+      ],
+      "total": 260000,
+      "average": 65,
+      "baseline": 65,
+      "gap": 0,
+      "delta": 0,
+      "paused": false,
+      "selected": -1,
+      "elapsed": 0
+    },
+    {
+      "segment": 1,
+      "time": 14.4,
+      "demand": 4000,
+      "delay": 0,
+      "open": false,
+      "policy": "selfish",
+      "flows": [
+        2000,
+        2000,
+        0
+      ],
+      "costs": [
+        65,
+        65,
+        40
+      ],
+      "edges": [
+        2000,
+        2000,
+        2000,
+        2000,
+        0
+      ],
+      "times": [
+        20,
+        45,
+        45,
+        20,
+        0
+      ],
+      "total": 260000,
+      "average": 65,
+      "baseline": 65,
+      "gap": 0,
+      "delta": 0,
+      "paused": false,
+      "selected": -1,
+      "elapsed": 14.40000000000007
+    },
+    {
+      "segment": 2,
+      "time": 27.45,
+      "demand": 4000,
+      "delay": 0,
+      "open": true,
+      "policy": "selfish",
+      "flows": [
+        0,
+        0,
+        4000
+      ],
+      "costs": [
+        85,
+        85,
+        80
+      ],
+      "edges": [
+        4000,
+        0,
+        0,
+        4000,
+        4000
+      ],
+      "times": [
+        40,
+        45,
+        45,
+        40,
+        0
+      ],
+      "total": 320000,
+      "average": 80,
+      "baseline": 65,
+      "gap": 0,
+      "delta": 15,
+      "paused": false,
+      "selected": -1,
+      "elapsed": 27.450000000000255
+    },
+    {
+      "segment": 3,
+      "time": 39.05,
+      "demand": 4000,
+      "delay": 0,
+      "open": true,
+      "policy": "selfish",
+      "flows": [
+        0,
+        0,
+        4000
+      ],
+      "costs": [
+        85,
+        85,
+        80
+      ],
+      "edges": [
+        4000,
+        0,
+        0,
+        4000,
+        4000
+      ],
+      "times": [
+        40,
+        45,
+        45,
+        40,
+        0
+      ],
+      "total": 320000,
+      "average": 80,
+      "baseline": 65,
+      "gap": 0,
+      "delta": 15,
+      "paused": false,
+      "selected": 2,
+      "elapsed": 39.04999999999992
+    },
+    {
+      "segment": 4,
+      "time": 53.3,
+      "demand": 1000,
+      "delay": 0,
+      "open": true,
+      "policy": "selfish",
+      "flows": [
+        0,
+        0,
+        1000
+      ],
+      "costs": [
+        55,
+        55,
+        20
+      ],
+      "edges": [
+        1000,
+        0,
+        0,
+        1000,
+        1000
+      ],
+      "times": [
+        10,
+        45,
+        45,
+        10,
+        0
+      ],
+      "total": 20000,
+      "average": 20,
+      "baseline": 50,
+      "gap": 0,
+      "delta": -30,
+      "paused": false,
+      "selected": -1,
+      "elapsed": 53.29999999999911
+    },
+    {
+      "segment": 5,
+      "time": 64.1,
+      "demand": 9000,
+      "delay": 0,
+      "open": true,
+      "policy": "selfish",
+      "flows": [
+        4500,
+        4500,
+        0
+      ],
+      "costs": [
+        90,
+        90,
+        90
+      ],
+      "edges": [
+        4500,
+        4500,
+        4500,
+        4500,
+        0
+      ],
+      "times": [
+        45,
+        45,
+        45,
+        45,
+        0
+      ],
+      "total": 810000,
+      "average": 90,
+      "baseline": 90,
+      "gap": 0,
+      "delta": 0,
+      "paused": false,
+      "selected": -1,
+      "elapsed": 64.0999999999985
+    },
+    {
+      "segment": 6,
+      "time": 77.9,
+      "demand": 4000,
+      "delay": 0,
+      "open": true,
+      "policy": "coordinated",
+      "flows": [
+        1750,
+        1750,
+        500
+      ],
+      "costs": [
+        67.5,
+        67.5,
+        45
+      ],
+      "edges": [
+        2250,
+        1750,
+        1750,
+        2250,
+        500
+      ],
+      "times": [
+        22.5,
+        45,
+        45,
+        22.5,
+        0
+      ],
+      "total": 258750,
+      "average": 64.6875,
+      "baseline": 65,
+      "gap": 22.5,
+      "delta": -0.3125,
+      "paused": false,
+      "selected": -1,
+      "elapsed": 77.89999999999772
+    },
+    {
+      "segment": 7,
+      "time": 90.0,
+      "demand": 4000,
+      "delay": 0,
+      "open": false,
+      "policy": "selfish",
+      "flows": [
+        2000,
+        2000,
+        0
+      ],
+      "costs": [
+        65,
+        65,
+        40
+      ],
+      "edges": [
+        2000,
+        2000,
+        2000,
+        2000,
+        0
+      ],
+      "times": [
+        20,
+        45,
+        45,
+        20,
+        0
+      ],
+      "total": 260000,
+      "average": 65,
+      "baseline": 65,
+      "gap": 0,
+      "delta": 0,
+      "paused": false,
+      "selected": -1,
+      "elapsed": 89.99999999999703
+    }
+  ]
+}
