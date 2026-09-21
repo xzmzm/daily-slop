@@ -1,0 +1,99 @@
+name: Shortcut Trap tests and video
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '2026-09-22-shortcut-trap/**'
+      - '!2026-09-22-shortcut-trap/video/shortcut-trap.mp4'
+      - '!2026-09-22-shortcut-trap/video/shortcut-trap.srt'
+      - '!2026-09-22-shortcut-trap/video/shortcut-trap.json'
+      - '!2026-09-22-shortcut-trap/VALIDATION.md'
+      - '.github/workflows/shortcut-trap-video.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: shortcut-trap-video
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install test and capture dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg fonts-noto-cjk
+          python -m pip install playwright pillow
+          python -m playwright install --with-deps chromium
+      - name: Test real controls and video composition
+        run: |
+          mkdir -p /tmp/shortcut-trap-checks
+          node 2026-09-22-shortcut-trap/test.cjs | tee /tmp/shortcut-trap-checks/math-tests.json
+          python 2026-09-22-shortcut-trap/test_browser.py
+          python 2026-09-22-shortcut-trap/video/render_video.py --preview /tmp/shortcut-trap-checks
+      - name: Preserve check screenshots and reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: shortcut-trap-checks
+          path: /tmp/shortcut-trap-checks/
+          retention-days: 14
+      - name: Render Chinese narrated walkthrough
+        env:
+          FISH_AUDIO_API_KEY: ${{ secrets.FISH_AUDIO_API_KEY }}
+        run: python 2026-09-22-shortcut-trap/video/render_video.py
+      - name: Update index and gallery
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('README.md')
+          text=p.read_text()
+          if './2026-09-22-shortcut-trap/' not in text:
+              text=text.rstrip()+'\n| 2026-09-22 | [shortcut-trap](./2026-09-22-shortcut-trap/) — traffic-routing lab; open a shortcut, arrive later, and compare selfish with coordinated routes | Vanilla HTML/CSS/JS | GPT-6 Astra |\n'
+              p.write_text(text)
+          PY
+          python tools/build_gallery.py --no-shots
+      - name: Verify media and scan for secrets
+        env:
+          FISH_AUDIO_API_KEY: ${{ secrets.FISH_AUDIO_API_KEY }}
+        run: |
+          python 2026-09-22-shortcut-trap/verify_build.py
+          git diff --check
+      - name: Preserve finished video
+        uses: actions/upload-artifact@v4
+        with:
+          name: shortcut-trap-video
+          path: |
+            2026-09-22-shortcut-trap/video/shortcut-trap.mp4
+            2026-09-22-shortcut-trap/video/shortcut-trap.srt
+            2026-09-22-shortcut-trap/video/shortcut-trap.json
+            2026-09-22-shortcut-trap/VALIDATION.md
+            gallery/shots/2026-09-22-shortcut-trap.png
+          if-no-files-found: error
+          retention-days: 30
+      - name: Publish verified media and gallery to main
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add README.md gallery/manifest.js 2026-09-22-shortcut-trap/VALIDATION.md 2026-09-22-shortcut-trap/video/shortcut-trap.mp4 2026-09-22-shortcut-trap/video/shortcut-trap.srt 2026-09-22-shortcut-trap/video/shortcut-trap.json
+          git add -f gallery/shots/2026-09-22-shortcut-trap.png
+          git diff --cached --check
+          if ! git diff --cached --quiet; then
+            git commit -m 'media: publish verified Shortcut Trap walkthrough and gallery'
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
+      - name: Deploy main including finished media
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy-pages.yml --ref main

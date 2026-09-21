@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#eeeae1">
+  <meta name="description" content="Open a shortcut. Watch the commute get longer. A hands-on Braess's paradox traffic lab.">
+  <title>Shortcut Trap — a little traffic paradox</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2325312d'/%3E%3Cpath d='M12 44L32 16L52 44M32 16V48' fill='none' stroke='%23e4b55c' stroke-width='6'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css"><script defer src="model.js"></script><script defer src="app.js"></script>
+</head>
+<body>
+<main>
+  <header><a href="../" class="brand"><span class="brand-icon">↗</span> daily slop<span class="brand-slash">/</span><span class="muted">little experiments</span></a><span class="edition">NO. 061 <span>·</span> 22 SEP 2026</span></header>
+  <section class="intro"><div><div class="eyebrow"><span class="tiny-road"></span> A LITTLE TRAFFIC PARADOX</div><h1>A shortcut.<br>A <em>longer</em> commute.</h1></div><div class="intro-aside"><span class="capsule">SHORTCUT TRAP</span><p>More choice isn't always a faster way home.<br>Open one road. See what everyone else does.</p><span class="micro">INSPIRED BY BRAESS'S PARADOX</span></div></section>
+  <section class="studio" aria-label="Traffic experiment">
+    <div class="network-panel">
+      <div class="panel-top"><div><span class="status-dot"></span><span id="network-status">TWO ROADS HOME</span></div><div class="panel-tools"><button id="pause" aria-pressed="false" title="Pause the illustrative traffic">Pause motion</button><span>ONE-WAY NETWORK ↗</span></div></div>
+      <div class="map-wrap"><canvas id="network" width="1600" height="960" role="img" aria-label="Directed traffic network. Route data and road formulas are listed below."></canvas><div class="map-stamp"><b>SUBURBS → DOWNTOWN</b><span>Same drivers. Same destination.</span></div></div>
+      <div class="map-foot"><span><i class="legend-line"></i> Slows with traffic</span><span><i class="legend-line fixed"></i> Always 45 min</span><span class="map-disclaimer">Illustrative cars · not a real-time traffic simulation</span></div>
+      <div class="route-table"><div class="route-heading"><span>HOW PEOPLE GET THERE</span><span>DRIVERS</span><span>TRIP TIME</span></div>
+        <button class="route" data-route="0"><span><i class="route-dot upper"></i> Upper <small>S → A → T</small></span><b id="flow-0"></b><span id="cost-0"></span></button>
+        <button class="route" data-route="1"><span><i class="route-dot lower"></i> Lower <small>S → B → T</small></span><b id="flow-1"></b><span id="cost-1"></span></button>
+        <button class="route" data-route="2"><span><i class="route-dot cross"></i> Shortcut <small>S → A → B → T</small></span><b id="flow-2"></b><span id="cost-2"></span></button>
+      </div>
+    </div>
+    <aside class="controls">
+      <div class="control-title"><span class="eyebrow">THE EXPERIMENT</span><button id="reset" class="text-button">Reset ↺</button></div>
+      <div class="result" aria-live="polite" aria-atomic="true"><span id="metric-label">AVERAGE COMMUTE</span><div><strong id="average">65.0</strong><span class="unit">min</span></div><p id="delta" class="delta">The original two-road network.</p></div>
+      <button id="shortcut" class="shortcut-button" aria-pressed="false"><span class="switch-symbol">＋</span><span><b id="shortcut-label">Open the shortcut</b><small id="shortcut-hint">A new link from A to B</small></span><span class="toggle-track"><i></i></span></button>
+      <div class="control-group"><label for="demand">Drivers heading downtown <output id="demand-value">4,000</output></label><input type="range" id="demand" min="1000" max="10000" step="100" value="4000"><div class="range-ends"><span>1,000 · quiet</span><span>10,000 · busy</span></div></div>
+      <div class="control-group"><label for="delay">Shortcut travel time <output id="delay-value">0 min</output></label><input type="range" id="delay" min="0" max="40" step="1" value="0"><div class="range-ends"><span>Instant link</span><span>40 minutes</span></div></div>
+      <div class="policy-group"><div class="eyebrow">WHO CHOOSES THE ROUTE?</div><div class="segmented" role="group" aria-label="Route selection"><button data-policy="selfish" aria-pressed="true">Every driver</button><button data-policy="coordinated" aria-pressed="false">Coordinator</button></div><p id="policy-note">Everyone takes their fastest route. No single driver can improve by switching.</p></div>
+      <div class="verdict"><span class="eyebrow" id="verdict-label">TRY THIS</span><p id="verdict"></p></div>
+      <div class="export-row"><button id="share">Copy scenario link ↗</button><button id="export">Save image ↓</button></div><p class="sr-only" role="status" id="notice"></p>
+    </aside>
+  </section>
+  <section class="bottom-grid"><div class="curve-panel"><div class="chart-title"><div><div class="eyebrow">IT DEPENDS ON THE TRAFFIC</div><h2>When does more road hurt?</h2></div><div class="chart-legend"><span><i class="closed-line"></i> Closed</span><span><i class="open-line"></i> Open</span></div></div><canvas id="curve" role="img" aria-label="Individual-choice commute times across driver demand. Orange shading marks where opening the shortcut makes travel slower. Use the demand slider to explore." width="1600" height="340"></canvas><p>Individual route choices, at the selected shortcut time. Drag the chart to change demand.</p></div><div class="explanation"><span class="eyebrow">THE CATCH</span><h2>Your best route<br> isn't just about you.</h2><p id="explanation"></p><a href="#method">How the numbers work <span>↓</span></a></div></section>
+  <details id="method"><summary>The model, not a forecast <span>+</span></summary><div class="method-grid"><p><b>Five directed links.</b> S → A and B → T each take <code>f / 100</code> minutes, where <code>f</code> is the number of drivers assigned to that road. S → B and A → T each take 45 minutes. The shortcut is one-way, A → B. Its selected travel time is constant.</p><p><b>Two different questions.</b> “Every driver” solves a continuous-flow Wardrop equilibrium. “Coordinator” minimizes total travel time; that assignment need not be stable when people choose for themselves. Fractions are allowed in the model. Displayed driver counts are rounded.</p><p><b>A deliberately tiny world.</b> Demand is fixed, not induced by road building. No signals, spillback, queues, route-learning dynamics, or real city data. Cars are sample markers, not individual simulated agents. The shortcut can have zero mathematical travel time even though its markers still move visibly.</p></div><p class="source-note">Background: <a href="https://www.cs.cornell.edu/home/kleinber/networks-book/networks-book-ch08.pdf" target="_blank" rel="noreferrer">Easley &amp; Kleinberg, Networks, Crowds, and Markets, chapter 8</a>. Built for the closing day of <a href="https://mobilityweek.eu/home/" target="_blank" rel="noreferrer">European Mobility Week 2026</a>.</p></details>
+  <footer><span>A SMALL EXPERIMENT IN COLLECTIVE CONSEQUENCES.</span><span>Built by GPT-6 Astra <span>·</span> <a href="README.md">Readme</a> / <a href="NOTES.md">Notes</a></span></footer>
+</main>
+</body>
+</html>
