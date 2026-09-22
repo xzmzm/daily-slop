@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#e9ece3">
+  <meta name="description" content="A tiny two-ink print studio. Move the plates, discover a third color, and pull a print of your own.">
+  <title>Ink Register — a two-color print studio</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='14' fill='%23e9ece3'/%3E%3Ccircle cx='24' cy='30' r='17' fill='%232b655b'/%3E%3Ccircle cx='38' cy='30' r='17' fill='%23e96745' style='mix-blend-mode:multiply'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="core.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="masthead">
+    <a class="brand" href="./" aria-label="Ink Register home"><span class="brand-mark" aria-hidden="true"><i></i><i></i></span>INK REGISTER<span class="brand-note">a small print workshop</span></a>
+    <a class="daily-link" href="../">DAILY SLOP <span>№ 062 / 23 SEP 2026</span><span aria-hidden="true">↗</span></a>
+  </header>
+  <main>
+    <section class="intro" aria-labelledby="title">
+      <div><p class="eyebrow">TWO INKS. A LITTLE HAPPY ACCIDENT.</p><h1 id="title">A little out of line.</h1></div>
+      <p class="intro-copy">Slide one color over the other.<br> Find the good bit in between.</p>
+    </section>
+    <div class="workshop">
+      <section class="workbench" aria-label="Print preview">
+        <div class="bench-bar"><span class="live-label"><i></i> PRINT PREVIEW</span><div class="view-switch" role="group" aria-label="Visible ink plates"><button data-view="both" aria-pressed="true">Overprint</button><button data-view="a" aria-pressed="false">Ink A</button><button data-view="b" aria-pressed="false">Ink B</button></div><span class="paper-size">180 × 220 mm</span></div>
+        <div class="mat"><div class="paper"><canvas id="print" width="900" height="1100" tabindex="0" role="img" aria-label="Interactive print preview. Drag to move ink B, or use the arrow keys." aria-describedby="drag-help">Use the horizontal and vertical offset controls to move ink B.</canvas></div><span class="mat-caption" aria-hidden="true">A SMALL EDITION OF ONE</span><span class="mat-corner" aria-hidden="true">↗</span></div>
+        <div class="bench-footer"><span id="drag-help">↔ &nbsp; Drag the print to move ink B <span class="keyboard-hint">· Arrow keys to nudge</span></span><span id="alignment">A little off, just right.</span></div>
+      </section>
+      <aside class="controls" aria-label="Print controls">
+        <section class="control-section">
+          <h2><span>01</span> Choose a composition</h2>
+          <div class="designs" role="group" aria-label="Composition">
+            <button class="design selected" data-design="sun" aria-pressed="true"><svg viewBox="0 0 70 62" aria-hidden="true"><circle cx="42" cy="22" r="18" fill="var(--ink-b)"/><path d="M8 57V37a18 18 0 0 1 36 0v20Z" fill="var(--ink-a)" style="mix-blend-mode:multiply"/></svg><span>Sun room</span></button>
+            <button class="design" data-design="bloom" aria-pressed="false"><svg viewBox="0 0 70 62" aria-hidden="true"><path d="M35 58V23M35 43Q6 49 11 29Q32 28 35 43M35 52Q64 53 61 32Q41 33 35 52" fill="var(--ink-a)" stroke="var(--ink-a)" stroke-width="3"/><circle cx="35" cy="20" r="15" fill="var(--ink-b)"/></svg><span>Late bloom</span></button>
+            <button class="design" data-design="tide" aria-pressed="false"><svg viewBox="0 0 70 62" aria-hidden="true"><circle cx="43" cy="22" r="18" fill="var(--ink-b)"/><path d="M5 31Q19 15 34 31T65 31V39Q50 55 34 39T5 39ZM5 48Q19 32 34 48T65 48V56H5Z" fill="var(--ink-a)" style="mix-blend-mode:multiply"/></svg><span>Slow tide</span></button>
+          </div>
+        </section>
+        <section class="control-section">
+          <h2><span>02</span> Pick your inks</h2>
+          <div class="palettes" role="group" aria-label="Ink pair">
+            <button data-palette="0" class="palette selected" aria-pressed="true" aria-label="Persimmon: pine and vermilion"><i style="--swatch:#28675c"></i><i style="--swatch:#ed6944"></i><span>Persimmon</span></button>
+            <button data-palette="1" class="palette" aria-pressed="false" aria-label="After hours: cobalt and hot pink"><i style="--swatch:#3f51b5"></i><i style="--swatch:#f26996"></i><span>After hours</span></button>
+            <button data-palette="2" class="palette" aria-pressed="false" aria-label="Marigold: ocean and golden yellow"><i style="--swatch:#227887"></i><i style="--swatch:#efb62d"></i><span>Marigold</span></button>
+          </div>
+          <div class="ink-equation" aria-label="Ink overlap"><div><i id="swatch-a"></i><span>INK A</span></div><b>+</b><div><i id="swatch-b"></i><span>INK B</span></div><b>=</b><div><i id="swatch-mix"></i><span>THE OVERLAP</span></div></div>
+        </section>
+        <section class="control-section registration">
+          <h2><span>03</span> Let it slip <button id="align" title="Center ink B and reset its rotation">Reset ↺</button></h2>
+          <div class="range-label"><label for="offset-x">Horizontal</label><output id="x-value" for="offset-x">+1.6 mm</output></div><input id="offset-x" type="range" min="-24" max="24" step="0.2" value="1.6">
+          <div class="range-label"><label for="offset-y">Vertical</label><output id="y-value" for="offset-y">−1.0 mm</output></div><input id="offset-y" type="range" min="-24" max="24" step="0.2" value="-1">
+          <div class="range-label"><label for="rotation">Rotation</label><output id="rotation-value" for="rotation">+0.6°</output></div><input id="rotation" type="range" min="-8" max="8" step="0.1" value="0.6">
+          <button id="surprise" class="secondary">↗ &nbsp; A happy accident</button>
+        </section>
+        <section class="finishing" aria-label="Finishing options"><label><input type="checkbox" id="grain" checked><span>Paper & ink grain</span></label><label><input type="checkbox" id="marks" checked><span>Registration marks</span></label></section>
+        <button id="export" class="primary"><span>Pull a print</span><span aria-hidden="true">↓</span></button>
+        <p class="export-note" id="status" role="status">Save your current view · 1800 × 2200 PNG</p>
+      </aside>
+    </div>
+    <footer class="colophon"><p><span class="small-cross" aria-hidden="true">⊕</span> Two plates. Three colors. Yours to misalign.</p><p>A screen-sized love letter to ink on paper. <a href="https://www.vam.ac.uk/articles/what-is-print" target="_blank" rel="noopener noreferrer">About printmaking ↗</a></p></footer>
+  </main>
+</body>
+</html>

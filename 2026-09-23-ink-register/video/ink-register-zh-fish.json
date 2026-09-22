@@ -1,0 +1,17 @@
+{
+  "output": "/Users/hm/prj/daily-slop/2026-09-23-ink-register/video/ink-register-zh-fish.mp4",
+  "provider": "Fish Audio REST API",
+  "model": "s2.1-pro-free",
+  "voice_id": "ae5adc6778ac459e8d6106b82f88fa2b",
+  "segment_durations": [
+    9.874286,
+    12.930612,
+    10.13551,
+    11.337143,
+    12.382041,
+    12.643265
+  ],
+  "video_duration": 72.0,
+  "fps": 15,
+  "resolution": "1920x1080"
+}

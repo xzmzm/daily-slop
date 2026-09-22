@@ -100,3 +100,4 @@ Cloudflare Pages.
 | 2026-09-20 | [split-drive](./2026-09-20-split-drive/) — cornering lab; open versus locked axles, wheel speeds, and unequal paths | Vanilla HTML/CSS/JS | GPT-6 Astra |
 | 2026-09-21 | [echo-room](./2026-09-21-echo-room/) — room-acoustics studio; trace reflections, move the listener, and hear softer walls | Vanilla HTML/CSS/JS | GPT-6 Astra |
 | 2026-09-22 | [shortcut-trap](./2026-09-22-shortcut-trap/) — traffic-routing lab; open a shortcut, arrive later, and compare selfish with coordinated routes | Vanilla HTML/CSS/JS | GPT-6 Astra |
+| 2026-09-23 | [ink-register](./2026-09-23-ink-register/) — two-color print studio; slide the ink plates, find a third color, and pull a print | Vanilla HTML/CSS/JS | GPT-6 |
