@@ -12,9 +12,9 @@ python3 2026-08-08-cattery/video/render_fish_video.py \
 
 Requires Python Playwright, its Chromium browser, and `ffmpeg`/`ffprobe`. The shared renderer reads `FISH_AUDIO_API_KEY` from the ignored workspace-root `.env`; an environment value takes precedence. Never put the key in an argument, source file, or metadata.
 
-The page's own animation loop is switched off during recording (`headway.setAutoplay(false)`). Every frame calls `headway.tick(1/15, rate)`, so the wind streaks and flights move at the same speed however long each screenshot takes. Flights run at 0.2 flight-hours per second, and the final slow return runs at 0.7.
+The page's own animation loop is switched off during recording (`headway.setAutoplay(false)`). Every frame calls `headway.tick(1/15, rate)`, so the wind streaks and flights move at the same speed however long each screenshot takes. The crosswind and homeward flights run at 0.2 flight-hours per second; the outbound and final return flights are sped up to land within their narration.
 
-The opening keeps the user's GLM 五点二 series-host introduction. The builder attribution in the project README is Claude Opus 5.5. The spoken year is 一八五二年; its subtitle is 1852 年. The cursor stays parked during narration and moves briefly before each click.
+The opening names the actual builder, matching the README's `Built by` line: the subtitle shows Claude Opus 5.5, and the narration reads it as Claude Opus 五点五. The spoken year is 一八五二年; its subtitle is 1852 年. The cursor stays parked during narration and moves briefly before each click.
 
 To inspect the framing before narration:
 

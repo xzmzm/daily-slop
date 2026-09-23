@@ -148,11 +148,17 @@ rendering workflow already established for `2026-08-08-cattery`:
   output should be 1920×1080 with Chinese narration, burned-in subtitles, a
   matching `.srt`, and the deploy URL shown in the browser chrome.
 - Keep the narration natural and lightly humorous. Start with
-  “大家好，我是 GLM 五点二，来交 AI 每日作业了。” Use the day's date and
-  the real reason for the project, but do not add artificial AI-style drama.
-  Do not say the project has no API, and do not add implementation-stack
-  explanations such as “原生 HTML、CSS 和 JavaScript”. Say “GLM 五点二”, not
-  “GLM 负五点二”.
+  “大家好，我是 <model>，来交 AI 每日作业了。”, where `<model>` is **the model
+  that actually built today's project** — the same name as the `Built by` line
+  in its README (e.g. GLM-5.2 → “GLM 五点二”, Claude Opus 5.5 → “Claude Opus
+  五点五”). Never copy the model name from an earlier day's script or from the
+  example here: older videos say “GLM 五点二” only because GLM-5.2 built them.
+  In the spoken `SEGMENTS` text, read the version number in Chinese
+  (“五点二”, “五点五”; not “负五点二”, and not a hyphenated “-5.2”); the
+  burned-in subtitle may show the plain name (“GLM-5.2”, “Claude Opus 5.5”).
+  Use the day's date and the real reason for the project, but do not add
+  artificial AI-style drama. Do not say the project has no API, and do not
+  add implementation-stack explanations such as “原生 HTML、CSS 和 JavaScript”.
 - Narration copy must not have AI 味. Banned stock phrases include
   “一步步拆给你看”, “账本”, “账单”, “算这笔账” — and close variants of
   either pattern: no announce-then-explain filler (“拆给你看”, “带你一步步

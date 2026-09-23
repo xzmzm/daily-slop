@@ -54,7 +54,8 @@ def main():
     spec.loader.exec_module(renderer)
     assert srt.count('1852 年') == 1 and '一八五二年' in renderer.SEGMENTS[1]
     assert not re.search(r'\d{4}\s*年',''.join(renderer.SEGMENTS))
-    assert renderer.SEGMENTS[0].startswith('大家好，我是 GLM 五点二，来交 AI 每日作业了。')
+    assert renderer.SEGMENTS[0].startswith('大家好，我是 Claude Opus 五点五，来交 AI 每日作业了。')
+    assert 'GLM' not in ''.join(renderer.SEGMENTS) + srt, 'Intro must name the actual builder'
     assert not any(word in ''.join(renderer.SEGMENTS)+srt for word in ['一步步拆给你看','账本','账单','算这笔账'])
     # Exact cues in the SRT and burned-in frames share the same timing source.
     lines = [text for _,_,text in renderer.base.caption_cues(meta['segment_durations'])]
@@ -81,7 +82,7 @@ def main():
 - Video: {video['width']} × {video['height']}, 15 fps, H.264 / AAC, {span:.3f} seconds, {VIDEO.stat().st_size:,} bytes.
 - Audio: Fish Audio `s2.1-pro-free`, configured 哈基米 voice; full decode passed; mean audio level {match[1]} dB.
 - Captions: 22 monotonic SRT cues within the video; the same cues are burned into the browser frames.
-- Year spoken digit by digit (一八五二年); established series-host introduction retained.
+- Year spoken digit by digit (一八五二年); intro names the actual builder (Claude Opus 五点五).
 - Secret scan: {len(files)} source and output files, including MP4, index, manifest, and screenshot, checked against the configured key and token patterns; no matches.
 
 Flat local frame, steady uniform wind; presets are illustrative, not reconstructed 1852 weather.

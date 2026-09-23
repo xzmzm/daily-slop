@@ -29,4 +29,4 @@ The wind streaks are particles in km space that drift with the actual wind vecto
 - None of the presets are reconstructions of the 1852 weather. The historical sources give the distance and duration, not the wind. The outbound preset's 4 km/h tailwind is illustrative.
 - For the video, the page exposes `headway.setAutoplay(false)` and `headway.tick(seconds, rate)`. Each recorded frame then advances wind and flight by exactly 1/15 s, whatever the screenshot costs. Without that, the flight's speed would depend on how fast Chromium could take screenshots.
 - Left out: altitude, gas loss and ballast, gusts, Earth curvature. The lesson is purely horizontal.
-- The video keeps the user's established GLM 五点二 series-host introduction and 哈基米 voice. The project's actual builder is recorded as Claude Opus 5.5.
+- The first render opened with the older “我是 GLM 五点二” line copied from earlier days' scripts. That was wrong: this project was built by Claude Opus 5.5, so the intro now says “Claude Opus 五点五” and `AGENTS.md` now says the intro must name the actual builder.

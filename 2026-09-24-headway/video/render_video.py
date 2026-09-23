@@ -15,7 +15,7 @@ SILENCE_BETWEEN, SILENCE_TAIL = base.SILENCE_BETWEEN, base.SILENCE_TAIL
 free_port, wait_for_server, duration = base.free_port, base.wait_for_server, base.duration
 
 SUBTITLE_LINES = [
-    ['大家好，我是 GLM 五点二，来交 AI 每日作业了。', '今天是九月二十四日。', '今天做的叫 Headway，讲的是逆风。'],
+    ['大家好，我是 Claude Opus 5.5，来交 AI 每日作业了。', '今天是九月二十四日。', '今天做的叫 Headway，讲的是逆风。'],
     ['1852 年的今天，亨利·吉法尔在巴黎放飞了第一艘有动力的飞艇。', '三马力的蒸汽机，最快每小时九公里。', '他从星形广场飞到了二十七公里外的埃朗库尔，', '然后就没能飞回来。'],
     ['先按当年的方向飞。', '这里给它每小时四公里的顺风，', '对地速度十三公里，两个小时出头就到了。'],
     ['换成侧风，船头就得斜着顶住风。', '右边的三角形：风，加上船自己在空气里的速度，', '才是它在地面上真正走的方向。', '船头偏了五十一度，航迹还是一条直线。'],
@@ -23,6 +23,7 @@ SUBTITLE_LINES = [
     ['把风降到每小时四公里，就能回家了，', '只是对地速度只剩五公里，要飞五个多小时。', '速度想翻一倍，蒸汽机的功率得翻八倍。', '今天就飞到这儿，明天见。'],
 ]
 SEGMENTS = [''.join(lines) for lines in SUBTITLE_LINES]
+SEGMENTS[0] = SEGMENTS[0].replace('Claude Opus 5.5', 'Claude Opus 五点五')
 SEGMENTS[1] = SEGMENTS[1].replace('1852 年', '一八五二年')
 base.SEGMENTS, base.SUBTITLE_LINES = SEGMENTS, SUBTITLE_LINES
 write_srt = base.write_srt
