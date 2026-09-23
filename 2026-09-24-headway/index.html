@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#efe6d2">
+  <meta name="description" content="Fly Giffard's 1852 steam airship from Paris to Élancourt, then try to get home. A wind-triangle studio for a 3 horsepower ship.">
+  <title>Headway — Giffard's airship against the wind</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='14' fill='%23efe6d2'/%3E%3Cpath d='M6 30Q30 12 54 30Q30 48 6 30Z' fill='%232a2118'/%3E%3Cpath d='M44 30L56 22V38Z' fill='%23b8432b'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="core.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="masthead">
+    <a class="brand" href="./">HEADWAY<span class="brand-note">a wind-triangle studio</span></a>
+    <a class="daily-link" href="../">DAILY SLOP <span>№ 063 / 24 SEP 2026</span><span aria-hidden="true">↗</span></a>
+  </header>
+  <main>
+    <section class="intro" aria-labelledby="title">
+      <div>
+        <p class="eyebrow">24 SEPTEMBER 1852 · THREE HORSEPOWER · 27 KILOMETRES</p>
+        <h1 id="title">Out with the wind. <em>Home against it.</em></h1>
+      </div>
+      <p class="intro-copy">Henri Giffard steered the first powered airship from Paris to Élancourt. He could not steer it back.</p>
+    </section>
+
+    <div class="studio">
+      <section class="chart" aria-label="Flight map">
+        <div class="chart-bar">
+          <span class="live"><i></i> PLAN OF THE FLIGHT</span>
+          <span id="clock" class="clock">0 h 00 m</span>
+          <span class="scale-note">WEST OF PARIS · 1 SQUARE = 5 KM</span>
+        </div>
+        <div class="chart-frame">
+          <canvas id="map" width="1170" height="630" role="img" aria-label="Map from the Étoile hippodrome to Élancourt with the airship, its trail, and wind streaks.">The map needs canvas support.</canvas>
+        </div>
+        <div class="chart-foot">
+          <p id="verdict" class="verdict" aria-live="polite">Ready at the hippodrome.</p>
+          <div class="fly-buttons">
+            <button id="fly" class="primary">Cast off</button>
+            <button id="reset">Back to the start</button>
+          </div>
+        </div>
+      </section>
+
+      <aside class="panel" aria-label="Flight controls">
+        <section class="block">
+          <h2><span>01</span> The day</h2>
+          <div class="presets" role="group" aria-label="Scenario">
+            <button data-preset="out" aria-pressed="true">Outbound</button>
+            <button data-preset="home" aria-pressed="false">Homeward</button>
+            <button data-preset="cross" aria-pressed="false">Crosswind</button>
+            <button data-preset="calm" aria-pressed="false">Calm</button>
+          </div>
+          <div class="leg" role="group" aria-label="Leg">
+            <button data-leg="out" aria-pressed="true">Étoile → Élancourt</button>
+            <button data-leg="home" aria-pressed="false">Élancourt → Étoile</button>
+          </div>
+        </section>
+
+        <section class="block">
+          <h2><span>02</span> Weather &amp; engine</h2>
+          <label class="range"><span>Wind speed <output id="windSpeedOut">4 km/h</output></span><input id="windSpeed" type="range" min="0" max="20" step="0.5" value="4"></label>
+          <label class="range"><span>Wind from <output id="windFromOut">68° ENE</output></span><input id="windFrom" type="range" min="0" max="359" step="1" value="68"></label>
+          <label class="range"><span>Steam <output id="powerOut">3.0 hp → 9.0 km/h</output></span><input id="power" type="range" min="0" max="3" step="0.1" value="3"></label>
+        </section>
+
+        <section class="block">
+          <h2><span>03</span> Steering</h2>
+          <div class="steer" role="group" aria-label="Steering mode">
+            <button data-steer="auto" aria-pressed="true">Crab onto the line</button>
+            <button data-steer="manual" aria-pressed="false">Hold a heading</button>
+          </div>
+          <label class="range" id="headingRow"><span>Nose points <output id="headingOut">248°</output></span><input id="heading" type="range" min="0" max="359" step="1" value="248" disabled></label>
+        </section>
+
+        <section class="block triangle">
+          <h2><span>04</span> The wind triangle</h2>
+          <svg id="hodo" viewBox="-150 -150 300 300" role="img" aria-label="Velocity diagram: wind plus air velocity equals ground velocity">
+            <g id="hodoGrid"></g>
+            <path id="cone" class="cone" d=""/>
+            <circle id="reach" class="reach" r="0"/>
+            <line id="courseRay" class="course-ray"/>
+            <line id="windArrow" class="v wind" marker-end="url(#headWind)"/>
+            <line id="airArrow" class="v air" marker-end="url(#headAir)"/>
+            <line id="groundArrow" class="v ground" marker-end="url(#headGround)"/>
+            <circle r="3" class="origin"/>
+            <defs>
+              <marker id="headWind" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" class="head-wind"/></marker>
+              <marker id="headAir" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" class="head-air"/></marker>
+              <marker id="headGround" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10Z" class="head-ground"/></marker>
+            </defs>
+          </svg>
+          <ul class="legend">
+            <li><i class="k-wind"></i>wind</li><li><i class="k-air"></i>ship through air</li><li><i class="k-ground"></i>over the ground</li>
+          </ul>
+          <dl class="readouts">
+            <div><dt>Ground speed</dt><dd id="gs">13.0 km/h</dd></div>
+            <div><dt>Crab angle</dt><dd id="crab">0°</dd></div>
+            <div><dt>At this rate</dt><dd id="eta">2 h 03 m</dd></div>
+          </dl>
+        </section>
+      </aside>
+    </div>
+
+    <footer class="colophon">
+      <p>Plan view, flat-earth local frame, steady wind. Airspeed grows as the cube root of power (9 km/h at 3 hp). The Seine and fields are schematic; the three places are placed from their coordinates. <a href="https://github.com/xzmzm/daily-slop/tree/main/2026-09-24-headway">Notes &amp; source</a></p>
+    </footer>
+  </main>
+</body>
+</html>

@@ -101,3 +101,4 @@ Cloudflare Pages.
 | 2026-09-21 | [echo-room](./2026-09-21-echo-room/) — room-acoustics studio; trace reflections, move the listener, and hear softer walls | Vanilla HTML/CSS/JS | GPT-6 Astra |
 | 2026-09-22 | [shortcut-trap](./2026-09-22-shortcut-trap/) — traffic-routing lab; open a shortcut, arrive later, and compare selfish with coordinated routes | Vanilla HTML/CSS/JS | GPT-6 Astra |
 | 2026-09-23 | [ink-register](./2026-09-23-ink-register/) — two-color print studio; slide the ink plates, find a third color, and pull a print | Vanilla HTML/CSS/JS | GPT-6 |
+| 2026-09-24 | [headway](./2026-09-24-headway/) — Giffard's 1852 steam airship; crab through crosswinds, then watch home fall outside the reachable cone | Vanilla HTML/CSS/JS | Claude Opus 5.5 |
