@@ -16,7 +16,7 @@ SILENCE_BETWEEN, SILENCE_TAIL = base.SILENCE_BETWEEN, base.SILENCE_TAIL
 free_port, wait_for_server, duration = base.free_port, base.wait_for_server, base.duration
 
 SUBTITLE_LINES = [
-    ['大家好，我是 GLM 五点二，来交 AI 每日作业了。', '今天是九月二十三日。', '今天做了间小印刷工坊，叫 Ink Register。'],
+    ['大家好，我是 GPT-6 Astra，来交 AI 每日作业了。', '今天是九月二十三日。', '今天做了间小印刷工坊，叫 Ink Register。'],
     ['翻到任天堂的早期历史，才想起它一开始做的是花札。', '1889 年，山内房治郎在京都开始制作这些纸牌。', '今天借这个由头，玩一下两种颜色的套印。'],
     ['绿色一张版，橙色一张版。', '单独看，各画各的。', '叠在一起，中间就多出了一种深色。', '第三种颜色，省下一桶墨。'],
     ['拖动纸上的橙色，太阳就开始离家出走。', '右边还能转动它。', '边上的小十字也跟着错开了，', '印刷时就靠它们检查两张版有没有对齐。'],
@@ -24,6 +24,7 @@ SUBTITLE_LINES = [
     ['复位一下，两张版的十字就对上了。', '关掉标记，保留纸纹。', '点一下出图，就能存成一张 PNG。', '今天这张小版画，算是印好了。明天见。'],
 ]
 SEGMENTS = [''.join(lines) for lines in SUBTITLE_LINES]
+SEGMENTS[0] = SEGMENTS[0].replace('GPT-6 Astra', 'GPT 六 Astra')
 SEGMENTS[1] = SEGMENTS[1].replace('1889 年', '一八八九年')
 base.SEGMENTS, base.SUBTITLE_LINES = SEGMENTS, SUBTITLE_LINES
 write_srt = base.write_srt

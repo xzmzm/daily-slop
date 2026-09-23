@@ -2,7 +2,7 @@
 
 A tiny two-color print studio. Slide an ink plate, discover a third color in the overlap, and pull an original print.
 
-Built by GPT-6
+Built by GPT-6 Astra
 
 ## How to run
 

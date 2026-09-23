@@ -24,7 +24,7 @@ Pointer positions are transformed back through the paper's one-degree presentati
 - The neutral title strip and edition label are deliberately outside the two art plates. The separate-ink views retain them; they are useful previews, not ready-to-expose stencil files.
 - An apparent third ink costs nothing in the color model, but can become almost black with complementary colors. The warm/cool palettes were chosen to make that intersection legible rather than promising a particular press result.
 - No physics simulator, photo importer, editable typography, or print queue: those would bury the small pleasure of moving one plate.
-- The video retains the user's established GLM 五点二 series-host introduction and 哈基米 voice. The project's actual builder is recorded separately as GPT-6.
+- The video opens by introducing the project's actual builder, GPT-6 Astra, while keeping the established 哈基米 voice. The spoken form is GPT 六 Astra; the burned-in subtitle keeps GPT-6 Astra.
 
 ## Verification
 

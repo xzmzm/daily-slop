@@ -12,7 +12,7 @@ python3 2026-08-08-cattery/video/render_fish_video.py \
 
 Requires Python Playwright, its Chromium browser, and `ffmpeg`/`ffprobe`. The shared renderer reads `FISH_AUDIO_API_KEY` from the ignored workspace-root `.env`; an environment value takes precedence. Never put the key in an argument, source file, or metadata.
 
-The opening preserves the user's GLM 五点二 series-host introduction; the builder attribution in the project README is GPT-6. The spoken year is 一八八九年, while its subtitle is 1889 年. Browser chrome displays the deploy URL and labels the recording as local. The cursor remains still during narration and moves briefly before a click or the demonstrated drag. Still frames with identical captions use hard links to avoid wasting disk space. The final encode runs once and includes fast-start metadata.
+The opening introduces the project's actual builder, GPT-6 Astra: the spoken form is GPT 六 Astra, while its subtitle keeps GPT-6 Astra, matching the attribution in the project README. The spoken year is 一八八九年, while its subtitle is 1889 年. Browser chrome displays the deploy URL and labels the recording as local. The cursor remains still during narration and moves briefly before a click or the demonstrated drag. Still frames with identical captions use hard links to avoid wasting disk space. The final encode runs once and includes fast-start metadata.
 
 To inspect the framing before narration:
 

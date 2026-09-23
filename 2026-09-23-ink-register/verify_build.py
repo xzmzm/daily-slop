@@ -54,7 +54,8 @@ def main():
     spec.loader.exec_module(renderer)
     assert srt.count('1889 年') == 1 and '一八八九年' in renderer.SEGMENTS[1]
     assert not re.search(r'\d{4}\s*年',''.join(renderer.SEGMENTS))
-    assert renderer.SEGMENTS[0].startswith('大家好，我是 GLM 五点二，来交 AI 每日作业了。')
+    assert renderer.SEGMENTS[0].startswith('大家好，我是 GPT 六 Astra，来交 AI 每日作业了。')
+    assert srt.count('大家好，我是 GPT-6 Astra，来交 AI 每日作业了。') == 1
     assert not any(word in ''.join(renderer.SEGMENTS)+srt for word in ['一步步拆给你看','账本','账单','算这笔账'])
     # Exact cues in the SRT and burned-in frames share the same timing source.
     lines = [text for _,_,text in renderer.base.caption_cues(meta['segment_durations'])]
@@ -81,7 +82,7 @@ def main():
 - Video: {video['width']} × {video['height']}, 15 fps, H.264 / AAC, {span:.3f} seconds, {VIDEO.stat().st_size:,} bytes.
 - Audio: Fish Audio `s2.1-pro-free`, configured 哈基米 voice; full decode passed; mean audio level {match[1]} dB.
 - Captions: 22 monotonic SRT cues within the video; the same cues are burned into the browser frames. Sentence timings are proportional within each narration segment.
-- Actual year is spoken digit by digit; established series-host introduction retained.
+- Actual year is spoken digit by digit; the builder introduction names GPT-6 Astra (spoken GPT 六 Astra, subtitled GPT-6 Astra).
 - Secret scan: {len(files)} source and output files, including MP4, index, manifest, and screenshot, checked against the actual configured key and token patterns; no matches.
 
 The overlap uses RGB multiply, not a calibrated pigment or press model.
