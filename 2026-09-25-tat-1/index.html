@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d2233">
+  <meta name="description" content="The 1956 TAT-1 transatlantic telephone cable as a live toy: speech spurts ride 51 vacuum-tube repeaters, and TASI rents out your silences to other calls.">
+  <title>TAT-1 — the silence multiplexer</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='14' fill='%230d2233'/%3E%3Cpath d='M8 38c8-5 14 5 22 0s14 5 22 0' stroke='%23e8b04b' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3Cpath d='M8 46c8-5 14 5 22 0s14 5 22 0' stroke='%235db8d4' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="core.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="masthead">
+    <a class="brand" href="./">TAT-1<span class="brand-note">a silence multiplexer</span></a>
+    <a class="daily-link" href="../">DAILY SLOP <span>№ 064 / 25 SEP 2026</span><span aria-hidden="true">↗</span></a>
+  </header>
+  <main>
+    <section class="intro" aria-labelledby="title">
+      <div>
+        <p class="eyebrow">25 SEPTEMBER 1956 · CLARENVILLE → OBAN · 3,700 KM OF COAX ON THE SEABED</p>
+        <h1 id="title">Thirty-six wires. <em>Seventy-two calls.</em></h1>
+      </div>
+      <p class="intro-copy">The first transatlantic telephone cable opened with 36 channels and a vacuum-tube repeater every 74 km. Four years later, TASI made the cable twice as big — by renting every caller's silences to somebody else.</p>
+    </section>
+
+    <div class="studio">
+      <section class="chart" aria-label="Ocean cross-section">
+        <div class="chart-bar">
+          <span class="live"><i></i> PLAN OF THE CABLE · WEST TO EAST</span>
+          <span class="scale-note">SLOW MOTION ≈ ×500 · THE REAL CROSSING IS 18.5 MS</span>
+        </div>
+        <div class="chart-frame">
+          <canvas id="ocean" role="img" aria-label="Cross-section of the Atlantic from Newfoundland to Scotland with two coaxial cables, 51 repeaters, and speech pulses travelling east.">The cable plan needs canvas support.</canvas>
+        </div>
+        <div class="chart-foot">
+          <p id="verdict" class="verdict" aria-live="polite"></p>
+          <div class="shout-row">
+            <button id="shoutE" class="shout" type="button" title="Send a test pulse east">New York shouts →</button>
+            <button id="shoutW" class="shout west" type="button" title="Send a test pulse west">← London shouts</button>
+            <label class="toggle" title="Arm the echo suppressor">
+              <input type="checkbox" id="suppressor"><span></span> echo suppressor
+            </label>
+          </div>
+          <p id="echoStatus" class="echo-status">The far-end hybrid leaks: shout, and hear yourself again 37&nbsp;ms later.</p>
+        </div>
+      </section>
+
+      <aside class="panel">
+        <section class="block">
+          <h2>The years</h2>
+          <div class="presets">
+            <button type="button" data-preset="day1"><strong>Opening day</strong><span>25 Sep 1956 · 36 circuits, 35 calls</span></button>
+            <button type="button" data-preset="tasi1960"><strong>TASI</strong><span>Jun 1960 · 37 circuits, 72 calls</span></button>
+            <button type="button" data-preset="rush"><strong>Rush hour</strong><span>24 circuits, 72 impatient calls</span></button>
+          </div>
+        </section>
+
+        <section class="block">
+          <h2>The exchanges</h2>
+          <label class="slider"><span>Calls placed <b id="conversationsOut"></b></span>
+            <input type="range" id="conversations" min="2" max="72" step="1"></label>
+          <label class="slider"><span>Cable circuits <b id="circuitsOut"></b></span>
+            <input type="range" id="circuits" min="2" max="37" step="1"></label>
+          <label class="slider"><span>Talkativeness <b id="activityOut"></b></span>
+            <input type="range" id="activity" min="15" max="60" step="1"></label>
+          <label class="switch" title="Time-assignment speech interpolation, June 1960">
+            <input type="checkbox" id="tasi"><span class="knob"></span>
+            <span class="switch-text"><b>TASI</b> — silence returns to the pool</span>
+          </label>
+        </section>
+
+        <section class="block">
+          <h2>The seat map <span class="hint">rows: calls · columns: circuits</span></h2>
+          <div class="matrix-frame"><canvas id="matrix" role="img" aria-label="Which call currently holds which circuit.">The seat map needs canvas support.</canvas></div>
+        </section>
+
+        <section class="block">
+          <h2>The cable report</h2>
+          <dl class="stats">
+            <div><dt>Simultaneous speech</dt><dd id="stActive">—</dd></div>
+            <div><dt>Circuits carrying speech</dt><dd id="stOccupancy">—</dd></div>
+            <div><dt>Clipped speech</dt><dd id="stClip">—</dd></div>
+            <div><dt>Calls per circuit</dt><dd id="stGain">—</dd></div>
+            <div id="stBlockedRow" hidden><dt>Calls not placed</dt><dd id="stBlocked">—</dd></div>
+          </dl>
+          <p class="fine">Speech model: 0.95&nbsp;s spurts on average, ~35% activity — the numbers the Bell engineers used.</p>
+        </section>
+      </aside>
+    </div>
+
+    <footer class="colophon">
+      <p>Two coaxial cables, one per direction; the plan shows the eastbound one. Repeaters evenly spaced for the drawing — see <a href="NOTES.md">NOTES.md</a> for the real 1955–56 laying story and the sources. Self-contained vanilla HTML/CSS/JS.</p>
+    </footer>
+  </main>
+</body>
+</html>
