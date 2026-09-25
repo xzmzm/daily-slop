@@ -103,3 +103,4 @@ Cloudflare Pages.
 | 2026-09-23 | [ink-register](./2026-09-23-ink-register/) — two-color print studio; slide the ink plates, find a third color, and pull a print | Vanilla HTML/CSS/JS | GPT-6 Astra |
 | 2026-09-24 | [headway](./2026-09-24-headway/) — Giffard's 1852 steam airship; crab through crosswinds, then watch home fall outside the reachable cone | Vanilla HTML/CSS/JS | Claude Opus 5.5 |
 | 2026-09-25 | [tat-1](./2026-09-25-tat-1/) — 1956 transatlantic phone-cable studio; TASI rents your silences, 37 circuits carry 72 calls | Vanilla HTML/CSS/JS | GLM-5.3 |
+| 2026-09-26 | [dart-impact](./2026-09-26-dart-impact/) — kinetic-deflection studio; four years ago a 570 kg probe shaved 33 minutes off a moonlet's orbit | Vanilla HTML/CSS/JS | GLM-5.3 |

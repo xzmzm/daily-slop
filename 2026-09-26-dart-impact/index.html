@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DART — the 33-minute shove</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="masthead">
+  <p class="eyebrow">2026 · 09 · 26 — four years on tonight</p>
+  <h1>DART <span class="thin">— the 33-minute shove</span></h1>
+  <p class="intro-copy">On 26 September 2022, 23:14 UTC, a 570 kg spacecraft hit
+  the asteroid moonlet Dimorphos at 6.14 km/s and shortened its year around
+  Didymos by 33 minutes — humanity's first deliberate change of another body's
+  orbit. Tune the ejecta recoil <b>β</b>, pick your impact angle, and shove it
+  yourself.</p>
+</header>
+
+<main class="studio">
+  <section class="stage">
+    <div class="canvas-wrap">
+      <canvas id="scene"></canvas>
+      <div class="hud hud-tl">
+        <span id="clock" class="mono">orbiting · period 11.92 h</span>
+        <span class="dim">time ×1800 · 1 s ≈ 30 min</span>
+      </div>
+      <div class="hud hud-br dim" id="scaleNote">sizes &amp; separation true scale · orbit change exaggerated ×4</div>
+    </div>
+
+    <div class="lc-panel block">
+      <h2>Measure it like the telescopes did — mutual-event lightcurve</h2>
+      <canvas id="lightcurve"></canvas>
+      <p class="lc-foot" id="lcFoot">Dimorphos regularly blocks Didymos's light;
+      each dip is a clock tick. Slide β and θ, or launch, and the amber ticks
+      walk out of step with the no-impact prediction.</p>
+    </div>
+  </section>
+
+  <aside class="panel">
+    <div class="block presets">
+      <h2>Scenarios</h2>
+      <div class="preset-row">
+        <button data-preset="real"><b>Real DART</b><span>β 3.61 · head-on</span></button>
+        <button data-preset="splat"><b>Dead-stick splat</b><span>β 1.0 · head-on</span></button>
+        <button data-preset="glance"><b>Glancing blow</b><span>β 3.61 · 45°</span></button>
+      </div>
+    </div>
+
+    <div class="block controls">
+      <h2>Impactor</h2>
+      <label class="slider">
+        <span>ejecta recoil β <b id="betaVal" class="mono">3.61</b></span>
+        <input id="betaRange" type="range" min="1" max="5" step="0.01" value="3.61">
+        <span class="hint">1 = spacecraft momentum only · 3.61 = measured rubble-pile recoil</span>
+      </label>
+      <label class="slider">
+        <span>impact angle <b id="thetaVal" class="mono">0°</b></span>
+        <input id="thetaRange" type="range" min="0" max="60" step="1" value="0">
+        <span class="hint">0° = head-on retrograde hit, like the real DART</span>
+      </label>
+      <label class="check"><input id="exaggCheck" type="checkbox" checked>
+        exaggerate orbit change ×4 (numbers stay exact)</label>
+      <button id="launch" class="launch-btn">LAUNCH DART ▸</button>
+      <p class="mono craft" id="craftLine">DART · 570 kg · 6.14 km/s · SMART Nav locked</p>
+    </div>
+
+    <div class="block stats">
+      <h2>Outcome <span id="statMode" class="mode">predicted</span></h2>
+      <div class="bigrow"><span class="big mono" id="dT">−33.0</span><span class="unit">min<br>ΔT</span></div>
+      <dl class="nums mono">
+        <div><dt>Δv on moonlet</dt><dd id="dv">2.81 mm/s</dd></div>
+        <div><dt>period before</dt><dd id="tBefore">11 h 55.2 m</dd></div>
+        <div><dt>period after</dt><dd id="tAfter">11 h 22.2 m</dd></div>
+        <div><dt>semi-major axis</dt><dd id="aNew">1189 → 1152 m</dd></div>
+        <div><dt>eccentricity</dt><dd id="ecc">0 → 0.032</dd></div>
+        <div><dt>impulse delivered</dt><dd id="impulse">3.6× spacecraft momentum</dd></div>
+      </dl>
+      <div class="goalbars">
+        <div class="bar"><i id="goalBar" style="width:4%"></i><em>goal 73 s</em></div>
+        <div class="bar"><i id="resultBar" class="amber" style="width:100%"></i><em id="resultLbl">predicted 1980 s · 27× goal</em></div>
+      </div>
+      <p class="drift" id="drift">by day 4, mutual events arrive 4.6 h early</p>
+    </div>
+
+    <div class="block facts">
+      <h2>The real thing</h2>
+      <ul>
+        <li>26 Sep 2022, 23:14 UTC — impact confirmed by a 1-second loss of signal.</li>
+        <li>Published result: <b>−33.0 ± 1.3 min</b>, against a success goal of 73 s.</li>
+        <li>β = 3.61 assumes ρ ≈ 2400 kg/m³ — the splash pushed the moonlet
+        ~2.6× harder than the spacecraft alone.</li>
+        <li>LICIACube flew past 3 minutes later; Hubble watched ejecta tails for weeks.</li>
+        <li>ESA's Hera arrives <b>December 2026</b> to weigh Dimorphos and survey the crater.</li>
+      </ul>
+    </div>
+  </aside>
+</main>
+
+<footer class="colophon">
+  Orbit math exact (vis-viva + Kepler's equation); ejecta ballistics, body
+  shapes and the lightcurve are honest simplifications. Constellation facts per
+  NASA / Cheng et al. 2023. Local only — no network, no keys.
+</footer>
+
+<script src="core.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
