@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Locomotion No. 1 — the 1,000-pound adhesion studio</title>
+<meta name="description" content="Why the first public steam railway (27 September 1825) put stationary engines on its hills: rail adhesion physics with Locomotion No. 1.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="masthead">
+  <p class="eyebrow">Daily Slop · 27 September 1825 · the Stockton &amp; Darlington Railway opens</p>
+  <h1>Locomotion No. 1 — the 1,000&#8201;lb adhesion studio</h1>
+  <p class="intro-copy">On the opening day of the world's first public steam railway, a 6½-ton
+  locomotive hauled thirty-odd wagons and hundreds of passengers — but only where the
+  surveyors had kept the line gentle. Drag a gradient, load the train, grease the rail:
+  one small force diagram decides whether the wheels bite, spin, or stall. The hills
+  themselves were given to stationary rope engines, which is the quiet punchline of the
+  whole 1825 route below.</p>
+</header>
+
+<main>
+  <div class="studio">
+    <section class="stage" aria-label="Locomotive on the track">
+      <div class="verdictbar">
+        <span class="lamp" id="lamp" data-regime="runs"></span>
+        <span id="verdict">Steam ahead</span>
+        <span class="speedo"><b id="mph">0.0</b> mph</span>
+        <span class="chuff" id="chuff-note"></span>
+      </div>
+      <canvas id="scene" width="1400" height="470"></canvas>
+    </section>
+
+    <aside class="panel" aria-label="Controls">
+      <div class="block">
+        <h2>Gradient</h2>
+        <div class="slider">
+          <input type="range" id="grade" min="-3.0" max="10.5" step="0.25" value="0">
+          <div class="slider-read"><output id="grade-out">level</output></div>
+        </div>
+        <div class="preset-row presets">
+          <button data-g="0">Level<span>the easy case</span></button>
+          <button data-g="0.5">1 in 200<span>main line</span></button>
+          <button data-g="1">1 in 100<span>gentle</span></button>
+          <button data-g="3.03">1 in 33<span>the inclines</span></button>
+          <button data-g="-1.9">falling<span>to Stockton</span></button>
+        </div>
+      </div>
+
+      <div class="block">
+        <h2>Train</h2>
+        <div class="slider">
+          <input type="range" id="wagons" min="0" max="33" step="1" value="12">
+          <div class="slider-read"><output id="wagons-out">12 wagons</output>
+          <span id="tons-out"></span></div>
+        </div>
+        <div class="preset-row presets">
+          <button data-w="0">Light engine</button>
+          <button data-w="12">12 chaldrons</button>
+          <button data-w="21">21 seated<span>opening day</span></button>
+          <button data-w="33">33 vehicles<span>leaving Darlington</span></button>
+        </div>
+      </div>
+
+      <div class="block">
+        <h2>Rail condition</h2>
+        <div class="preset-row seg" id="rail-seg">
+          <button data-rail="dry" class="on">Dry</button>
+          <button data-rail="wet">Wet</button>
+          <button data-rail="frost">Frost</button>
+          <button data-rail="leaves">Leaves</button>
+        </div>
+        <label class="check"><input type="checkbox" id="sand"> Sand the rail
+          <span class="sub">a box in front of each driver, 1825-style</span></label>
+      </div>
+
+      <div class="block">
+        <h2>Three forces, one verdict</h2>
+        <div class="forces" id="forces">
+          <div class="force" data-f="adh">
+            <dt>Adhesion ceiling<br><em id="adh-mu">μ 0.25 dry</em></dt>
+            <dd><div class="bar"><i id="bar-adh"></i></div><output id="val-adh"></output></dd>
+          </div>
+          <div class="force" data-f="te">
+            <dt>Cylinder pull<br><em>9¾ × 24 in @ 50 psi</em></dt>
+            <dd><div class="bar"><i id="bar-te"></i></div><output id="val-te"></output></dd>
+          </div>
+          <div class="force" data-f="demand">
+            <dt>Train needs<br><em id="need-split">rolling + grade</em></dt>
+            <dd><div class="bar"><i id="bar-demand"></i></div><output id="val-demand"></output></dd>
+          </div>
+        </div>
+        <p class="hint" id="regime-note"></p>
+      </div>
+
+      <div class="block">
+        <h2>The 1,000&#8201;lb ladder <span class="sub">(dry rail, loaded wagons)</span></h2>
+        <table class="ladder"><tbody id="ladder"></tbody></table>
+      </div>
+    </aside>
+  </div>
+
+  <section class="route-panel" aria-label="The 1825 route">
+    <div class="route-head">
+      <h2>The outsourced hills — through route, Phoenix Pit to Stockton ≈ 23½ mi</h2>
+      <button id="replay">Replay opening day ▸</button>
+      <span class="route-cap" id="route-cap">Rope · horse · locomotive — three powers, one train.</span>
+    </div>
+    <canvas id="route" width="1840" height="190"></canvas>
+    <p class="route-note">Elevations schematic; incline gradients after Tomlinson (Brusselton 1 in 30½ / 33½,
+    Etherley 1 in 30½ / 33). Loaded coal ran <em>downhill</em> to the sea; the empties climbed home.</p>
+  </section>
+
+  <footer class="colophon">
+    <p>Iron on iron: μ ≈ 0.25 dry, ~0.06 under leaves. Rolling ≈ 10 lb/ton — that tiny number is the
+    whole reason railways exist. See <a href="NOTES.md">NOTES.md</a> for the sums and the shortcuts.</p>
+  </footer>
+</main>
+
+<script src="core.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
