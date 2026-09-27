@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>幸运的培养皿 — 1928-09-28</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="masthead">
+  <p class="eyebrow">一九二八 · 圣玛丽医院 · 伦敦 · 9 月 28 日</p>
+  <h1>幸运的培养皿</h1>
+  <p class="intro-copy">一九二八年九月二十八日，弗莱明度假归来，在一只忘了收进孵箱、落了灰的培养皿里看到：一粒青霉孢子周围，葡萄球菌清出了一圈透明的空地——那圈空地后来叫青霉素。这里可以逐日重演那年八九月的天气，也可以亲手毁掉这次运气。</p>
+</header>
+
+<main>
+<section class="studio">
+  <div class="stage">
+    <div class="bench">
+      <canvas id="dish" width="1080" height="1080"></canvas>
+      <p class="plate-label">Staphylococcus sp. · bench · viii–ix.1928</p>
+    </div>
+    <div class="readout-bar">
+      <span class="ro ro-date"><em>日期</em><output id="ro-date">9月28日</output></span>
+      <span class="ro ro-temp"><em>室温</em><output id="ro-temp">20.0 °C</output></span>
+      <span class="ro ro-verdict" id="ro-verdict">培养皿在长凳上等着</span>
+    </div>
+    <p class="event-line" id="event-line">点「重演一九二八」，看那两个月怎么走。</p>
+  </div>
+
+  <aside class="panel">
+    <div class="block">
+      <h2>重演</h2>
+      <div class="buttons">
+        <button id="btn-replay" class="primary">▶ 重演一九二八</button>
+        <button id="btn-pause">⏸ 暂停</button>
+        <button id="btn-skip">⏭ 跳到 9月28日</button>
+        <button id="btn-restreak">重新划线</button>
+      </div>
+      <div class="seg" id="speed-seg">
+        <button data-speed="1">1×</button>
+        <button data-speed="3" class="on">3×</button>
+        <button data-speed="10">10×</button>
+      </div>
+      <p class="hint">也可以直接点培养皿丢下一颗孢子。</p>
+    </div>
+
+    <div class="block">
+      <h2>温度与两条生长曲线</h2>
+      <input type="range" id="temp" min="16" max="37" step="0.5" value="20">
+      <canvas id="chart" width="640" height="280"></canvas>
+      <p class="hint">青霉在 <strong>23 °C</strong> 长得最快，葡萄球菌要 <strong>35 °C</strong>。拖动温度即离开剧本，进入手动模式。</p>
+    </div>
+
+    <div class="block">
+      <h2>运气的三个前提</h2>
+      <ul class="luck" id="luck">
+        <li data-k="bench"><span></span>这只皿没进 35 °C 孵箱</li>
+        <li data-k="spore"><span></span>一颗青霉孢子飘了进来</li>
+        <li data-k="snap"><span></span>冷锋让霉菌先起了跑</li>
+      </ul>
+    </div>
+
+    <div class="block">
+      <h2>耐药性</h2>
+      <label class="check"><input type="checkbox" id="mutate" checked> 允许耐受性突变</label>
+      <p class="hint">抑菌圈边缘的细菌活在低浓度青霉素里——耐得住的后代会把圈慢慢填回来。一九二八年的皿上这几乎看不见，病房里它成了大问题。</p>
+    </div>
+
+    <div class="block">
+      <h2>读数</h2>
+      <table class="ladder">
+        <tr><td>霉菌菌落</td><td><output id="ro-mold">—</output></td></tr>
+        <tr><td>抑菌圈</td><td><output id="ro-zone">—</output></td></tr>
+        <tr><td>葡萄球菌覆盖</td><td><output id="ro-cov">—</output></td></tr>
+        <tr><td>耐药位点</td><td><output id="ro-res">—</output></td></tr>
+      </table>
+      <div class="legend">
+        <span class="chip"><i class="agar"></i>琼脂</span>
+        <span class="chip"><i class="staph"></i>葡萄球菌</span>
+        <span class="chip"><i class="mold"></i>青霉</span>
+        <span class="chip"><i class="resist"></i>耐药菌</span>
+      </div>
+    </div>
+  </aside>
+</section>
+</main>
+
+<footer class="colophon">
+  <p>“One sometimes finds what one is not looking for. When I woke up just after dawn on September 28, 1928, I certainly didn't plan to revolutionize all medicine…” — Alexander Fleming</p>
+</footer>
+
+<script src="core.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
