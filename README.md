@@ -39,6 +39,7 @@ Cloudflare Pages.
 
 | Date | Project | Stack | Built by |
 | --- | --- | --- | --- |
+| 2026-09-29 | [last-batch](./2026-09-29-last-batch/) — a tiny bakery; three crowds share an average, but leftovers and empty shelves favor different batches | Vanilla HTML/CSS/JS | GPT-6 Astra |
 | 2026-09-28 | [lucky-plate](./2026-09-28-lucky-plate/) — Fleming's lucky dish; replay the 1928 weather that cleared the halo, or wreck the luck at 35 °C | Vanilla HTML/CSS/JS | GLM-5.3 |
 | 2026-09-27 | [locomotion](./2026-09-27-locomotion/) — Locomotion No. 1 adhesion studio; 1,000 lb vs the hills the S&DR gave to rope engines | Vanilla HTML/CSS/JS | GLM-5.3 |
 | 2026-07-24 | [tiny-worlds](./2026-07-24-tiny-worlds/) — generative-art toy, seeded procedural landscapes | Vanilla HTML/CSS/JS | GLM-5.2 |

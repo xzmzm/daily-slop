@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3efe5">
+  <meta name="description" content="A tiny bakery about uncertain demand. Choose the last batch, open for a month, and find the balance between leftovers and empty shelves.">
+  <title>Last Batch — the 6 a.m. decision</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect rx='16' width='64' height='64' fill='%23bb4625'/%3E%3Cellipse cx='32' cy='34' rx='22' ry='17' fill='%23ffd791'/%3E%3Cpath d='m21 27 7 13m5-17 7 13' stroke='%23bb4625' stroke-width='4'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="core.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="masthead"><a href="../index.html">DAILY SLOP <span>/</span> LITTLE EXPERIMENTS</a><span>29 SEP 2026</span></header>
+  <main>
+    <section class="intro" aria-labelledby="title">
+      <div><p class="eyebrow">THE 6 A.M. DECISION</p><h1 id="title">Last Batch<span>.</span></h1></div>
+      <p class="intro-copy">Too many buns, and some stay behind.<br>Too few, and so do your customers.<br><strong>How much would you bake?</strong></p>
+      <div class="stamp" aria-hidden="true">BAKED<br><em>with</em><br>UNCERTAINTY</div>
+    </section>
+    <div class="bakery">
+      <aside class="controls" aria-label="Plan the batch">
+        <p class="section-label">01 / BEFORE OPENING</p>
+        <h2>Know your crowd.</h2>
+        <div class="forecast-choices" role="group" aria-label="Customer forecast">
+          <button data-forecast="regular" aria-pressed="true"><span>01</span>The regulars<small>Steady mornings</small></button>
+          <button data-forecast="split" aria-pressed="false"><span>02</span>Office roulette<small>Quiet or crowded</small></button>
+          <button data-forecast="spike" aria-pressed="false"><span>03</span>A rare rush<small>A long right tail</small></button>
+        </div>
+        <div class="batch-control">
+          <label for="quantity">Your morning batch</label>
+          <div class="quantity-line"><output id="quantity-value" for="quantity">24</output><span>buns<br>every morning</span></div>
+          <input id="quantity" type="range" min="0" max="48" value="24" step="1">
+          <div class="range-ends"><span>Empty oven</span><span>48 buns</span></div>
+        </div>
+        <div class="cost-control">
+          <label for="cost">Cost to bake one <output id="cost-value" for="cost">$1.00</output></label>
+          <input id="cost" type="range" min="0.5" max="2.5" step="0.25" value="1">
+          <p>Sold for <strong>$3</strong>. Leftovers earn <strong>$0</strong>.</p>
+        </div>
+        <button class="run-button" id="run">Open for 30 mornings <span aria-hidden="true">↗</span></button>
+        <div class="month-controls"><span id="month-number">MONTH 01</span><button id="new-month">New month ↻</button></div>
+        <p class="replay-note">Same month, same customers.<br> Change the batch to compare fairly.</p>
+      </aside>
+      <section class="workbench" aria-label="Bakery forecast and results">
+        <div class="forecast-heading"><div><p class="section-label">THE CUSTOMER FORECAST</p><h2>Same average. Different mornings.</h2></div><p class="mean"><strong>24</strong><span>customers<br>on average</span></p></div>
+        <p id="forecast-description">A familiar crowd. Most mornings land near the middle.</p>
+        <div class="distribution"><svg id="forecast-chart" viewBox="0 0 780 132" role="img" aria-label="Customer demand probability chart"></svg><div class="chart-caption"><span>Possible customers per morning</span><span><i class="batch-key"></i>Your batch</span></div></div>
+        <section class="tray-section" aria-labelledby="tray-title">
+          <div class="tray-heading"><h3 id="tray-title">The morning batch</h3><span id="tray-note">24 buns, ready for the doors to open</span></div>
+          <div class="tray"><canvas id="bread-tray" width="960" height="236" role="img" aria-label="24 freshly baked buns on a tray"></canvas><div class="tray-edge"><span>LAST BATCH BAKERY</span><span>ONE BATCH / ONE DAY</span></div></div>
+          <div class="legend"><span><i class="fresh-key"></i><span id="bread-legend">Freshly baked</span></span><span><i class="left-key"></i>Left behind</span><span id="day-detail">Every bun is one decision.</span></div>
+        </section>
+        <section class="month-section" aria-label="30 mornings">
+          <div class="month-heading"><p class="section-label">02 / THIRTY MORNINGS</p><span id="month-status">Open the bakery to reveal the month.</span></div>
+          <div id="days" class="days" role="group" aria-label="Inspect a morning"></div>
+          <div class="results-heading"><span id="result-label">PER MORNING · FORECAST EXPECTATION</span><span>Sales revenue − bake costs = margin</span></div>
+          <div class="metrics" aria-live="off">
+            <div><span>Sold</span><strong id="sold">22.9</strong><small>buns / morning</small></div>
+            <div><span>Left behind</span><strong id="leftover">1.1</strong><small>buns / morning</small></div>
+            <div><span>Missed customers</span><strong id="missed">1.1</strong><small>people / morning</small></div>
+            <div><span>Margin</span><strong id="margin">$44.57</strong><small>after bake costs</small></div>
+          </div>
+        </section>
+        <section class="answer-section" aria-label="Best expected batch">
+          <button id="reveal" aria-expanded="false" aria-controls="answer">Find the sweet spot <span aria-hidden="true">+</span></button>
+          <div id="answer" hidden>
+            <div class="answer-top"><p><span>BEST EXPECTED MARGIN</span><strong>Bake <b id="best-quantity">25</b>.</strong></p><button id="use-best">Try this batch</button></div>
+            <p id="answer-reason"></p><p class="answer-foot">Best over many mornings. A single month can disagree. Equal margins favor the smaller batch.</p>
+          </div>
+        </section>
+      </section>
+    </div>
+    <footer><p>Made for <a href="https://www.fao.org/platform-food-loss-waste/flw-events/international-day-food-loss-and-waste/en" target="_blank" rel="noopener noreferrer">Food Loss &amp; Waste Awareness Day</a>.</p><p>A tiny <a href="https://ocw.mit.edu/courses/15-772j-d-lab-supply-chains-fall-2014/0d50c5c77382852102ee30b98f1d4657_MIT15_772JF14_Lec14.pdf" target="_blank" rel="noopener noreferrer">newsvendor model</a>. Invented forecasts, one purchase per customer, no next-day stock.</p></footer>
+    <p id="announcement" class="sr-only" role="status" aria-live="polite"></p>
+  </main>
+</body>
+</html>
