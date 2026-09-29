@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Jumbo Loader — the 747 freighter balance puzzle</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="masthead">
+  <p class="eyebrow">Everett, Washington · September 30, 1968 · rollout day</p>
+  <h1>Jumbo Loader</h1>
+  <p class="intro-copy">The first 747 rolled out on this day, built on a bet that supersonic
+  airliners would take the passengers — so Boeing shaped it as a freighter from the start,
+  hump and swing-open nose. Load one: click a manifest item, click a deck station, and keep
+  the center-of-gravity dot inside the envelope before you close the nose door.</p>
+</header>
+
+<main>
+  <section class="hangar" aria-label="Freighter loading deck">
+    <div class="hangar-top">
+      <h2>Nose-deck freighter <span class="hangar-note">stations in body inches</span></h2>
+      <p id="door-state" class="door-state" role="status">NOSE DOOR OPEN</p>
+    </div>
+    <div id="deck" class="deck"></div>
+    <p class="deck-hint">Click a cargo item, then a station. Click a loaded container to take it back off.</p>
+  </section>
+
+  <aside class="loadmaster">
+    <div class="missions" role="tablist" aria-label="Manifest">
+      <button class="mission" role="tab" data-mission="0" aria-selected="true">Rollout rehearsal</button>
+      <button class="mission" role="tab" data-mission="1" aria-selected="false">Spare-engine ferry</button>
+      <button class="mission" role="tab" data-mission="2" aria-selected="false">Gold run</button>
+      <button class="mission" role="tab" data-mission="3" aria-selected="false">Everett ramp</button>
+    </div>
+    <p id="mission-brief" class="mission-brief"></p>
+
+    <div class="panel">
+      <h2 id="manifest-heading">Manifest</h2>
+      <ul id="manifest" class="manifest" aria-labelledby="manifest-heading"></ul>
+      <div id="catalog" class="catalog" hidden>
+        <h3>Ramp catalog</h3>
+        <div class="catalog-buttons" id="catalog-buttons"></div>
+      </div>
+    </div>
+
+    <div class="panel readouts">
+      <div class="readout">
+        <span>Zero-fuel weight</span>
+        <strong id="zfw">354,000 lb</strong>
+        <span class="sub" id="zfw-limit">limit 526,000 lb</span>
+      </div>
+      <div class="readout">
+        <span>Center of gravity</span>
+        <strong id="cg">24.0 %MAC</strong>
+        <span class="sub" id="cg-limit">legal band 16.0–30.0</span>
+      </div>
+      <div class="actions">
+        <button id="dispatch" class="dispatch">Close nose door &amp; taxi</button>
+        <button id="unload" class="unload">Empty the deck</button>
+      </div>
+      <p id="verdict" class="verdict" role="status">Loading — CG band shown on the chart.</p>
+    </div>
+
+    <div class="panel chart-panel">
+      <h2>Weight &amp; balance envelope</h2>
+      <div id="chart"></div>
+      <p class="chart-hint">The dot is the whole game: weight up the left axis, CG along the bottom.
+      Every container you place drags it somewhere new — the band narrows as you get heavier.</p>
+    </div>
+  </aside>
+</main>
+
+<section class="history">
+  <h2>Why a freighter with a hump</h2>
+  <p>When the first 747 — <em>City of Everett</em> — rolled out of the new Everett plant on
+  September 30, 1968, Boeing expected supersonic transports to take over passenger flying.
+  The 747 was designed to lose its passengers gracefully: the flight deck went up onto the
+  hump so the nose could swing open for straight-in cargo loading, and the type became the
+  freighter that carried the air-cargo age. The plant those 50,000 “Incredibles” built is
+  still the largest building in the world by volume; the last 747 left it in January 2023.</p>
+</section>
+
+<footer>
+  <p>Weights, stations and the envelope are rounded for play from 747-100F ballpark figures —
+  the mechanics (moment arms, %MAC, zero-fuel limits) are the real discipline.
+  Built by GLM-5.3.</p>
+</footer>
+
+<script src="core.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
