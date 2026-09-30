@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Forty-Four Thousand One Hundred — the CD audio workbench</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="masthead">
+  <p class="eyebrow">Tokyo · October 1, 1982 · the first CD player goes on sale</p>
+  <h1>Forty-Four Thousand One Hundred</h1>
+  <p class="intro-copy">On this day the Sony CDP-101 — the first compact-disc player — reached shelves
+  alongside fifty launch titles, Billy Joel's <em>52nd Street</em> among them. A CD is two numbers
+  wearing a silver coat: 44,100 samples a second, 16 bits each. This workbench runs the whole chain —
+  fold an alias, count the bits, work out where 44,100 came from, then scratch the disc and let the
+  parity put it back.</p>
+</header>
+
+<main>
+  <section class="station" id="station-sampler" aria-label="Sampling and aliasing">
+    <div class="station-head">
+      <span class="station-no">01</span>
+      <div class="station-title">
+        <h2>Sample it</h2>
+        <p class="station-sub">the wave exists in between — Nyquist decides what survives</p>
+      </div>
+      <p class="station-state" id="sampler-state" role="status">CLEAN</p>
+    </div>
+    <canvas id="sampler-canvas" aria-label="Sampled sine wave and its alias"></canvas>
+    <div class="controls">
+      <div class="control">
+        <label for="tone">Tone <strong id="tone-readout">1,000 Hz</strong></label>
+        <input type="range" id="tone" min="200" max="4000" step="25" value="1000">
+        <div class="chips" role="group" aria-label="Tone presets">
+          <button data-tone="440">440 Hz</button>
+          <button data-tone="1000">1 kHz</button>
+          <button data-tone="3000">3 kHz</button>
+        </div>
+      </div>
+      <div class="control">
+        <label for="rate">Sample rate <strong id="rate-readout">44,100 Hz</strong></label>
+        <input type="range" id="rate" min="600" max="48000" step="100" value="44100">
+        <div class="chips" role="group" aria-label="Sample-rate presets">
+          <button data-rate="44100">CD 44.1k</button>
+          <button data-rate="8000">8 kHz</button>
+          <button data-rate="4000">4 kHz</button>
+          <button data-rate="1600">1.6 kHz</button>
+        </div>
+      </div>
+      <div class="control audio-control">
+        <span class="label">Listen</span>
+        <div class="chips">
+          <button id="play-original">Play original</button>
+          <button id="play-sampled">Play through the sampler</button>
+          <button id="play-sweep">Sweep 30 Hz → 20 kHz</button>
+        </div>
+      </div>
+    </div>
+    <div class="readouts">
+      <div class="readout"><span>Nyquist limit</span><strong id="nyquist">22,050 Hz</strong></div>
+      <div class="readout"><span>Plays back at</span><strong id="playback">1,000 Hz</strong></div>
+      <div class="readout wide"><span id="sampler-note">Every cycle is measured more than twice — the original wave is the only one that fits the dots.</span></div>
+    </div>
+  </section>
+
+  <section class="station" id="station-bits" aria-label="Quantization">
+    <div class="station-head">
+      <span class="station-no">02</span>
+      <div class="station-title">
+        <h2>Count the bits</h2>
+        <p class="station-sub">quantization is rounding, and the rounding error is the noise floor</p>
+      </div>
+      <p class="station-state" id="bits-state" role="status">16 BIT · 98.1 dB</p>
+    </div>
+    <canvas id="bits-canvas" aria-label="Quantized wave and its error"></canvas>
+    <div class="controls">
+      <div class="control">
+        <label for="bits">Bit depth <strong id="bits-readout">16 bits</strong></label>
+        <input type="range" id="bits" min="1" max="16" step="1" value="16">
+        <div class="chips" role="group" aria-label="Bit-depth presets">
+          <button data-bits="16">16</button>
+          <button data-bits="8">8</button>
+          <button data-bits="4">4</button>
+          <button data-bits="1">1</button>
+        </div>
+      </div>
+    </div>
+    <div class="readouts">
+      <div class="readout"><span>Steps between silence and clipping</span><strong id="steps">65,536</strong></div>
+      <div class="readout"><span>Theoretical noise floor</span><strong id="snr">98.1 dB</strong></div>
+      <div class="readout"><span>Disc data rate, stereo</span><strong id="datarate">1.4112 Mbit/s</strong></div>
+    </div>
+    <div class="lampblock">
+      <p class="lamp-label">One sample at +0.6 amplitude, two's complement — the disc stores these lamps:</p>
+      <div id="lamp-row" class="lamp-row" aria-label="Sample lamps"></div>
+      <p class="lamp-value" id="lamp-value">code +19,661 · 0x4CCD</p>
+    </div>
+  </section>
+
+  <section class="station" id="station-origin" aria-label="Why 44100">
+    <div class="station-head">
+      <span class="station-no">03</span>
+      <div class="station-title">
+        <h2>Why 44,100?</h2>
+        <p class="station-sub">not acoustics — the number fell out of a video recorder</p>
+      </div>
+      <div class="chips tv-toggle" role="group" aria-label="TV system">
+        <button id="tv-ntsc" class="on">NTSC 525/60</button>
+        <button id="tv-pal">PAL 625/50</button>
+      </div>
+    </div>
+    <div class="origin-grid">
+      <div class="math-tiles" id="math-tiles">
+        <div class="tile"><strong>3</strong><span>samples per line</span></div>
+        <div class="tile-op">×</div>
+        <div class="tile"><strong id="tile-lines">245</strong><span id="tile-lines-note">usable lines per field</span></div>
+        <div class="tile-op">×</div>
+        <div class="tile"><strong id="tile-fields">60</strong><span>fields per second</span></div>
+        <div class="tile-op">=</div>
+        <div class="tile result"><strong>44,100</strong><span>samples per second</span></div>
+      </div>
+      <canvas id="tv-canvas" aria-label="Video field diagram with three samples per usable line"></canvas>
+    </div>
+    <p class="fact-line">Early digital audio lived on PCM adapters plugged into video tape machines — stereo samples
+    rode the scan lines. 44,100 is the one rate both TV worlds can build: 3 × 245 × 60 in NTSC Japan and the US,
+    3 × 294 × 50 in PAL Europe. The ear wanted a bit above 40 kHz (20 kHz audio plus a filter guard band);
+    the VTR delivered exactly this, so it stuck — and every "48 kHz or 44.1 kHz" menu today still carries the echo.</p>
+
+    <div class="disc-strip">
+      <div class="disc-canvas-wrap">
+        <canvas id="disc-canvas" aria-label="Spinning compact disc at constant linear velocity"></canvas>
+      </div>
+      <div class="disc-side">
+        <div class="control">
+          <label for="radius">Laser radius <strong id="radius-readout">32.0 mm</strong></label>
+          <input type="range" id="radius" min="25" max="58" step="0.5" value="32">
+          <div class="chips" role="group" aria-label="Radius presets">
+            <button data-radius="25">inner 25</button>
+            <button data-radius="41">middle</button>
+            <button data-radius="58">outer 58</button>
+          </div>
+        </div>
+        <div class="readouts">
+          <div class="readout"><span>Spin</span><strong id="rpm">374 rpm</strong></div>
+          <div class="readout"><span>One revolution</span><strong id="lap">160 ms</strong></div>
+        </div>
+        <p class="fact-line">The motor never holds one speed: it slows from 458 rpm at the inner edge to 198 at the
+        outer so the track always passes at 1.2 m/s. The spiral is 1.6 µm wide — 20,625 turns, about 5.4 km of
+        track on 120 mm of plastic. The 780 nm laser's ~1.7 µm spot is wider than the 0.5 µm pits it reads; the
+        disc is read by interference, not by a needle.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="station" id="station-scratch" aria-label="Scratch and error correction">
+    <div class="station-head">
+      <span class="station-no">04</span>
+      <div class="station-title">
+        <h2>Scratch it</h2>
+        <p class="station-sub">bytes are scattered across the disc so a wound lands one hit per row</p>
+      </div>
+      <p class="station-state" id="scratch-state" role="status">PRISTINE</p>
+    </div>
+    <div class="scratch-layout">
+      <div class="grid-side">
+        <p class="grid-label">Music order — nine bytes of audio per row, one parity byte guarding it</p>
+        <div id="logic-grid" class="logic-grid" aria-label="Bytes in music order"></div>
+      </div>
+      <div class="strip-side">
+        <p class="grid-label">Disc order — drag a scratch across the surface</p>
+        <div id="physical-strip" class="physical-strip" aria-label="Disc surface in physical order"></div>
+        <div class="chips scratch-controls">
+          <button id="interleave-toggle" class="on" aria-pressed="true">Interleave: on</button>
+          <button id="polish">Polish &amp; replay</button>
+          <button id="wipe">Wipe scratch</button>
+        </div>
+        <p id="scratch-verdict" class="verdict" role="status">Pristine disc. Drag across the strip to wound it.</p>
+      </div>
+    </div>
+    <p class="fact-line">With interleave on, consecutive disc cells belong to different rows — an 8-cell burst is
+    one lost byte per row, and each row's parity rebuilds its single hole. Turn interleave off and the same
+    burst erases a run of neighbours in one row — and a row with two or more holes loses them all, because one
+    parity byte can only settle one unknown. A real CD plays the same trick with two Reed–Solomon layers
+    (C1 and C2) cross-interleaved over 108 frames — enough to sew up a 2.5 mm gouge without a click.</p>
+  </section>
+</main>
+
+<section class="history">
+  <h2>Beethoven's ninth, 12 centimetres</h2>
+  <p>The compact disc was a Dutch–Japanese joint invention: Philips brought the laser disc optics, Sony the
+  digital signal chain, and in 1982 the standard froze at 120 mm, 44.1 kHz, 16 bits, 74 minutes. Philips had
+  wanted an 11.5 cm, 60-minute disc; Sony's Norio Ohga — a trained opera singer — insisted the format hold
+  Beethoven's ninth symphony whole, and the legend says the 1951 Bayreuth recording, about 74 minutes, drew
+  the diameter. Whether or not the story is precisely true, the CDP-101 that went on sale in Tokyo on
+  October 1, 1982 for ¥168,000 played fifty launch titles that day, the first being <em>52nd Street</em>.
+  Forty-four years on, 44,100 is still the number a phone reaches for first.</p>
+</section>
+
+<footer>
+  <p>Rounded for play where noted; the mechanics — Nyquist folding, 6.02N + 1.76 dB, constant linear velocity,
+  interleaved parity — are the real discipline. Built by GLM-5.3.</p>
+</footer>
+
+<script src="core.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
