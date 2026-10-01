@@ -39,6 +39,7 @@ Cloudflare Pages.
 
 | Date | Project | Stack | Built by |
 | --- | --- | --- | --- |
+| 2026-10-02 | [thirty-lines](./2026-10-02-thirty-lines/) — a mechanical TV bench; spin a 30-hole disc and lose the face by losing sync | Vanilla HTML/CSS/JS | GPT-6.1 Sol |
 | 2026-10-01 | [44100](./2026-10-01-44100/) — the day the CD went on sale; fold an alias, count the 16 bits, scratch the disc and let parity fix it | Vanilla HTML/CSS/JS | GLM-5.3 |
 | 2026-09-30 | [jumbo-loader](./2026-09-30-jumbo-loader/) — load the first 747 freighter; every pallet drags the center-of-gravity dot across the envelope | Vanilla HTML/CSS/JS | GLM-5.3 |
 | 2026-09-29 | [last-batch](./2026-09-29-last-batch/) — a tiny bakery; three crowds share an average, but leftovers and empty shelves favor different batches | Vanilla HTML/CSS/JS | GPT-6 Astra |

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#efe9de">
+  <meta name="description" content="A mechanical television bench. Spin a 30-hole disc, send a face through one light signal, and lose the picture by losing sync.">
+  <title>Thirty Lines — a mechanical television bench</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="core.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="page">
+    <header class="masthead">
+      <a class="wordmark" href="../">DAILY SLOP <span>/</span> NO. 071</a>
+      <span class="edition">02 OCTOBER 2026 <span class="edition-dot">●</span> THE MOVING IMAGE ISSUE</span>
+      <a class="notes-link" href="../view.html?p=2026-10-02-thirty-lines">Field notes ↗</a>
+    </header>
+
+    <section class="intro" aria-labelledby="title">
+      <div>
+        <p class="eyebrow"><span class="tiny-disc" aria-hidden="true">◉</span> A MECHANICAL TELEVISION BENCH</p>
+        <h1 id="title">Thirty <em>Lines.</em></h1>
+      </div>
+      <div class="intro-copy">
+        <p>A face, one slit at a time.</p>
+        <span>Before pixels had screens, pictures had spinning discs.<br>Send a little light. Keep the two ends in time.</span>
+      </div>
+      <div class="date-stamp"><span>INSPIRED BY</span><strong>02 / 10</strong><span>BAIRD’S 1925 BREAKTHROUGH</span></div>
+    </section>
+
+    <main>
+      <section class="bench" aria-label="Live mechanical television experiment">
+        <div class="bench-top">
+          <span><i id="status-lamp" class="status-lamp"></i> <span id="status" role="status">SIGNAL IN SYNC</span></span>
+          <span class="bench-scale">5 FRAMES / SEC <b>·</b> MOTION SHOWN AT 1/10 SPEED</span>
+          <button id="pause" class="quiet-button" type="button" aria-pressed="false">Ⅱ Pause disc</button>
+        </div>
+        <div class="machine">
+          <article class="sitter">
+            <div class="station-label"><span>01</span> THE SITTER</div>
+            <div class="source-frame"><canvas id="source" width="240" height="320" role="img" aria-label="An original illustrated puppet face, the source picture"></canvas><span class="scan-guide" id="scan-guide"></span><span class="frame-corner tl"></span><span class="frame-corner br"></span></div>
+            <div class="subject-tabs" role="group" aria-label="Picture to transmit">
+              <button data-subject="bill" aria-pressed="true" type="button">Bill</button>
+              <button data-subject="orbit" aria-pressed="false" type="button">Orbit</button>
+              <button data-subject="type" aria-pressed="false" type="button">Type</button>
+            </div>
+            <p class="small-note" id="subject-note">An original stand-in for a very patient dummy.</p>
+          </article>
+
+          <article class="scanner">
+            <div class="station-label"><span>02</span> THE SCANNING DISC</div>
+            <canvas id="disc" width="500" height="430" role="img" aria-label="A rotating Nipkow disc with holes in a spiral; the highlighted hole is scanning one vertical column"></canvas>
+            <div class="disc-caption"><span><b id="hole-readout">30</b> holes in a spiral</span><span><b>300</b> rpm at full speed</span></div>
+            <div class="wire" aria-hidden="true"><span>ONE LIGHT SIGNAL</span><canvas id="signal" width="460" height="40"></canvas><b>→</b></div>
+          </article>
+
+          <article class="receiver">
+            <div class="station-label"><span>03</span> THE NEON RECEIVER</div>
+            <div class="receiver-housing"><div class="receiver-screen"><canvas id="picture" width="240" height="320" role="img" aria-label="The received picture, assembled from vertical orange strips"></canvas></div><span class="housing-screw s1">⊕</span><span class="housing-screw s2">⊕</span><span class="housing-screw s3">⊕</span><span class="housing-screw s4">⊕</span><span class="housing-mark">T / L</span></div>
+            <div class="view-tabs" role="group" aria-label="Receiver view">
+              <button id="memory" aria-pressed="true" type="button">Eye memory</button>
+              <button id="slit" aria-pressed="false" type="button">Single slit</button>
+            </div>
+            <p class="small-note" id="view-note">The scans held together, so you can see the face.</p>
+          </article>
+        </div>
+        <div class="bench-bottom"><span id="column-readout">COLUMN 01 / 30</span><span id="sync-readout">TX 300.0 RPM <b>↔</b> RX 300.0 RPM</span><button id="step" class="quiet-button" type="button" disabled>Advance one column →</button></div>
+      </section>
+
+      <section class="controls" aria-label="Transmission controls">
+        <div class="control resolution-control">
+          <div class="control-heading"><label>SCAN DEFINITION</label><span>vertical columns</span></div>
+          <div class="resolution-tabs" role="group" aria-label="Number of scanning lines"><button type="button" data-lines="15" aria-pressed="false">15</button><button type="button" data-lines="30" aria-pressed="true">30 <small>classic</small></button><button type="button" data-lines="60" aria-pressed="false">60</button></div>
+        </div>
+        <div class="control">
+          <div class="control-heading"><label for="drift">RECEIVER SPEED</label><output for="drift" id="drift-value">+0.0%</output></div>
+          <input id="drift" type="range" min="-5" max="5" step="0.1" value="0" aria-describedby="drift-help">
+          <span class="control-help" id="drift-help">A tiny mismatch sends the face wandering.</span>
+        </div>
+        <div class="control">
+          <div class="control-heading"><label for="phase">DISC ALIGNMENT</label><output for="phase" id="phase-value">0°</output></div>
+          <input id="phase" type="range" min="-180" max="180" step="1" value="0" aria-describedby="phase-help">
+          <span class="control-help" id="phase-help">Same speed, wrong starting position.</span>
+        </div>
+        <div class="sync-actions"><button id="break-sync" type="button">↯ Break sync</button><button id="lock" class="primary" type="button">◎ Lock the picture</button></div>
+      </section>
+
+      <div class="explanation" aria-live="polite"><span class="explanation-icon" aria-hidden="true">↳</span><p id="explanation">Thirty columns, one wire. Each hole sweeps a vertical strip; a second disc puts the light back in the same place. Change the receiver speed to see why timing matters.</p></div>
+
+      <section class="footnotes" aria-label="About the experiment">
+        <div class="historical-note"><span class="eyebrow">A LITTLE CONTEXT</span><p>On 2 October 1925, John Logie Baird transmitted a face with shades of grey at his Soho workshop. This bench borrows the <strong>30-hole disc</strong> from his surviving 1926 receiver. The sitter is our own drawing.</p><a href="https://www.english-heritage.org.uk/visit/blue-plaques/john-logie-baird-television/" target="_blank" rel="noreferrer">The story ↗</a><a href="https://collection.sciencemuseumgroup.org.uk/objects/co34789/experimental-television-receiver-used-by-jl-baird-in-demonstration-made-1925-1926" target="_blank" rel="noreferrer">The apparatus ↗</a></div>
+        <div class="model-note"><span class="eyebrow">A BENCH, NOT A REPLICA</span><p>Disc geometry is drawn schematically. “Eye memory” holds each sampled spot until the next sweep; “Single slit” shows just the current aperture’s short trail. Real neon does not store a whole frame.</p></div>
+      </section>
+    </main>
+    <footer><span>THIRTY LINES <b>/</b> 2026-10-02</span><span>Built by GPT-6.1 Sol</span><a href="../">Back to the daily collection ↗</a></footer>
+  </div>
+</body>
+</html>
