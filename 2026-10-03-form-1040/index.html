@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Form 1040, 1913 — the first income-tax return</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="page">
+  <header class="masthead">
+    <div class="masthead-rule"></div>
+    <h1>Form 1040 <span class="year">— 1913</span></h1>
+    <p class="tagline">Return of annual net income of individuals. Fill the very first
+    federal income-tax return, and watch the brackets stack one segment at a time.</p>
+    <p class="authority">Act of Congress approved <strong>October 3, 1913</strong> ·
+    return due March 1, 1914 · about 2 households in 100 ever saw this form</p>
+    <div class="masthead-rule"></div>
+  </header>
+
+  <div class="bench">
+    <!-- ============ controls ============ -->
+    <section class="controls" aria-label="Controls">
+      <div class="control-heading">Net income for the year</div>
+      <div class="income-row">
+        <div class="income-box">
+          <span class="dollar">$</span><input id="income-input" class="income-input"
+            type="number" min="0" max="1000000" step="100" value="23000"
+            inputmode="numeric" aria-label="Net income in dollars">
+        </div>
+        <div class="status-toggle" role="radiogroup" aria-label="Filing status">
+          <button id="status-single" class="status-btn is-active" type="button">Single</button>
+          <button id="status-married" class="status-btn" type="button">Married</button>
+        </div>
+      </div>
+      <input id="income-slider" class="income-slider" type="range" min="0" max="1000"
+        step="1" value="284" aria-label="Income slider">
+      <div class="slider-scale"><span>$0</span><span>$16k</span><span>$125k</span>
+        <span>$420k</span><span>$1M</span></div>
+      <div class="control-heading">Pick a 1913 taxpayer</div>
+      <div class="personas" id="personas">
+        <button type="button" data-income="580" data-job="machinist">Factory hand · $580</button>
+        <button type="button" data-income="700" data-job="schoolteacher">Schoolteacher · $700</button>
+        <button type="button" data-income="1200" data-job="shipping clerk">Clerk · $1,200</button>
+        <button type="button" data-income="4000" data-job="engineer">Engineer · $4,000</button>
+        <button type="button" data-income="23000" data-job="bank president">Bank president · $23,000</button>
+        <button type="button" data-income="1000000" data-job="oil magnate">Oil magnate · $1,000,000</button>
+      </div>
+      <div class="control-heading">From the 1914 season</div>
+      <ul class="quick-facts">
+        <li>≈ 2 households in 100 paid any income tax at all</li>
+        <li>Top rate <strong>7%</strong> — and only above $500,000</li>
+        <li>The whole return fit on <strong>one page</strong> plus instructions</li>
+        <li>Filed by <strong>March 1, 1914</strong>; false returns risked a $2,000 fine or a year in prison</li>
+      </ul>
+    </section>
+
+    <!-- ============ the return itself ============ -->
+    <section class="paper" aria-label="The 1913 return">
+      <div class="form-head">
+        <div class="form-brand">TREASURY DEPARTMENT · BUREAU OF INTERNAL REVENUE</div>
+        <h2>Return of Annual Net Income of Individuals</h2>
+        <p class="form-note">For the year ended December 31, 1913 — filed on or before
+        March 1, 1914</p>
+      </div>
+      <div class="form-id">
+        <span>(a) Residence: <i class="pen" id="f-residence">Anywhere, U.S.A.</i></span>
+        <span>(b) Occupation: <i class="pen" id="f-occupation">engineer</i></span>
+      </div>
+      <ol class="form-lines">
+        <li><label>1. Gross income from salary, business, trade, profession…</label>
+          <b class="pen num" id="f-gross">$23,000.00</b></li>
+        <li><label>2. General deductions (expenses, interest, taxes)…</label>
+          <b class="pen num dim">$0.00</b></li>
+        <li><label>3. <em>Net income</em> (line 1 minus line 2)</label>
+          <b class="pen num" id="f-net">$23,000.00</b></li>
+        <li><label>4. Exemption <span class="form-fine">(only <span class="pen" id="f-exemption-amt">$3,000</span>
+          deducted, and only for the normal tax)</span></label>
+          <b class="num" id="f-exemption">$3,000.00</b></li>
+      </ol>
+      <div class="form-block">
+        <div class="form-block-title">Normal tax</div>
+        <ol class="form-lines">
+          <li><label>5. Amount by which line 3 exceeds line 4</label>
+            <b class="pen num" id="f-normalbase">$20,000.00</b></li>
+          <li><label>6. One per cent <em>normal tax</em> upon line 5</label>
+            <b class="pen num" id="f-normaltax">$200.00</b></li>
+        </ol>
+      </div>
+      <div class="form-block">
+        <div class="form-block-title">Additional tax <span class="form-fine">(on net income
+          over $20,000 — the exemption of line 4 does not apply here)</span></div>
+        <table class="surtax" id="surtax-table">
+          <thead><tr><th>Portion of line 3</th><th>Rate</th><th>Tax</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="form-total">
+        <label>Total tax payable (line 6 + additional)</label>
+        <b class="pen big-num" id="f-total">$230.00</b>
+      </div>
+      <div class="margin-notes">
+        <div class="pencil-note" id="note-effective">All told, $230 of $23,000 —
+          1¢ on every dollar earned.</div>
+        <div class="pencil-note" id="note-marginal">The next dollar you earn is
+          taxed 2¢; 98¢ of it stays yours.</div>
+      </div>
+      <p class="form-fineprint">Any person who knowingly delivers a false or fraudulent
+      return shall be guilty of a misdemeanor and shall be fined not exceeding $2,000,
+      or be imprisoned not exceeding one year, or both, at the discretion of the court.</p>
+    </section>
+
+    <!-- ============ the bracket ladder ============ -->
+    <section class="ladder" aria-label="The bracket ladder">
+      <div class="panel-title">Where every dollar lands</div>
+      <svg id="staircase" class="staircase" viewBox="0 0 640 210" preserveAspectRatio="none"
+        aria-label="Marginal tax rate staircase"></svg>
+      <div class="bar-wrap">
+        <div id="income-bar" class="income-bar" aria-label="Your income sliced by bracket"></div>
+        <div class="bar-cap" id="bar-cap"></div>
+      </div>
+      <div class="rate-cards">
+        <div class="rate-card">
+          <div class="rate-label">On your next dollar</div>
+          <div class="rate-value"><span id="marginal-cents">2.0</span>¢</div>
+          <div class="rate-sub" id="marginal-sub">marginal rate — 1% normal + 1% additional</div>
+        </div>
+        <div class="rate-card">
+          <div class="rate-label">Across the whole year</div>
+          <div class="rate-value"><span id="effective-cents">1.0</span>¢</div>
+          <div class="rate-sub" id="effective-sub">effective rate — $230 tax on $23,000 income</div>
+        </div>
+        <div class="rate-card rate-card-who">
+          <div class="who-grid" id="who-grid" aria-label="About two in one hundred households paid income tax"></div>
+          <div class="who-sub" id="who-sub">In all of 1913 America, roughly 2 households
+          in 100 paid any of this. Today you are one of them.</div>
+        </div>
+      </div>
+
+      <div class="today">
+        <button id="today-toggle" type="button" class="today-btn">
+          Run the same life in 2026 ▾</button>
+        <div class="today-body" id="today-body" hidden>
+          <div class="today-convert" id="today-convert">
+            $23,000 in 1913 ≈ $759,000 in 2026 dollars (CPI ×33)
+          </div>
+          <div class="today-cols">
+            <div class="today-col">
+              <div class="today-year">1913</div>
+              <div class="today-amount" id="today-1913-tax">$230</div>
+              <div class="today-meta" id="today-1913-meta">1.0¢ per dollar · top rate 7%</div>
+              <div class="today-bar"><i id="bar-1913" style="width:3%"></i></div>
+            </div>
+            <div class="today-col">
+              <div class="today-year">2026</div>
+              <div class="today-amount" id="today-2026-tax">$—</div>
+              <div class="today-meta" id="today-2026-meta">— · top rate 37%</div>
+              <div class="today-bar"><i id="bar-2026" style="width:0%"></i></div>
+            </div>
+          </div>
+          <p class="today-note" id="today-note"></p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer class="footnotes">
+    <p>Sources: Revenue Act of 1913 (Underwood–Simmons Tariff), signed October 3, 1913;
+    original Form 1040 for 1913; IRS Rev. Proc. 2025-32 for tax-year 2026 brackets and
+    standard deductions. CPI conversion ≈ ×33, an approximation. 1913 personas are
+    representative incomes, not historical individuals.</p>
+  </footer>
+</div>
+
+<script src="core.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
