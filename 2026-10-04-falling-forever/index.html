@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Falling forever — Newton's cannon &amp; Sputnik's beep</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="masthead">
+  <div class="kicker">Daily bench · 4 October 1957 · 69 years tonight</div>
+  <h1>Falling forever</h1>
+  <p class="standfirst">Sputnik 1 went up at 19:28 UTC and the whole planet could hear it beep.
+     An orbit is just falling and missing — Newton drew the picture in 1687.
+     Bench one proves it with a cannon; bench two is the radio that heard it go by.</p>
+</header>
+
+<main>
+  <section class="bench" id="cannon-bench">
+    <div class="bench-head">
+      <h2><span class="num">I</span> Newton&rsquo;s cannon <span class="year">Principia, 1687</span></h2>
+      <p class="bench-note">A cannon on an impossibly tall mountain (we chose 500 km — Newton didn&rsquo;t say).
+         Fire horizontally. The shot falls toward Earth every second it flies; the only question is
+         whether the ground curves away as fast.</p>
+    </div>
+    <div class="bench-body">
+      <div class="canvas-wrap">
+        <canvas id="cannon-canvas" width="1340" height="640" aria-label="Cannon trajectories around Earth"></canvas>
+      </div>
+      <div class="controls">
+        <div class="control-label">Muzzle speed</div>
+        <div class="speed-read"><span id="speed-value">6.00</span><span class="unit">km/s</span></div>
+        <input id="speed-slider" class="slider" type="range" min="1" max="11.5" step="0.01" value="6">
+        <div class="ticks">
+          <span>1</span><span>3</span><span>5</span>
+          <span class="tick-orbit" id="tick-orbit">7.62&nbsp;orbit</span>
+          <span>9</span><span class="tick-escape" id="tick-escape">10.77&nbsp;escape</span><span>11.5</span>
+        </div>
+        <div class="presets" id="presets">
+          <button data-v="1.0" title="A rifle bullet leaves the barrel around 1 km/s">rifle bullet · 1.0</button>
+          <button data-v="1.6" title="The V-2, 1944 — the fastest thing humans had flown">V-2 · 1.6</button>
+          <button data-v="2.0" title="X-15 record, 1967: 2.02 km/s">X-15 · 2.0</button>
+          <button data-v="6.9" title="An ICBM warhead at burnout, give or take">ICBM · 6.9</button>
+          <button data-v="7.62" title="Circular speed at 500 km">circular · 7.62</button>
+          <button data-v="11.0" title="Escape needs 10.78+ at this altitude">escape · 11.0</button>
+        </div>
+        <div class="fire-row">
+          <button id="fire" class="fire">Fire</button>
+          <button id="clear" class="ghost">Clear</button>
+        </div>
+        <p class="verdict" id="verdict">The bench is loaded. First shot at 6 km/s?</p>
+        <ul class="shots" id="shots"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="bench" id="beep-bench">
+    <div class="bench-head">
+      <h2><span class="num">II</span> The beep <span class="year">20.005&nbsp;MHz · 1&nbsp;watt</span></h2>
+      <p class="bench-note">Sputnik&rsquo;s orbit was 215 × 939 km, one lap every 96 minutes. Anyone with a
+         shortwave receiver could catch a 10-minute pass. The pitch glides as it comes and goes —
+         Doppler: Δf&nbsp;=&nbsp;f₀·v<sub>r</sub>/c. We mix the carrier down to a ~940 Hz beat note;
+         the Hz shift you hear is exactly the shift the radio waves carried.</p>
+    </div>
+    <div class="bench-body">
+      <div class="canvas-wrap">
+        <canvas id="sky-canvas" width="1340" height="640" aria-label="Satellite pass over the local sky with Doppler chart"></canvas>
+      </div>
+      <div class="controls">
+        <div class="control-label">Pass geometry</div>
+        <div class="speed-read"><span id="peak-value">90</span><span class="unit">° peak elevation</span></div>
+        <input id="peak-slider" class="slider" type="range" min="15" max="90" step="1" value="90">
+        <div class="ticks"><span>15° grazing</span><span>45°</span><span>overhead</span></div>
+        <div class="fire-row">
+          <button id="play" class="fire">Play the pass</button>
+          <button id="sound" class="ghost toggle-on" aria-pressed="true">sound on</button>
+        </div>
+        <label class="checkrow">
+          <input type="checkbox" id="drift"> 1957 condition: transmitter drifts with its own temperature
+        </label>
+        <div class="readouts">
+          <div><span class="ro-label">elevation</span><span class="ro" id="ro-elev">—</span></div>
+          <div><span class="ro-label">range</span><span class="ro" id="ro-range">—</span></div>
+          <div><span class="ro-label">radial v</span><span class="ro" id="ro-vr">—</span></div>
+          <div><span class="ro-label">beat note</span><span class="ro big" id="ro-beat">—</span></div>
+          <div><span class="ro-label">Δf (Doppler)</span><span class="ro big" id="ro-df">—</span></div>
+        </div>
+        <p class="verdict" id="beep-verdict">Press play — the pitch tells you whether it is coming or going.</p>
+      </div>
+    </div>
+    <p class="facts">83.6 kg polished sphere, 58 cm across · beeps for 22 days (batteries died 26 Oct) ·
+       burned up 4 Jan 1958 · the R-7 core stage orbited beside it and was visible to the naked eye ·
+       pass time compressed ≈ 58×, beep cadence slowed to stay audible — the Hz glide is the real thing.</p>
+  </section>
+</main>
+
+<footer class="footnotes">
+  <p>Simplifications, kept honest: Newton&rsquo;s mountain height is our choice; Sputnik&rsquo;s slightly
+     elliptical orbit is modelled as a circle at its mean radius (e = 0.052); pass geometry lives in
+     the plane through the observer; the ±0.7 kHz temperature drift is a slow-sine stand-in for the
+     real thermal wander, which was measured at roughly the same size as the Doppler shift itself.</p>
+</footer>
+
+<script src="core.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

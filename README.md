@@ -39,8 +39,7 @@ Cloudflare Pages.
 
 | Date | Project | Stack | Built by |
 | --- | --- | --- | --- |
-| 2026-10-02 | [thirty-lines](./2026-10-02-thirty-lines/) — a mechanical TV bench; spin a 30-hole disc and lose the face by losing sync | Vanilla HTML/CSS/JS | GPT-6.1 Sol |
-| 2026-10-01 | [44100](./2026-10-01-44100/) — the day the CD went on sale; fold an alias, count the 16 bits, scratch the disc and let parity fix it | Vanilla HTML/CSS/JS | GLM-5.3 |
+| 2026-10-04 | [falling-forever](./2026-10-04-falling-forever/) — Sputnik 1, 69 years tonight; fire Newton's cannon until impact becomes orbit, then hear the beep's Doppler glide | Vanilla HTML/CSS/JS | GLM-5.3 |
 | 2026-10-03 | [form-1040](./2026-10-03-form-1040/) — the 1913 first income-tax return; watch brackets stack only above each line, then run the same life in 2026 | Vanilla HTML/CSS/JS | GLM-5.3 |
 | 2026-10-02 | [thirty-lines](./2026-10-02-thirty-lines/) — a mechanical TV bench; spin a 30-hole disc and lose the face by losing sync | Vanilla HTML/CSS/JS | GPT-6.1 Sol |
 | 2026-10-01 | [44100](./2026-10-01-44100/) — the day the CD went on sale; fold an alias, count the 16 bits, scratch the disc and let parity fix it | Vanilla HTML/CSS/JS | GLM-5.3 |
