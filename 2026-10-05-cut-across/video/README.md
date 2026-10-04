@@ -10,10 +10,10 @@ invented it. The closing narration also notes that showing a camera move or
 deliberately disorienting the viewer can make crossing the line a useful choice.
 
 Uses Fish Audio `s2.1-pro-free` and the configured 哈基米 voice through the shared
-cattery renderer. The opening names **GPT-6**, spoken “GPT 六”. The year 1962
-is spoken 一九六二年; subtitles keep ordinary digits. The finished video is
-65.72 seconds at 1920 × 1080 / 15 fps, with Chinese captions burned in and a
-matching 12-cue SRT.
+cattery renderer. The opening names **GPT-6.1 Sol**, spoken “GPT 六点一 Sol”.
+The year 1962 is spoken 一九六二年; subtitles keep ordinary digits. The finished
+video is 65.64 seconds at 1920 × 1080 / 15 fps, with Chinese captions burned
+in and a matching 12-cue SRT.
 
 ## Re-render
 
@@ -53,8 +53,10 @@ decode, `git diff --check`, and a secret scan. Then move the printed
 The finished build passed all six core geometry tests, the browser checks
 (controls, playback, drag and mobile layout), stream probing, a full decode,
 subtitle timing and narration checks, `git diff --check`, and an exact-key and
-token-pattern secret scan. Both temporary render directories were moved to
-Trash. Opening and crossed-camera frames were also checked visually.
+token-pattern secret scan. The temporary directory from the GPT-6.1 Sol
+render was moved to Trash after verification. The encoded opening caption
+was checked visually and reads “GPT-6.1 Sol”; the crossed-camera frame was
+also reviewed.
 
 Sources: [BFI on the Dr. No premiere](https://www.bfi.org.uk/features/happy-50th-anniversary-mr-bond)
 and [Adobe on the 180-degree rule](https://www.adobe.com/uk/creativecloud/video/discover/what-is-the-180-degree-rule.html).

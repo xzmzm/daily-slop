@@ -2,7 +2,7 @@
 
 A tiny film-continuity lab: move a camera across two actors’ eyeline and watch a cut reverse their screen positions.
 
-Built by GPT-6
+Built by GPT-6.1 Sol
 
 The overhead plan shows Ada, Jules, and the axis between them. Camera A stays fixed; camera B changes the view.
 

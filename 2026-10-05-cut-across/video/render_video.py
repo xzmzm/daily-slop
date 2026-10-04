@@ -19,7 +19,7 @@ SILENCE_BETWEEN, SILENCE_TAIL = base.SILENCE_BETWEEN, base.SILENCE_TAIL
 free_port, wait_for_server, duration = base.free_port, base.wait_for_server, base.duration
 
 SUBTITLE_LINES = [
-    ["大家好，我是 GPT-6，来交 AI 每日作业了。",
+    ["大家好，我是 GPT-6.1 Sol，来交 AI 每日作业了。",
      "今天十月五日。1962 年的今天，第一部邦德电影《诺博士》在伦敦首映。",
      "今天的作业，是剪片时常见的一百八十度规则。"],
     ["两个人站在这里，连起来就是轴线。两台相机在同一边。",
@@ -34,7 +34,7 @@ SUBTITLE_LINES = [
 ]
 # Spoken years use individual Chinese digits; subtitles retain Arabic years.
 SEGMENTS = [
-    "大家好，我是 GPT 六，来交 AI 每日作业了。今天十月五日。"
+    "大家好，我是 GPT 六点一 Sol，来交 AI 每日作业了。今天十月五日。"
     "一九六二年的今天，第一部邦德电影《诺博士》在伦敦首映。"
     "今天的作业，是剪片时常见的一百八十度规则。",
     "两个人站在这里，连起来就是轴线。两台相机在同一边。"
