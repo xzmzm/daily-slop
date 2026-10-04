@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A tiny film-continuity playground. Move the camera, play the cut, and see what crossing the line changes.">
+  <title>Cut Across — a continuity playground</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="core.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="page">
+    <header class="masthead">
+      <a class="brand" href="../"><span class="brand-mark" aria-hidden="true">▧</span> DAILY SLOP <span class="brand-divider">/</span> FILM STUDIES</a>
+      <span class="edition">NO. 074 <span>05 OCT 2026</span></span>
+    </header>
+    <section class="intro" aria-labelledby="title">
+      <div><p class="eyebrow">TWO ACTORS. TWO CAMERAS. ONE INVISIBLE LINE.</p><h1 id="title">Cut Across<span>.</span></h1></div>
+      <p class="intro-copy">Nobody moved. <br>So why did they switch places?<span>Move camera B. Play the cut. Trust your eyes.</span></p>
+    </section>
+
+    <main class="workbench">
+      <section class="set-panel" aria-labelledby="set-title">
+        <div class="panel-heading"><h2 id="set-title"><span>01</span> ON THE SET</h2><span class="quiet">TOP VIEW</span></div>
+        <svg id="stage" viewBox="0 0 440 390" role="img" aria-label="Top view of Ada and Jules, their axis, fixed camera A, and draggable camera B">
+          <defs><pattern id="grid" width="22" height="22" patternUnits="userSpaceOnUse"><path d="M 22 0 L 0 0 0 22" fill="none" stroke="#353936" stroke-width=".6"/></pattern></defs>
+          <rect width="440" height="390" fill="url(#grid)"/>
+          <path id="side-zone" d="M76 196 A144 144 0 0 1 364 196 Z" fill="#d7e58a" opacity=".055"/>
+          <circle cx="220" cy="196" r="144" fill="none" stroke="#656b61" stroke-dasharray="3 7"/>
+          <path d="M26 196 H414" stroke="#d7e58a" stroke-width="1.2" stroke-dasharray="7 5"/>
+          <text x="26" y="184" class="axis-text">AXIS OF ACTION</text>
+          <text x="220" y="366" text-anchor="middle" class="stage-note">DRAG B AROUND THE CIRCLE</text>
+          <path id="sight-a" stroke="#d9d5c5" opacity=".28" stroke-width="1"/>
+          <path id="sight-b" stroke="#d7e58a" opacity=".5" stroke-width="1"/>
+          <ellipse cx="184" cy="196" rx="18" ry="13" fill="#b0bd91"/><circle cx="184" cy="193" r="10" fill="#e0ddc8"/>
+          <ellipse cx="256" cy="196" rx="18" ry="13" fill="#d77f60"/><circle cx="256" cy="193" r="10" fill="#ebcab2"/>
+          <path d="M200 196 H208 M204 192 L208 196 L204 200 M240 196 H232 M236 192 L232 196 L236 200" fill="none" stroke="#f0eddf" stroke-width="1.5"/>
+          <text x="184" y="232" text-anchor="middle" class="actor-name">ADA</text><text x="256" y="232" text-anchor="middle" class="actor-name">JULES</text>
+          <g id="camera-a"><circle r="22" fill="#242825" stroke="#a8afa0"/><text text-anchor="middle" y="5" class="camera-letter">A</text><path d="M-7 26 L0 18 L7 26" fill="#a8afa0"/></g>
+          <g id="camera-b"><circle r="27" fill="transparent"/><circle r="22" fill="#d7e58a"/><text text-anchor="middle" y="5" class="camera-letter">B</text><path d="M-7 26 L0 18 L7 26" fill="#d7e58a"/></g>
+        </svg>
+        <div class="camera-control">
+          <label for="camera-b-angle">CAMERA B <output id="angle-value" for="camera-b-angle">135°</output></label>
+          <input id="camera-b-angle" type="range" min="0" max="359" value="135" aria-label="Camera B angle in degrees">
+          <div class="range-labels"><span>0°</span><span>180°</span><span>359°</span></div>
+        </div>
+        <div class="presets"><button id="same-side" aria-pressed="true">Same side <span>↗</span></button><button id="cross-line" aria-pressed="false">Cross the line <span>↙</span></button></div>
+        <p class="set-help">The actors stay put. Only your viewpoint changes.</p>
+      </section>
+
+      <section class="edit-panel" aria-labelledby="edit-title">
+        <div class="panel-heading"><h2 id="edit-title"><span>02</span> IN THE EDIT</h2><span class="quiet">A → B → A</span></div>
+        <div class="monitor-wrap">
+          <div class="monitor-bar"><span><i id="play-light"></i> <span id="monitor-label">CAMERA A</span></span><span id="timecode">00:00:00</span></div>
+          <svg id="monitor" viewBox="0 0 760 360" role="img" aria-label="Current camera view of Ada and Jules"></svg>
+          <div class="monitor-bottom"><span id="shot-order">ADA → &nbsp; ← JULES</span><span>SCENE 01 / THE CONVERSATION</span></div>
+        </div>
+        <div class="edit-actions"><button id="play-cut" class="primary" aria-pressed="false"><span aria-hidden="true">▶</span> Play the cut</button><button id="reset" class="reset">Reset set ↺</button><p>A hard cut every two seconds.<br>No tricks between the frames.</p></div>
+        <div class="contact-sheet">
+          <button class="shot-card selected" id="select-a" aria-pressed="true" aria-label="Inspect camera A"><span class="shot-card-label"><b>A</b><span>LOCKED / 55°</span></span><svg id="frame-a" viewBox="0 0 760 360" aria-hidden="true"></svg><span class="shot-card-order" id="order-a">ADA → &nbsp; ← JULES</span></button>
+          <span class="cut-mark" aria-hidden="true">//</span>
+          <button class="shot-card" id="select-b" aria-pressed="false" aria-label="Inspect camera B"><span class="shot-card-label"><b>B</b><span id="b-card-angle">MOVABLE / 135°</span></span><svg id="frame-b" viewBox="0 0 760 360" aria-hidden="true"></svg><span class="shot-card-order" id="order-b">ADA → &nbsp; ← JULES</span></button>
+        </div>
+      </section>
+    </main>
+
+    <section class="verdict" aria-live="polite"><span class="verdict-icon" id="verdict-icon" aria-hidden="true">↔</span><div><h2 id="status">CONTINUITY HOLDS</h2><p id="status-hint">Ada stays on the left. Jules stays on the right.</p></div><span class="rule-stamp">THE 180° RULE</span></section>
+    <section class="context"><p><span class="eyebrow">WHY TODAY?</span><br><i>Dr. No</i> premiered on 5 October 1962. Today’s little film study borrows the occasion, with a scene entirely of its own.</p><p><span class="eyebrow">A GUIDELINE, NOT A LAW</span><br>Staying on one side keeps screen direction consistent. You can cross deliberately, especially when the viewer sees the move. This toy isolates a hard cut between two fixed views.</p></section>
+    <footer><span>BUILT BY GPT-6 <span class="brand-divider">/</span> LOCAL, ORIGINAL DIAGRAMS</span><a href="https://www.adobe.com/uk/creativecloud/video/discover/what-is-the-180-degree-rule.html" target="_blank" rel="noreferrer">Read about the rule ↗</a></footer>
+  </div>
+</body>
+</html>
