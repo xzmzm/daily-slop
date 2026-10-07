@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A wind-and-ember studio for the Great Chicago Fire, which started this night in 1871. Watch a gale loft embers across the river, blast firebreaks with gunpowder that may backfire, and see what actually stops a wind-driven fire.">
+  <title>Firebreak — the night of October 8, 1871</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="core.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="page">
+    <header class="masthead">
+      <a class="brand" href="../"><span class="brand-mark" aria-hidden="true">▮▮</span> DAILY SLOP <span class="brand-divider">/</span> CONFLAGRATION</a>
+      <span class="edition">NO. 077 <span>08 OCT 2026</span></span>
+    </header>
+    <section class="intro" aria-labelledby="title">
+      <div><p class="eyebrow">CHICAGO · SUNDAY 8 OCTOBER 1871 · 9 PM</p><h1 id="title">Firebreak<span>.</span></h1></div>
+      <p class="intro-copy">The river was three blocks wide.<br>It didn't matter — embers decided.<span>The Great Chicago Fire started this night in 1871 and burned until rain fell the next midnight. This bench runs the real mechanism: a gale from the southwest lofting burning shingles over every gap. Cut firebreaks with gunpowder, mind the backfires, and find out what actually stops a wind-driven fire.</span></p>
+    </section>
+
+    <main class="workbench">
+      <section class="city-panel" aria-labelledby="city-title">
+        <div class="panel-heading"><h2 id="city-title"><span>01</span> THE CITY</h2><span class="quiet">DRAG ON THE MAP TO BLAST FIREBREAKS</span></div>
+        <canvas id="city-canvas" aria-label="A stylized 1871 Chicago street grid. Fire spreads from the southwest; drag to blast firebreaks with gunpowder."></canvas>
+        <div class="readout" aria-label="Fire status">
+          <div class="chip"><i>CLOCK</i><b id="clock">SUN 09:00 PM</b></div>
+          <div class="chip"><i>DESTROYED <span id="destroyed-pct">0.0%</span></i><b id="destroyed">≈ 0 / 17,500</b></div>
+          <div class="chip"><i>SPOT FIRES</i><b id="spot">0</b></div>
+          <div class="chip"><i>GUNPOWDER</i><b id="powder">32 CHARGES</b></div>
+          <div class="chip storm" id="storm-chip"><i>FIRESTORM</i><b>—</b></div>
+        </div>
+        <div class="transport">
+          <button class="primary" id="ignite"><span>⚡</span>STRIKE THE MATCH</button>
+          <button id="reset">RESET THE NIGHT</button>
+          <button id="blast-tool" aria-pressed="true"><span>⨯</span>GUNPOWDER</button>
+          <button id="rain" disabled>RAIN · MON MIDNIGHT</button>
+          <div class="speed" role="group" aria-label="Sim speed">
+            <button id="speed-pause" aria-pressed="false">❚❚</button>
+            <button id="speed-1" aria-pressed="true">1×</button>
+            <button id="speed-3" aria-pressed="false">3×</button>
+          </div>
+        </div>
+        <div id="verdict" class="verdict" hidden>
+          <h3 id="verdict-title">CHICAGO BURNS.</h3>
+          <p id="verdict-sub"></p>
+        </div>
+        <div class="legend" aria-hidden="true">
+          <span><i class="sw wood"></i>WOOD</span><span><i class="sw brick"></i>BRICK</span>
+          <span><i class="sw fire"></i>BURNING</span><span><i class="sw cinder"></i>BURNED OUT</span>
+          <span><i class="sw rubble"></i>BLASTED</span><span><i class="sw water"></i>RIVER &amp; LAKE</span>
+        </div>
+      </section>
+
+      <aside class="wind-panel" aria-labelledby="wind-title">
+        <div class="panel-heading"><h2 id="wind-title"><span>02</span> WIND &amp; EMBERS</h2></div>
+        <div class="wind-row">
+          <div class="wind-dial"><span id="wind-arrow" aria-hidden="true">➤</span></div>
+          <div class="wind-sliders">
+            <label for="wind-speed"><output id="wind-speed-read">32 MPH — GALE</output>
+              <input type="range" id="wind-speed" min="0" max="50" step="1" value="32"></label>
+            <label for="wind-dir"><output id="wind-dir-read">TOWARD NE · FROM SW</output>
+              <input type="range" id="wind-dir" min="0" max="355" step="5" value="45"></label>
+          </div>
+        </div>
+        <canvas id="ember-canvas" width="360" height="190" aria-label="Histogram of ember landing distances for the current wind, with the river width marked"></canvas>
+        <div class="readout">
+          <div class="chip"><i>EMBER REACH</i><b id="ember-reach">—</b></div>
+          <div class="chip"><i>CLEARS THE RIVER</i><b id="ember-cross">—</b></div>
+        </div>
+        <p class="wind-note" id="ember-note"></p>
+        <p class="panel-note">Embers loft on the fire's convection column and land a Rayleigh-distributed distance downwind — the distance grows with the wind, and once enough of the city burns, the fire's own updraft stretches it further. Water stops the flame front; it has never stopped the ember rain.</p>
+      </aside>
+    </main>
+
+    <section class="context">
+      <div>
+        <span class="eyebrow">THE NIGHT</span>
+        <p>About 9 PM on Sunday, October 8, 1871, fire broke out in or near the De&nbsp;Koven Street barn of Patrick and Catherine O'Leary. The cow-kicked-lantern story was invented by a reporter — Michael Ahern confessed to making it up in 1893 — and the O'Learys were formally exonerated. What is certain: a month-long drought, a city two-thirds built of wood — buildings, sidewalks, streets — and a hot southwesterly gale.</p>
+      </div>
+      <div>
+        <span class="eyebrow">WHY NOTHING STOPPED IT</span>
+        <p>Firefighters blew up buildings with gunpowder to cut firebreaks; the blasts often failed and sometimes started new fires of their own. Just after midnight burning shingles crossed the south branch of the river; by dawn the fire had jumped the main stem too. The front ran out of city before it ran out of wind — what finally ended it was rain, late Monday night, about 27 hours in: roughly 300 dead, 100,000 homeless, 17,500 buildings, 3.3 square miles.</p>
+      </div>
+      <div>
+        <span class="eyebrow">THE SAME COLD FRONT</span>
+        <p>The same wind that night drove the Peshtigo fire in Wisconsin — the deadliest fire in United States history, killing at least 1,500 people in an hour — plus fatal fires around Holland and Port Huron, Michigan. Chicago rebuilt in brick and stone, rewrote its fire codes, and Fire Prevention Week is still observed on this anniversary. The Water Works tower on the near north side stood through it; it's still standing.</p>
+      </div>
+    </section>
+
+    <footer>
+      <span>DAILY SLOP · 08 OCT 2026 · NO. 077</span>
+      <span><a href="../">GALLERY</a> <span class="brand-divider">/</span> MIT LICENSE</span>
+    </footer>
+  </div>
+</body>
+</html>
