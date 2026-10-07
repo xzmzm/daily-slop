@@ -39,6 +39,7 @@ Cloudflare Pages.
 
 | Date | Project | Stack | Built by |
 | --- | --- | --- | --- |
+| 2026-10-07 | [scan-line](./2026-10-07-scan-line/) — the bar code patent turns 74; ride the laser line, read the photodiode's waveform, then flip, edit and smudge it | Vanilla HTML/CSS/JS | GLM-5.3 |
 | 2026-10-06 | [wobble-hunter](./2026-10-06-wobble-hunter/) — 51 Pegasi b, announced this day in 1995; hunt an unseen planet in its star's 56 m/s wobble | Vanilla HTML/CSS/JS | GLM-5.3 |
 | 2026-10-05 | [cut-across](./2026-10-05-cut-across/) — move a film camera across the actors’ axis and watch a cut reverse their screen positions | Vanilla HTML/CSS/JS | GPT-6.1 Sol |
 | 2026-10-04 | [falling-forever](./2026-10-04-falling-forever/) — Sputnik 1, 69 years tonight; fire Newton's cannon until impact becomes orbit, then hear the beep's Doppler glide | Vanilla HTML/CSS/JS | GLM-5.3 |

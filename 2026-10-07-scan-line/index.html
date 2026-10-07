@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A photodiode bench for the bar code's first patent. Watch the laser line sweep a UPC-A, read the waveform it measures, then flip, edit and smudge the label to see what a scanner forgives and what it refuses.">
+  <title>Scan Line — the scanner’s-eye view of a bar code</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="core.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="page">
+    <header class="masthead">
+      <a class="brand" href="../"><span class="brand-mark" aria-hidden="true">▮▮</span> DAILY SLOP <span class="brand-divider">/</span> CHECKOUT</a>
+      <span class="edition">NO. 076 <span>07 OCT 2026</span></span>
+    </header>
+    <section class="intro" aria-labelledby="title">
+      <div><p class="eyebrow">U.S. PATENT 2,612,994 · 7 OCTOBER 1952</p><h1 id="title">Scan Line<span>.</span></h1></div>
+      <p class="intro-copy">The scanner never sees a bar code.<br>It sees one line of light, blinking.<span>The bar code’s first patent was granted this day in 1952. This bench shows what the photodiode actually receives — then lets you flip, edit and smudge the label to find what a scanner forgives, and what it refuses.</span></p>
+    </section>
+
+    <main class="workbench">
+      <section class="label-panel" aria-labelledby="label-title">
+        <div class="panel-heading"><h2 id="label-title"><span>01</span> THE LABEL</h2><span class="quiet">DRAG ON THE BARS TO SMEAR INK</span></div>
+        <canvas id="label-canvas" aria-label="A product label carrying a UPC-A bar code you can smudge with ink"></canvas>
+        <div class="digit-edit" role="group" aria-label="The twelve UPC digits">
+          <div class="digit-group"><span>SYSTEM</span><input id="d0" maxlength="1" inputmode="numeric" autocomplete="off" value="0"></div>
+          <div class="digit-group wide"><span>MAKER</span>
+            <input id="d1" maxlength="1" inputmode="numeric" autocomplete="off" value="1"><input id="d2" maxlength="1" inputmode="numeric" autocomplete="off" value="2"><input id="d3" maxlength="1" inputmode="numeric" autocomplete="off" value="3"><input id="d4" maxlength="1" inputmode="numeric" autocomplete="off" value="4"><input id="d5" maxlength="1" inputmode="numeric" autocomplete="off" value="5">
+          </div>
+          <div class="digit-group wide"><span>ITEM</span>
+            <input id="d6" maxlength="1" inputmode="numeric" autocomplete="off" value="6"><input id="d7" maxlength="1" inputmode="numeric" autocomplete="off" value="7"><input id="d8" maxlength="1" inputmode="numeric" autocomplete="off" value="8"><input id="d9" maxlength="1" inputmode="numeric" autocomplete="off" value="9"><input id="d10" maxlength="1" inputmode="numeric" autocomplete="off" value="0">
+          </div>
+          <div class="digit-group check"><span>CHECK</span><input id="d11" maxlength="1" inputmode="numeric" autocomplete="off" value="5"></div>
+        </div>
+        <div class="label-tools">
+          <button id="flip" aria-pressed="false"><b>FLIP 180°</b><span>PARITY FINDS THE WAY BACK</span></button>
+          <button id="clean" aria-pressed="false"><b>CLEAN INK</b><span>WIPE EVERY SMEAR</span></button>
+          <button id="fix-check" aria-pressed="false"><b>FIX CHECK DIGIT</b><span>PRINT THE HONEST ONE</span></button>
+        </div>
+        <p class="panel-note">Twelve digits — number system, maker, item — and a check digit the scanner recomputes on every pass. Drag across the bars to smear ink; the quiet zones at each end are off limits.</p>
+      </section>
+
+      <section class="scan-panel" aria-labelledby="scan-title">
+        <div class="panel-heading"><h2 id="scan-title"><span>02</span> WHAT THE PHOTODIODE SEES</h2><span class="quiet">ONE LASER · ONE DIODE · NO PICTURE</span></div>
+        <canvas id="scan-canvas" aria-label="The bar code under a sweeping laser, with the photodiode waveform aligned beneath it"></canvas>
+        <div class="readout" aria-label="Digits decoded live from the pass">
+          <div class="digit-boxes" id="digit-boxes"></div>
+          <span class="chip direction" id="direction-chip"><i>DIRECTION</i><b>—</b></span>
+        </div>
+        <div class="scan-verdict" id="verdict" aria-live="polite">
+          <span class="verdict-icon" id="verdict-icon" aria-hidden="true">≡</span>
+          <div><h3 id="verdict-status">AWAITING SWEEP</h3><p id="verdict-hint">The laser is crossing the label.</p></div>
+          <span class="rule-stamp">UPC-A · 95 MODULES</span>
+        </div>
+        <div class="transport">
+          <button id="play" class="primary" aria-pressed="true"><span aria-hidden="true">Ⅱ</span> Pause the laser</button>
+          <div class="speed" role="group" aria-label="Sweep speed">
+            <button id="speed-normal" aria-pressed="true">1×</button>
+            <button id="speed-slow" aria-pressed="false">¼×</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <section class="check-panel" aria-labelledby="check-title">
+      <div class="panel-heading"><h2 id="check-title"><span>03</span> THE CHECK DIGIT</h2><span class="quiet">MOD 10 · WEIGHTS 3·1</span></div>
+      <p class="check-line" id="check-line"></p>
+      <div class="check-stamp" id="check-stamp"></div>
+      <p class="check-note">Positions counted from the left: odd positions count three times, even positions once, and the check digit tops the sum up to the next ten. The rule catches every single-digit misprint — and nine of every ten swapped neighbours.</p>
+    </section>
+
+    <section class="bullseye-panel" aria-labelledby="bull-title">
+      <div class="panel-heading"><h2 id="bull-title"><span>04</span> THE 1952 BULLSEYE</h2><span class="quiet">ORIENTATION-PROOF BY DESIGN</span></div>
+      <div class="bullseye-grid">
+        <svg id="bullseye" viewBox="0 0 260 260" role="img" aria-label="The same 95 modules drawn as concentric rings, with a laser ray you can aim at any angle">
+          <g id="bull-rings"></g>
+          <line id="bull-ray" x1="130" y1="130" x2="248" y2="130" stroke="#ff4b3e" stroke-width="2.5"/>
+          <circle cx="130" cy="130" r="3.5" fill="#ff4b3e"/>
+        </svg>
+        <div class="bull-side">
+          <canvas id="bull-wave" aria-label="The photodiode signal along the ray, identical at every angle"></canvas>
+          <div class="angle-row">
+            <label for="angle">RAY ANGLE <output id="angle-value" for="angle">32°</output></label>
+            <input id="angle" type="range" min="0" max="359" value="32" aria-label="Ray angle in degrees">
+          </div>
+          <p class="runs-note" id="runs-note"></p>
+        </div>
+      </div>
+      <p class="bull-note">Woodland’s 1952 patent drew concentric rings, not bars: a ray out of the centre crosses the same black-white sequence at any angle, so the scanner never needs to know which way is up. RCA built it — and offset presses kept smearing ink into the bullseye’s centre, so the straight-line code won the 1973 selection instead. These rings carry today’s 95 UPC modules, innermost first.</p>
+    </section>
+
+    <section class="context"><p><span class="eyebrow">WHY TODAY?</span><br>On 7 October 1952 the US Patent Office granted Norman Joseph Woodland and Bernard Silver No. 2,612,994, “Classifying Apparatus and Method” — the first bar code patent. It began in 1948, when a supermarket president asked Drexel’s dean for automated checkout and Silver overheard the refusal. Woodland, thinking of Morse code, drew four lines in the sand of a Miami beach. The patent sold to Philco for $15,000; Silver died in 1963, a decade before the first scan.</p><p><span class="eyebrow">THE FIRST SCAN</span><br>26 June 1974, Marsh Supermarket, Troy, Ohio: a ten-pack of Wrigley’s Juicy Fruit became the first product ever scanned with a UPC. The gum now sits in the Smithsonian. A UPC-A carries 12 digits in 95 modules — number system, maker, item, and a check digit that refuses every single-digit misprint.</p></section>
+    <footer><span>BUILT BY GLM-5.3 <span class="brand-divider">/</span> A PHOTODIODE LAB</span><a href="https://en.wikipedia.org/wiki/Barcode" target="_blank" rel="noreferrer">The bar code’s history ↗</a></footer>
+  </div>
+</body>
+</html>
