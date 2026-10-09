@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Triton Spiral — the moon that orbits backwards into a ring</title>
+<meta name="description" content="Triton circles Neptune against the planet's spin, so its tide can only wind inward. Scrub 3.6 billion years to the day the moon shatters into a ring.">
+<style>
+  :root {
+    --bg: #060a14;
+    --card: #0d1526;
+    --edge: #1d2a4a;
+    --ink: #e8edf8;
+    --dim: #8ea3cd;
+    --faint: #5b6c96;
+    --pink: #f2a7bf;
+    --blue: #7b96f7;
+    --rust: #e07a5f;
+    --teal: #5fd0bd;
+    --gold: #e8c47a;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: radial-gradient(120% 90% at 50% -10%, #0b1226 0%, var(--bg) 55%);
+    color: var(--ink);
+    font: 16px/1.55 ui-sans-serif, system-ui, "Segoe UI", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 26px 22px 54px; }
+
+  .eyebrow {
+    font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
+    color: var(--dim); margin: 0 0 10px;
+  }
+  h1 { font-size: clamp(29px, 4vw, 43px); line-height: 1.08; margin: 0 0 8px; letter-spacing: -.01em; }
+  .sub { color: var(--dim); max-width: 64ch; margin: 0 0 20px; font-size: 16px; }
+  .sub b { color: var(--pink); font-weight: 600; }
+  .sub em { color: var(--ink); font-style: normal; }
+
+  .stage {
+    display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 18px;
+    align-items: stretch;
+  }
+  @media (max-width: 940px) { .stage { grid-template-columns: 1fr; } }
+
+  .sky-card {
+    position: relative; border: 1px solid var(--edge); border-radius: 16px;
+    background: linear-gradient(180deg, #0a1122, #070c19);
+    overflow: hidden; min-height: 500px;
+  }
+  #sky { display: block; position: absolute; inset: 0; width: 100%; height: 100%; }
+  .sky-note {
+    position: absolute; left: 14px; bottom: 12px; font-size: 11px;
+    color: var(--faint); letter-spacing: .04em; pointer-events: none;
+  }
+  .sky-badge {
+    position: absolute; top: 12px; left: 14px; display: flex; gap: 8px;
+    flex-wrap: wrap; pointer-events: none;
+  }
+  .chip {
+    font-size: 11.5px; letter-spacing: .05em; padding: 5px 11px; border-radius: 999px;
+    border: 1px solid var(--edge); background: rgba(9, 14, 28, .82); color: var(--dim);
+  }
+  .chip.live { color: var(--pink); border-color: #46314a; }
+  .chip.warn { color: var(--rust); border-color: #4a2f2a; }
+  .chip.calm { color: var(--teal); border-color: #234540; }
+
+  .panel {
+    border: 1px solid var(--edge); border-radius: 16px; background: var(--card);
+    padding: 15px 16px 12px; display: flex; flex-direction: column; gap: 11px;
+  }
+  .clock { display: flex; align-items: baseline; gap: 10px; }
+  .clock .big { font-size: 26px; font-weight: 650; letter-spacing: -.01em; }
+  .clock .era { color: var(--dim); font-size: 13px; }
+
+  input[type="range"] {
+    -webkit-appearance: none; appearance: none; width: 100%; height: 22px;
+    background: transparent; cursor: pointer; margin: 0;
+  }
+  input[type="range"]::-webkit-slider-runnable-track {
+    height: 8px; border-radius: 999px;
+    background: linear-gradient(90deg, var(--blue) var(--split, 78%), #3a2b34 var(--split, 78%), #3a2b34 100%);
+  }
+  input[type="range"]::-moz-range-track {
+    height: 8px; border-radius: 999px;
+    background: linear-gradient(90deg, var(--blue) var(--split, 78%), #3a2b34 var(--split, 78%), #3a2b34 100%);
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%;
+    background: #fff; margin-top: -6px; border: 3px solid var(--pink);
+    box-shadow: 0 0 0 4px rgba(242, 167, 191, .15);
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 14px; height: 14px; border-radius: 50%;
+    background: #fff; border: 3px solid var(--pink);
+  }
+  .slider-caption { font-size: 11.5px; color: var(--faint); margin-top: -6px; }
+
+  .transport { display: flex; gap: 8px; align-items: center; }
+  button {
+    font: inherit; color: var(--ink); background: #14203c; border: 1px solid var(--edge);
+    border-radius: 10px; padding: 8px 13px; cursor: pointer;
+  }
+  button:hover { background: #1a2a4e; }
+  button:focus-visible, input:focus-visible, select:focus-visible {
+    outline: 2px solid var(--blue); outline-offset: 2px;
+  }
+  #play { min-width: 96px; }
+  select {
+    font: inherit; color: var(--ink); background: #14203c; border: 1px solid var(--edge);
+    border-radius: 10px; padding: 9px 8px; margin-left: auto;
+  }
+
+  .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .tile {
+    border: 1px solid var(--edge); border-radius: 12px; padding: 8px 11px;
+    background: #0a1120;
+  }
+  .tile .k { font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--faint); }
+  .tile .v { font-size: 15.5px; font-weight: 620; margin-top: 2px; }
+  .tile .u { font-size: 11.5px; color: var(--dim); font-weight: 400; }
+  .tile.hot .v { color: var(--gold); }
+  .tile.doom .v { color: var(--rust); }
+  .tile.wide { grid-column: 1 / -1; }
+
+  .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .seg button { padding: 9px 8px; font-size: 13.5px; border-radius: 10px; }
+  .seg button[aria-pressed="true"] { background: #23365f; border-color: var(--blue); }
+  .seg .hint { grid-column: 1 / -1; font-size: 11.5px; color: var(--faint); margin: 2px 0 0; }
+  .presets { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .presets button { font-size: 13px; padding: 8.5px 8px; }
+  .presets button[aria-pressed="true"] { background: #2c2438; border-color: #6c4a63; }
+  .label { font-size: 10.5px; letter-spacing: .14em; text-transform: uppercase; color: #7d90bd; margin: 3px 0 5px; }
+  .footnote { font-size: 11px; line-height: 1.5; color: var(--faint); border-top: 1px solid var(--edge); padding-top: 9px; }
+
+  .explainer { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 20px; }
+  @media (max-width: 940px) { .explainer { grid-template-columns: 1fr; } }
+  .card {
+    border: 1px solid var(--edge); border-radius: 16px; background: var(--card);
+    padding: 18px 20px;
+  }
+  .card h2 { font-size: 15px; margin: 0 0 8px; color: var(--ink); letter-spacing: .01em; }
+  .card h2 .n { color: var(--pink); font-weight: 700; margin-right: 6px; }
+  .card p { margin: 0; font-size: 13.8px; color: var(--dim); }
+  .card p + p { margin-top: 8px; }
+  .card b { color: var(--ink); font-weight: 600; }
+
+  .facts {
+    margin-top: 20px; border: 1px solid var(--edge); border-radius: 16px;
+    background: linear-gradient(180deg, #0a1122, #080d1a); padding: 14px 20px;
+    display: flex; flex-wrap: wrap; gap: 6px 26px; font-size: 12.5px; color: var(--dim);
+  }
+  .facts span b { color: var(--ink); font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">October 10, 2026 · 180 years since William Lassell found Triton</p>
+  <h1>Triton Spiral</h1>
+  <p class="sub">
+    Triton circles Neptune <b>backwards</b> — against the planet's spin — so every
+    tidal tug winds its orbit inward. Scrub <em>3.6&nbsp;billion years</em> of slow
+    decay and watch the day the moon meets the Roche limit and shatters into the
+    brightest ring the solar system has ever worn.
+  </p>
+
+  <div class="stage">
+    <div class="sky-card">
+      <canvas id="sky" aria-label="Simulated view of Neptune, Triton's shrinking orbit, the synchronous orbit and the Roche limit"></canvas>
+      <div class="sky-badge">
+        <span class="chip live" id="phase-chip">retrograde spiral</span>
+        <span class="chip" id="dir-chip">orbiting backwards · 5.9 days</span>
+      </div>
+      <div class="sky-note" id="scale-note"></div>
+    </div>
+
+    <aside class="panel">
+      <div class="clock">
+        <span class="big" id="time-big">today</span>
+        <span class="era" id="time-era">October 10, 2026</span>
+      </div>
+
+      <div>
+        <input type="range" id="scrub" min="0" max="1000" value="0" step="1"
+               aria-label="Scrub through time">
+        <p class="slider-caption" id="slider-caption"></p>
+      </div>
+
+      <div class="transport">
+        <button id="play">Pause</button>
+        <button id="reset">Reset</button>
+        <select id="speed" aria-label="Playback speed">
+          <option value="12">12 Myr/s</option>
+          <option value="50" selected>50 Myr/s</option>
+          <option value="220">220 Myr/s</option>
+        </select>
+      </div>
+
+      <div class="tiles">
+        <div class="tile"><div class="k">Orbit size</div><div class="v" id="r-a">—</div><div class="u" id="r-a-sub"></div></div>
+        <div class="tile"><div class="k">Orbit period</div><div class="v" id="r-p">—</div><div class="u" id="r-p-sub"></div></div>
+        <div class="tile"><div class="k">Eccentricity</div><div class="v" id="r-e">—</div><div class="u" id="r-e-sub"></div></div>
+        <div class="tile doom"><div class="k" id="r-doom-k">Time to shatter</div><div class="v" id="r-doom">—</div><div class="u" id="r-doom-sub"></div></div>
+        <div class="tile hot wide"><div class="k">Tidal heat inside Triton</div><div class="v" id="r-heat">—</div><div class="u" id="r-heat-sub"></div></div>
+      </div>
+
+      <div>
+        <p class="label">Orbit direction</p>
+        <div class="seg" role="group" aria-label="Orbit direction">
+          <button id="dir-retro" aria-pressed="true">Retrograde (real)</button>
+          <button id="dir-pro">Prograde (what-if)</button>
+          <p class="hint" id="dir-hint">Neptune's tidal bulge trails Triton's backwards motion — it can only brake.</p>
+        </div>
+      </div>
+
+      <div>
+        <p class="label">Starting point</p>
+        <div class="presets" role="group" aria-label="Starting point">
+          <button id="preset-today" aria-pressed="true">Today</button>
+          <button id="preset-capture" aria-pressed="false">Just captured</button>
+        </div>
+      </div>
+
+      <p class="footnote">
+        Constant-Q equilibrium tide (Goldreich–Soter). Neptune's k₂/Q is set so
+        Triton reaches the Roche limit in 3.6&nbsp;Gyr, inside the published
+        1–4&nbsp;Gyr window; the capture preset assumes a young, ocean-bearing
+        Triton. Ghost ellipses are the orbit's own past.
+      </p>
+    </aside>
+  </div>
+
+  <section class="explainer">
+    <div class="card">
+      <h2><span class="n">01</span>Found by a brewer, 17 days late</h2>
+      <p>Neptune itself was found on 23 September 1846, in Berlin, from Le
+      Verrier's predicted position. Seventeen nights later William Lassell — a
+      Liverpool <b>brewer who paid for his telescopes with beer money</b> —
+      spotted a moon orbiting the new planet, the first anyone had ever seen
+      there.</p>
+      <p>It circled the wrong way. That single detail is why Neptune's axis is
+      tilted 28° and why its moons are so few and strange: Triton was a captured
+      visitor, and capture is violent.</p>
+    </div>
+    <div class="card">
+      <h2><span class="n">02</span>Backwards is a one-way ticket</h2>
+      <p>Neptune spins once every <b>16 hours</b>; Triton orbits against that
+      spin every <b>5.9 days</b>. Each pass drags Neptune's tidal bulge the wrong
+      way, and the bulge tugs back: the orbit must shrink. There is no stable
+      retrograde parking spot.</p>
+      <p>Prograde moons beyond the synchronous line (3.4&nbsp;R<sub>N</sub>)
+      drift <b>outward</b> — Earth's Moon gains 3.8&nbsp;cm a year. Flip Triton
+      prograde in the panel and its doom evaporates into a slow escape.</p>
+    </div>
+    <div class="card">
+      <h2><span class="n">03</span>The ring Neptune is owed</h2>
+      <p>At the Roche limit — <b>2.3&nbsp;R<sub>N</sub></b>, about 56,000&nbsp;km
+      above the center — Neptune's pull overwhelms Triton's own gravity and the
+      moon comes apart. The debris: a ring of <b>2.1×10²²&nbsp;kg</b>, over a
+      thousand times the mass of Saturn's rings today.</p>
+      <p>The inner edge rains onto Neptune while the outer edge, safely past the
+      limit, buds back into <b>new moons</b>. Let the clock run far enough and
+      you'll meet them.</p>
+    </div>
+  </section>
+
+  <div class="facts">
+    <span><b>38 K</b> — among the coldest measured surfaces in the solar system</span>
+    <span><b>8 km</b> — nitrogen geysers photographed by Voyager 2, August 1989</span>
+    <span><b>cantaloupe terrain</b> — a wrinkled landscape from the tidal-heating era</span>
+    <span><b>Nereid</b> — likely a survivor of the capture, flung onto a wild 360-day orbit</span>
+  </div>
+</div>
+
+<script src="triton.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

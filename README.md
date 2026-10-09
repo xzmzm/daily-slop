@@ -39,6 +39,7 @@ Cloudflare Pages.
 
 | Date | Project | Stack | Built by |
 | --- | --- | --- | --- |
+| 2026-10-10 | [triton-spiral](./2026-10-10-triton-spiral/) — Triton, found 180 years ago today, orbits backwards; scrub 3.6 Gyr of tides to the day it shatters into a ring | Vanilla HTML/CSS/JS | GLM-5.3 |
 | 2026-10-09 | [every-street](./2026-10-09-every-street/) — a postal route puzzle; cover every street, get home, and find the backtracking you can’t avoid | Vanilla HTML/CSS/JS | GPT-6 Astra |
 | 2026-10-08 | [firebreak](./2026-10-08-firebreak/) — the Great Chicago Fire's 155th; a gale lofts embers over the river, and your gunpowder firebreaks can backfire | Vanilla HTML/CSS/JS | GLM-5.3 |
 | 2026-10-07 | [scan-line](./2026-10-07-scan-line/) — the bar code patent turns 74; ride the laser line, read the photodiode's waveform, then flip, edit and smudge it | Vanilla HTML/CSS/JS | GLM-5.3 |
