@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render the cattery story video with Fish Audio's 哈基米 voice.
+"""Render daily-project story videos with the user's Fish Audio voice.
 
 The API key is loaded from the process environment or the workspace-root
 ``.env`` file. It is never copied into source code or generated metadata.
@@ -24,7 +24,7 @@ import render_video as local
 
 FISH_TTS_URL = "https://api.fish.audio/v1/tts"
 FISH_MODEL = "s2.1-pro-free"
-FISH_VOICE_ID = "ae5adc6778ac459e8d6106b82f88fa2b"
+FISH_VOICE_ID = "95d2e56952b446189d6160a821a08707"
 VIDEO_DIR = Path(__file__).resolve().parent
 
 

@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f1e8">
+  <meta name="description" content="A small postal puzzle. Walk every street, return to the post office, and discover why the shortest round sometimes doubles back.">
+  <title>Every Street — one good round</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 60 60'%3E%3Crect width='60' height='60' rx='14' fill='%23bd4f37'/%3E%3Cpath d='M12 20h36v24H12zM12 20l18 14 18-14' fill='none' stroke='%23fff7e6' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <script defer src="engine.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <div class="page">
+    <header class="masthead">
+      <a class="brand" href="../" aria-label="Daily Slop gallery"><svg viewBox="0 0 32 26" aria-hidden="true"><path d="M2 3h28v20H2zM2 3l14 12L30 3"/></svg> DAILY SLOP <span>/ FIELD NOTES</span></a>
+      <span class="edition">NO. 078 <i></i> 09 OCT 2026</span>
+    </header>
+    <main>
+      <section class="intro" aria-labelledby="title">
+        <div><p class="eyebrow">A SMALL POSTAL PUZZLE</p><h1 id="title">Every street.<br><em>One good round.</em></h1><p class="intro-copy">A bag of letters. A little neighborhood. Walk every street<br class="desktop-break"> and make it home with the fewest extra footsteps.</p></div>
+        <div class="postmark" aria-label="World Post Day, 9 October"><span>WORLD POST DAY</span><svg viewBox="0 0 72 49" aria-hidden="true"><path d="M6 8h60v36H6zM6 8l30 23L66 8M6 44l21-19m39 19L45 25"/></svg><strong>09 / 10</strong><small>TAKE THE LONG WAY?<br>LET’S FIND OUT.</small></div>
+      </section>
+      <section class="workbench" aria-label="Postal route puzzle">
+        <div class="map-column">
+          <div class="map-tabs" role="group" aria-label="Choose a neighborhood">
+            <button data-map="market" aria-pressed="true"><span>01</span> Market quarter</button>
+            <button data-map="canal" aria-pressed="false"><span>02</span> Canal loop</button>
+            <button data-map="gardens" aria-pressed="false"><span>03</span> Garden ends</button>
+          </div>
+          <div class="map-paper">
+            <div class="map-heading"><div><span class="eyebrow">DELIVERY DISTRICT</span><h2 id="district-name">Market quarter</h2></div><span class="map-caption" id="map-caption">12 streets · all two-way</span></div>
+            <svg id="map" viewBox="0 0 920 570" aria-labelledby="map-title map-description"><title id="map-title">Market quarter street map</title><desc id="map-description">Start at A. Choose an adjacent lettered junction to walk a street. Each length is in meters.</desc><defs><pattern id="paper-dots" width="16" height="16" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".65" fill="#c4c5b4" opacity=".3"/></pattern><pattern id="water" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(-20)"><path d="M0 0v12" stroke="#adc3c3" stroke-width="2"/></pattern></defs><rect width="920" height="570" fill="url(#paper-dots)"/><g id="scenery" aria-hidden="true"></g><g id="streets"></g><g id="junctions"></g><g id="postie" aria-hidden="true"><circle r="20" fill="#bd4f37"/><path d="M-11-7h22v14h-22zM-11-7L0 1l11-8" stroke="#fff8e8" stroke-width="1.7" fill="none"/></g><g class="compass" transform="translate(847 466)" aria-hidden="true"><path d="M0-23v42M-7-13L0-23l7 10"/><text y="-33">N</text><circle r="29"/></g></svg>
+            <div class="map-bottom"><div class="legend"><span><i class="unwalked"></i> Waiting</span><span><i class="walked"></i> Delivered</span><span><i class="repeated"></i> Walked again</span></div><span class="scale-note">SCHEMATIC · DISTANCES IN METERS</span></div>
+          </div>
+          <div class="under-map"><span class="tip-arrow">↳</span><p id="map-help">You’re at the post office, <b>A</b>. Click a neighboring junction to set off.</p><label class="hint-toggle"><input type="checkbox" id="odd-toggle"><span class="toggle-track"></span> Mark odd junctions</label></div>
+        </div>
+        <aside class="round-panel" aria-label="Your delivery round">
+          <div class="panel-header"><span class="eyebrow" id="round-label">YOUR MORNING ROUND</span><span class="small-envelope">✉</span></div>
+          <div class="delivered"><strong id="delivered-count">00</strong><span>/ <span id="street-count">12</span><small>streets delivered</small></span></div>
+          <div class="progress-track" aria-hidden="true"><div id="progress-fill"></div></div>
+          <div class="distance-row"><span>Distance walked</span><strong><span id="distance">0</span> <small>m</small></strong></div>
+          <div class="distance-row repeated-row"><span>Of that, retraced</span><strong><span id="extra">0</span> <small>m</small></strong></div>
+          <div class="location-row"><span class="location-dot"></span><span id="location">At A · Post office</span><span id="move-count">0 legs</span></div>
+          <div id="status" class="status" role="status" aria-live="polite">Every street gets mail. Your round ends back at A.</div>
+          <div class="walk-actions"><button id="undo" disabled>↶ Undo a leg</button><button id="reset">Start again</button></div>
+          <div class="solution-card">
+            <p class="eyebrow">COULD THE WALK BE SHORTER?</p>
+            <p id="solution-intro">Some extra footsteps are unavoidable. The trick is knowing which ones.</p>
+            <button id="solve" class="primary-button">Show the shortest round <span>↗</span></button>
+            <button id="back" class="back-button" hidden>← Back to my round</button>
+            <div id="solution-detail" hidden><div class="best-distance"><strong id="best-distance"></strong><span>shortest round</span></div><p id="best-explanation"></p><div id="pairings"></div></div>
+          </div>
+        </aside>
+      </section>
+      <section class="field-note"><span class="note-number">P.S.</span><div><h2>The streets you walk twice tell a story.</h2><p>At a junction, arriving and leaving use a pair of streets. If an odd number of streets meet, a round trip cannot use each just once. A little backtracking ties up those loose ends. Try the canal: no loose ends, no extra steps.</p></div><div class="note-aside"><span>THE POSTMAN’S PROBLEM</span><a href="https://xlinux.nist.gov/dads/HTML/chinesePostman.html" target="_blank" rel="noreferrer">A little more about the math ↗</a></div></section>
+    </main>
+    <footer><span>A round for <a href="https://www.upu.int/en/universal-postal-union/outreach-campaigns/world-post-day" target="_blank" rel="noreferrer">World Post Day</a>. Fictional streets, exact shortest routes.</span><span>Built by GPT-6 Astra</span></footer>
+  </div>
+</body>
+</html>

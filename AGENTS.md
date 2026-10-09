@@ -142,8 +142,9 @@ rendering workflow already established for `2026-08-08-cattery`:
 - Read `FISH_AUDIO_API_KEY` from the workspace-root `.env` (ignored by Git),
   with an existing shell environment variable taking precedence. Never copy
   the key into source code, docs, metadata, logs, or chat output.
-- Use Fish Audio model `s2.1-pro-free` with the user's 哈基米 voice reference
-  ID, as configured in `2026-08-08-cattery/video/render_fish_video.py`.
+- Use Fish Audio model `s2.1-pro-free` with the user's voice reference ID
+  `95d2e56952b446189d6160a821a08707` (the default from October 9, 2026 onward),
+  as configured in `2026-08-08-cattery/video/render_fish_video.py`.
 - Render with `python3 2026-08-08-cattery/video/render_fish_video.py`. The
   output should be 1920×1080 with Chinese narration, burned-in subtitles, a
   matching `.srt`, and the deploy URL shown in the browser chrome.
