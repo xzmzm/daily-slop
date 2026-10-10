@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rainbow Break</title>
+<meta name="description" content="CBS field-sequential colour TV, approved October 11, 1950: a spinning disk, three colours in turn, and the rainbow your eye makes of them.">
+<style>
+  :root {
+    --bg: #17110c; --card: #211812; --card2: #2a1f17; --line: #3c2d21;
+    --ink: #f3e7d0; --muted: #b59f82; --dim: #84705a;
+    --accent: #f0b35a; --r: #ff5a4e; --g: #4fe07a; --b: #5a8dff;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--bg); color: var(--ink); font: 15px/1.5 "Avenir Next", "Segoe UI", system-ui, sans-serif; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 28px 20px 40px; }
+  .eyebrow { font: 600 12px/1.2 ui-monospace, Menlo, monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+  h1 { font: 700 40px/1.05 Georgia, "Times New Roman", serif; letter-spacing: -.01em; margin-bottom: 10px; }
+  h1 span { background: linear-gradient(90deg, var(--r), var(--g), var(--b)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .sub { color: var(--muted); max-width: 72ch; margin-bottom: 20px; }
+  .stage { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 18px; align-items: start; }
+  .tv-card { background: linear-gradient(#2c2017, #1d150f); border: 1px solid var(--line); border-radius: 22px; padding: 22px; position: relative; }
+  .bezel { background: #0b0806; border-radius: 34px / 28px; padding: 18px; box-shadow: inset 0 0 0 3px #3a2a1d, inset 0 0 40px #000; position: relative; }
+  #tv { display: block; width: 100%; aspect-ratio: 4 / 3; border-radius: 26px / 22px; background: #000; }
+  .disk-wrap { flex: none; width: 128px; text-align: center; margin-top: -4px; }
+  #disk { width: 128px; height: 128px; display: block; filter: drop-shadow(0 6px 14px #000a); }
+  .disk-label { font: 600 11px/1.3 ui-monospace, Menlo, monospace; color: var(--muted); background: #0b0806cc; border-radius: 6px; padding: 3px 6px; display: inline-block; margin-top: 2px; }
+  .tv-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 14px; color: var(--muted); font-size: 14px; }
+  #status { min-height: 4.5em; font-size: 15px; color: var(--ink); max-width: 60ch; }
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 18px; display: grid; gap: 15px; }
+  .clock { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .stat { background: var(--card2); border-radius: 12px; padding: 10px 12px; }
+  .stat .k { font-size: 12px; color: var(--muted); }
+  .stat .v { font: 700 22px/1.2 ui-monospace, Menlo, monospace; }
+  .stat .v small { font-size: 12px; color: var(--muted); font-weight: 500; }
+  .stat.big { grid-column: span 2; }
+  .stat.big .v { font-size: 32px; color: var(--accent); }
+  .group { display: grid; gap: 7px; }
+  .group > label, .group > .lab { font-size: 13px; color: var(--muted); display: flex; justify-content: space-between; }
+  .group output { color: var(--ink); font-family: ui-monospace, Menlo, monospace; }
+  input[type=range] { width: 100%; accent-color: var(--accent); }
+  .seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px; background: var(--card2); padding: 4px; border-radius: 11px; }
+  .seg button, .chips button, #play { font: inherit; font-size: 13px; color: var(--ink); background: transparent; border: 0; border-radius: 8px; padding: 7px 6px; cursor: pointer; }
+  .seg button[aria-pressed=true] { background: var(--accent); color: #1a120b; font-weight: 600; }
+  .chips { display: flex; gap: 6px; }
+  .chips button { background: var(--card2); flex: 1; padding: 5px; font-family: ui-monospace, Menlo, monospace; }
+  .chips button.on { outline: 1px solid var(--accent); color: var(--accent); }
+  .row { display: flex; gap: 8px; }
+  #play { background: var(--card2); flex: 1; font-weight: 600; }
+  button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .facts { margin-top: 22px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .facts div { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; color: var(--muted); font-size: 14px; }
+  .facts b { color: var(--ink); display: block; margin-bottom: 4px; }
+  .footnote { color: var(--dim); font-size: 13px; margin-top: 16px; }
+  @media (max-width: 900px) {
+    .stage { grid-template-columns: 1fr; }
+    .facts { grid-template-columns: 1fr; }
+    h1 { font-size: 32px; }
+    .tv-card { padding: 12px; }
+    .bezel { padding: 10px; }
+    .disk-wrap, #disk { width: 96px; } #disk { height: 96px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">October 11, 1950 · the FCC picks a colour standard</div>
+  <h1>Rainbow <span>Break</span></h1>
+  <p class="sub">CBS colour TV sent pictures in black and white, one colour at a time; a disk spinning
+    at 1,440 rpm in front of the tube painted each field red, green or blue. Your eye did the mixing.
+    Here is where the eye fails at it.</p>
+
+  <div class="stage">
+    <div class="tv-card">
+      <div class="bezel"><canvas id="tv" width="800" height="600" aria-label="Simulated colour television screen"></canvas></div>
+      <div class="tv-foot"><div id="status" aria-live="polite"></div><div class="disk-wrap"><canvas id="disk" width="168" height="168" aria-hidden="true"></canvas><div class="disk-label" id="disk-label">disk · 1440 rpm</div></div></div>
+    </div>
+
+    <aside class="panel">
+      <div class="clock">
+        <div class="stat big"><div class="k">fields per second</div><div class="v" id="o-rate">144</div></div>
+        <div class="stat"><div class="k">disk speed</div><div class="v" id="o-rpm">1440 <small>rpm</small></div></div>
+        <div class="stat"><div class="k">full RGB sets</div><div class="v" id="o-triads">48 <small>/s</small></div></div>
+        <div class="stat"><div class="k">fringe on the ball</div><div class="v" id="o-fball">0 <small>px</small></div></div>
+        <div class="stat"><div class="k">fringe on the set</div><div class="v" id="o-fbg">0 <small>px</small></div></div>
+      </div>
+
+      <div class="group">
+        <label for="rate">Field rate <output id="rate-out">144 /s</output></label>
+        <input id="rate" type="range" min="0" max="1000" step="1" value="0">
+        <div class="chips"><button id="rate-48" data-rate="48">48</button><button id="rate-72" data-rate="72">72</button><button id="rate-144" data-rate="144">144</button><button id="rate-360" data-rate="360">360</button></div>
+      </div>
+
+      <div class="group">
+        <div class="lab">Time</div>
+        <div class="row">
+          <div class="seg" style="flex:3"><button id="speed-1" aria-pressed="true">Real time</button><button id="speed-slow" aria-pressed="false">Slow ×1/120</button></div>
+          <button id="play" aria-label="Pause">Pause</button>
+        </div>
+      </div>
+
+      <div class="group">
+        <div class="lab">Your gaze</div>
+        <div class="seg"><button id="gaze-fixed" aria-pressed="true">Hold still</button><button id="gaze-follow" aria-pressed="false">Follow the ball</button></div>
+      </div>
+
+      <div class="group">
+        <label for="speed">Ball speed <output id="speed-out">720 px/s</output></label>
+        <input id="speed" type="range" min="0" max="1200" step="10" value="720">
+      </div>
+
+      <div class="group">
+        <div class="lab">Picture source</div>
+        <div class="seg"><button id="source-field" aria-pressed="true">Colour camera</button><button id="source-frame" aria-pressed="false">One frame, split</button></div>
+      </div>
+
+      <div class="group">
+        <div class="lab">Receiver</div>
+        <div class="seg"><button id="set-color" aria-pressed="true">CBS colour set</button><button id="set-bw" aria-pressed="false">Your B&amp;W set</button></div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="facts">
+    <div><b>144 fields, 24 pictures</b>405 lines, 144 fields a second. Three colour fields and two interlaced halves make 24 complete colour pictures every second.</div>
+    <div><b>Four months on air</b>The Supreme Court upheld the FCC in May 1951; CBS broadcast colour from June 25 until the Korean War halted colour set production that October.</div>
+    <div><b>Still spinning</b>RCA's compatible system became the 1953 standard. Colour wheels came back in single-chip DLP projectors, rainbows included.</div>
+  </div>
+  <p class="footnote">The eye is modelled as four cascaded 12 ms low-pass stages; each field's light is weighed by how much of that response it falls inside, then placed where it landed on a retina that may be moving. Slow motion slows the eye too, so you see the bare fields. Field rates stop at 48/s to avoid fast full-screen colour flashing.</p>
+</div>
+<script src="wheel.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
