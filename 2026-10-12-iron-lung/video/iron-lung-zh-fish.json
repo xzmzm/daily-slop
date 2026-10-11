@@ -1,0 +1,18 @@
+{
+  "output": "/Users/hm/prj/daily-slop/2026-10-12-iron-lung/video/iron-lung-zh-fish.mp4",
+  "provider": "Fish Audio REST API",
+  "model": "s2.1-pro-free",
+  "voice_id": "95d2e56952b446189d6160a821a08707",
+  "segment_durations": [
+    14.837551,
+    13.296327,
+    12.982857,
+    11.859592,
+    13.348571,
+    13.818776,
+    7.915102
+  ],
+  "video_duration": 90.978005,
+  "fps": 15,
+  "resolution": "1920x1080"
+}

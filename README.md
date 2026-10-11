@@ -39,6 +39,7 @@ Cloudflare Pages.
 
 | Date | Project | Stack | Built by |
 | --- | --- | --- | --- |
+| 2026-10-12 | [iron-lung](./2026-10-12-iron-lung/) — the 1928 Drinker respirator; pull the tank pressure down, beat the dead space, then pump by hand in a power cut | Vanilla HTML/CSS/JS | Claude Opus 5.5 |
 | 2026-10-11 | [rainbow-break](./2026-10-11-rainbow-break/) — CBS spinning-disk colour TV, approved 76 years ago; fuse RGB fields, then move your eye and break them | Vanilla HTML/CSS/JS | Claude Opus 5.5 |
 | 2026-10-10 | [triton-spiral](./2026-10-10-triton-spiral/) — Triton, found 180 years ago today, orbits backwards; scrub 3.6 Gyr of tides to the day it shatters into a ring | Vanilla HTML/CSS/JS | GLM-5.3 |
 | 2026-10-09 | [every-street](./2026-10-09-every-street/) — a postal route puzzle; cover every street, get home, and find the backtracking you can’t avoid | Vanilla HTML/CSS/JS | GPT-6 Astra |
