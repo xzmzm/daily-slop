@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plan B</title>
+<meta name="description" content="The 2010 Copiapó rescue: race three drills to a workshop 622 m down, then bring 33 miners up one capsule at a time.">
+<style>
+  :root {
+    --bg: #e8e3d4; --card: #f4f0e4; --card2: #e6e0cf; --line: #cfc6ae;
+    --ink: #22302b; --muted: #5f6a60; --dim: #8a8f80;
+    --accent: #b0641f; --ok: #2f7d55; --warn: #b7791f; --bad: #b3261e; --steel: #7d8a8c;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--bg); color: var(--ink); font: 15px/1.5 "Avenir Next", "Segoe UI", system-ui, sans-serif; }
+  .wrap { max-width: 1320px; margin: 0 auto; padding: 28px 20px 40px; }
+  .eyebrow { font: 600 12px/1.2 ui-monospace, Menlo, monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+  h1 { font: 700 40px/1.05 Georgia, "Times New Roman", serif; letter-spacing: -.01em; margin-bottom: 10px; }
+  .sub { color: var(--muted); max-width: 78ch; margin-bottom: 20px; }
+  .stage { display: grid; grid-template-columns: minmax(0, 1fr) 390px; gap: 18px; align-items: start; }
+  .ward { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 16px; }
+  #scene { display: block; width: 100%; aspect-ratio: 960 / 620; border-radius: 12px; background: #17110b; }
+  #status { margin-top: 12px; font-size: 15px; min-height: 3em; max-width: 84ch; }
+  #loglines { margin-top: 6px; font: 12.5px/1.55 ui-monospace, Menlo, monospace; color: var(--muted); min-height: 4.6em; }
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 16px; display: grid; gap: 12px; }
+  .rig { background: var(--card2); border-radius: 14px; padding: 10px 12px; display: grid; gap: 7px; }
+  .rig header { display: flex; justify-content: space-between; align-items: baseline; }
+  .rig header b { font: 700 15px/1.2 ui-monospace, Menlo, monospace; }
+  .rig header span { font-size: 12px; color: var(--muted); }
+  .rig .row { display: flex; justify-content: space-between; font: 13px/1.4 ui-monospace, Menlo, monospace; }
+  .rig .row .v { font-weight: 700; }
+  .bar { height: 9px; border-radius: 5px; background: #d8d1bc; overflow: hidden; }
+  .bar i { display: block; height: 100%; border-radius: 5px; background: var(--ok); transition: width .2s; }
+  .rig .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .rig button { font: 12.5px/1.2 ui-monospace, Menlo, monospace; padding: 6px 4px; border-radius: 8px; border: 1px solid var(--line); background: transparent; color: var(--ink); cursor: pointer; }
+  .rig button:disabled { color: var(--dim); cursor: default; }
+  .rig button.steer.on { background: var(--ink); color: var(--card); }
+  .rig .state { font: 11px/1.2 ui-monospace, Menlo, monospace; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+  .vitals { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+  .stat { background: var(--card2); border-radius: 12px; padding: 8px 11px; }
+  .stat .k { font-size: 12px; color: var(--muted); }
+  .stat .v { font: 700 21px/1.2 ui-monospace, Menlo, monospace; }
+  .stat.big .v { font-size: 27px; }
+  .ok { color: var(--ok); } .warn { color: var(--warn); } .bad { color: var(--bad); }
+  .group { display: grid; gap: 6px; }
+  .group > label, .group > .lab { font-size: 13px; color: var(--muted); display: flex; justify-content: space-between; }
+  .seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px; background: var(--card2); padding: 4px; border-radius: 11px; }
+  .seg button { font-size: 13px; background: transparent; border: 0; border-radius: 8px; padding: 7px 6px; cursor: pointer; color: var(--ink); }
+  .seg button[aria-pressed=true] { background: var(--ink); color: var(--card); font-weight: 600; }
+  #reverse { font: 700 16px/1.2 ui-monospace, Menlo, monospace; padding: 16px; border-radius: 12px; border: 2px solid var(--bad); background: transparent; color: var(--bad); user-select: none; -webkit-user-select: none; touch-action: none; }
+  #reverse.down { background: var(--bad); color: var(--card); }
+  #reverse:disabled { border-color: var(--line); color: var(--dim); cursor: default; }
+  #reset { background: transparent; border: 1px solid var(--line); border-radius: 10px; padding: 8px; font-size: 13px; cursor: pointer; }
+  button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .hidden { display: none !important; }
+  .facts { margin-top: 22px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .facts div { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; color: var(--muted); font-size: 14px; }
+  .facts b { color: var(--ink); display: block; margin-bottom: 4px; }
+  .footnote { color: var(--dim); font-size: 13px; margin-top: 16px; max-width: 112ch; }
+  @media (max-width: 980px) {
+    .stage { grid-template-columns: 1fr; }
+    .facts { grid-template-columns: 1fr; }
+    h1 { font-size: 32px; }
+    .ward { padding: 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">October 13, 2010 · San José mine, Atacama, Chile</div>
+  <h1>Plan B</h1>
+  <p class="sub">A cave-in on August 5 left 33 men in a workshop 622 metres under the Atacama. Three drills
+    raced to reach them — Plan A, Plan B, Plan C — and the hole that arrived first had to be straight
+    enough to hit a room. Keep the bits fresh, keep the holes on line, and when the Fénix capsule starts
+    running, bring all 33 up before the calendar beats you.</p>
+
+  <div class="stage">
+    <div class="ward">
+      <canvas id="scene" width="960" height="620" aria-label="Cross-section of the mine with three drill holes reaching for the workshop"></canvas>
+      <div id="status" aria-live="polite"></div>
+      <div id="loglines"></div>
+    </div>
+
+    <aside class="panel">
+      <div id="drill-panel" class="group" style="gap:12px">
+        <div class="lab" style="font-weight:600">Drilling · <span id="day-chip" style="color:var(--accent)">Day 26</span></div>
+        <div class="rig" id="rig-A">
+          <header><b>Plan A</b><span>Strata 950</span></header>
+          <div class="row"><span>depth <span class="v" id="a-depth">0 m</span></span><span>rate <span class="v" id="a-rop">—</span></span></div>
+          <div class="bar"><i id="a-bit"></i></div>
+          <div class="row"><span>bit life <span class="v" id="a-bitp">100%</span></span><span>off line <span class="v" id="a-dev">0.0 m</span></span></div>
+          <div class="actions"><button id="a-change">Change bit</button><button id="a-steer" class="steer">Steer</button></div>
+          <div class="state" id="a-state">waiting</div>
+        </div>
+        <div class="rig" id="rig-B">
+          <header><b>Plan B</b><span>Schramm T130</span></header>
+          <div class="row"><span>depth <span class="v" id="b-depth">0 m</span></span><span>rate <span class="v" id="b-rop">—</span></span></div>
+          <div class="bar"><i id="b-bit"></i></div>
+          <div class="row"><span>bit life <span class="v" id="b-bitp">100%</span></span><span>off line <span class="v" id="b-dev">0.0 m</span></span></div>
+          <div class="actions"><button id="b-change">Change bit</button><button id="b-steer" class="steer">Steer</button></div>
+          <div class="state" id="b-state">spuds in Sep 5</div>
+        </div>
+        <div class="rig" id="rig-C">
+          <header><b>Plan C</b><span>RIG-421 oil rig</span></header>
+          <div class="row"><span>depth <span class="v" id="c-depth">0 m</span></span><span>rate <span class="v" id="c-rop">—</span></span></div>
+          <div class="bar"><i id="c-bit"></i></div>
+          <div class="row"><span>bit life <span class="v" id="c-bitp">100%</span></span><span>off line <span class="v" id="c-dev">0.0 m</span></span></div>
+          <div class="actions"><button id="c-change">Change bit</button><button id="c-steer" class="steer">Steer</button></div>
+          <div class="state" id="c-state">spuds in Sep 19</div>
+        </div>
+        <div class="group">
+          <div class="lab">Pace</div>
+          <div class="seg" id="pace-drill">
+            <button data-pace="0" aria-pressed="false">×1</button>
+            <button data-pace="1" aria-pressed="true">×4</button>
+            <button data-pace="2" aria-pressed="false">×12</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="rescue-panel" class="group" style="gap:12px">
+        <div class="vitals">
+          <div class="stat big"><div class="k">clock below</div><div class="v" id="r-clock">—</div></div>
+          <div class="stat big"><div class="k">riders up</div><div class="v" id="r-up">0 / 33</div></div>
+          <div class="stat"><div class="k">capsule at</div><div class="v" id="r-pos">surface</div></div>
+          <div class="stat"><div class="k">first-to-last</div><div class="v" id="r-span">—</div></div>
+        </div>
+        <div class="group">
+          <div class="lab">Rider <span id="r-rider">—</span></div>
+          <div id="r-note" style="font-size:13px;color:var(--muted);min-height:2.6em"></div>
+        </div>
+        <div class="group">
+          <div class="lab">Winch gear</div>
+          <div class="seg" id="gear">
+            <button data-gear="steady" aria-pressed="false">Steady</button>
+            <button data-gear="standard" aria-pressed="true">Standard</button>
+            <button data-gear="push" aria-pressed="false">Push</button>
+          </div>
+        </div>
+        <button id="reverse">HOLD REVERSE — snag! (R)</button>
+        <div class="group">
+          <div class="lab">Pace</div>
+          <div class="seg" id="pace-rescue">
+            <button data-pace="0" aria-pressed="false">×200</button>
+            <button data-pace="1" aria-pressed="true">×500</button>
+            <button data-pace="2" aria-pressed="false">×1200</button>
+          </div>
+        </div>
+      </div>
+
+      <button id="reset">New shift — start again</button>
+    </aside>
+  </div>
+
+  <div class="facts">
+    <div><b>Seventeen days of silence</b>The men stretched two days of emergency rations to two weeks and drank mine water. On day 17 a probe hole came back with a note taped to the bit: Estamos bien en el refugio, los 33.</div>
+    <div><b>Why the hole had to be straight</b>The workshop was one room off 5 km of ramp. A hole that arrives 20 m to the side is a hole into dead rock. Plan C's fast oil-rig hole kept wandering and had to be pulled and repositioned.</div>
+    <div><b>66 centimetres</b>The winning hole was reamed in stages to 66 cm — room for the 54 cm Fénix capsule and its wheels, and nothing else. The men rode up one at a time, the fittest first, the foreman last.</div>
+  </div>
+  <p class="footnote">Rates are calibrated to the real operation: Plan B averaged about 18 m a day net of bit changes and still broke through on October 9. Depth scales are compressed for drawing; the capsule is drawn much larger than 1.9 m against a 624 m hole. Deviation, bit wear, snag positions and rider nerves are modelled stochastically — every shift is a little different.</p>
+</div>
+<script src="mine.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
