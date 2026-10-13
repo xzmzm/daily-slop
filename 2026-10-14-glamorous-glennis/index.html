@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glamorous Glennis</title>
+<meta name="description" content="October 14, 1947: drop the Bell X-1 from a B-29, light the rocket, and fly through the transonic wall with the moving tail.">
+<style>
+  :root {
+    --bg: #ece4d6; --card: #f7f1e5; --card2: #ebe2d0; --line: #d6c8ad;
+    --ink: #20262e; --muted: #5e6670; --dim: #8f948f;
+    --accent: #d8661c; --sky: #2f5d93; --ok: #2f7d55; --warn: #b7791f; --bad: #b3261e;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body { background: var(--bg); color: var(--ink); font: 15px/1.5 "Avenir Next", "Segoe UI", system-ui, sans-serif; }
+  .wrap { max-width: 1340px; margin: 0 auto; padding: 28px 20px 40px; }
+  .eyebrow { font: 600 12px/1.2 ui-monospace, Menlo, monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+  h1 { font: 700 40px/1.05 Georgia, "Times New Roman", serif; letter-spacing: -.01em; margin-bottom: 10px; }
+  .sub { color: var(--muted); max-width: 80ch; margin-bottom: 20px; }
+  .stage { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 18px; align-items: start; }
+  .ward { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 16px; }
+  #sky { display: block; width: 100%; aspect-ratio: 960 / 540; border-radius: 12px; background: #1d3566; touch-action: none; }
+  #trace { display: block; width: 100%; aspect-ratio: 960 / 150; margin-top: 10px; border-radius: 10px; background: var(--card2); }
+  #status { margin-top: 10px; font-size: 15px; min-height: 3em; max-width: 86ch; }
+  #loglines { margin-top: 4px; font: 12.5px/1.55 ui-monospace, Menlo, monospace; color: var(--muted); min-height: 4.6em; }
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 16px; display: grid; gap: 12px; }
+  .meterbox { display: grid; grid-template-columns: 170px 1fr; gap: 12px; align-items: center; }
+  #machmeter { width: 170px; height: 170px; display: block; }
+  .truem .k { font-size: 12px; color: var(--muted); }
+  .truem .v { font: 700 34px/1.1 ui-monospace, Menlo, monospace; }
+  .truem .n { font-size: 12.5px; color: var(--muted); margin-top: 4px; }
+  .vitals { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .stat { background: var(--card2); border-radius: 12px; padding: 7px 11px; }
+  .stat .k { font-size: 12px; color: var(--muted); }
+  .stat .v { font: 700 19px/1.2 ui-monospace, Menlo, monospace; }
+  .ok { color: var(--ok); } .warn { color: var(--warn); } .bad { color: var(--bad); }
+  .group { display: grid; gap: 6px; }
+  .lab { font-size: 13px; color: var(--muted); display: flex; justify-content: space-between; }
+  .chambers { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .chambers button { font: 700 14px/1.2 ui-monospace, Menlo, monospace; padding: 10px 4px; border-radius: 10px; border: 1px solid var(--line); background: transparent; color: var(--ink); cursor: pointer; }
+  .chambers button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .chambers button:disabled { color: var(--dim); cursor: default; }
+  .pitch { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .pitch .col { display: grid; gap: 5px; }
+  .hold { font: 600 13px/1.2 ui-monospace, Menlo, monospace; padding: 9px 4px; border-radius: 10px; border: 1px solid var(--line); background: transparent; color: var(--ink); cursor: pointer; user-select: none; -webkit-user-select: none; touch-action: none; }
+  .hold.down { background: var(--ink); color: var(--card); }
+  .bar { height: 9px; border-radius: 5px; background: #ddd1b9; overflow: hidden; position: relative; }
+  .bar i { display: block; height: 100%; border-radius: 5px; background: var(--ok); transition: width .15s; }
+  .trimbar { height: 12px; border-radius: 6px; background: #ddd1b9; position: relative; }
+  .trimbar::before { content: ""; position: absolute; left: 50%; top: -2px; bottom: -2px; width: 1px; background: var(--muted); }
+  .trimbar i { position: absolute; top: 1px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); margin-left: -5px; }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .btn { background: transparent; border: 1px solid var(--line); border-radius: 10px; padding: 9px; font-size: 13px; cursor: pointer; color: var(--ink); }
+  .btn.on { background: var(--sky); color: #fff; border-color: var(--sky); }
+  .seg { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; gap: 4px; background: var(--card2); padding: 4px; border-radius: 11px; }
+  .seg button { font-size: 13px; background: transparent; border: 0; border-radius: 8px; padding: 6px; cursor: pointer; color: var(--ink); }
+  .seg button[aria-pressed=true] { background: var(--ink); color: var(--card); font-weight: 600; }
+  button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .keys { font: 11.5px/1.5 ui-monospace, Menlo, monospace; color: var(--dim); }
+  .facts { margin-top: 22px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .facts div { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; color: var(--muted); font-size: 14px; }
+  .facts b { color: var(--ink); display: block; margin-bottom: 4px; }
+  .footnote { color: var(--dim); font-size: 13px; margin-top: 16px; max-width: 112ch; }
+  @media (max-width: 1000px) {
+    .stage { grid-template-columns: 1fr; }
+    .facts { grid-template-columns: 1fr; }
+    h1 { font-size: 32px; }
+    .ward { padding: 8px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">October 14, 1947 · Muroc Army Air Field, California</div>
+  <h1>Glamorous Glennis</h1>
+  <p class="sub">Captain Chuck Yeager, two cracked ribs taped up, dropped out of a B-29's bomb bay at 20,000 ft in an
+    orange rocket plane named after his wife. Light the four chambers, climb to where sound is slowest, and push
+    through Mach 0.94, where the shock wave takes the elevator away. The fix was the moving tail: <b>trim</b>.</p>
+
+  <div class="stage">
+    <div class="ward">
+      <canvas id="sky" width="960" height="540" aria-label="The X-1 in flight with its pressure wavefronts and Mach cone"></canvas>
+      <canvas id="trace" width="960" height="150" aria-label="Mach number and altitude against time"></canvas>
+      <div id="status" aria-live="polite"></div>
+      <div id="loglines"></div>
+    </div>
+
+    <aside class="panel">
+      <div class="meterbox">
+        <canvas id="machmeter" width="340" height="340" aria-label="Cockpit Machmeter"></canvas>
+        <div class="truem">
+          <div class="k">true Mach</div>
+          <div class="v" id="v-mach">0.354</div>
+          <div class="n" id="v-needle">cockpit needle agrees</div>
+        </div>
+      </div>
+      <div class="vitals">
+        <div class="stat"><div class="k">altitude</div><div class="v" id="v-alt">20,000 ft</div></div>
+        <div class="stat"><div class="k">true airspeed</div><div class="v" id="v-tas">250 mph</div></div>
+        <div class="stat"><div class="k">sound, here</div><div class="v" id="v-a">707 mph</div></div>
+        <div class="stat"><div class="k">flight path</div><div class="v" id="v-gam">−2.0°</div></div>
+        <div class="stat"><div class="k">load</div><div class="v" id="v-g">1.0 g</div></div>
+        <div class="stat"><div class="k">propellant</div><div class="v" id="v-fuel">100%</div></div>
+      </div>
+      <div class="group">
+        <div class="lab"><span>XLR11 chambers · 1,500 lbf each</span><span id="v-lit">0 lit</span></div>
+        <div class="chambers" id="chambers">
+          <button data-c="0">1</button><button data-c="1">2</button><button data-c="2">3</button><button data-c="3">4</button>
+        </div>
+      </div>
+      <div class="pitch">
+        <div class="col">
+          <div class="lab"><span>Elevator</span><span id="v-auth">100%</span></div>
+          <div class="bar"><i id="b-auth" style="width:100%"></i></div>
+          <button class="hold" id="stick-up">▲ nose up</button>
+          <button class="hold" id="stick-down">▼ nose down</button>
+        </div>
+        <div class="col">
+          <div class="lab"><span>Stabilizer trim</span><span id="v-trim">0.0</span></div>
+          <div class="trimbar"><i id="b-trim" style="left:50%"></i></div>
+          <button class="hold" id="trim-up">W · trim up</button>
+          <button class="hold" id="trim-down">S · trim down</button>
+        </div>
+      </div>
+      <div class="row2">
+        <button class="btn" id="auto">Fly Yeager's profile</button>
+        <button class="btn" id="reset">Drop again</button>
+      </div>
+      <div class="group">
+        <div class="lab">Pace</div>
+        <div class="seg" id="pace">
+          <button data-pace="1" aria-pressed="false">×1</button>
+          <button data-pace="3" aria-pressed="true">×3</button>
+          <button data-pace="6" aria-pressed="false">×6</button>
+        </div>
+      </div>
+      <div class="keys">1–4 chambers · ↑ ↓ elevator · W S trim · A autopilot · Space pause · R drop again</div>
+    </aside>
+  </div>
+
+  <div class="facts">
+    <div><b>Why 43,000 feet</b>Sound travels at the speed of the air's molecules, which depends only on temperature. Above 36,000 ft the air sits at −56.5 °C, so Mach 1 is 660 mph instead of 761 at sea level, and the air is a fifth as dense, so the transonic drag wall is a fifth as tall.</div>
+    <div><b>The tail that saved it</b>Near Mach 0.94 a shock forms on the horizontal tail and the elevator behind it stops biting. On the flight four days earlier Yeager lost pitch control there. The X-1's whole stabilizer could be trimmed a fraction of a degree at a time, and the trim still worked when the elevator didn't.</div>
+    <div><b>The needle jumped</b>The Machmeter stalled around 0.965 and then tipped off the scale as the shock moved past the static port. On the ground the crew heard a sonic boom. The whole supersonic stretch lasted about 20 seconds, and the Air Force kept it secret until June 1948.</div>
+  </div>
+  <p class="footnote">Point-mass model: 1976 standard atmosphere, four on/off chambers (1,500 lbf at sea level, about 1,680 lbf in thin air, 3.4 kg/s each), a zero-lift drag coefficient that quadruples between Mach 0.80 and 1.02, induced drag from the load factor, and a pitch channel where the elevator loses 88% of its authority from 0.88 to 0.94 while a shock-induced nose-down load builds. The stabilizer trim keeps full authority. The aircraft and wavefront scales differ, so the X-1 is drawn far larger than its 31 ft. Wavefronts are drawn to scale with the speed of sound.</p>
+</div>
+<script src="x1.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
