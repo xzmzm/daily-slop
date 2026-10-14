@@ -1,0 +1,18 @@
+{
+  "output": "/Users/hm/prj/daily-slop/2026-10-15-surface-sweep/video/surface-sweep-zh-fish.mp4",
+  "provider": "Fish Audio REST API",
+  "model": "s2.1-pro-free",
+  "voice_id": "95d2e56952b446189d6160a821a08707",
+  "segment_durations": [
+    9.247347,
+    10.422857,
+    9.116735,
+    9.456327,
+    9.221224,
+    9.456327,
+    6.373878
+  ],
+  "video_duration": 66.2,
+  "fps": 15,
+  "resolution": "1920x1080"
+}

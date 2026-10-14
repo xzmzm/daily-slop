@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f5f3eb">
+  <meta name="description" content="One drop of soap sets a whole surface in motion. A pepper-and-water experiment for Global Handwashing Day.">
+  <title>Surface Sweep — a small experiment in surface tension</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Ccircle cx='20' cy='20' r='18' fill='%23217470'/%3E%3Cpath d='M20 7Q8 22 20 30Q32 22 20 7' fill='%23f5f3eb'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <script src="engine.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="wrap">
+    <nav class="masthead" aria-label="Project navigation">
+      <a href="../">DAILY SLOP <span>/</span> FIELD NOTES</a>
+      <span>NO. 084 <b>·</b> 15 OCT 2026</span>
+    </nav>
+    <header class="intro">
+      <div><p class="eyebrow">A KITCHEN-TABLE EXPERIMENT</p><h1>Surface <em>sweep.</em></h1></div>
+      <p class="dek">One drop. A whole surface in motion.<br> Give the pepper a little room.</p>
+    </header>
+    <section class="workbench" aria-label="Interactive surface tension experiment">
+      <div class="experiment">
+        <div class="stage-label"><span><i></i> THE PEPPER DISH</span><span>TOP VIEW <b>↘</b></span></div>
+        <div class="canvas-wrap">
+          <canvas id="dish" width="900" height="760" tabindex="0" role="button" aria-label="Pepper dish. Click to add a drop. Arrow keys move the target; Enter or Space adds a drop." aria-describedby="dish-help">Use the Drop in the center button to add soap or water.</canvas>
+          <span class="dish-tag" aria-hidden="true">WATER + A PINCH OF PEPPER</span>
+        </div>
+        <div class="stage-bottom">
+          <p id="dish-help">Tap the water to add a drop.<br><span>Or use the center button →</span></p>
+          <div class="transport"><button id="pause" aria-label="Pause experiment">Ⅱ Pause</button><button id="step" aria-label="Advance experiment by one second">+1s</button><output id="clock">00.0 s</output></div>
+        </div>
+      </div>
+      <aside class="controls" aria-label="Experiment controls">
+        <div class="control-block">
+          <p class="section-label"><span>01</span> CHOOSE YOUR DROP</p>
+          <div class="segmented" role="group" aria-label="Drop liquid">
+            <button id="soap" class="selected" aria-pressed="true"><span class="drop-icon"></span> Soap</button>
+            <button id="water" aria-pressed="false"><span class="drop-icon outline"></span> Water</button>
+          </div>
+          <label class="range-label" for="dose">Drop size <output id="dose-value">1.0×</output></label>
+          <input id="dose" type="range" min="0.5" max="2" step="0.5" value="1">
+          <button id="drop-center" class="primary">Drop in the center <span>↘</span></button>
+        </div>
+        <div class="control-block compare">
+          <p class="section-label"><span>02</span> CHANGE THE SURFACE</p>
+          <div class="comparison-buttons"><button id="fresh">↺ Fresh water</button><button id="coat">Evenly soaped</button></div>
+          <p id="surface-note">A clean surface. The first drop has room to work.</p>
+        </div>
+        <div class="control-block views">
+          <p class="section-label"><span>03</span> SEE THE INVISIBLE</p>
+          <label><input type="checkbox" id="field"> Surface tension <span class="switch"></span></label>
+          <label><input type="checkbox" id="arrows"> Flow direction <span class="switch"></span></label>
+          <div class="legend"><span>LOWER PULL</span><i></i><span>HIGHER PULL</span></div>
+        </div>
+        <div class="readings" aria-label="Model readings">
+          <div><span>CENTER CLEARED</span><strong id="cleared">0<small>%</small></strong></div>
+          <div><span>TENSION CONTRAST</span><strong id="contrast">0<small>%</small></strong></div>
+          <p>Relative model readings · center = inner 40% of radius</p>
+        </div>
+      </aside>
+    </section>
+    <div class="observation"><span class="observation-label">OBSERVATION</span><p id="observation" role="status">Pepper floats on the surface. Try a drop of plain water, then soap.</p><span id="drop-count">0 SOAP DROPS</span></div>
+    <section class="explanation" aria-label="What makes it move">
+      <div class="explanation-title"><p class="eyebrow">THE MARANGONI EFFECT</p><h2>The stronger pull<br>is on the outside.</h2></div>
+      <div><span class="number">1</span><h3>Soap lowers the pull.</h3><p>A drop lowers surface tension where it lands. The clean water around it still pulls harder.</p></div>
+      <div><span class="number">2</span><h3>The surface moves.</h3><p>Water flows toward higher surface tension. The pepper comes along for the ride.</p></div>
+      <div><span class="number">3</span><h3>The difference fades.</h3><p>As soap spreads, the pull becomes more even. Add a drop to an evenly soaped dish to compare.</p></div>
+    </section>
+    <footer><p>Made for <a href="https://globalhandwashing.org/global-handwashing-day/about-ghd/">Global Handwashing Day</a>.<br>A surface-flow model; the pepper is a tracer, not a germ.</p><p>Model time and concentration are illustrative.<br><a href="https://sfa.cems.umn.edu/venture-2018-19/marangoni-effects">The science ↗</a><span>Built by GPT-6 Astra</span></p></footer>
+  </main>
+</body>
+</html>

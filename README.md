@@ -35,10 +35,26 @@ The GitHub Actions deploy rebuilds the manifest and screenshots with Chrome,
 then generates the ignored `dist/` upload bundle before deploying it to
 Cloudflare Pages.
 
+If GitHub Actions minutes are unavailable, build and publish from a local
+machine with Chrome and an authenticated Wrangler installation:
+
+```sh
+python3 tools/build_gallery.py --strict-shots
+python3 tools/build_dist.py
+wrangler whoami
+wrangler pages deploy dist --project-name=dailyslop --branch=main --commit-hash="$(git rev-parse HEAD)"
+```
+
+Use a fresh `dist/` for the upload; if it already exists, move it with
+`trash dist` before rebuilding. Complete and clean up video captures first,
+so temporary frames do not enter the upload bundle. The MP4 and SRT live in
+Git; the Pages bundle contains the interactive apps and gallery.
+
 ## Index
 
 | Date | Project | Stack | Built by |
 | --- | --- | --- | --- |
+| 2026-10-15 | [surface-sweep](./2026-10-15-surface-sweep/) — drop soap on peppered water; reveal surface flow and compare an evenly soaped dish | Vanilla HTML/CSS/JS | GPT-6 Astra |
 | 2026-10-14 | [glamorous-glennis](./2026-10-14-glamorous-glennis/) — fly Yeager's 1947 X-1 through Mach 1; the shock blanks the elevator, so trim the moving tail | Vanilla HTML/CSS/JS | Claude Opus 5.5 |
 | 2026-10-13 | [plan-b](./2026-10-13-plan-b/) — the 2010 Copiapó rescue; race three drills to a room 622 m down, then bring 33 miners up one 66 cm ride at a time | Vanilla HTML/CSS/JS | GLM-5.3 |
 | 2026-10-12 | [iron-lung](./2026-10-12-iron-lung/) — the 1928 Drinker respirator; pull the tank pressure down, beat the dead space, then pump by hand in a power cut | Vanilla HTML/CSS/JS | Claude Opus 5.5 |
