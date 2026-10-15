@@ -1,0 +1,18 @@
+{
+  "output": "/Users/hm/prj/daily-slop/2026-10-16-turn-order/video/turn-order-zh-fish.mp4",
+  "provider": "Fish Audio REST API",
+  "model": "s2.1-pro-free",
+  "voice_id": "95d2e56952b446189d6160a821a08707",
+  "segment_durations": [
+    7.314286,
+    12.512653,
+    7.392653,
+    9.952653,
+    6.556735,
+    10.24,
+    10.318367
+  ],
+  "video_duration": 67.2,
+  "fps": 15,
+  "resolution": "1920x1080"
+}

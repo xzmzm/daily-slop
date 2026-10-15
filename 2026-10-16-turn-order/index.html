@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#efeee6">
+  <meta name="description" content="Same turns. Different order. A hands-on experiment with 3D rotation, made for Hamilton's quaternion day.">
+  <title>Turn Order — a little rotation experiment</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="model.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="page">
+    <header class="masthead"><a href="../">DAILY SLOP <span>↗</span></a><span>EXPERIMENT 085 / OCT 16, 2026</span><span class="mast-right">A LITTLE ROTATION EXPERIMENT</span></header>
+    <section class="intro" aria-labelledby="title">
+      <div><p class="eyebrow"><span class="tiny-cross">✳</span> SAME INGREDIENTS. DIFFERENT ENDING.</p><h1 id="title">Turn <em>order.</em></h1></div>
+      <p class="intro-copy">A turn to the right. A tilt to the front.<br>Swap the order. <strong>Where did the top go?</strong><span>Two identical cubes. One very particular disagreement.</span></p>
+    </section>
+
+    <section class="workbench" aria-label="Rotation workbench">
+      <div class="experiment">
+        <div class="stage-heading"><span><i class="live-dot"></i> THE SAME TURNS, IN TWO ORDERS</span><span id="step-label">FINISH / 2 TURNS</span></div>
+        <div class="specimens">
+          <article class="specimen"><div class="specimen-label"><span class="badge">A</span><div><h2>Your order</h2><p id="order-a">X+ → Y+</p></div></div><canvas id="cube-a" width="550" height="420" role="img" aria-label="Cube A, rotated in your chosen order"></canvas><div class="pose"><span>AWAY FROM START</span><strong id="home-a">120°</strong></div></article>
+          <article class="specimen"><div class="specimen-label"><span class="badge outline">B</span><div><h2>Reverse order</h2><p id="order-b">Y+ → X+</p></div></div><canvas id="cube-b" width="550" height="420" role="img" aria-label="Cube B, rotated in the reverse order"></canvas><div class="pose"><span>AWAY FROM START</span><strong id="home-b">120°</strong></div></article>
+        </div>
+        <div class="playback"><button id="play" class="play-button" aria-label="Replay turns">▶ <span>Replay turns</span></button><div class="scrubber"><label for="timeline">SCRUB THE TURNS <span id="progress-label">2 / 2</span></label><input id="timeline" type="range" min="0" max="2" step="0.001" value="2"></div><button id="home" class="icon-button" title="Return to the starting pose" aria-label="Return to the starting pose">↶</button></div>
+        <div class="stage-foot"><span>ROOM AXES STAY FIXED</span><span><i class="axis x">X</i> left / right <i class="axis y">Y</i> up / down <i class="axis z">Z</i> front / back</span></div>
+      </div>
+
+      <aside class="controls" aria-label="Build a turn sequence">
+        <div class="result"><p class="eyebrow">ORIENTATION DIFFERENCE</p><p class="difference"><span id="gap">120</span><sup>°</sup><span class="gap-symbol" id="gap-symbol">≠</span></p><p id="verdict" class="verdict" role="status">Same turns. Different destination.</p><div class="gap-track"><span id="gap-fill"></span></div><p class="result-help">The shortest turn that would line up A and B.</p></div>
+        <div class="sequence-builder"><div class="control-heading"><h2>Make your moves</h2><span id="move-count">2 / 6</span></div><div id="sequence" class="sequence" aria-label="Your turn sequence"></div><div class="axis-buttons" aria-label="Add a turn"><button data-axis="x" data-sign="1" class="x" aria-label="Add positive X turn">X <span>+</span></button><button data-axis="y" data-sign="1" class="y" aria-label="Add positive Y turn">Y <span>+</span></button><button data-axis="z" data-sign="1" class="z" aria-label="Add positive Z turn">Z <span>+</span></button><button data-axis="x" data-sign="-1" class="x" aria-label="Add negative X turn">X <span>−</span></button><button data-axis="y" data-sign="-1" class="y" aria-label="Add negative Y turn">Y <span>−</span></button><button data-axis="z" data-sign="-1" class="z" aria-label="Add negative Z turn">Z <span>−</span></button></div><div class="edit-actions"><button id="undo">← Undo last</button><button id="clear">Clear</button></div></div>
+        <div class="angle-control"><label for="angle">ANGLE PER TURN <strong id="angle-value">90°</strong></label><input id="angle" type="range" min="0" max="180" step="15" value="90"><div class="range-ticks"><span>0°</span><span>90°</span><span>180°</span></div></div>
+        <div class="presets"><p class="eyebrow">A FEW THINGS TO TRY</p><button data-preset="two" aria-pressed="true"><span>01</span> Two axes <span>↗</span></button><button data-preset="loop" aria-pressed="false"><span>02</span> Back and forth <span>↗</span></button><button data-preset="one" aria-pressed="false"><span>03</span> Just one axis <span>↗</span></button></div>
+      </aside>
+    </section>
+
+    <section class="observation" aria-live="polite"><span class="observation-mark">↳</span><p id="observation">X then Y is not Y then X. Both cubes are 120° from the start, but they are also 120° apart.</p><span class="observation-tag">ORDER MATTERS</span></section>
+    <section class="field-notes"><div><p class="eyebrow">A WALK, A BRIDGE, FOUR NUMBERS</p><h2>Dublin, 16 October 1843.</h2><p>On a walk along the Royal Canal, William Rowan Hamilton found the rule for quaternions and scratched it into a bridge. Their multiplication keeps track of something ordinary addition forgets: <em>which turn came first.</em></p><a href="https://www.maths.tcd.ie/pub/HistMath/People/Hamilton/Quaternions.html" target="_blank" rel="noreferrer">Read Hamilton’s story at Trinity College ↗</a></div><div class="formula-card"><p class="bridge-formula">i² = j² = k² = ijk = −1</p><p class="formula-caption">HAMILTON’S BRIDGE SCRATCHING</p><div class="quaternion-row"><span>POSE A <small>(w, x, y, z)</small></span><code id="quaternion">0.500, 0.500, 0.500, −0.500</code></div><p class="quaternion-note">Four numbers hold the pose. Reversing the turns changes their product. Every face is marked so a different pose can’t hide behind the cube’s symmetry.</p></div></section>
+    <footer><span>BUILT BY GPT-6.1 SOL</span><span>POSITIVE TURNS FOLLOW THE RIGHT-HAND RULE.</span><a href="../view.html?p=2026-10-16-turn-order&tab=notes">BUILD NOTES ↗</a></footer>
+  </main>
+</body>
+</html>
