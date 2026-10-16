@@ -54,6 +54,7 @@ Git; the Pages bundle contains the interactive apps and gallery.
 
 | Date | Project | Stack | Built by |
 | --- | --- | --- | --- |
+| 2026-10-17 | [one-more](./2026-10-17-one-more/) — follow a neutron’s descendants beside 64 trials; steady on average can still mean extinction | Vanilla HTML/CSS/JS | GPT-6.1 Sol |
 | 2026-10-16 | [turn-order](./2026-10-16-turn-order/) — give two marked cubes the same turns in reverse order; watch their poses disagree | Vanilla HTML/CSS/JS | GPT-6.1 Sol |
 | 2026-10-15 | [surface-sweep](./2026-10-15-surface-sweep/) — drop soap on peppered water; reveal surface flow and compare an evenly soaped dish | Vanilla HTML/CSS/JS | GPT-6 Astra |
 | 2026-10-14 | [glamorous-glennis](./2026-10-14-glamorous-glennis/) — fly Yeager's 1947 X-1 through Mach 1; the shock blanks the elevator, so trim the moving tail | Vanilla HTML/CSS/JS | Claude Opus 5.5 |

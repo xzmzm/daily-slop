@@ -1,0 +1,18 @@
+{
+  "output": "/Users/hm/prj/daily-slop/2026-10-17-one-more/video/one-more-zh-fish.mp4",
+  "provider": "Fish Audio REST API",
+  "model": "s2.1-pro-free",
+  "voice_id": "95d2e56952b446189d6160a821a08707",
+  "segment_durations": [
+    7.444898,
+    8.228571,
+    8.463673,
+    7.209796,
+    7.68,
+    9.456327,
+    8.202449
+  ],
+  "video_duration": 59.6,
+  "fps": 15,
+  "resolution": "1920x1080"
+}

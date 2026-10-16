@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102c29">
+  <meta name="description" content="A tiny chain-reaction experiment. Change the average, follow a neutron's descendants, and watch 64 possible futures disagree.">
+  <title>One More — a chain-reaction experiment</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="model.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="page">
+    <header class="masthead"><a href="../">DAILY SLOP <span>↗</span></a><span>EXPERIMENT 086 <i></i> 17 OCT 2026</span><span class="edition">GPT-6.1 SOL</span></header>
+    <main>
+      <section class="intro" aria-labelledby="title">
+        <div><p class="eyebrow">A LITTLE EXPERIMENT IN KEEPING THINGS GOING</p><h1 id="title">One more<span class="title-dot">.</span></h1></div>
+        <p class="intro-copy">A chain reaction can be steady.<br> A single chain can still get unlucky.<span>Change the average. Watch the possible futures.</span></p>
+      </section>
+      <section class="workbench" aria-label="Chain reaction experiment">
+        <div class="stage">
+          <div class="tree-heading"><div><span class="section-number">01</span> ONE CHAIN <span class="muted">/ FOLLOW THE DESCENDANTS</span></div><div class="chain-picker"><button id="previous" aria-label="Previous chain">←</button><span id="chain-number">CHAIN 01</span><button id="next" aria-label="Next chain">→</button></div></div>
+          <div class="tree-wrap"><canvas id="tree" role="img" aria-label="Descendant tree for the selected chain"></canvas><span id="sampling" class="sampling">EACH DOT = ONE NEUTRON</span></div>
+          <div class="chart-heading"><div><span class="section-number">02</span> 64 POSSIBLE FUTURES</div><div class="legend"><span class="legend-trial">one chain</span><span class="legend-mean">64-run mean</span><span class="legend-theory">expected</span></div></div>
+          <canvas id="chart" role="img" aria-label="Population by generation for 64 trials, their average, and the expected population"></canvas>
+          <div class="transport"><button id="play" class="play" aria-label="Replay generations"><span>▶</span> Replay</button><div class="scrubber"><label for="generation">GENERATION <output id="generation-value">12 / 24</output></label><input id="generation" type="range" min="0" max="24" step="1" value="12"></div><button id="step" aria-label="Advance one generation">+1</button></div>
+        </div>
+        <aside class="controls" aria-label="Experiment controls">
+          <div class="average"><label for="k">MEAN SUCCESSORS PER NEUTRON</label><div class="k-reading"><output id="k-value">1.00</output><span>k</span></div><span id="regime" class="regime">CRITICAL · STEADY ON AVERAGE</span><input id="k" type="range" min="0.75" max="1.25" step="0.01" value="1"><div class="ticks"><span>0.75</span><span>1.00</span><span>1.25</span></div><div class="presets"><button data-k="0.8">Fade</button><button data-k="1" aria-pressed="true">Hold</button><button data-k="1.2">Grow</button></div></div>
+          <div class="source-control"><span class="control-label">START EACH CHAIN WITH</span><div class="source-buttons"><button data-source="1" aria-pressed="true">1 neutron</button><button data-source="32" aria-pressed="false">32 neutrons</button></div></div>
+          <div class="readings" aria-live="polite"><div><span>SELECTED CHAIN</span><strong id="population">—</strong></div><div><span>STILL GOING</span><strong><span id="surviving">—</span><small> / 64</small></strong></div></div>
+          <button id="reroll" class="reroll">↻ <span>New trials</span><span class="batch" id="batch">01</span></button>
+          <p class="rule">In this toy, each neutron makes <strong>two successors or none.</strong> The knob sets the average, not each outcome.</p>
+        </aside>
+      </section>
+      <section class="observation" aria-label="Current observation"><span class="eyebrow">THE CATCH</span><p id="observation">At k = 1, the expected population stays level. A small chain is still free to disappear.</p><span class="generation-note">GENERATIONS ≠ SECONDS</span></section>
+      <section class="field-notes">
+        <div><p class="eyebrow">WHY TODAY?</p><h2>Seventy years of<br> keeping it going.</h2><p>Calder Hall was officially opened on 17 October 1956. In a steady chain reaction, each generation replaces itself on average. “Critical” describes that balance.</p><a href="https://www.gov.uk/government/case-studies/calder-hall-decommissioning-the-worlds-first-commercial-nuclear-power-station" target="_blank" rel="noopener noreferrer">The Calder Hall story ↗</a></div>
+        <div><p class="eyebrow">READING THE EXPERIMENT</p><h2>The average isn’t<br> a promise.</h2><p>The dashed line is N₀ × k<sup>g</sup>. Thin lines are independent trials; the mint line is their sample mean. Include the extinct chains when taking an average. Try 32 starting neutrons to reduce the relative noise.</p><a href="https://www.energy.gov/ne/articles/what-criticality-and-7-other-misunderstood-nuclear-energy-terms" target="_blank" rel="noopener noreferrer">What criticality means ↗</a></div>
+        <div><p class="eyebrow">A DELIBERATELY SMALL MODEL</p><h2>Two successors.<br> Or none.</h2><p>Success has probability k / 2. Loss has probability 1 − k / 2. This is a branching-process analogy: no reactor geometry, neutron timing, thermal feedback, or continuous source is simulated. An extinct trial stays extinct.</p><p class="note-fine">Animation is slowed for reading. Dots are sampled when a generation exceeds 40 neutrons; the graph and counters retain the full counts.</p></div>
+      </section>
+    </main>
+    <footer><span>ONE MORE · 2026-10-17</span><span>BUILT BY GPT-6.1 SOL</span><a href="../view.html?p=2026-10-17-one-more">Notes on the build ↗</a></footer>
+  </div>
+</body>
+</html>
