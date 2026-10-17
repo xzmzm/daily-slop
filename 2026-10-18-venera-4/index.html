@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1b100b">
+  <meta name="description" content="Venera 4 stopped talking at 22 atmospheres. Slide the ground into place and see which altitude reading and which Mariner 5 measurement can both be right.">
+  <title>Last Reading — where was Venera 4's ground?</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="model.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="page">
+    <header class="masthead"><a href="../">DAILY SLOP <span>↗</span></a><span>VENUS DESCENT <i></i> 18 OCT 1967 / 2026</span><span class="edition">CLAUDE SONNET 5.5</span></header>
+    <main>
+      <section class="intro">
+        <div><p class="eyebrow">THE FIRST PROBE TO SPEAK FROM ANOTHER PLANET'S AIR</p><h1>Last <em>reading.</em></h1></div>
+        <p class="intro-copy">On 18 October 1967 Venera 4 fell silent at 22 atmospheres. Moscow said it had reached the ground. Mariner 5 passed the next day and disagreed. <span>Slide the ground until both stories fit.</span></p>
+      </section>
+      <section class="workbench" aria-label="Venera 4 descent reconstruction">
+        <div class="stage">
+          <div class="stage-head"><div><span class="num">01</span> THE DESCENT <span class="muted">/ ALTITUDE vs PRESSURE</span></div>
+            <div class="legend"><span class="l-meas">measured by the probe</span><span class="l-ext">hydrostatic extension</span><span class="l-pin">outside clue</span></div></div>
+          <svg id="chart" viewBox="0 0 760 560" role="img" aria-label="Altitude against pressure for Venera 4, with the ground, the altimeter reading, and the Mariner 5 clue"></svg>
+          <div class="transport"><button id="play" class="play"><span>▶</span> Replay descent</button>
+            <dl class="gauges"><div><dt>CLOCK</dt><dd id="g-time">0 min</dd></div><div><dt>PRESSURE</dt><dd id="g-p">0.75 atm</dd></div><div><dt>TEMPERATURE</dt><dd id="g-t">52 °C</dd></div><div><dt>ABOVE GROUND</dt><dd id="g-alt">—</dd></div></dl></div>
+        </div>
+        <aside class="controls" aria-label="Controls">
+          <div class="ctl"><label class="ctl-label" for="h">02 <span>WHEN THE SIGNAL STOPPED, THE PROBE WAS…</span></label>
+            <div class="h-read"><output id="h-value">0</output><span>km above the ground</span></div>
+            <input id="h" type="range" min="0" max="40" step="0.5" value="0">
+            <div class="ticks"><span>on it</span><span>20</span><span>40 km</span></div>
+            <div class="presets"><button data-h="0" data-alias="0">Moscow's story</button><button data-h="27" data-alias="1">Reconciled</button></div></div>
+          <div class="ctl"><div class="ctl-label">03 <span>THE ALTIMETER'S RADAR</span></div>
+            <label class="switch"><input id="alias" type="checkbox"><span>Allow the periodic-FM ambiguity (+32 km)</span></label></div>
+          <div class="clues">
+            <div class="clue clue-alt"><span>ALTIMETER · START OF DESCENT</span><strong id="c-alt">—</strong><small id="c-alt-gap"></small></div>
+            <div class="clue clue-mar"><span>MARINER 5 · NEXT DAY</span><strong id="c-mar">—</strong><small id="c-mar-gap"></small></div>
+          </div>
+          <div class="ground"><div><span>GROUND PRESSURE</span><strong id="r-p">22</strong><small>atm</small></div><div><span>GROUND TEMPERATURE</span><strong id="r-t">262</strong><small>°C</small></div></div>
+          <p class="caveat">The toy runs hot: Venera 4’s gauges read about 28% high, and Venus’s real surface is ~92 atm, 464 °C.</p>
+          <p id="verdict" class="verdict" aria-live="polite"></p>
+        </aside>
+      </section>
+      <section class="observation"><span class="eyebrow">READING THE CHART</span><p id="observation"></p></section>
+      <section class="field-notes"><div><p class="eyebrow">WHAT IS REAL, WHAT IS A TOY</p><h2>Heights come from<br> the gauges alone.</h2><p>Venera 4 measured pressure and temperature during its parachute descent. For ideal CO₂ in hydrostatic balance the height difference between two readings is fixed, so the whole 0.75→22 atm run spans about 31 km no matter what. The only thing nobody knew was how far the last reading sat above the ground. The numbers here are rounded reconstructions of published values, not the original telemetry.</p>
+          <a href="https://en.wikipedia.org/wiki/Venera_4" target="_blank" rel="noopener noreferrer">Venera 4 ↗</a> <a href="https://science.nasa.gov/mission/mariner-5" target="_blank" rel="noopener noreferrer">Mariner 5 ↗</a></div></section>
+    </main>
+    <footer>Everything runs locally. No data leaves this page.</footer>
+  </div>
+</body>
+</html>
