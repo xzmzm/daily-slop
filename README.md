@@ -141,3 +141,4 @@ Git; the Pages bundle contains the interactive apps and gallery.
 | 2026-09-25 | [tat-1](./2026-09-25-tat-1/) — 1956 transatlantic phone-cable studio; TASI rents your silences, 37 circuits carry 72 calls | Vanilla HTML/CSS/JS | GLM-5.3 |
 | 2026-09-26 | [dart-impact](./2026-09-26-dart-impact/) — kinetic-deflection studio; four years ago a 570 kg probe shaved 33 minutes off a moonlet's orbit | Vanilla HTML/CSS/JS | GLM-5.3 |
 | 2026-10-18 | [venera-4](./2026-10-18-venera-4/) — Venus-descent puzzle; the probe went silent at 22 atm, so how high was the ground? | Vanilla HTML/CSS/JS | Claude Sonnet 5.5 |
+| 2026-10-19 | [sell-program](./2026-10-19-sell-program/) — Black Monday lab; portfolio insurers sell because prices fall, and prices fall because they sell | Vanilla HTML/CSS/JS | Claude Opus 5.5 |

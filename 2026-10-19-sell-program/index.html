@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#06100b">
+  <meta name="description" content="Black Monday, 19 October 1987: portfolio insurers sell because prices fall, and prices fall because they sell. Set how much of the market is insured and replay the day.">
+  <title>Sell Program — Black Monday's feedback loop</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="model.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="page">
+    <header class="masthead"><a href="../">DAILY SLOP <span>↗</span></a><span>NYSE <i></i> MON 19 OCT 1987 / 2026</span><span class="edition">CLAUDE OPUS 5.5</span></header>
+    <main>
+      <section class="intro">
+        <div><p class="eyebrow">BLACK MONDAY · THE DOW'S WORST DAY, −22.6%</p><h1>Sell <em>program.</em></h1></div>
+        <p class="intro-copy">Portfolio insurance promised a floor: as stocks fall, sell some, and you can never lose more than 15%. On 19 October 1987 enough money ran that rule at once that the selling became the fall. <span>Set how much of the market is insured, then replay the day.</span></p>
+      </section>
+      <section class="workbench" aria-label="Black Monday simulator">
+        <div class="stage">
+          <div class="tape" aria-hidden="true"><div id="tape-text"></div></div>
+          <div class="stage-head"><div><span class="num">01</span> DOW JONES INDUSTRIALS <span class="muted">/ 9:30 → 16:00</span></div>
+            <div class="legend"><span class="l-dow">this run</span><span class="l-base">no insurers</span><span class="l-real">actual close 1738.74</span></div></div>
+          <svg id="chart" viewBox="0 0 760 470" role="img" aria-label="Intraday Dow path with insurer selling and unfilled sell orders"></svg>
+          <div class="transport"><button id="play" class="play"><span>▶</span> Replay the day</button>
+            <dl class="gauges"><div><dt>CLOCK</dt><dd id="g-time">9:30</dd></div><div><dt>DOW</dt><dd id="g-dow">—</dd></div><div><dt>CHANGE</dt><dd id="g-chg">—</dd></div><div><dt>INSURERS SOLD</dt><dd id="g-sold">—</dd></div></dl></div>
+        </div>
+        <aside class="controls" aria-label="Controls">
+          <div class="ctl"><label class="ctl-label" for="insured">02 <span>MONEY RUNNING PORTFOLIO INSURANCE</span></label>
+            <div class="big"><output id="insured-value">$75bn</output><span id="insured-share">2.5% of the market</span></div>
+            <input id="insured" type="range" min="0" max="5" step="0.25" value="2.5">
+            <div class="ticks"><span>none</span><span>$75bn</span><span>$150bn</span></div></div>
+          <div class="ctl two">
+            <div><label class="ctl-label" for="shock">03 <span>OPENING GAP</span></label><div class="small"><output id="shock-value">−5%</output></div><input id="shock" type="range" min="0" max="8" step="0.5" value="5"></div>
+            <div><label class="ctl-label" for="liquidity">04 <span>BUYERS ON THE FLOOR</span></label><div class="small"><output id="liquidity-value">1.0×</output></div><input id="liquidity" type="range" min="0.5" max="2" step="0.1" value="1"></div>
+          </div>
+          <label class="switch"><input id="breaker" type="checkbox"><span>Today's circuit breakers <small>halt 15 min at −7% and −13%, close at −20%</small></span></label>
+          <div class="presets"><button data-preset="1987">19 Oct 1987</button><button data-preset="none">No insurers</button><button data-preset="today">With breakers</button></div>
+          <div class="readout">
+            <div><span>CLOSE</span><strong id="r-close">—</strong><small id="r-pct"></small></div>
+            <div><span>UNFILLED AT THE BELL</span><strong id="r-backlog">—</strong><small>left for Tuesday</small></div>
+          </div>
+          <p id="verdict" class="verdict" aria-live="polite"></p>
+        </aside>
+      </section>
+      <section class="field-notes"><div><p class="eyebrow">HOW THE LOOP WORKS</p><h2>The rule was sound<br> for one investor.</h2><p>Each insurer keeps stock worth five times its cushion above a floor at 85% of Friday's wealth. When the market drops 1%, the cushion shrinks by more, so the rule says sell. The desk can only push a little through each minute, so unfilled orders pile up — the faint bars. Every sale moves the price, which widens every other insurer's gap. Bargain hunters buy the discount, but back away while the tape is falling fast. Numbers are a tuned toy, not the Brady Commission's data.</p>
+          <a href="https://en.wikipedia.org/wiki/Black_Monday_(1987)" target="_blank" rel="noopener noreferrer">Black Monday ↗</a> <a href="https://en.wikipedia.org/wiki/Portfolio_insurance" target="_blank" rel="noopener noreferrer">Portfolio insurance ↗</a></div></section>
+    </main>
+    <footer>Everything runs locally. No data leaves this page.</footer>
+  </div>
+</body>
+</html>
