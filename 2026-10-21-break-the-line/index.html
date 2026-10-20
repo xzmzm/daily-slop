@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1822">
+  <meta name="description" content="Trafalgar, 21 October 1805. Sail a column of eight ships at a line of twelve: approach parallel and they slip away downwind, or cut through their line and take the raking fire to get there.">
+  <title>Break the Line — Trafalgar tactics</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="model.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="page">
+    <header class="masthead"><a href="../">DAILY SLOP <span>↗</span></a><span>CAPE TRAFALGAR · 21 OCT 1805</span><span class="edition">CLAUDE OPUS 5.5</span></header>
+    <main>
+      <section class="intro">
+        <div><p class="eyebrow">221 YEARS AGO TODAY · WIND LIGHT FROM THE WEST</p><h1>Break the <em>line.</em></h1></div>
+        <p class="intro-copy">For a century, fleets fought in two parallel lines, and the losing side simply ran downwind. Nelson pointed his columns straight at the enemy line. His bows took raking fire while not one of his guns could bear, and he came out on the leeward side, where the enemy would have run. <span>Pick an approach, press play, then try the other one.</span></p>
+      </section>
+      <section class="workbench" aria-label="Battle table">
+        <div class="stage">
+          <div class="stage-head"><div><span class="num">01</span> THE BATTLE <span class="muted" id="phase">/ APPROACH</span></div>
+            <div class="legend"><span class="l-b">British column</span><span class="l-e">Combined line</span><span class="l-rake">raking fire</span><span class="l-x">struck</span></div></div>
+          <canvas id="view" width="900" height="600" aria-label="Top-down chart of the two fleets"></canvas>
+          <div class="transport">
+            <button id="play" class="play"><span id="play-icon">▶</span> <b id="play-label">Play the battle</b></button>
+            <label class="scrub"><span id="clock">+0:00</span><input id="time" type="range" min="0" max="480" value="0" aria-label="Battle time"><span>+4:00</span></label>
+          </div>
+        </div>
+        <aside class="controls" aria-label="Controls">
+          <div class="ctl"><span class="ctl-label">02 <span>DOCTRINE</span></span>
+            <div class="modes"><button data-preset="line">Line of battle</button><button data-preset="nelson">Nelson, 1805</button></div></div>
+          <label class="ctl"><span class="ctl-label">03 <span>APPROACH ANGLE TO THEIR LINE</span> <b id="angle-out"></b></span>
+            <input id="angle" type="range" min="10" max="90" step="5" value="90"><span class="ends"><i>parallel</i><i>head-on</i></span></label>
+          <div class="ctl"><span class="ctl-label">04 <span>ON REACHING THEIR LINE</span></span>
+            <div class="modes"><button data-doctrine="haul">Stay 300 m off</button><button data-doctrine="cut">Cut through</button></div></div>
+          <div class="pair">
+            <label class="ctl"><span class="ctl-label">05 <span>WIND</span> <b id="wind-out"></b></span><input id="wind" type="range" min="2" max="10" step="1" value="3"></label>
+            <label class="ctl"><span class="ctl-label">06 <span>BRITISH RATE</span> <b id="rate-out"></b></span><input id="rate" type="range" min="1" max="3" step="0.5" value="2"></label>
+          </div>
+          <div class="readout">
+            <div><span>LEAD SHIP, UNDER FIRE, NO REPLY</span><strong id="r-silent">—</strong><small id="r-lead"></small></div>
+            <div><span>COMBINED SHIPS TAKEN</span><strong id="r-taken">—</strong><small id="r-escaped"></small></div>
+          </div>
+          <canvas id="chart" width="420" height="130" aria-label="Fleet strength over time"></canvas>
+          <p id="verdict" class="verdict" aria-live="polite"></p>
+        </aside>
+      </section>
+      <section class="field-notes"><div><p class="eyebrow">HOW THE TABLE WORKS</p><h2>The guns point sideways.<br> The wind decides who can leave.</h2><p>A ship of the line carried its guns along its sides, so it could only fire at what lay roughly abeam, here within 25° of the beam. Sail straight at an enemy and none of your guns bear while all of theirs do, and their shot travels the length of your decks: a rake, scored here at three times the damage but harder to hit. Pass through their line and both of your broadsides rake the sterns and bows beside you. Fire is expected value, not dice, with hit fraction falling off over a few hundred metres. A Combined ship below half strength bears away downwind unless a British ship is sitting to leeward of it; at 15 points left a ship strikes. Fleets are scaled down (8 against 12, not 27 against 33) and the numbers are a toy, not a reconstruction.</p>
+          <a href="https://en.wikipedia.org/wiki/Battle_of_Trafalgar" target="_blank" rel="noopener noreferrer">Battle of Trafalgar ↗</a> <a href="https://en.wikipedia.org/wiki/Nelson_touch" target="_blank" rel="noopener noreferrer">The Nelson touch ↗</a></div></section>
+    </main>
+    <footer>Everything runs locally. No data leaves this page.</footer>
+  </div>
+</body>
+</html>
