@@ -52,94 +52,11 @@ Git; the Pages bundle contains the interactive apps and gallery.
 
 ## Index
 
-| Date | Project | Stack | Built by |
-| --- | --- | --- | --- |
-| 2026-10-17 | [one-more](./2026-10-17-one-more/) — follow a neutron’s descendants beside 64 trials; steady on average can still mean extinction | Vanilla HTML/CSS/JS | GPT-6.1 Sol |
-| 2026-10-16 | [turn-order](./2026-10-16-turn-order/) — give two marked cubes the same turns in reverse order; watch their poses disagree | Vanilla HTML/CSS/JS | GPT-6.1 Sol |
-| 2026-10-15 | [surface-sweep](./2026-10-15-surface-sweep/) — drop soap on peppered water; reveal surface flow and compare an evenly soaped dish | Vanilla HTML/CSS/JS | GPT-6 Astra |
-| 2026-10-14 | [glamorous-glennis](./2026-10-14-glamorous-glennis/) — fly Yeager's 1947 X-1 through Mach 1; the shock blanks the elevator, so trim the moving tail | Vanilla HTML/CSS/JS | Claude Opus 5.5 |
-| 2026-10-13 | [plan-b](./2026-10-13-plan-b/) — the 2010 Copiapó rescue; race three drills to a room 622 m down, then bring 33 miners up one 66 cm ride at a time | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-10-12 | [iron-lung](./2026-10-12-iron-lung/) — the 1928 Drinker respirator; pull the tank pressure down, beat the dead space, then pump by hand in a power cut | Vanilla HTML/CSS/JS | Claude Opus 5.5 |
-| 2026-10-11 | [rainbow-break](./2026-10-11-rainbow-break/) — CBS spinning-disk colour TV, approved 76 years ago; fuse RGB fields, then move your eye and break them | Vanilla HTML/CSS/JS | Claude Opus 5.5 |
-| 2026-10-10 | [triton-spiral](./2026-10-10-triton-spiral/) — Triton, found 180 years ago today, orbits backwards; scrub 3.6 Gyr of tides to the day it shatters into a ring | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-10-09 | [every-street](./2026-10-09-every-street/) — a postal route puzzle; cover every street, get home, and find the backtracking you can’t avoid | Vanilla HTML/CSS/JS | GPT-6 Astra |
-| 2026-10-08 | [firebreak](./2026-10-08-firebreak/) — the Great Chicago Fire's 155th; a gale lofts embers over the river, and your gunpowder firebreaks can backfire | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-10-07 | [scan-line](./2026-10-07-scan-line/) — the bar code patent turns 74; ride the laser line, read the photodiode's waveform, then flip, edit and smudge it | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-10-06 | [wobble-hunter](./2026-10-06-wobble-hunter/) — 51 Pegasi b, announced this day in 1995; hunt an unseen planet in its star's 56 m/s wobble | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-10-05 | [cut-across](./2026-10-05-cut-across/) — move a film camera across the actors’ axis and watch a cut reverse their screen positions | Vanilla HTML/CSS/JS | GPT-6.1 Sol |
-| 2026-10-04 | [falling-forever](./2026-10-04-falling-forever/) — Sputnik 1, 69 years tonight; fire Newton's cannon until impact becomes orbit, then hear the beep's Doppler glide | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-10-03 | [form-1040](./2026-10-03-form-1040/) — the 1913 first income-tax return; watch brackets stack only above each line, then run the same life in 2026 | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-10-02 | [thirty-lines](./2026-10-02-thirty-lines/) — a mechanical TV bench; spin a 30-hole disc and lose the face by losing sync | Vanilla HTML/CSS/JS | GPT-6.1 Sol |
-| 2026-10-01 | [44100](./2026-10-01-44100/) — the day the CD went on sale; fold an alias, count the 16 bits, scratch the disc and let parity fix it | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-09-30 | [jumbo-loader](./2026-09-30-jumbo-loader/) — load the first 747 freighter; every pallet drags the center-of-gravity dot across the envelope | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-09-29 | [last-batch](./2026-09-29-last-batch/) — a tiny bakery; three crowds share an average, but leftovers and empty shelves favor different batches | Vanilla HTML/CSS/JS | GPT-6 Astra |
-| 2026-09-28 | [lucky-plate](./2026-09-28-lucky-plate/) — Fleming's lucky dish; replay the 1928 weather that cleared the halo, or wreck the luck at 35 °C | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-09-27 | [locomotion](./2026-09-27-locomotion/) — Locomotion No. 1 adhesion studio; 1,000 lb vs the hills the S&DR gave to rope engines | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-07-24 | [tiny-worlds](./2026-07-24-tiny-worlds/) — generative-art toy, seeded procedural landscapes | Vanilla HTML/CSS/JS | GLM-5.2 |
-| 2026-07-25 | [nodal-sand](./2026-07-25-nodal-sand/) — interactive Chladni plate; sand settles on standing-wave nodes | Vanilla HTML/CSS/JS | Grok 4.5 |
-| 2026-07-26 | [shade-seeker](./2026-07-26-shade-seeker/) — heat-wave toy; real solar geometry casts city shadows, drag the picnicker to shade | Vanilla HTML/CSS/JS | Qwen3.8-Max-Preview |
-| 2026-07-27 | [future-fossil](./2026-07-27-future-fossil/) — ordinary 2026 objects become confidently wrong museum labels from 2126 | Vanilla HTML/CSS/JS | GPT-5.6 Sol |
-| 2026-07-28 | [morphogen](./2026-07-28-morphogen/) — interactive Gray–Scott reaction–diffusion petri dish; paint two chemicals and watch Turing patterns grow | Vanilla HTML/CSS/JS | Qwen3.8-Max-Preview |
-| 2026-07-29 | [backrooms](./2026-07-29-backrooms/) — endless procedural liminal-space walker; raycast yellow rooms, flickering lights, a hum, doorways that only go down | Vanilla HTML/CSS/JS | Kimi K3 |
-| 2026-07-30 | [orbit-chime](./2026-07-30-orbit-chime/) — orbital polyrhythm music box; planets on integer-ratio orbits chime pentatonic notes at the meridian | Vanilla HTML/CSS/JS | Qwen3.8-Max-Preview |
-| 2026-07-31 | [perseid-vigil](./2026-07-31-perseid-vigil/) — night-by-night simulator of the 2026 Perseid shower; real radiant geometry, ZHR activity curve, moonlight washout | Vanilla HTML/CSS/JS | Qwen3.8-Max-Preview |
-| 2026-08-01 | [eclipse-chaser](./2026-08-01-eclipse-chaser/) — the Aug 12 2026 total eclipse from anywhere; NASA path data, click the map for your totality duration and sun phases | Vanilla HTML/CSS/JS | DeepSeek-V4-Flash |
-| 2026-08-02 | [feynmans-menu](./2026-08-02-feynmans-menu/) — restaurant stopping game; explore unknown tables or return to your favorite, then compare with Feynman's optimal threshold | Vanilla HTML/CSS/JS | GPT-5.6 Sol |
-| 2026-08-03 | [heraldic-forge](./2026-08-03-heraldic-forge/) — procedural coat-of-arms generator with proper tincture rules, field divisions, charges, and blazons | Vanilla HTML/CSS/JS | GLM-5-Turbo |
-| 2026-08-04 | [loom-drafter](./2026-08-04-loom-drafter/) — weaving draft in real four-quadrant notation; threading, tie-up and treadling drive the drawdown and cloth, with `.wif` export | Vanilla HTML/CSS/JS | Claude Opus 5 |
-| 2026-08-05 | [black-cow](./2026-08-05-black-cow/) — root beer float physics toy; pour, drop a scoop, and foam plus displacement decides black cow or foamy lake | Vanilla HTML/CSS/JS | DeepSeek-V4-Flash |
-| 2026-08-06 | [ballot-lab](./2026-08-06-ballot-lab/) — same ranked ballots counted six ways (plurality, IRV, Borda, Condorcet…); different winners from identical votes, editable live | Vanilla HTML/CSS/JS | GLM-5.2 |
-| 2026-08-07 | [nightmark](./2026-08-07-nightmark/) — lighthouse flash-characteristic builder; compose IALA signatures, watch them over a night sea, read them back in quiz mode | Vanilla HTML/CSS/JS | GLM-5.2 |
-| 2026-08-08 | [cattery](./2026-08-08-cattery/) — Mendelian cat-coat genetics sandbox; breed two cats and watch each kitten's coat fall out of live Punnett squares | Vanilla HTML/CSS/JS | GLM-5.2 |
-| 2026-08-09 | [quarto](./2026-08-09-quarto/) — booklet imposition studio; fold a saddle-stitch sheet whose pages aren't in reading order — every face sums to P+1 | Vanilla HTML/CSS/JS | GLM-5.2 |
-| 2026-08-10 | [sky-sway](./2026-08-10-sky-sway/) — tuned-mass-damper studio; toggle the 728-ton pendulum and watch the skyscraper's sway split into two tamer peaks | Vanilla HTML/CSS/JS | GLM-5.2 |
-| 2026-08-11 | [sand-ripple](./2026-08-11-sand-ripple/) — aeolian ripple studio; watch a sand bed self-organize into migrating ripples — the bed sculpts itself, not the wind | Vanilla HTML/CSS/JS | GLM-5.2 |
-| 2026-08-12 | [lathe-cut](./2026-08-12-lathe-cut/) — disc-cutting studio; the groove is the waveform — cut a lacquer, drop the needle anywhere, meet the inner-groove problem | Vanilla HTML/CSS/JS | GLM-5.2 |
-| 2026-08-13 | [chiral-lab](./2026-08-13-chiral-lab/) — chirality studio; drag-rotate a mirror image and try to superimpose it — you can't, and the determinant proves why | Vanilla HTML/CSS/JS | GLM-5.2 |
-| 2026-08-14 | [tail-gambit](./2026-08-14-tail-gambit/) — lizard autotomy trial; time the tail-drop against a predator strike, then scrub the energy and regrowth aftermath | Vanilla HTML/CSS/JS | GPT-5.6 Sol |
-| 2026-08-15 | [waggle-room](./2026-08-15-waggle-room/) — waggle-dance studio; drag flowers and sun, watch the figure-eight collapse to a round dance, then decode it in the dark | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-08-16 | [loop-the-loop](./2026-08-16-loop-the-loop/) — roller-coaster loop studio; a rail can only push, so release short and the car leaves the track — circle vs clothoid | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-08-17 | [jupiter-mail](./2026-08-17-jupiter-mail/) — 1859 balloon-airmail navigator; altitude is the steering wheel — climb the wind ladder toward town before the gas runs out | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-08-18 | [flash-spectrum](./2026-08-18-flash-spectrum/) — eclipse flash-spectrum studio; watch Fraunhofer lines blaze into emission and catch D₃ — helium, found in the sky first | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-08-19 | [daguerreotype](./2026-08-19-daguerreotype/) — 1839 daguerreotype darkroom; polish, fume, expose the Boulevard du Temple, then tilt the plate and watch the image flip | Vanilla HTML/CSS/JS | Gemini 3.7 Flash |
-| 2026-08-20 | [grand-tour](./2026-08-20-grand-tour/) — Voyager 2 gravity-assist studio; steal momentum from four planets on the 176-year alignment and ride past the heliopause | Vanilla HTML/CSS/JS | Gemini 3.7 Flash |
-| 2026-08-21 | [burroughs-adder](./2026-08-21-burroughs-adder/) — 1888 Burroughs adding machine; 81 keys, tens-carry racks, and the oil dashpot that cured momentum overthrow | Vanilla HTML/CSS/JS | Gemini 3.7 Flash |
-| 2026-08-22 | [schooner-america](./2026-08-22-schooner-america/) — 1851 America's Cup studio; the sail aerodynamics and wave-line hull behind the schooner America's Isle of Wight win | Vanilla HTML/CSS/JS | Gemini 3.7 Flash |
-| 2026-08-23 | [rubin-curve](./2026-08-23-rubin-curve/) — Vera Rubin's rotation curves; measure M31's Doppler shift and watch the flat curve demand invisible mass | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-08-24 | [plinian-hour](./2026-08-24-plinian-hour/) — Vesuvius 79 AD studio; push the Plinian column past collapse and replay the 19-hour timeline that buried Pompeii | Vanilla HTML/CSS/JS | Ox Alpha |
-| 2026-08-25 | [galileos-tube](./2026-08-25-galileos-tube/) — Galileo's telescope ray-traced; drag the eyepiece, split the focus, then sight the Medicean stars from the Campanile | Vanilla HTML/CSS/JS | Ox Alpha |
-| 2026-08-26 | [lavoisiers-balance](./2026-08-26-lavoisiers-balance/) — Lavoisier's conservation of mass; four classic experiments where the sealed vessel never loses a gram | Vanilla HTML/CSS/JS | Ox Alpha |
-| 2026-08-27 | [drake-well](./2026-08-27-drake-well/) — Drake Well drilling studio; drop the bit, strike oil at 69½ ft, and follow the 1859 boom to 49¢ a barrel | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-08-28 | [weaf-660](./2026-08-28-weaf-660/) — AM radio studio on WEAF's first paid commercial (1922); modulate, detect, tune the tank, and mind the clipping | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-08-29 | [faradays-ring](./2026-08-29-faradays-ring/) — Faraday's iron ring (1831); the meter sleeps while current merely flows and kicks at every change — the first transformer | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-08-30 | [rutherfords-foil](./2026-08-30-rutherfords-foil/) — Rutherford scattering; hyperbolic α tracks and the 1-in-8000 backscatter that emptied the atom into a tiny nucleus | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-08-31 | [montessori-shelf](./2026-08-31-montessori-shelf/) — Montessori math materials; golden-bead bank exchanges, the pink tower's cubic identity, and the binomial cube in wood | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-09-01 | [carrington-storm](./2026-09-01-carrington-storm/) — Carrington Event studio; light beats plasma by 17 hours, the magnetopause bows, and the telegraph runs on aurora alone | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-09-02 | [eleven-days](./2026-09-02-eleven-days/) — the eleven days Britain skipped in 1752; dual calendars, Conway's doomsday, and the Easter computus behind the reform | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-09-03 | [bluebird-301](./2026-09-03-bluebird-301/) — Campbell's 301 mph Blue Bird run; the cube law of speed, Cardano's exact terminal speed, and the two-run wind rule | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-09-04 | [pearl-street](./2026-09-04-pearl-street/) — Edison's 1882 Pearl Street station; the 1/V² copper law that drew the grid, and how voltage un-shackled it | Vanilla HTML/CSS/JS | GLM-5.3-Flash |
-| 2026-09-05 | [spiral-pass](./2026-09-05-spiral-pass/) — the first legal forward pass (1906); drag-corrected parabolas, the spiral as a gyroscope, and the clamped 158.3 passer rating | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-09-06 | [bushnells-turtle](./2026-09-06-bushnells-turtle/) — the 1776 Turtle submarine attack; ballast trim, hand-crank drag, the CO₂ clock, and the tide window | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-09-07 | [straight-line](./2026-09-07-straight-line/) — the first electronic TV picture was a straight line (1927); raster scanning, the N² bandwidth law, and the 29.97-frame color bargain | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-09-08 | [line-break](./2026-09-08-line-break/) — typesetting playground; compare greedy wrapping with paragraph-wide optimal breaks | Vanilla HTML/CSS/JS | GPT-6 Astra |
-| 2026-09-09 | [first-bug](./2026-09-09-first-bug/) — 1947 Harvard Mark II studio; Relay #70 cross-section, contact bounce, and the moth that named the bug | Vanilla HTML/CSS/JS | Gemini 3.8 Flash |
-| 2026-09-10 | [lhc-first-beam](./2026-09-10-lhc-first-beam/) — 2008 LHC first beam studio; 27 km sector threading, 8.33 T dipoles, and RF bucket phase stability | Vanilla HTML/CSS/JS | Gemini 3.8 Flash |
-| 2026-09-11 | [remote-console](./2026-09-11-remote-console/) — 1940 Stibitz telecomputing studio; 250-mile telegraph loop, Excess-3 relay logic, and complex arithmetic | Vanilla HTML/CSS/JS | Gemini 3.8 Flash |
-| 2026-09-12 | [kilby-chip](./2026-09-12-kilby-chip/) — Kilby's 1958 first-IC studio; the tyranny of numbers, one germanium bar, and the sine wave that started it all | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-09-13 | [ramac-disk](./2026-09-13-ramac-disk/) — the 1956 first hard drive studio; 600 ms to any of 5M characters, BCD bit cells, and 70 years of areal density | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-09-14 | [luna2-impact](./2026-09-14-luna2-impact/) — Luna 2 studio; aim 21° ahead of the moving Moon, 38 h of ballistic coast, 3.33 km/s arrival, and a sodium comet | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-09-15 | [random-surfer](./2026-09-15-random-surfer/) — 1997 search-engine studio for the googol-typo domain day; live PageRank eigenvector, d = 0.85 spectrum, BM25 index, retro results page | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-09-16 | [xerox-914](./2026-09-16-xerox-914/) — Xerox 914 studio for the plain-paper-copy day; Peek's-law corona, selenium photodischarge, cascade toner physics, and the nickel lease | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-09-17 | [animalcules](./2026-09-17-animalcules/) — 1683 plaque-letter studio; ball-lens optics (f = nD/4(n−1), NA = 2(n−1)/n), the colour/diffraction sweet spot, and the first bacteria | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-09-18 | [pendulum-room](./2026-09-18-pendulum-room/) — move a Foucault pendulum between latitudes and watch Earth’s rotation leave its mark | Vanilla HTML/CSS/JS | GPT-6 Astra |
-| 2026-09-19 | [type-light](./2026-09-19-type-light/) — ASCII darkroom; measured glyphs, two-character dithering, and local image prints | Vanilla HTML/CSS/JS | GPT-6 Astra |
-| 2026-09-20 | [split-drive](./2026-09-20-split-drive/) — cornering lab; open versus locked axles, wheel speeds, and unequal paths | Vanilla HTML/CSS/JS | GPT-6 Astra |
-| 2026-09-21 | [echo-room](./2026-09-21-echo-room/) — room-acoustics studio; trace reflections, move the listener, and hear softer walls | Vanilla HTML/CSS/JS | GPT-6 Astra |
-| 2026-09-22 | [shortcut-trap](./2026-09-22-shortcut-trap/) — traffic-routing lab; open a shortcut, arrive later, and compare selfish with coordinated routes | Vanilla HTML/CSS/JS | GPT-6 Astra |
-| 2026-09-23 | [ink-register](./2026-09-23-ink-register/) — two-color print studio; slide the ink plates, find a third color, and pull a print | Vanilla HTML/CSS/JS | GPT-6 Astra |
-| 2026-09-24 | [headway](./2026-09-24-headway/) — Giffard's 1852 steam airship; crab through crosswinds, then watch home fall outside the reachable cone | Vanilla HTML/CSS/JS | Claude Opus 5.5 |
-| 2026-09-25 | [tat-1](./2026-09-25-tat-1/) — 1956 transatlantic phone-cable studio; TASI rents your silences, 37 circuits carry 72 calls | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-09-26 | [dart-impact](./2026-09-26-dart-impact/) — kinetic-deflection studio; four years ago a 570 kg probe shaved 33 minutes off a moonlet's orbit | Vanilla HTML/CSS/JS | GLM-5.3 |
-| 2026-10-18 | [venera-4](./2026-10-18-venera-4/) — Venus-descent puzzle; the probe went silent at 22 atm, so how high was the ground? | Vanilla HTML/CSS/JS | Claude Sonnet 5.5 |
-| 2026-10-19 | [sell-program](./2026-10-19-sell-program/) — Black Monday lab; portfolio insurers sell because prices fall, and prices fall because they sell | Vanilla HTML/CSS/JS | Claude Opus 5.5 |
-| 2026-10-20 | [one-sphere](./2026-10-20-one-sphere/) — the Opera House opened in 1973; lift ten roof shells off the one sphere they were cut from | Vanilla HTML/CSS/JS | Claude Opus 5.5 |
+The project list is split into one file per month, newest first.
+
+| Month | Projects |
+| --- | --- |
+| [October 2026](./index/2026-10.md) | 20 |
+| [September 2026](./index/2026-09.md) | 30 |
+| [August 2026](./index/2026-08.md) | 31 |
+| [July 2026](./index/2026-07.md) | 8 |

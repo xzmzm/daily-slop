@@ -12,7 +12,8 @@ This workspace is a **daily-build playground**: one small, original web app ship
 - **Keep it tidy:** each project lives in its own folder with its own
   `README.md` describing what it is and how to run it, plus a `NOTES.md`
   with the story behind it (see "Per-project docs" below). The top-level
-  `README.md` is an index linking to every day's project.
+  `README.md` links to one index file per month (`index/YYYY-MM.md`), which
+  together list every day's project.
 
 ## Originality (the only hard rule that matters)
 
@@ -95,7 +96,7 @@ belongs here. A `NOTES.md` that could describe any project is a fail.
 When you know **which model** built a project (i.e. you know your own model
 identity), record it:
 
-- **Top-level `README.md` index:** add a **`Built by`** column naming the model
+- **Monthly index (`index/YYYY-MM.md`):** add a **`Built by`** column naming the model
   (e.g. `GLM-5.2`).
 - **Per-project `README.md`:** add a short `Built by <model>` line near the top.
 
@@ -123,7 +124,13 @@ README when that warning appears.
 6. **Make sure it runs** — actually verify it, don't assume.
 7. **Write the docs** — `README.md` (what + how to run) and `NOTES.md`
    (why / how it works / interesting notes), same day.
-8. **Add it to the top-level `README.md` index.** Keep the description
+8. **Add it to the monthly index** — `index/YYYY-MM.md` for the project's
+   month. Rows are **newest first**: insert the new row at the top of the
+   table, directly under the header, never append it at the bottom. Links are
+   relative to `index/` (`../YYYY-MM-DD-name/`). On the first day of a new
+   month, create that month's file (copy the header from an existing one) and
+   add a row to the month table in the top-level `README.md`, also newest
+   first; otherwise just bump that month's project count. Keep the description
    brief: one line, roughly ≤ 120 characters — what it is plus at most one
    hook. No formula dumps, feature walkthroughs, or anniversaries-as-essays
    in the index; that detail belongs in the project's `README.md` and

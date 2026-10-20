@@ -55,10 +55,10 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
-          p=Path('README.md')
+          p=Path('index/2026-09.md')
           text=p.read_text()
           if './2026-09-21-echo-room/' not in text:
-              text=text.rstrip()+'\n| 2026-09-21 | [echo-room](./2026-09-21-echo-room/) — room-acoustics studio; trace reflections, move the listener, and hear softer walls | Vanilla HTML/CSS/JS | GPT-6 Astra |\n'
+              text=text.rstrip()+'\n| 2026-09-21 | [echo-room](../2026-09-21-echo-room/) — room-acoustics studio; trace reflections, move the listener, and hear softer walls | Vanilla HTML/CSS/JS | GPT-6 Astra |\n'
               p.write_text(text)
           PY
           python tools/build_gallery.py --no-shots
@@ -84,7 +84,7 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add README.md gallery/manifest.js 2026-09-21-echo-room/VALIDATION.md 2026-09-21-echo-room/video/echo-room.mp4 2026-09-21-echo-room/video/echo-room.srt 2026-09-21-echo-room/video/echo-room.json
+          git add index/2026-09.md gallery/manifest.js 2026-09-21-echo-room/VALIDATION.md 2026-09-21-echo-room/video/echo-room.mp4 2026-09-21-echo-room/video/echo-room.srt 2026-09-21-echo-room/video/echo-room.json
           git add -f gallery/shots/2026-09-21-echo-room.png
           git diff --cached --check
           if ! git diff --cached --quiet; then

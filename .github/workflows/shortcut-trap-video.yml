@@ -56,10 +56,10 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
-          p=Path('README.md')
+          p=Path('index/2026-09.md')
           text=p.read_text()
           if './2026-09-22-shortcut-trap/' not in text:
-              text=text.rstrip()+'\n| 2026-09-22 | [shortcut-trap](./2026-09-22-shortcut-trap/) — traffic-routing lab; open a shortcut, arrive later, and compare selfish with coordinated routes | Vanilla HTML/CSS/JS | GPT-6 Astra |\n'
+              text=text.rstrip()+'\n| 2026-09-22 | [shortcut-trap](../2026-09-22-shortcut-trap/) — traffic-routing lab; open a shortcut, arrive later, and compare selfish with coordinated routes | Vanilla HTML/CSS/JS | GPT-6 Astra |\n'
               p.write_text(text)
           PY
           python tools/build_gallery.py --no-shots
@@ -85,7 +85,7 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add README.md gallery/manifest.js 2026-09-22-shortcut-trap/VALIDATION.md 2026-09-22-shortcut-trap/video/shortcut-trap.mp4 2026-09-22-shortcut-trap/video/shortcut-trap.srt 2026-09-22-shortcut-trap/video/shortcut-trap.json
+          git add index/2026-09.md gallery/manifest.js 2026-09-22-shortcut-trap/VALIDATION.md 2026-09-22-shortcut-trap/video/shortcut-trap.mp4 2026-09-22-shortcut-trap/video/shortcut-trap.srt 2026-09-22-shortcut-trap/video/shortcut-trap.json
           git add -f gallery/shots/2026-09-22-shortcut-trap.png
           git diff --cached --check
           if ! git diff --cached --quiet; then
