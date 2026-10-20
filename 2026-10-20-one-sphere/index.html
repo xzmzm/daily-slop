@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0c1722">
+  <meta name="description" content="The Sydney Opera House opened on 20 October 1973. Its ten roof shells are all cut from one 75 m sphere. Lift them off the sphere onto the podium, then compare the free-form roof that could not be built.">
+  <title>One Sphere — the Opera House roof</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="model.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="page">
+    <header class="masthead"><a href="../">DAILY SLOP <span>↗</span></a><span>BENNELONG POINT · OPENED 20 OCT 1973</span><span class="edition">CLAUDE OPUS 5.5</span></header>
+    <main>
+      <section class="intro">
+        <div><p class="eyebrow">SYDNEY OPERA HOUSE · 53 YEARS OPEN TODAY</p><h1>One <em>sphere.</em></h1></div>
+        <p class="intro-copy">Utzon's 1957 sketch had sails of no particular geometry, and for four years nobody could say how to build them. His answer: cut every shell from the same ball, 75 m in radius. Then every rib bends the same way. <span>Drag to turn. Lift the shells off the sphere, then switch back to the sketch.</span></p>
+      </section>
+      <section class="workbench" aria-label="Roof shell studio">
+        <div class="stage">
+          <div class="stage-head"><div><span class="num">01</span> TEN SHELLS <span class="muted" id="where">/ ON THE SPHERE</span></div>
+            <div class="legend"><span class="l-shell">tiled outer face</span><span class="l-sel">selected shell</span><span class="l-ghost">the 75 m sphere</span></div></div>
+          <canvas id="view" width="900" height="560" aria-label="Three-dimensional view of the roof shells"></canvas>
+          <div class="transport">
+            <button id="play" class="play"><span>▶</span> <b id="play-label">Place on the podium</b></button>
+            <label class="scrub"><span>SPHERE</span><input id="assemble" type="range" min="0" max="1000" value="0" aria-label="Assembly progress"><span>PODIUM</span></label>
+          </div>
+        </div>
+        <aside class="controls" aria-label="Controls">
+          <div class="ctl"><span class="ctl-label">02 <span>SHAPE RULE</span></span>
+            <div class="modes"><button data-mode="free">1957 · free-form</button><button data-mode="sphere">1961 · one sphere</button></div></div>
+          <div class="ctl"><span class="ctl-label">03 <span>SHELL</span> <b id="shell-name"></b></span>
+            <div class="chips" id="chips"></div></div>
+          <div class="ctl"><span class="ctl-label">04 <span>EVERY RIB OF THIS SHELL, LAID SIDE BY SIDE</span></span>
+            <canvas id="ribs" width="420" height="200" aria-label="Rib profiles of the selected shell"></canvas></div>
+          <div class="readout">
+            <div><span>DIFFERENT RIB CURVES</span><strong id="r-curves">—</strong><small id="r-segs"></small></div>
+            <div><span>OFF THE SPHERE</span><strong id="r-dev">—</strong><small>worst point, this shell</small></div>
+          </div>
+          <p id="verdict" class="verdict" aria-live="polite"></p>
+        </aside>
+      </section>
+      <section class="field-notes"><div><p class="eyebrow">HOW THE SPHERE HELPS</p><h2>Same ball, same bend,<br> same moulds.</h2><p>Each shell here is a fan of ribs that leave a pedestal and curl upward. Cut from a sphere, every rib is a piece of a 75 m circle, so a 4.5 m rib segment has the same curve wherever it sits on the roof, and the segments can be cast in repeating moulds. Draw the sails free-form and each rib turns at its own rate along its length. The count above treats two segments as interchangeable only when their radius matches at both ends to within half a metre. Shell sizes and positions are stylised, not survey data.</p>
+          <a href="https://en.wikipedia.org/wiki/Sydney_Opera_House" target="_blank" rel="noopener noreferrer">Sydney Opera House ↗</a> <a href="https://www.arup.com/projects/sydney-opera-house" target="_blank" rel="noopener noreferrer">Arup's account ↗</a></div></section>
+    </main>
+    <footer>Everything runs locally. No data leaves this page.</footer>
+  </div>
+</body>
+</html>
