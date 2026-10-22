@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Let the disk sleep. A little experiment in read-ahead memory, inspired by the original iPod's 25th anniversary.">
+  <title>Spin Down — a pocket-sized buffer experiment</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='10' fill='%23202521'/%3E%3Ccircle cx='24' cy='24' r='16' fill='%23c6ed88'/%3E%3Ccircle cx='24' cy='24' r='5' fill='%23202521'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <script src="model.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+<main>
+  <header><a href="../" class="wordmark">DAILY SLOP <span>/ 092</span></a><span>23 OCT 2026 <b>·</b> A POCKET EXPERIMENT</span></header>
+  <section class="intro" aria-labelledby="title">
+    <div><p class="eyebrow"><i></i> IPOD AT 25 / READ AHEAD, REST LATER</p><h1 id="title">Spin down<span>.</span></h1></div>
+    <div class="intro-copy"><p>The disk can stop.<br>The music can keep going.</p><span>Give a player some memory. Then make its hard drive unavailable.</span></div>
+  </section>
+  <section class="controls" aria-label="Experiment controls">
+    <div class="transport"><button id="play" class="primary">▶ Play</button><button id="reset" aria-label="Reset experiment">↺ Reset</button><label for="speed" class="sr-only">Simulation speed</label><select id="speed"><option value="1">1× real time</option><option value="30" selected>30× time</option><option value="120">120× time</option></select></div>
+    <div class="actions"><button id="block">⌁ Block reads · 5 min</button><button id="skip">Next track ↗</button><button id="sound" aria-pressed="false">♪ Sound off</button></div>
+  </section>
+  <div class="experiment-status"><span id="condition"><i></i> DRIVE READS AVAILABLE</span><span>ELAPSED <strong id="elapsed">00:00</strong></span></div>
+  <section class="players" aria-label="Two playback strategies">
+    <article class="player direct" id="direct-card">
+      <div class="card-heading"><div><p class="eyebrow">01 / CONTINUOUS READ</p><h2>Keep it spinning.</h2></div><span class="strategy-tag">2 SEC RESERVE</span></div>
+      <div class="signal-path">
+        <div class="hardware"><div class="drive" aria-hidden="true"><div class="platter"><span></span></div><i class="arm"></i><i class="screw s1"></i><i class="screw s2"></i><i class="screw s3"></i><i class="screw s4"></i></div><span class="component-label">HARD DRIVE <b id="direct-drive">READY</b></span></div>
+        <div class="connector" aria-hidden="true"><span></span>→</div>
+        <div class="memory"><div class="memory-grid" id="direct-memory" aria-hidden="true"></div><span class="component-label">TINY RESERVE</span></div>
+        <div class="connector out" aria-hidden="true"><span></span>→</div>
+        <div class="output"><div class="equalizer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><span id="direct-output">READY</span></div>
+      </div>
+      <div class="card-readings"><div><span>PLAYABLE RESERVE</span><strong id="direct-reserve">00:02</strong></div><div><span>DISK AWAKE</span><strong id="direct-duty">—</strong></div><div><span>SILENCE</span><strong id="direct-silence">00:00</strong></div></div>
+      <div class="reserve-track"><div id="direct-fill"></div></div>
+    </article>
+    <article class="player cached" id="cached-card">
+      <div class="card-heading"><div><p class="eyebrow">02 / READ AHEAD</p><h2>Let memory take over.</h2></div><span class="strategy-tag">DISK CAN SLEEP</span></div>
+      <div class="signal-path">
+        <div class="hardware"><div class="drive" aria-hidden="true"><div class="platter"><span></span></div><i class="arm"></i><i class="screw s1"></i><i class="screw s2"></i><i class="screw s3"></i><i class="screw s4"></i></div><span class="component-label">HARD DRIVE <b id="cached-drive">ASLEEP</b></span></div>
+        <div class="connector" aria-hidden="true"><span></span>→</div>
+        <div class="memory"><div class="memory-grid" id="cached-memory" aria-hidden="true"></div><span class="component-label">READ-AHEAD MEMORY</span></div>
+        <div class="connector out" aria-hidden="true"><span></span>→</div>
+        <div class="output"><div class="equalizer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div><span id="cached-output">READY</span></div>
+      </div>
+      <div class="card-readings"><div><label for="capacity">PLAYABLE RESERVE <select id="capacity" aria-label="Read-ahead capacity"><option value="120">2 min</option><option value="1200" selected>20 min</option></select></label><strong id="cached-reserve">20:00</strong></div><div><span>DISK AWAKE</span><strong id="cached-duty">—</strong></div><div><span>SILENCE</span><strong id="cached-silence">00:00</strong></div></div>
+      <div class="reserve-track"><div id="cached-fill"></div></div>
+    </article>
+  </section>
+  <section class="history" aria-label="Buffer and disk activity history">
+    <div class="history-heading"><h3>The quiet work of a buffer</h3><span><i class="legend cached-legend"></i> Memory reserve <i class="legend direct-legend"></i> Continuous disk <i class="legend blocked-legend"></i> Reads blocked</span></div>
+    <canvas id="history" role="img" aria-label="Read-ahead memory reserve over time, with disk activity strips for both players"></canvas>
+    <p class="history-caption">Last 40 simulated minutes. Bottom strips show when each disk is awake.</p>
+  </section>
+  <p class="observation" id="observation" role="status">Press Play, then block the reads. Both players start with their reserves full.</p>
+  <details class="notes"><summary>What this little machine assumes <span>+</span></summary><div><p>On October 23, 2001, Apple introduced the iPod with a 5 GB hard drive and advertised up to 20 minutes of shock protection. Read-ahead memory can keep feeding a decoder while the disk rests.</p><p>This experiment stores <em>playable seconds</em>, with a 2-second continuous-read control and a 2- or 20-minute read-ahead player. Both start preloaded. A sleeping disk wakes with 30 seconds left (12 seconds for the small buffer), takes 2 seconds to spin up, then reads 40 seconds of music per second until full. These are chosen teaching parameters.</p><p>Blocking reads is a complete, temporary read outage. Skipping chooses a track outside both reserves, discarding their contents. Disk-awake time includes spinning up and waiting through an outage; it is not a battery-life estimate. Optional sound is an original synthesized loop from the read-ahead player.</p><a href="https://www.apple.com/newsroom/2001/10/23Apple-Presents-iPod/" target="_blank" rel="noreferrer">Read the original launch announcement ↗</a></div></details>
+  <footer><span>A LITTLE MEMORY BUYS A LITTLE QUIET.</span><span>Built by GPT-6.1 Sol</span></footer>
+</main>
+</body>
+</html>
