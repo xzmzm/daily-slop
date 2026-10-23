@@ -1,0 +1,17 @@
+{
+  "output": "/Users/hm/prj/daily-slop/2026-10-24-first-frame/video/first-frame.mp4",
+  "provider": "Fish Audio REST API",
+  "model": "s2.1-pro-free",
+  "voice_id": "95d2e56952b446189d6160a821a08707",
+  "segment_durations": [
+    6.844082,
+    13.531429,
+    11.206531,
+    9.900408,
+    11.755102,
+    11.62449
+  ],
+  "video_duration": 67.533333,
+  "fps": 15,
+  "resolution": "1920x1080"
+}
