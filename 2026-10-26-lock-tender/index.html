@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="A little boat meets a hill. Operate a canal lock with gates, sluices and gravity.">
+  <title>Lock Tender — give the river a staircase</title><link rel="stylesheet" href="style.css">
+</head>
+<body><main>
+  <header><a href="../" class="brand"><svg viewBox="0 0 30 28" aria-hidden="true"><path d="M1 23H10V15H19V7H29M1 27H29M5 1V19M14 1V11M24 1V3"/></svg>DAILY SLOP <span>/ 095</span></a><span class="station">AN EXPERIMENT IN GOING UPHILL</span><span>26 OCT 2026</span></header>
+  <section class="intro"><div><p class="eyebrow">THE CANAL OPERATOR’S DESK</p><h1>Lock <em>tender.</em></h1></div><p class="intro-copy">A boat. A hill. A little borrowed water.<br>Give the river a staircase.</p><div class="date-stamp"><span>ON THIS DAY / 1825</span><strong>The Erie Canal opens.</strong><a href="https://www.nysarchivestrust.org/exhibits/erie-canal/construction-opening" target="_blank" rel="noreferrer">201 years of taking the slow way up ↗</a></div></section>
+  <section class="desk" aria-label="Interactive canal lock">
+    <div class="drawing">
+      <div class="drawing-top"><span><i></i> ONE LOCK / TWO WATER LEVELS</span><div class="direction" role="group" aria-label="Boat direction"><button id="up" aria-pressed="true">Uphill ↗</button><button id="down" aria-pressed="false">Downhill ↙</button></div></div>
+      <div class="section-label"><span>LONGITUDINAL SECTION</span><span>ILLUSTRATIVE LIFT · 2.4 m</span></div>
+      <svg id="scene" viewBox="0 0 1040 420" role="img" aria-labelledby="scene-title scene-description">
+        <title id="scene-title">Boat and water level inside a canal lock</title><desc id="scene-description">A lower reach on the left, a gated chamber in the middle, and an upper reach on the right. Use the controls to move the boat between reaches.</desc>
+        <defs>
+          <pattern id="masonry" width="48" height="24" patternUnits="userSpaceOnUse"><rect width="48" height="24" fill="#dbd9cb"/><path d="M0 0H48M0 24H48M24 0V12M0 12H48M0 12V24M48 12V24" stroke="#b9c0b2" stroke-width=".8"/></pattern>
+          <pattern id="earth" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><path d="M0 0V12" stroke="#c6c8b9" stroke-width="2"/></pattern>
+          <linearGradient id="water" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#77b8bc" stop-opacity=".84"/><stop offset="1" stop-color="#277b89" stop-opacity=".94"/></linearGradient>
+          <pattern id="wave" width="50" height="12" patternUnits="userSpaceOnUse"><path d="M0 6Q12.5 0 25 6T50 6" fill="none" stroke="#c7e5df" stroke-opacity=".45"/></pattern>
+        </defs>
+        <path d="M0 130Q70 90 155 120T310 105L310 400H0ZM745 135Q840 80 915 103T1040 95V400H745Z" fill="#e1e7d9"/>
+        <g class="landscape" fill="none" stroke="#a8b5a0" stroke-width="2"><path d="M42 121V71M30 87L42 65 55 87M33 97L42 78 52 97M950 107V51M935 70L950 43 965 70M939 85L950 60 961 85M985 105V70M974 85L985 64 996 85"/></g>
+        <path d="M0 398H722V264H1040V420H0Z" fill="url(#masonry)"/><path d="M0 412H736V278H1040" stroke="#96a492" stroke-width="2" fill="none"/>
+        <path d="M0 420H1040" stroke="#c6c8b9" stroke-width="12"/>
+        <rect x="0" y="300" width="345" height="98" fill="url(#water)"/><rect id="chamber-water" x="356" y="156" width="360" height="242" fill="url(#water)"/><rect x="729" y="156" width="311" height="108" fill="url(#water)"/>
+        <rect x="0" y="313" width="345" height="61" fill="url(#wave)"/><rect id="chamber-waves" x="356" y="169" width="360" height="202" fill="url(#wave)"/><rect x="729" y="169" width="311" height="76" fill="url(#wave)"/>
+        <g class="waterlines"><path d="M0 300H344M729 156H1040"/><path id="chamber-line" d="M356 156H716"/></g>
+        <path d="M16 156H1030M16 300H1030" class="datum"/>
+        <g class="diagram-text"><text x="20" y="286">LOWER REACH</text><text x="841" y="140">UPPER REACH</text><text x="536" y="66" text-anchor="middle">THE LOCK CHAMBER</text><text x="20" y="323" class="level-label">+0.0 m</text><text x="947" y="181" class="level-label">+2.4 m</text></g>
+        <g id="lower-gate" class="gate"><rect x="344" y="135" width="12" height="264" rx="2"/><path d="M347 144V389M353 144V389M344 176H356M344 240H356M344 304H356M344 368H356"/></g>
+        <g id="upper-gate" class="gate"><rect x="717" y="110" width="12" height="156" rx="2"/><path d="M720 119V256M726 119V256M717 142H729M717 190H729M717 238H729"/></g>
+        <g class="gate-labels"><text x="350" y="105" text-anchor="middle">LOWER GATE</text><text id="lower-state" x="350" y="122" text-anchor="middle">CLOSED</text><text x="723" y="78" text-anchor="middle">UPPER GATE</text><text id="upper-state" x="723" y="95" text-anchor="middle">CLOSED</text></g>
+        <g id="lower-stream" class="stream" hidden><path d="M374 374H323L299 385M374 384H334L312 394"/><path d="M316 370L303 378 318 382"/></g>
+        <g id="upper-stream" class="stream" hidden><path d="M757 240H700L674 253M757 251H713L691 265"/><path d="M693 241L678 250 693 253"/></g>
+        <g id="boat" transform="translate(163 300)"><path d="M-68-10H68L53 13Q0 24-53 13Z" fill="#b74d30"/><path d="M-61 1H61M-51 13H51" stroke="#e9bc87" stroke-width="2"/><rect x="-41" y="-34" width="73" height="23" rx="3" fill="#efe9d6"/><path d="M-45-34H36L28-39H-40Z" fill="#153c48"/><rect x="-32" y="-29" width="12" height="12" fill="#7aa5a4"/><rect x="-14" y="-29" width="12" height="12" fill="#7aa5a4"/><rect x="10" y="-28" width="12" height="17" fill="#b79b70"/><path d="M44-11V-29M44-28L59-22 44-18" fill="#e1ac54" stroke="#6a715c" stroke-width="1.5"/><circle cx="-48" cy="-4" r="5" fill="#193e48"/><circle cx="47" cy="-4" r="5" fill="#193e48"/><text x="0" y="6" text-anchor="middle" fill="#f8ead0" font-size="7" letter-spacing="2">TENDER</text></g>
+        <g id="level-marker"><path d="M555 156H580" stroke="#174e60"/><rect x="582" y="141" width="96" height="30" rx="3" fill="#f6f3e7"/><text id="level-text" x="630" y="161" text-anchor="middle">+2.40 m</text></g>
+        <g class="dimension"><path d="M994 201V280M986 201H1002M986 280H1002"/><text x="976" y="245" text-anchor="end">2.4 m lift</text></g>
+      </svg>
+      <div class="drawing-bottom"><span><i class="key water-key"></i> WATER FOLLOWS GRAVITY</span><span><i class="key gate-key"></i> GATES HOLD THE DIFFERENCE</span><span>SECTION / NOT TO SCALE</span></div>
+      <div class="readings"><div><span>CHAMBER LEVEL</span><strong id="level">2.40 <small>m</small></strong></div><div><span>WATER FROM UPPER REACH</span><strong id="admitted">0 <small>m³</small></strong></div><div><span>BOAT’S CHANGE IN HEIGHT</span><strong id="boat-rise">+0.00 <small>m</small></strong></div></div>
+    </div>
+    <aside>
+      <div class="controls-title"><span>YOUR CONTROL PANEL</span><button id="reset" aria-label="Restart this passage">↺ Reset</button></div>
+      <div class="control-group"><div class="group-title"><b>01</b><h2>Big gates</h2><span>FOR THE BOAT</span></div><div class="pair"><button id="gate-lower" aria-pressed="false"><span>Lower gate</span><strong>Open <b>↗</b></strong></button><button id="gate-upper" aria-pressed="false"><span>Upper gate</span><strong>Open <b>↗</b></strong></button></div></div>
+      <div class="control-group"><div class="group-title"><b>02</b><h2>Small sluices</h2><span>FOR THE WATER</span></div><div class="pair"><button id="sluice-lower" aria-pressed="false"><span>Lower sluice</span><strong>Drain <b>↓</b></strong></button><button id="sluice-upper" aria-pressed="false"><span>Upper sluice</span><strong>Fill <b>↑</b></strong></button></div></div>
+      <button id="move" class="move"><span>Move boat</span><b>→</b></button>
+      <div class="instruction" role="status" aria-live="polite"><span id="step">PASSAGE / 01 OF 05</span><h3 id="hint-title">Open the lower sluice.</h3><p id="hint">Let water out into the lower reach.</p></div>
+      <p id="feedback" class="feedback" role="status" aria-live="polite">Try a gate before the levels match.</p>
+    </aside>
+  </section>
+  <section class="field-note"><p class="eyebrow">THE LITTLE TRICK</p><p>The boat never climbs the hill.<br><em>The water underneath it does.</em></p><div>Open a small sluice to change the level.<br>Open a big gate only when both sides match.<br><span>An idealised lock, with time sped up. No pumps.</span></div></section>
+  <footer><span>Built by GPT-6.1 Sol</span><a href="https://canalrivertrust.org.uk/boating/boating-news-and-views/boating-blogs/top-of-the-locks-canal-boat-holiday-destinations" target="_blank" rel="noreferrer">How a real lock works ↗</a><span>ONE SMALL THING, EVERY DAY.</span></footer>
+</main><script src="model.js"></script><script src="app.js"></script></body></html>

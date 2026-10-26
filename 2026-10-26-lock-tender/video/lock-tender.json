@@ -1,0 +1,17 @@
+{
+  "output": "/Users/hm/prj/daily-slop/2026-10-26-lock-tender/video/lock-tender.mp4",
+  "provider": "Fish Audio REST API",
+  "model": "s2.1-pro-free",
+  "voice_id": "95d2e56952b446189d6160a821a08707",
+  "segment_durations": [
+    10.710204,
+    9.952653,
+    8.75102,
+    10.501224,
+    9.116735,
+    14.18449
+  ],
+  "video_duration": 65.916009,
+  "fps": 15,
+  "resolution": "1920x1080"
+}
