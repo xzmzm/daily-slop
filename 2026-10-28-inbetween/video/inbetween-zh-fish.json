@@ -1,0 +1,16 @@
+{
+  "output": "/Users/hm/prj/daily-slop/2026-10-28-inbetween/video/inbetween-zh-fish.mp4",
+  "provider": "Fish Audio REST API",
+  "model": "s2.1-pro-free",
+  "voice_id": "95d2e56952b446189d6160a821a08707",
+  "segment_durations": [
+    14.236735,
+    10.422857,
+    11.389388,
+    14.497959,
+    15.516735
+  ],
+  "video_duration": 68.533333,
+  "fps": 15,
+  "resolution": "1920x1080"
+}

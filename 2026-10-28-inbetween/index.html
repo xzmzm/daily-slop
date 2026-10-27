@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f2efe6">
+  <meta name="description" content="Thirteen drawings, one second. An animator’s spacing desk for International Animation Day.">
+  <title>Inbetween — a little motion study</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' rx='16' fill='%23ed5836'/%3E%3Ccircle cx='30' cy='35' r='4'/%3E%3Ccircle cx='50' cy='35' r='4'/%3E%3Cpath d='M28 48Q40 60 52 48' fill='none' stroke='black' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+  <script src="model.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+<main>
+  <header>
+    <a class="wordmark" href="./" aria-label="Inbetween home"><span class="logo" aria-hidden="true">ıı</span> inbetween<span class="wordmark-note">A LITTLE MOTION STUDY</span></a>
+    <span class="edition">DAILY SLOP / 097 <span>28 OCT 2026</span></span>
+  </header>
+
+  <section class="intro" aria-labelledby="title">
+    <div><p class="eyebrow">THE ART OF GETTING FROM A TO B</p><h1 id="title">Same trip.<br>Different <em>feeling.</em></h1></div>
+    <div class="intro-note"><span class="day-tag">INTERNATIONAL ANIMATION DAY</span><p>Thirteen drawings. One second.<br>Change where the drawings go.<br>See what happens in between.</p><span class="handwritten" aria-hidden="true">a little space goes a long way ↙</span></div>
+  </section>
+
+  <section class="desk" aria-label="Animation spacing desk">
+    <div class="screening">
+      <div class="panel-top"><span class="eyebrow">01 / SCREENING ROOM</span><span class="live-label"><i></i> <span id="take-name">EASE BOTH</span></span></div>
+      <div class="screen">
+        <div class="lane-label"><span class="swatch orange"></span> YOUR TAKE <span id="take-note">A gentle start. A gentle stop.</span></div>
+        <svg id="stage" viewBox="0 0 900 290" role="img" aria-label="Two balls make the same trip. Orange uses your spacing; violet moves at a steady speed.">
+          <defs><pattern id="grid" width="25" height="25" patternUnits="userSpaceOnUse"><path d="M25 0H0V25" fill="none" stroke="#d5d1c6" stroke-width=".6"/></pattern></defs>
+          <rect width="900" height="290" fill="url(#grid)"/>
+          <path id="lanes" d="M70 98H830M70 228H830" class="lane-line"/>
+          <path id="ends" d="M70 78V118M830 78V118M70 208V248M830 208V248" class="end-line"/>
+          <g id="ghosts" aria-hidden="true"></g>
+          <g id="reference-ghosts" aria-hidden="true"></g>
+          <g id="your-ball" class="ball" transform="translate(450 90)"><ellipse cy="39" rx="27" ry="4" class="shadow"/><circle r="30" fill="#ed5836"/><g class="face"><circle cx="-9" cy="-4" r="2.7"/><circle cx="9" cy="-4" r="2.7"/><path d="M-8 9Q0 17 8 9"/></g></g>
+          <g id="steady-ball" class="ball" transform="translate(450 220)"><ellipse cy="39" rx="27" ry="4" class="shadow"/><circle r="30" fill="#9293ce"/><g class="face"><circle cx="-9" cy="-4" r="2.7"/><circle cx="9" cy="-4" r="2.7"/><path d="M-8 10H8"/></g></g>
+          <text x="70" y="153" class="endpoint">A</text><text id="endpoint-b" x="830" y="153" class="endpoint">B</text>
+        </svg>
+        <div class="reference-label"><span class="swatch violet"></span> STEADY REFERENCE <span>Same distance. Same duration.</span></div>
+      </div>
+      <div class="transport">
+        <button id="play" class="play" aria-label="Pause animation"><span id="play-icon" aria-hidden="true">Ⅱ</span><span id="play-text">Pause</span></button>
+        <button id="previous" class="step" aria-label="Previous drawing">←</button>
+        <button id="next" class="step" aria-label="Next drawing">→</button>
+        <span class="frame-readout">DRAWING <strong id="current-frame">07</strong><span> / 13</span></span>
+        <label class="ghost-switch"><input id="show-ghosts" type="checkbox" checked><span>Onion skin</span></label>
+      </div>
+    </div>
+
+    <aside class="controls" aria-label="Choose and edit spacing">
+      <div class="control-heading"><span class="eyebrow">THE DIRECTION</span><span class="little-star" aria-hidden="true">✳</span></div>
+      <h2>Give it a feeling.</h2>
+      <p class="control-intro">Same drawings, different spacing.</p>
+      <div class="presets" role="group" aria-label="Spacing presets">
+        <button data-preset="steady" aria-pressed="false"><svg viewBox="0 0 60 28" aria-hidden="true"><path d="M3 25L57 3"/></svg><strong>Steady</strong><span>Keep it even</span></button>
+        <button data-preset="launch" aria-pressed="false"><svg viewBox="0 0 60 28" aria-hidden="true"><path d="M3 25Q40 25 57 3"/></svg><strong>Gather speed</strong><span>Small → big steps</span></button>
+        <button data-preset="arrive" aria-pressed="false"><svg viewBox="0 0 60 28" aria-hidden="true"><path d="M3 25Q20 3 57 3"/></svg><strong>Glide in</strong><span>Big → small steps</span></button>
+        <button data-preset="both" aria-pressed="true"><svg viewBox="0 0 60 28" aria-hidden="true"><path d="M3 25C33 25 27 3 57 3"/></svg><strong>Ease both</strong><span>Slow, quick, slow</span></button>
+      </div>
+      <div class="edit-frame">
+        <div class="edit-title"><label for="position">Drawing <span id="selected-number">07</span> position</label><output id="position-value" for="position">50%</output></div>
+        <input type="range" id="position" min="0" max="100" step="0.1" value="50" aria-describedby="edit-hint">
+        <p id="edit-hint">Pick a drawing below, then move it here. Or pull a dot on the chart.</p>
+      </div>
+      <div class="fixed-note"><span class="fixed-number">1.00<span>s</span></span><p>The trip stays one second.<br>Only the steps change.</p></div>
+    </aside>
+
+    <section class="chart-panel" aria-labelledby="chart-title">
+      <div class="chart-heading"><div><p class="eyebrow">02 / THE SPACING CHART</p><h2 id="chart-title">Make room for character.</h2></div><p>Pull a dot up or down.<br>Steeper line = a bigger step.</p></div>
+      <svg id="chart" viewBox="0 0 900 234" aria-label="Editable distance against time chart. Drag a drawing up or down, or focus a dot and use arrow keys.">
+        <g id="chart-grid" aria-hidden="true"></g>
+        <path id="reference-curve" d="M55 185L855 25" class="reference-curve"/>
+        <path id="curve-area" fill="#ed5836" opacity=".055"/>
+        <path id="curve" fill="none" stroke="#ed5836" stroke-width="2.5"/>
+        <path id="playhead" class="playhead"/>
+        <g id="knots"></g>
+        <text x="12" y="30" class="chart-label">B</text><text x="12" y="190" class="chart-label">A</text>
+        <text id="chart-start" x="55" y="225" class="chart-label">0 s</text><text id="chart-time" x="455" y="225" text-anchor="middle" class="chart-label">TIME →</text><text id="chart-end" x="855" y="225" text-anchor="end" class="chart-label">1 s</text>
+      </svg>
+      <div class="chart-key"><span><i class="key-line orange-line"></i> YOUR SPACING</span><span><i class="key-line dashed"></i> STEADY</span><span class="chart-tip">Dots stay in order. A &amp; B stay put.</span></div>
+    </section>
+
+    <section class="drawings" aria-label="Select a drawing">
+      <div class="strip-heading"><span class="eyebrow">03 / THE DRAWINGS</span><span>12 equal time intervals · 13 poses including A &amp; B</span></div>
+      <div id="frames" class="frame-strip" role="group" aria-label="Thirteen drawings, from start to finish"></div>
+    </section>
+  </section>
+
+  <section class="footnote"><span class="asterisk" aria-hidden="true">✳</span><h2>The clock is fixed.<br>The character is yours.</h2><p>Close drawings move slowly. Wide gaps move quickly. The orange ball and its steady companion reach B together, but they tell two different stories.<br><span>Playback holds briefly at each end, then resets to A.</span></p></section>
+  <footer><span>BUILT BY GPT-6.1 SOL</span><a href="https://asifa.net/what-we-do/international-animation-day/" target="_blank" rel="noopener noreferrer">28 OCT / INTERNATIONAL ANIMATION DAY ↗</a><span>ONE DAY. ONE LITTLE EXPERIMENT.</span></footer>
+</main>
+</body>
+</html>
