@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#edf0e7"><title>Out of Order — a little packet trip</title><link rel="stylesheet" href="style.css"></head>
+<body><main>
+<header><a href="../">DAILY SLOP / 098</a><span>29 OCT 2026 <b>↗</b> A LITTLE NETWORK EXPERIMENT</span></header>
+<section class="intro"><div><p class="eyebrow">DIFFERENT ROUTES. SAME MESSAGE.</p><h1>Out of <em>order.</em></h1></div><p class="intro-copy">The pieces can arrive in any order. <br>The words still have to make sense.<br><span>Send a message. Give one piece a bad day.</span></p></section>
+<section class="workbench">
+<div class="network"><div class="panel-label"><span>01 / IN TRANSIT</span><span id="clock">00.00 s</span></div>
+<svg id="map" viewBox="0 0 1000 350" role="img" aria-label="Numbered message pieces travel from sender to receiver on two different routes">
+<defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#ccd4c8"/></pattern></defs><rect width="1000" height="350" fill="url(#dots)"/>
+<path class="route route-a" d="M110 175 L270 80 L730 80 L890 175"/><path class="route route-b" d="M110 175 L270 270 L730 270 L890 175"/>
+<g class="router" transform="translate(270 80)"><circle r="14"/><path d="M-5 0h10M0-5v10"/></g><g class="router" transform="translate(730 80)"><circle r="14"/><path d="M-5 0h10M0-5v10"/></g>
+<g class="router" transform="translate(270 270)"><circle r="14"/><path d="M-5 0h10M0-5v10"/></g><g class="router" transform="translate(730 270)"><circle r="14"/><path d="M-5 0h10M0-5v10"/></g>
+<text x="500" y="47" class="route-name" text-anchor="middle">ROUTE A · SHORT WAY</text><text x="500" y="317" class="route-name" text-anchor="middle">ROUTE B · THE SCENIC ROUTE</text>
+<g class="endpoint" transform="translate(110 175)"><rect x="-43" y="-34" width="86" height="68" rx="8"/><text text-anchor="middle" y="5">SEND</text></g><g class="endpoint" transform="translate(890 175)"><rect x="-43" y="-34" width="86" height="68" rx="8"/><text text-anchor="middle" y="5">RECV</text></g>
+<text x="110" y="235" class="machine-label" text-anchor="middle">YOUR MACHINE</text><text x="890" y="235" class="machine-label" text-anchor="middle">THE OTHER SIDE</text>
+<g id="packets"></g><text id="map-note" x="500" y="182" text-anchor="middle"></text></svg>
+<div class="transport"><button id="play" aria-label="Pause animation">Ⅱ Pause</button><input id="timeline" type="range" min="0" max="9" step="0.01" value="0" aria-label="Time in seconds"><span id="end-time">9.0 s</span><button id="restart" aria-label="Replay message">↺ Replay</button></div>
+<div class="receiver"><div class="panel-label"><span>02 / ARRIVAL ORDER</span><span id="arrival-count">0 / 6</span></div><div id="arrival-strip" aria-label="Packets in arrival order"></div>
+<div class="assembly-heading"><span>WHAT THE APP CAN READ</span><span id="buffer-count">0 pieces waiting</span></div><div id="message-output" aria-live="off"></div><p id="status" role="status"></p></div>
+</div>
+<aside><p class="eyebrow">MAKE THE TRIP INTERESTING</p><h2>Same words.<br>Different journey.</h2><label for="message">YOUR MESSAGE <span>36 characters max</span></label><input id="message" maxlength="36" value="HELLO FROM THE OTHER SIDE" autocomplete="off"><div class="choices" role="group" aria-label="Network conditions"><button data-scene="even"><span>01</span><div>In step<small>Both routes take the same time.</small></div><b>↗</b></button><button data-scene="detour" aria-pressed="true"><span>02</span><div>Take a detour<small>Route B takes the long way.</small></div><b>↝</b></button><button data-scene="missing"><span>03</span><div>Lose a piece<small>Piece 2 disappears in transit.</small></div><b>×</b></button></div>
+<label class="retry"><input id="retry" type="checkbox" checked> Retry the missing piece <span>↶</span></label><p class="control-note">Choose a journey to send again. Scrub time to catch the receiver waiting.</p><button id="send">Send message <span>→</span></button></aside>
+</section>
+<section class="history"><div class="lo">LO<span>29.10.1969 / 22:30</span></div><div><h2>A very short beginning.</h2><p>UCLA tried to send “LOGIN” to SRI. “L” and “O” arrived; then the system crashed. Today’s experiment borrows the date, and asks a different question: what happens when the pieces take different paths?</p></div><p class="model-note">A modern, simplified model of ordered delivery. Route times and retries are illustrative; this is not a recreation of ARPANET or a full TCP simulator. <a href="https://www.lk.cs.ucla.edu/internet_first_words.html">The original story ↗</a></p></section>
+<footer><span>SMALL PIECES. A COMPLETE THOUGHT.</span><span>Built by GPT-6.1 Sol</span></footer>
+</main><script src="model.js"></script><script src="app.js"></script></body></html>
