@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1a110b">
+  <meta name="description" content="War of the Worlds aired 30 October 1938. Listeners who switched stations at 8:12 missed the opening disclaimer. Place station-break announcements and see who comes to believe the fake newscast.">
+  <title>Station Break — War of the Worlds, 1938</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="model.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="page">
+    <header class="masthead"><a href="../">DAILY SLOP <span>↗</span></a><span>CBS · WABC NEW YORK · 30 OCT 1938 · 8:00 PM</span><span class="edition">CLAUDE OPUS 5.5</span></header>
+    <main>
+      <section class="intro">
+        <div><p class="eyebrow">88 YEARS AGO TONIGHT · THE MERCURY THEATRE ON THE AIR</p><h1>Station <em>break.</em></h1></div>
+        <p class="intro-copy">CBS said at 8:00 that it was a play. Then came 37 minutes of fake news bulletins, and the next reminder was at 8:40. Many listeners tuned in late, switching over from NBC around 8:12, and missed the first warning. <span>Each line below is one listener. Click the newscast strip to add up to three announcements, then press play.</span></p>
+      </section>
+      <section class="workbench" aria-label="Broadcast timeline">
+        <div class="stage">
+          <div class="stage-head"><div><span class="num">01</span> THE HOUR <span class="muted" id="phase">/ 8:00 PM</span></div>
+            <div class="legend"><span class="l-unaware">listening, not yet sure</span><span class="l-believe">believes it is real</span><span class="l-warned">heard “this is a play”</span></div></div>
+          <canvas id="view" width="1000" height="560" aria-label="Timeline of listeners across the hour"></canvas>
+          <div class="onair"><span class="lamp" id="lamp"></span><b id="clock">8:00:00</b><span id="beat"></span></div>
+          <div class="transport">
+            <button id="play" class="play"><span id="play-icon">▶</span> <b id="play-label">Play the hour</b></button>
+            <label class="scrub"><span>8:00</span><input id="time" type="range" min="0" max="60" step="0.05" value="0" aria-label="Time in the broadcast"><span>9:00</span></label>
+          </div>
+        </div>
+        <aside class="controls" aria-label="Controls">
+          <div class="ctl"><span class="ctl-label">02 <span>SCHEDULE</span></span>
+            <div class="modes"><button data-preset="aired">As aired, 1938</button><button data-preset="every10">Every 10 min</button></div>
+            <button id="best" class="best">Best spot for <b id="best-k">1</b> announcement</button></div>
+          <label class="ctl"><span class="ctl-label">03 <span>BULLETINS IT TAKES TO BELIEVE</span> <b id="belief-out"></b></span>
+            <input id="belief" type="range" min="3" max="15" step="1" value="8"><span class="ends"><i>gullible</i><i>skeptical</i></span></label>
+          <div class="readout">
+            <div class="big"><span>BELIEVED IT WAS REAL</span><strong id="r-share">—</strong><small id="r-count"></small></div>
+            <div><span>OF THE 8:12 DIAL-TWISTERS</span><strong id="r-dial">—</strong></div>
+            <div><span>LONGEST RUN WITHOUT A BREAK</span><strong id="r-longest">—</strong></div>
+          </div>
+          <p id="verdict" class="verdict" aria-live="polite"></p>
+          <p class="hint">Drag a marker to move it. Click a marker to remove it.</p>
+        </aside>
+      </section>
+      <section class="field-notes"><div><p class="eyebrow">HOW THE HOUR WORKS</p><h2>A warning only works on<br> whoever is listening at the time.</h2><p>480 simulated listeners. About a third are Mercury regulars who tune in at 8:00. About four in ten are dial-twisters who leave NBC’s Edgar Bergen show when its comedy sketch gives way to a song, near 8:12. The rest drift in at random. Each stays for a random stretch. A listener comes to believe once they have heard the set number of minutes of fake bulletins without any announcement that it is a play. One announcement while they are tuned in protects them. The ending is fixed: the newscast runs to 8:40, then the station break, then a narrated second half and Welles’s goodnight. The crowd sizes are invented. Later research found the panic was much smaller than the next day’s newspapers claimed, so read the percentages as a lesson in timing, not a history of the night.</p>
+          <a href="https://en.wikipedia.org/wiki/The_War_of_the_Worlds_(1938_radio_drama)" target="_blank" rel="noopener noreferrer">The 1938 broadcast ↗</a> <a href="https://slate.com/culture/2013/10/orson-welles-war-of-the-worlds-panic-myth-the-infamous-radio-broadcast-did-not-cause-a-nationwide-hysteria.html" target="_blank" rel="noopener noreferrer">The panic myth ↗</a></div></section>
+    </main>
+    <footer>Everything runs locally. No data leaves this page.</footer>
+  </div>
+</body>
+</html>
