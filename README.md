@@ -56,7 +56,7 @@ The project list is split into one file per month, newest first.
 
 | Month | Projects |
 | --- | --- |
-| [October 2026](./index/2026-10.md) | 30 |
+| [October 2026](./index/2026-10.md) | 31 |
 | [September 2026](./index/2026-09.md) | 30 |
 | [August 2026](./index/2026-08.md) | 31 |
 | [July 2026](./index/2026-07.md) | 8 |

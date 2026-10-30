@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#171817">
+  <meta name="description" content="An interactive little theatre about Pepper's Ghost and the art of making a reflection appear on stage.">
+  <title>Ghost Light — a little theatre of reflections</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="page">
+    <header class="masthead">
+      <a href="../" class="back">← DAILY SLOP</a>
+      <span>A LITTLE THEATRE OF REFLECTIONS</span>
+      <span class="date">OCT 31, 2026 <b>✳</b> NO. 100</span>
+    </header>
+
+    <section class="intro">
+      <div>
+        <p class="eyebrow"><span class="spark">✦</span> A HALLOWEEN EXPERIMENT</p>
+        <h1>Ghost <em>Light</em><span class="title-star">✳</span></h1>
+      </div>
+      <p class="intro-copy">An empty stage. A hidden actor. <br>One sheet of glass between you and a ghost.</p>
+    </section>
+
+    <section class="workbench" aria-label="Pepper's Ghost theatre">
+      <div class="stage-panel">
+        <div class="panel-heading"><span><i></i> THE AUDIENCE SEES</span><span>FRONT OF HOUSE <b>01</b></span></div>
+        <div class="stage-wrap">
+          <svg class="theatre" viewBox="0 0 800 495" role="img" aria-labelledby="stage-title stage-desc">
+            <title id="stage-title">The theatre stage</title>
+            <desc id="stage-desc">A translucent performer appears in a Victorian room as the hidden light is raised.</desc>
+            <defs>
+              <linearGradient id="room" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#315053"/><stop offset="1" stop-color="#192c2c"/></linearGradient>
+              <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#4b3932"/><stop offset="1" stop-color="#1b2523"/></linearGradient>
+              <linearGradient id="curtain" x1="0" x2="1"><stop stop-color="#3d191e"/><stop offset=".35" stop-color="#773539"/><stop offset=".65" stop-color="#59252b"/><stop offset="1" stop-color="#30161a"/></linearGradient>
+              <linearGradient id="spectre" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#e7ffef"/><stop offset=".5" stop-color="#aee7db"/><stop offset="1" stop-color="#6bb9ab" stop-opacity=".2"/></linearGradient>
+              <radialGradient id="moonlight"><stop stop-color="#accfc3" stop-opacity=".35"/><stop offset="1" stop-color="#accfc3" stop-opacity="0"/></radialGradient>
+              <filter id="ghost-glow" x="-60%" y="-40%" width="220%" height="190%"><feGaussianBlur stdDeviation="8"/></filter>
+              <pattern id="wallpaper" width="35" height="42" patternUnits="userSpaceOnUse"><path d="M17.5 6c-4 6-4 10 0 15 4-5 4-9 0-15zm0 20v8m-4-4h8" fill="none" stroke="#95b2a0" opacity=".09"/></pattern>
+            </defs>
+            <rect width="800" height="495" fill="#1a1c1b"/>
+            <g class="room-light">
+              <rect x="92" y="57" width="616" height="321" fill="url(#room)"/>
+              <rect x="92" y="57" width="616" height="321" fill="url(#wallpaper)"/>
+              <path d="M92 378H708L756 468H44Z" fill="url(#floor)"/>
+              <g stroke="#bb8e63" opacity=".19" fill="none"><path d="M92 378H708M44 468H756M172 468l82-90m374 90-82-90M285 468l37-90m193 90-37-90"/><path d="M78 404h644M60 437h680"/></g>
+              <ellipse cx="401" cy="321" rx="250" ry="130" fill="url(#moonlight)"/>
+              <g opacity=".72">
+                <path d="M156 293V168a48 48 0 0 1 96 0v125z" fill="#122b2d" stroke="#a38e72" stroke-width="5"/>
+                <circle cx="205" cy="191" r="21" fill="#d2d6ad" opacity=".6"/>
+                <path d="M204 121v172m-48-88h96m-93 37h90" stroke="#b19a77" stroke-width="5"/>
+                <path d="M152 295h106m-106 6h106" stroke="#bc9c77" stroke-width="4"/>
+                <rect x="536" y="245" width="86" height="104" rx="3" fill="#3e2e29" stroke="#92745d" stroke-width="4"/>
+                <path d="M548 245v-26h62v26m-53 104-8 29m53-29 8 29" fill="none" stroke="#92745d" stroke-width="5"/>
+                <path d="M557 264h44m-44 18h44m-44 18h44" stroke="#745448" stroke-width="2"/>
+                <path d="M574 218v-27m-12 26h24" stroke="#ad9474" stroke-width="3"/><path d="M574 190c-8-7 0-13 0-18 0 5 8 11 0 18" fill="#eccd82"/>
+              </g>
+              <rect class="stage-darkness" x="92" y="57" width="616" height="411" fill="#070c0c"/>
+            </g>
+            <g class="ghost" aria-hidden="true">
+              <g class="ghost-body" fill="url(#spectre)">
+                <ellipse cx="402" cy="177" rx="36" ry="44"/>
+                <path d="M371 205c-20 12-32 38-36 64l-27 61 16 8 36-51-7 82c-2 28-16 50-27 69 21-3 32-12 41-22 7 17 19 23 34 25 16-2 24-9 29-24 9 12 22 19 43 22-12-17-24-39-27-70l-9-83 34 46 16-10-28-55c-9-26-18-47-38-60-13 12-31 12-50-2z"/>
+                <path d="M369 234c-2 37 7 62 31 76m26-76c4 38-6 63-27 76" fill="none" stroke="#effff7" stroke-width="3" opacity=".35"/>
+              </g>
+              <g class="ghost-glow" fill="#a5f1df" filter="url(#ghost-glow)" opacity=".45"><ellipse cx="402" cy="177" rx="37" ry="44"/><path d="M369 205q-26 23-35 66l-25 60 21 2 31-48-13 91-20 61 55-19 17 21 24-20 44 20-22-63-10-91 32 48 20-5-32-63q-11-42-36-60z"/></g>
+              <g fill="#274a46" opacity=".55"><ellipse cx="389" cy="174" rx="3.4" ry="5"/><ellipse cx="415" cy="174" rx="3.4" ry="5"/><path d="M392 192q10 6 20 0" fill="none" stroke="#274a46" stroke-width="2"/></g>
+            </g>
+            <g class="stage-frame">
+              <rect x="62" y="37" width="676" height="427" rx="4" fill="none" stroke="#b08157" stroke-width="9"/>
+              <rect x="75" y="49" width="650" height="407" fill="none" stroke="#e4ba80" stroke-width="2" opacity=".48"/>
+              <path d="M62 37h676v55c-37 16-68 19-99 6-26 22-55 22-80 4-28 19-56 19-81 1-29 19-56 19-81 0-27 19-55 19-80 0-27 18-54 18-82-2-26 19-53 20-79-1-34 13-64 8-94-8z" fill="url(#curtain)" stroke="#a56052" stroke-width="3"/>
+              <path d="M61 68h68c-7 127-19 214-64 289l-22 21V68zm678 0h-68c7 127 19 214 64 289l22 21V68z" fill="url(#curtain)" stroke="#a56052" stroke-width="3"/>
+              <g fill="none" stroke="#c48b68" stroke-width="2" opacity=".48"><path d="M75 97v206m19-202c-2 73-9 135-25 179m653-183v206m-19-202c2 73 9 135 25 179"/><path d="M92 118q25 12 49 0m518 0q25 12 49 0"/></g>
+              <path d="M35 457h730v20H35z" fill="#302923" stroke="#b08157" stroke-width="3"/>
+              <path d="M26 477h748v18H26z" fill="#211d1a"/>
+              <g fill="#e0b578"><circle cx="99" cy="467" r="3"/><circle cx="184" cy="467" r="3"/><circle cx="269" cy="467" r="3"/><circle cx="354" cy="467" r="3"/><circle cx="439" cy="467" r="3"/><circle cx="524" cy="467" r="3"/><circle cx="609" cy="467" r="3"/><circle cx="694" cy="467" r="3"/></g>
+            </g>
+          </svg>
+          <div class="stage-caption"><span class="live-dot"></span><span id="stage-status" aria-live="polite">THE GHOST IS ON STAGE</span></div>
+          <div class="view-tag">YOUR VIEW <span>↗</span></div>
+        </div>
+        <div class="stage-foot"><span>LOOK CLOSELY <b>✦</b> THE ROOM SHOWS THROUGH</span><span>THE HAUNTED STAGE / 1862</span></div>
+      </div>
+
+      <aside class="control-panel">
+        <div class="panel-heading"><span><i></i> BEHIND THE SCENES</span><span>SIDE VIEW <b>02</b></span></div>
+        <div class="diagram-wrap">
+          <svg class="diagram" viewBox="0 0 500 265" role="img" aria-labelledby="diagram-title diagram-desc">
+            <title id="diagram-title">How Pepper's Ghost works</title>
+            <desc id="diagram-desc">A hidden actor below the stage reflects in a slanted glass pane. The audience sees the reflection against the scenery.</desc>
+            <defs><marker id="arrow" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0 0l5 2.5L0 5z" fill="#a9e6d6"/></marker></defs>
+            <path d="M180 190h295v55H180z" fill="#242c29"/>
+            <path d="M325 190h150M180 190h40" stroke="#a98b6d" stroke-width="4"/>
+            <path d="M220 190v50h105v-50" fill="#182220" stroke="#667267" stroke-width="1.5" stroke-dasharray="4 4"/>
+            <path d="M211 39l151 151" stroke="#98d8cd" stroke-width="6" stroke-linecap="round" opacity=".45"/>
+            <path d="M211 39l151 151" stroke="#c2eee2" stroke-width="1.5"/>
+            <path class="ray" d="M242 215L265.15 93.15 50 134" fill="none" stroke="#a9e6d6" stroke-width="2.5" marker-end="url(#arrow)"/>
+            <path class="ray-virtual" d="M265.15 93.15L387 70" fill="none" stroke="#a9e6d6" stroke-width="1.5" stroke-dasharray="5 5"/>
+            <g fill="none" stroke="#ddc9a6" stroke-width="2"><circle cx="40" cy="132" r="10"/><path d="M30 147q10-8 20 0l4 20H26z"/></g>
+            <g class="hidden-actor" fill="#c9bda4"><circle cx="242" cy="215" r="7"/><path d="M235 222h14l5 21h-24z"/></g>
+            <g class="diagram-ghost" fill="#b6f4e4"><circle cx="387" cy="70" r="12"/><path d="M377 83h20l7 56-9-5-8 7-8-7-9 5z"/></g>
+            <path d="M355 64l-16-16M356 61h-40" fill="none" stroke="#9db9aa" stroke-width="1"/>
+            <text x="274" y="45">ANGLED GLASS</text>
+            <text x="13" y="189">AUDIENCE</text>
+            <text x="357" y="167">GHOST IMAGE</text>
+            <text x="334" y="235">HIDDEN ACTOR</text>
+            <path d="M328 230h-55" stroke="#a4a08a" stroke-width="1"/>
+            <text x="350" y="210" class="small-label">THE STAGE FLOOR</text>
+          </svg>
+          <p class="diagram-note">Light from below bounces off the glass. Your eye follows it back into the room.</p>
+        </div>
+        <div class="controls">
+          <div class="section-label"><span>SET THE LIGHTS</span><span>↘</span></div>
+          <div class="control">
+            <div class="control-title"><label for="hidden-light">Hidden actor</label><output id="hidden-value" for="hidden-light">75%</output></div>
+            <input id="hidden-light" type="range" min="0" max="100" value="75" aria-describedby="hidden-help">
+            <div class="range-ends" id="hidden-help"><span>OFF</span><span>BRIGHT</span></div>
+          </div>
+          <div class="control">
+            <div class="control-title"><label for="stage-light">Stage room</label><output id="stage-value" for="stage-light">45%</output></div>
+            <input id="stage-light" type="range" min="0" max="100" value="45" aria-describedby="stage-help">
+            <div class="range-ends" id="stage-help"><span>DARK</span><span>BRIGHT</span></div>
+          </div>
+          <div class="presets" role="group" aria-label="Lighting cues">
+            <button type="button" data-cue="vanish">Vanish <span>01</span></button>
+            <button type="button" data-cue="appear">Appear <span>02</span></button>
+            <button type="button" data-cue="wash">Wash out <span>03</span></button>
+          </div>
+          <p class="control-hint" id="control-hint" aria-live="polite">A little light on the hidden actor brings the ghost to life.</p>
+        </div>
+      </aside>
+    </section>
+
+    <section class="story">
+      <div class="story-mark">✳<span>THE<br>TRICK</span></div>
+      <div><p class="eyebrow">THE SECRET IS IN THE LIGHT</p><h2>Nothing supernatural.<br><em>Just a reflection.</em></h2></div>
+      <p>In 1862, John Henry Pepper and Henry Dircks brought this illusion to the Victorian stage. The audience looked <em>through</em> glass at the room, while a hidden actor was reflected <em>in</em> it. Dim one light, raise the other, and a ghost walks in.</p>
+      <a href="https://blog.cmog.org/2012/ghosts-and-magicand-glass-peppers-ghost-and-glass-optics/" target="_blank" rel="noopener noreferrer">THE STORY AT CORNING MUSEUM <span>↗</span></a>
+    </section>
+    <footer><span>MADE FOR THE CURIOUS <b>✦</b> DAILY SLOP</span><span>BUILT BY GPT-6.1 TERRA</span></footer>
+  </main>
+</body>
+</html>

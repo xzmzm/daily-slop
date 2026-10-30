@@ -1,0 +1,18 @@
+{
+  "output": "/Users/hm/prj/daily-slop/2026-10-31-ghost-light/video/ghost-light-zh-fish.mp4",
+  "provider": "Fish Audio REST API",
+  "model": "s2.1-pro-free",
+  "voice_id": "95d2e56952b446189d6160a821a08707",
+  "segment_durations": [
+    8.150204,
+    7.915102,
+    6.426122,
+    3.552653,
+    4.153469,
+    5.355102,
+    9.247347
+  ],
+  "video_duration": 47.72,
+  "fps": 15,
+  "resolution": "1920x1080"
+}
