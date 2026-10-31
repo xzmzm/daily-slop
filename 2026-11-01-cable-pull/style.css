@@ -1,0 +1,475 @@
+:root {
+  color-scheme:light;
+  --ink:#263d39;
+  --muted:#74837a;
+  --paper:#f2f0e7;
+  --line:#d4d8cc;
+  --teal:#365e59;
+  --orange:#d36d48;
+}
+* {
+  box-sizing:border-box;
+}
+body {
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:Arial,Helvetica,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+.page {
+  max-width:1500px;
+  margin:auto;
+  padding:0 4.5%;
+}
+.masthead {
+  height:66px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid #bfc9bb;
+  font-size:10px;
+  letter-spacing:.16em;
+  font-weight:700;
+}
+.brand {
+  color:inherit;
+  text-decoration:none;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.brand-mark {
+  display:inline-grid;
+  place-items:center;
+  width:29px;
+  height:29px;
+  background:var(--ink);
+  color:#f8f5e8;
+  border-radius:50%;
+  font-family:Georgia,serif;
+  font-style:italic;
+  font-size:20px;
+  letter-spacing:-.08em;
+  padding-right:3px;
+}
+.brand-divider {
+  color:#d3704b;
+}
+.issue {
+  color:#6e8075;
+}
+.issue span {
+  color:#d3704b;
+}
+.intro {
+  display:grid;
+  grid-template-columns:1fr 250px;
+  gap:50px;
+  align-items:end;
+  padding:34px 0 29px;
+}
+.eyebrow {
+  margin:0 0 12px;
+  font-size:10px;
+  letter-spacing:.16em;
+  font-weight:700;
+  color:#668076;
+}
+.dot {
+  display:inline-block;
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:#d6734f;
+  margin-right:7px;
+  vertical-align:1px;
+}
+h1,h2,p {
+  margin-top:0;
+}
+h1 {
+  font-family:Georgia,'Times New Roman',serif;
+  font-size:clamp(47px,5.15vw,76px);
+  letter-spacing:-.055em;
+  line-height:.98;
+  font-weight:400;
+  margin:0 0 14px;
+}
+h1 em {
+  font-weight:400;
+  color:#bd654a;
+}
+.dek {
+  font-size:15px;
+  line-height:1.55;
+  max-width:600px;
+  margin:0;
+  color:#53665e;
+}
+.intro-note {
+  border-left:1px solid #b9c6b9;
+  padding-left:18px;
+  color:#596d63;
+  font-size:12px;
+  line-height:1.5;
+}
+.intro-note p {
+  margin:5px 0;
+}
+.note-number {
+  font-size:9px;
+  letter-spacing:.12em;
+  font-weight:700;
+  color:#be684e;
+}
+.intro-note strong {
+  color:#344e46;
+}
+.intro-note a {
+  color:#926044;
+  font-weight:700;
+  text-underline-offset:3px;
+}
+.workbench {
+  display:grid;
+  grid-template-columns:minmax(0,1.7fr) minmax(350px,.78fr);
+  background:#fbfaf4;
+  border:1px solid #bdcabe;
+  box-shadow:0 7px 20px #3753490b;
+}
+.scene-panel {
+  min-width:0;
+  border-right:1px solid #cbd4c8;
+}
+.panel-top,.scene-caption {
+  height:44px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 20px;
+  color:#668077;
+  font-size:9px;
+  font-weight:bold;
+  letter-spacing:.13em;
+}
+.slash {
+  color:#d47350;
+  margin:0 6px;
+}
+.drawing-id {
+  color:#c57858;
+}
+.bridge {
+  display:block;
+  width:100%;
+  height:auto;
+  background:#dce9e0;
+}
+.scene-caption {
+  height:40px;
+}
+.scene-caption i {
+  display:inline-block;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#d07854;
+  margin-right:7px;
+}
+.control-panel {
+  padding:23px 26px 20px;
+}
+.controls-header {
+  display:flex;
+  justify-content:space-between;
+  align-items:start;
+}
+.controls-header .eyebrow {
+  font-size:9px;
+  margin-bottom:5px;
+}
+.controls-header h2 {
+  font-family:Georgia,serif;
+  font-size:30px;
+  font-weight:400;
+  letter-spacing:-.04em;
+  margin:0 0 20px;
+}
+.compass {
+  font-size:26px;
+  color:#ce7959;
+  line-height:1;
+}
+.control-group label {
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  font-size:13px;
+  font-weight:bold;
+}
+.control-group output {
+  font-family:Georgia,serif;
+  font-size:23px;
+  font-weight:400;
+  color:#c56142;
+}
+.control-group output small {
+  font-family:Arial,sans-serif;
+  font-size:11px;
+  font-weight:bold;
+}
+.control-group p {
+  font-size:11px;
+  color:#859188;
+  margin:4px 0 8px;
+}
+.control-group input {
+  display:block;
+  appearance:none;
+  width:100%;
+  height:4px;
+  background:#cdd8cc;
+  border-radius:5px;
+  margin:17px 0 11px;
+  cursor:pointer;
+  accent-color:#355f58;
+}
+.control-group input::-webkit-slider-thumb {
+  appearance:none;
+  width:17px;
+  height:17px;
+  border:3px solid #f7f7ed;
+  background:#3a6861;
+  box-shadow:0 0 0 1px #3a6861;
+  border-radius:50%;
+}
+.control-group input::-moz-range-thumb {
+  width:12px;
+  height:12px;
+  border:3px solid #f7f7ed;
+  background:#3a6861;
+  box-shadow:0 0 0 1px #3a6861;
+  border-radius:50%;
+}
+.control-group input:focus-visible,.presets button:focus-visible,.brand:focus-visible {
+  outline:3px solid #d47752;
+  outline-offset:4px;
+}
+.range-labels,.preset-label {
+  display:flex;
+  justify-content:space-between;
+  color:#89998f;
+  font-size:9px;
+  letter-spacing:.08em;
+  font-weight:bold;
+}
+.preset-label {
+  margin:20px 0 8px;
+}
+.preset-label span {
+  color:#c96d4f;
+}
+.presets {
+  display:flex;
+  gap:8px;
+}
+.presets button {
+  flex:1;
+  border:1px solid #c8d4c9;
+  background:transparent;
+  color:#526d62;
+  padding:10px 9px;
+  text-align:left;
+  font:700 11px Arial,sans-serif;
+  cursor:pointer;
+}
+.presets button span {
+  float:right;
+  font-weight:400;
+}
+.presets button[aria-pressed=true] {
+  background:#e5ede2;
+  border-color:#78978a;
+  color:#315b51;
+}
+.presets button:hover {
+  border-color:#688d7e;
+}
+.load-group {
+  margin-top:21px;
+}
+.result {
+  display:flex;
+  align-items:end;
+  justify-content:space-between;
+  border-top:1px solid #d9ded4;
+  margin-top:21px;
+  padding-top:16px;
+}
+.result p {
+  margin:0;
+  color:#74877a;
+  font-size:9px;
+  font-weight:bold;
+  letter-spacing:.1em;
+}
+.result p span {
+  font-weight:400;
+}
+.result-number {
+  font-family:Georgia,serif;
+  font-size:43px;
+  letter-spacing:-.045em;
+  line-height:1.1;
+  margin-top:6px;
+  color:#254e48;
+}
+.result-number small {
+  font:700 12px Arial,sans-serif;
+  letter-spacing:0;
+}
+.result-arrow {
+  font-size:30px;
+  color:#d67b56;
+}
+.result-context {
+  font-size:11px;
+  color:#657970;
+  line-height:1.4;
+  margin:4px 0 0;
+}
+.explanation {
+  display:grid;
+  grid-template-columns:1fr 1.4fr 1fr;
+  gap:45px;
+  padding:37px 0 33px;
+  border-bottom:1px solid #cbd2c4;
+}
+.explanation h2 {
+  font:400 26px/1.1 Georgia,serif;
+  letter-spacing:-.035em;
+  margin:0;
+}
+.explanation>p {
+  font-size:13px;
+  line-height:1.65;
+  color:#5d7065;
+  margin:0;
+}
+.formula {
+  border-left:1px solid #c3cec1;
+  padding-left:20px;
+}
+.formula span {
+  display:block;
+  font-size:9px;
+  letter-spacing:.14em;
+  font-weight:bold;
+  color:#bd6f53;
+}
+.formula strong {
+  display:block;
+  font:400 20px Georgia,serif;
+  margin:8px 0;
+}
+.formula p {
+  font-size:10px;
+  line-height:1.6;
+  color:#7b8b80;
+  margin:0;
+}
+footer {
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  padding:19px 0 28px;
+  font-size:9px;
+  letter-spacing:.1em;
+  color:#8b9a8f;
+  font-weight:bold;
+}
+@media(max-width:1000px) {
+  .workbench {
+    grid-template-columns:minmax(0,1.25fr) minmax(330px,.8fr);
+  }
+  .control-panel {
+    padding:20px;
+  }
+  .intro {
+    padding:28px 0;
+  }
+  .explanation {
+    gap:25px;
+  }
+  .panel-top {
+    height:38px;
+  }
+  .scene-caption {
+    height:36px;
+  }
+}
+@media(max-width:760px) {
+  .page {
+    padding:0 20px;
+  }
+  .masthead {
+    height:60px;
+  }
+  .issue {
+    font-size:9px;
+  }
+  .intro {
+    grid-template-columns:1fr;
+    gap:20px;
+    padding:28px 0 24px;
+  }
+  .intro-note {
+    max-width:500px;
+  }
+  .workbench {
+    grid-template-columns:1fr;
+  }
+  .scene-panel {
+    border-right:0;
+    border-bottom:1px solid #cbd4c8;
+  }
+  .control-panel {
+    padding:24px;
+  }
+  .controls-header h2 {
+    margin-bottom:22px;
+  }
+  .explanation {
+    grid-template-columns:1fr;
+    gap:15px;
+    padding:30px 0;
+  }
+  .formula {
+    padding-left:15px;
+  }
+  footer {
+    flex-wrap:wrap;
+    line-height:1.6;
+  }
+  .bridge {
+    min-height:0;
+  }
+}
+@media(max-width:390px) {
+  .page {
+    padding:0 14px;
+  }
+  .brand {
+    font-size:9px;
+  }
+  .issue {
+    letter-spacing:.06em;
+  }
+  .intro h1 {
+    font-size:45px;
+  }
+  .control-panel {
+    padding:20px;
+  }
+}

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A little suspension bridge experiment about sag and the surprising pull in a cable.">
+  <meta name="theme-color" content="#f2f0e7">
+  <title>Cable Pull — a suspension bridge experiment</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="page">
+    <header class="masthead">
+      <a class="brand" href="../" aria-label="Daily Slop gallery"><span class="brand-mark">d.</span> DAILY SLOP <span class="brand-divider">/</span> FIELD NOTES</a>
+      <span class="issue">NO. 101 <span> · </span> 01 NOV 2026</span>
+    </header>
+
+    <main>
+      <section class="intro" aria-labelledby="title">
+        <div class="intro-copy">
+          <p class="eyebrow"><span class="dot"></span> A LITTLE EXPERIMENT IN STRUCTURES</p>
+          <h1 id="title">Let the cable <em>hang.</em></h1>
+          <p class="dek">A flatter cable looks stronger. It actually has to pull much harder. Change the dip and see what happens.</p>
+        </div>
+        <div class="intro-note"><span class="note-number">01 / 11 / 1957</span><p>The Mackinac Bridge opened to traffic today in 1957. Its main span stretches <strong>3,800 feet</strong> between towers.</p><a href="https://www.mackinacbridge.org/history/facts-figures/" target="_blank" rel="noopener noreferrer">A little bridge history <span aria-hidden="true">↗</span></a></div>
+      </section>
+
+      <section class="workbench" aria-label="Suspension cable experiment">
+        <div class="scene-panel">
+          <div class="panel-top"><span>THE MAIN SPAN <span class="slash">/</span> SIDE VIEW</span><span class="drawing-id">FIG. 01</span></div>
+          <svg class="bridge" viewBox="0 0 1000 440" role="img" aria-labelledby="bridge-title bridge-desc">
+            <title id="bridge-title">An adjustable suspension bridge cable</title>
+            <desc id="bridge-desc">A cable hangs between two towers and supports the deck with vertical suspenders. The curve changes with the sag control.</desc>
+            <defs>
+              <pattern id="water-lines" width="62" height="18" patternUnits="userSpaceOnUse"><path d="M0 9h28 M40 9h13" stroke="#d9e4d9" stroke-opacity=".48" stroke-width="1"/></pattern>
+              <pattern id="grain" width="6" height="6" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".48" fill="#455e59" opacity=".13"/></pattern>
+            </defs>
+            <rect width="1000" height="440" fill="#dce9e0"/>
+            <circle cx="816" cy="79" r="34" fill="#edc98b" opacity=".85"/>
+            <path d="M0 290 Q110 255 230 282 T470 277 T710 285 T1000 266 V440H0Z" fill="#c0d4ca" opacity=".75"/>
+            <path d="M0 336 Q95 319 180 330 T375 323 T570 330 T770 319 T1000 329 V440H0Z" fill="#9ebdb5"/>
+            <path d="M0 370 Q170 356 335 367 T660 366 T1000 360 V440H0Z" fill="#729f98"/>
+            <rect y="365" width="1000" height="75" fill="url(#water-lines)"/>
+            <path d="M0 351h95l-18-7H0 M1000 351h-95l18-7h77" fill="#526f65"/>
+            <g class="side-cables" fill="none" stroke="#345456" stroke-width="3.5"><path d="M0 333 Q54 301 120 112 M880 112 Q946 301 1000 333"/></g>
+            <g class="towers" fill="#f3e6c8" stroke="#45615b" stroke-width="3">
+              <path d="M105 348V101h30v247 M865 348V101h30v247"/>
+              <path d="M99 100h42v-10H99z M859 100h42v-10h-42z" fill="#526e65"/>
+              <path d="M105 158h30v11h-30z M105 250h30v11h-30z M865 158h30v11h-30z M865 250h30v11h-30z" fill="#8ba398"/>
+            </g>
+            <g id="hangers" stroke="#58736d" stroke-width="1.5" opacity=".85"></g>
+            <path id="cable" d="" fill="none" stroke="#2d4d4e" stroke-width="5" stroke-linecap="round"/>
+            <g class="deck">
+              <path d="M0 344h1000v8H0z" fill="#324d4c"/>
+              <path d="M0 353h1000v13H0z" fill="#e8b467"/>
+              <path d="M0 366h1000v4H0z" fill="#395955"/>
+              <path d="M0 355l18 10 18-10 18 10 18-10 18 10 18-10 18 10 18-10 18 10 18-10 18 10 18-10 18 10 18-10 18 10 18-10 18 10 18-10 18 10 18-10 18 10 18-10 18 10 18-10 18 10 18-10 18 10 18-10 18 10 18-10 18 10 18-10 18 10 18-10 18 10 18-10 18 10 18-10 18 10 18-10 18 10 18-10 18 10 18-10 18 10 18-10 18 10 18-10 18 10 18-10 18 10 18-10 18 10 18-10 18 10" fill="none" stroke="#876f51" stroke-width="1" opacity=".7"/>
+            </g>
+            <g class="vehicles" fill="#f7f1df"><path d="M305 335h18l5 4h5v5h-34v-5h4z"/><circle cx="305" cy="344" r="2.3" fill="#304e4b"/><circle cx="327" cy="344" r="2.3" fill="#304e4b"/><path d="M690 336h22l3 4h5v4h-34v-4h4z"/><circle cx="692" cy="344" r="2.3" fill="#304e4b"/><circle cx="714" cy="344" r="2.3" fill="#304e4b"/></g>
+            <g class="measurement"><line x1="500" y1="112" x2="500" id="sag-line" y2="207" stroke="#c85e3d" stroke-width="1.8" stroke-dasharray="5 5"/><line x1="487" y1="112" x2="513" y2="112" stroke="#c85e3d" stroke-width="1.8"/><line x1="487" id="sag-tick" y1="207" x2="513" y2="207" stroke="#c85e3d" stroke-width="1.8"/><text id="sag-annotation" x="514" y="157" fill="#a84f35" font-size="14" font-family="monospace" font-weight="bold">100 m dip</text></g>
+            <g fill="#355a55" font-family="monospace" font-size="11" letter-spacing="1"><text x="120" y="416">TOWER</text><text x="792" y="416">TOWER</text><text x="417" y="416">1,158 m MAIN SPAN</text></g>
+            <rect width="1000" height="440" fill="url(#grain)" pointer-events="none"/>
+          </svg>
+          <div class="scene-caption"><span><i></i> AN IDEALIZED SINGLE CABLE</span><span>NOT TO SCALE <span aria-hidden="true">↗</span></span></div>
+        </div>
+
+        <aside class="control-panel" aria-labelledby="controls-title">
+          <div class="controls-header"><div><p class="eyebrow">YOUR BRIDGE, YOUR RULES</p><h2 id="controls-title">Set the curve</h2></div><span class="compass" aria-hidden="true">✳</span></div>
+          <div class="control-group">
+            <label for="sag"><span>Cable dip</span><output id="sag-value" for="sag">100 <small>m</small></output></label>
+            <p>From tower top to the lowest point</p>
+            <input id="sag" type="range" min="60" max="220" step="10" value="100" aria-describedby="sag-hint">
+            <div class="range-labels" id="sag-hint"><span>SHALLOW · 60 m</span><span>DEEP · 220 m</span></div>
+          </div>
+          <div class="preset-label">QUICK COMPARISON <span>↓</span></div>
+          <div class="presets" role="group" aria-label="Cable dip presets"><button type="button" data-sag="100" aria-pressed="true">Shallow <span>100 m</span></button><button type="button" data-sag="200" aria-pressed="false">Deep <span>200 m</span></button></div>
+          <div class="control-group load-group">
+            <label for="load"><span>Load on one cable</span><output id="load-value" for="load">50 <small>kN/m</small></output></label>
+            <p>Evenly spread along the main span</p>
+            <input id="load" type="range" min="20" max="100" step="10" value="50" aria-describedby="load-hint">
+            <div class="range-labels" id="load-hint"><span>LIGHTER · 20</span><span>HEAVIER · 100</span></div>
+          </div>
+          <div class="result" aria-live="polite" aria-atomic="true">
+            <div><p>HORIZONTAL PULL <span>AT EITHER TOWER</span></p><div class="result-number"><span id="pull-value">83.8</span><small> MN</small></div></div>
+            <div class="result-arrow" aria-hidden="true">↔</div>
+          </div>
+          <p class="result-context" id="comparison">That’s 2× the pull of a 200 m dip with the same load.</p>
+        </aside>
+      </section>
+      <section class="explanation" aria-labelledby="explanation-title">
+        <div><p class="eyebrow">WHY DOES IT HAPPEN?</p><h2 id="explanation-title">A little slack goes a long way.</h2></div>
+        <p>The hangers lift the road. A flatter cable has less upward tilt at the tower, so it needs a greater horizontal pull to hold up the same weight. Double the dip and that pull is cut in half.</p>
+        <div class="formula"><span>THE SIMPLE MODEL</span><strong>H = wL² / 8f</strong><p>H = horizontal pull · w = load per metre<br>L = span · f = cable dip</p></div>
+      </section>
+      <footer><span>AN EXPERIMENT FOR NOVEMBER 1, 2026</span><span>BUILT BY GPT-6.1 TERRA</span><span>MODEL, NOT A BRIDGE DESIGN ↗</span></footer>
+    </main>
+  </div>
+</body>
+</html>
