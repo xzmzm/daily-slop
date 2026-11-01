@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#191d1b">
+  <meta name="description" content="A small, simulated muon radiography experiment inspired by the Great Pyramid's Big Void.">
+  <title>Through Stone — a muon imaging experiment</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="page">
+    <header class="masthead">
+      <a class="brand" href="#top" aria-label="Through Stone, top of page"><span class="brand-mark">✳</span><span>THROUGH<br>STONE</span></a>
+      <span class="masthead-note">A SMALL EXPERIMENT IN SEEING THE INVISIBLE</span>
+      <span class="issue">FIELD NOTE <b>NO. 102</b> <span> / </span> 02 NOV 2026</span>
+    </header>
+
+    <main id="top">
+      <section class="intro" aria-labelledby="title">
+        <div><p class="eyebrow"><span class="pulse"></span> COSMIC PARTICLES, AN ANCIENT QUESTION</p>
+          <h1 id="title">A different way<br>to see <em>inside.</em></h1>
+        </div>
+        <div class="intro-copy"><p>Particles from the sky pass through stone. Count enough of them, and an empty space begins to appear.</p><span>SCROLL TO EXPLORE <span aria-hidden="true">↘</span></span></div>
+      </section>
+
+      <section class="experiment" aria-label="Muon imaging experiment">
+        <div class="scene-panel">
+          <div class="panel-heading"><div><span class="section-number">01 / THE PYRAMID</span><p>A hidden space in the stone</p></div><span class="scene-badge"><i></i> SIMULATED VIEW</span></div>
+          <svg id="scene" viewBox="0 0 1000 570" role="img" aria-label="Schematic cross-section of a pyramid with particle paths from the sky to a detector">
+            <defs>
+              <linearGradient id="stone" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#d8bd87"/><stop offset=".53" stop-color="#b99765"/><stop offset="1" stop-color="#8f7051"/></linearGradient>
+              <pattern id="blocks" width="120" height="44" patternUnits="userSpaceOnUse"><path d="M0 0H120M0 22H120M30 0V22M88 22V44" fill="none" stroke="#554535" stroke-opacity=".13" stroke-width="1"/></pattern>
+              <linearGradient id="skyglow" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#293834"/><stop offset="1" stop-color="#192421"/></linearGradient>
+              <clipPath id="pyramid-clip"><path d="M78 530 L500 75 L922 530 Z"/></clipPath>
+            </defs>
+            <rect width="1000" height="570" fill="url(#skyglow)"/>
+            <g class="stars" fill="#c4dcd1"><circle cx="112" cy="106" r="1.6"/><circle cx="220" cy="65" r="1"/><circle cx="353" cy="112" r="1.3"/><circle cx="670" cy="59" r="1.2"/><circle cx="840" cy="100" r="1.7"/><circle cx="925" cy="200" r="1"/><circle cx="96" cy="285" r="1"/><circle cx="755" cy="177" r="1"/><circle cx="188" cy="207" r="1"/></g>
+            <path d="M55 531 H945" stroke="#d5e1d2" stroke-opacity=".22"/>
+            <path d="M78 530 L500 75 L922 530 Z" fill="url(#stone)"/>
+            <path d="M78 530 L500 75 L922 530 Z" fill="url(#blocks)"/>
+            <path d="M500 75 L922 530 H632 Z" fill="#40382e" opacity=".08"/>
+            <g id="cavity" clip-path="url(#pyramid-clip)" opacity="0"><rect x="545" y="240" width="90" height="60" rx="4" fill="#253f39" stroke="#97e5c7" stroke-width="3" stroke-dasharray="8 6"/><text x="590" y="275" text-anchor="middle" fill="#bdf4d7" font-size="12" font-family="monospace" letter-spacing="2">EMPTY SPACE</text></g>
+            <g id="rays"></g>
+            <path d="M478 505 H522 V530 H478 Z" fill="#17221f" stroke="#bcebd4" stroke-width="2"/>
+            <path d="M483 510 H517 M483 518 H517" stroke="#7cdbb9" stroke-width="2"/>
+            <circle cx="500" cy="505" r="5" fill="#c3ffe4"/>
+            <path d="M530 516 H604" stroke="#cce9d7" stroke-opacity=".7"/>
+            <text x="612" y="520" fill="#e3eee3" font-size="14" font-family="monospace" letter-spacing="1">DETECTOR</text>
+            <text x="58" y="47" fill="#c2d6ca" font-size="14" font-family="monospace" letter-spacing="2">MUONS FROM THE SKY</text>
+            <path d="M72 60 v25 m-6 -6 6 6 6 -6" fill="none" stroke="#c2d6ca" stroke-width="1.5"/>
+          </svg>
+          <div class="scene-footer"><div><span class="keyline"></span><span>Selected direction <b id="scene-angle">+18°</b></span></div><button id="reveal" type="button" aria-pressed="false"><span class="reveal-icon">◉</span> Reveal the hidden space</button></div>
+        </div>
+
+        <div class="readout-panel">
+          <div class="panel-heading readout-heading"><div><span class="section-number">02 / THE DETECTOR</span><p>Look for the extra arrivals</p></div><span class="corner-mark">✳</span></div>
+          <div class="exposure"><div><span class="field-label">EXPOSURE TIME</span><p>More time, more particles.</p></div><div class="segmented" role="group" aria-label="Choose simulated exposure time"><button type="button" data-days="7" aria-pressed="false">7d</button><button type="button" data-days="30" aria-pressed="true">30d</button><button type="button" data-days="90" aria-pressed="false">90d</button></div></div>
+          <div class="chart-title"><div><span class="field-label">PARTICLES BY DIRECTION</span><p>Tap a bar to trace its path.</p></div><span class="chart-unit">SIMULATED COUNTS</span></div>
+          <div id="chart" class="chart" role="group" aria-label="Select a detector direction"></div>
+          <div class="chart-axis"><span>−48°</span><span>−24°</span><span>0°</span><span>+24°</span><span>+48°</span></div>
+          <div class="legend"><span><i class="sample-key"></i> Counted</span><span><i class="reference-key"></i> Solid-stone reference</span></div>
+          <div class="selection" aria-live="polite"><div class="selection-top"><span class="field-label">SELECTED DIRECTION</span><span id="angle-value" class="angle">+18°</span></div><div class="measurements"><div><span>SIMULATED COUNT</span><strong id="count-value">—</strong></div><div><span>SOLID REFERENCE</span><strong id="reference-value">—</strong></div><div><span>DIFFERENCE</span><strong id="difference-value">—</strong></div></div><p id="selection-note">The pale marker is the expected count if this direction were solid stone.</p></div>
+        </div>
+      </section>
+
+      <section class="story" aria-labelledby="story-title"><div><span class="section-number">THE IDEA / 02 NOVEMBER 2017</span><h2 id="story-title">An absence<br>leaves a trace.</h2></div><div><p>In 2017, the ScanPyramids team reported a large void above the Great Pyramid’s Grand Gallery. Detectors saw more muons from that direction than expected through solid stone.</p><p>This is a teaching model, not a scan of the pyramid: the shape, rates and positions are invented. The real discovery combined independent detectors and analyses.</p><a href="https://arxiv.org/abs/1711.01576">READ THE RESEARCH PAPER <span aria-hidden="true">↗</span></a></div><div class="story-number"><strong>30<span>m</span></strong><p>Minimum length reported<br>for the Big Void.</p></div></section>
+    </main>
+    <footer><span>THROUGH STONE <span>✳</span> A DAILY EXPERIMENT</span><span>MADE TO BE CURIOUS · 2026</span></footer>
+  </div>
+</body>
+</html>
