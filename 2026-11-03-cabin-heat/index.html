@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#efe7d6">
+  <meta name="description" content="Sputnik 2 launched on 3 November 1957 with the dog Laika aboard. The core stage stayed attached and some insulation tore away. Switch each fault off and watch the cabin's heat balance change.">
+  <title>Cabin Heat — Sputnik 2, 1957</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="model.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="page">
+    <header class="masthead">
+      <a href="../" class="brand">DAILY SLOP <span>↗</span></a>
+      <span class="mission">SPUTNIK 2 · BAIKONUR · 3 NOV 1957 · 02:30 UTC</span>
+      <span class="edition">CLAUDE OPUS 5.5</span>
+    </header>
+    <main>
+      <section class="intro">
+        <div>
+          <p class="eyebrow">69 YEARS AGO TODAY · FIRST ANIMAL IN ORBIT</p>
+          <h1>Cabin <em>heat.</em></h1>
+        </div>
+        <p class="intro-copy">Laika went up in a small pressurised cabin. Two things went wrong: the rocket’s core stage stayed attached, and some of the thermal insulation tore loose. The cabin passed 40 °C, and she died within hours. <span>Switch each fault off and see how the heat flowing in compares with the heat the cabin can radiate away.</span></p>
+      </section>
+
+      <section class="bench" aria-label="Cabin heat bench">
+        <div class="scene-panel">
+          <div class="panel-head"><span class="num">01</span> IN ORBIT <span class="muted" id="sun-state">/ IN SUNLIGHT</span></div>
+          <svg id="scene" viewBox="0 0 600 380" role="img" aria-label="Sputnik 2 in orbit, coloured by cabin temperature">
+            <defs>
+              <radialGradient id="earth-glow" cx="50%" cy="0%" r="80%">
+                <stop offset="0%" stop-color="#7fa6b6"/><stop offset="100%" stop-color="#284a5a"/>
+              </radialGradient>
+            </defs>
+            <rect class="sky" x="-600" y="-200" width="1800" height="780"/>
+            <g id="sun-rays">
+              <line x1="0" y1="110" x2="200" y2="140"/><line x1="0" y1="160" x2="200" y2="170"/>
+              <line x1="0" y1="210" x2="200" y2="200"/><line x1="0" y1="260" x2="200" y2="230"/>
+            </g>
+            <ellipse cx="300" cy="560" rx="520" ry="230" fill="url(#earth-glow)"/>
+            <rect id="shadow" x="-600" y="-200" width="1800" height="780" fill="#0e1418"/>
+            <g id="craft" transform="translate(300 175) rotate(-90)">
+              <g id="core-stage">
+                <rect x="-24" y="56" width="48" height="160" rx="4" class="stage-body"/>
+                <rect x="-24" y="56" width="48" height="10" class="stage-band"/>
+                <rect x="-24" y="150" width="48" height="6" class="stage-band"/>
+              </g>
+              <path d="M0 -92 L44 40 L-44 40 Z" class="cone"/>
+              <circle cx="0" cy="-22" r="16" class="sphere"/>
+              <rect id="cabin" x="-30" y="12" width="60" height="44" rx="6"/>
+              <g id="fan" transform="translate(0 34)">
+                <path d="M0 0 L0 -12 A12 12 0 0 1 10 -6 Z M0 0 L10 6 A12 12 0 0 1 -10 6 Z M0 0 L-10 -6 A12 12 0 0 1 0 -12 Z" class="fan-blade"/>
+              </g>
+              <g id="torn">
+                <path d="M30 -2 l9 -4 l-2 10 l8 4 l-10 5 Z" class="tear"/>
+                <path d="M-36 6 l-8 -2 l3 9 l-7 6 l10 2 Z" class="tear"/>
+                <path d="M14 -60 l8 2 l-3 9 l6 5 l-9 1 Z" class="tear"/>
+              </g>
+            </g>
+            <g id="out-waves" class="waves">
+              <path d="M330 92 q8 -8 16 0 t16 0"/><path d="M430 150 q8 -8 16 0 t16 0"/><path d="M410 230 q8 -8 16 0 t16 0"/>
+            </g>
+            <text x="20" y="34" class="scene-label" id="scene-clock">T + 0:00</text>
+            <text x="20" y="56" class="scene-sub" id="scene-orbit">ORBIT 1</text>
+            <text x="580" y="34" class="scene-temp" text-anchor="end" id="scene-temp">15.0 °C</text>
+          </svg>
+          <div class="transport">
+            <button id="play" class="play" aria-label="Play the flight"><span id="play-icon">▶</span> <b id="play-label">Fly nine hours</b></button>
+            <label class="scrub"><span>0 h</span><input id="time" type="range" min="0" max="540" step="1" value="0" aria-label="Hours since launch"><span>9 h</span></label>
+          </div>
+        </div>
+
+        <aside class="controls" aria-label="Controls">
+          <div class="ctl">
+            <span class="ctl-label">02 <span>THE CRAFT</span></span>
+            <div class="switch" data-key="stage">
+              <span class="sw-name">Core stage</span>
+              <div class="seg"><button data-value="1">Stayed attached</button><button data-value="0">Separated</button></div>
+            </div>
+            <div class="switch" data-key="torn">
+              <span class="sw-name">Insulation</span>
+              <div class="seg"><button data-value="1">Torn</button><button data-value="0">Intact</button></div>
+            </div>
+            <div class="switch" data-key="fan">
+              <span class="sw-name">Cooling fan</span>
+              <div class="seg"><button data-value="1">Running</button><button data-value="0">Off</button></div>
+            </div>
+            <div class="presets"><button data-preset="flown">As flown, 1957</button><button data-preset="designed">As designed</button></div>
+          </div>
+          <div class="balance" aria-label="Heat balance at this moment">
+            <div class="bal-row"><span>HEAT IN</span><div class="bar"><i id="bar-in"></i></div><b id="w-in">0 W</b></div>
+            <div class="bal-row"><span>RADIATED OUT</span><div class="bar"><i id="bar-out"></i></div><b id="w-out">0 W</b></div>
+            <p class="bal-parts" id="parts"></p>
+          </div>
+          <div class="readout">
+            <div class="big"><span>PASSED 40 °C</span><strong id="r-cross">—</strong></div>
+            <div><span>HOTTEST IN 9 H</span><strong id="r-peak">—</strong></div>
+            <div><span>WOULD SETTLE AT</span><strong id="r-settle">—</strong></div>
+          </div>
+          <p id="verdict" class="verdict" aria-live="polite"></p>
+        </aside>
+      </section>
+
+      <section class="chart-panel">
+        <div class="panel-head"><span class="num">03</span> CABIN TEMPERATURE <span class="muted">/ shaded strips are Earth’s shadow · faint line is the design</span></div>
+        <svg id="chart" viewBox="0 0 960 260" role="img" aria-label="Cabin temperature over nine hours">
+          <g id="bands"></g>
+          <g id="grid"></g>
+          <line id="limit" x1="50" x2="940" class="limit"/>
+          <text id="limit-label" x="56" class="limit-label">40 °C</text>
+          <path id="ghost" class="ghost"/>
+          <path id="curve" class="curve"/>
+          <line id="cursor" y1="16" y2="226" class="cursor"/>
+          <circle id="dot" r="5" class="dot"/>
+        </svg>
+      </section>
+
+      <section class="field-notes">
+        <div>
+          <p class="eyebrow">HOW THE CABIN WORKS</p>
+          <h2>Heat comes in, heat radiates out.<br>The cabin sits where the two meet.</h2>
+          <p>In space there is no air outside to carry heat away, so the only exit is radiation, which grows with the fourth power of temperature. Heat comes from the dog and the instruments all the time, and from the Sun for the two-thirds of each 103.7-minute orbit spent in daylight. Torn insulation lets more sunlight in. The attached core stage soaks up sunlight beside the cabin and blocks part of its view of cold space. This bench is one lumped node with invented constants, tuned only so the flown case crosses 40 °C a few hours in. It is a lesson in balance, not a reconstruction of the real spacecraft.</p>
+          <a href="https://en.wikipedia.org/wiki/Sputnik_2" target="_blank" rel="noopener noreferrer">Sputnik 2 ↗</a>
+          <a href="https://en.wikipedia.org/wiki/Laika" target="_blank" rel="noopener noreferrer">Laika ↗</a>
+        </div>
+      </section>
+    </main>
+    <footer>Everything runs locally. No data leaves this page.</footer>
+  </div>
+</body>
+</html>

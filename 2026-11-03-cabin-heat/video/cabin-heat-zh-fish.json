@@ -1,0 +1,19 @@
+{
+  "output": "/Users/hm/prj/daily-slop/2026-11-03-cabin-heat/video/cabin-heat-zh-fish.mp4",
+  "provider": "Fish Audio REST API",
+  "model": "s2.1-pro-free",
+  "voice_id": "95d2e56952b446189d6160a821a08707",
+  "segment_durations": [
+    11.31102,
+    8.75102,
+    6.948571,
+    5.955918,
+    4.623673,
+    8.803265,
+    6.19102,
+    7.131429
+  ],
+  "video_duration": 62.856009,
+  "fps": 15,
+  "resolution": "1920x1080"
+}
