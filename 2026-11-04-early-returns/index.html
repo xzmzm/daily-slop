@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f1ead9">
+  <meta name="description" content="On 4 November 1952 a UNIVAC computer called Eisenhower's landslide at 8:30 pm from a few percent of the vote. Scrub election night and compare the raw count with a swing projection.">
+  <title>Early Returns — UNIVAC, 1952</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="model.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="page">
+    <header class="masthead">
+      <a href="../" class="brand">DAILY SLOP <span>↗</span></a>
+      <span class="mission">ELECTION NIGHT · CBS STUDIO · 4 NOV 1952 · EASTERN TIME</span>
+      <span class="edition">CLAUDE OPUS 5.5</span>
+    </header>
+    <main>
+      <section class="intro">
+        <div>
+          <p class="eyebrow">74 YEARS AGO TODAY · FIRST COMPUTER ELECTION CALL</p>
+          <h1>Early <em>returns.</em></h1>
+        </div>
+        <p class="intro-copy">The polls called 1952 close. At 8:30 pm, with a few percent of the vote in, a UNIVAC told CBS that Eisenhower would win 438 electoral votes. CBS didn’t believe it and kept it off the air. <span>The trick was to compare each early precinct with how the same precinct voted in 1948, instead of reading the raw count.</span></p>
+      </section>
+
+      <section class="bench" aria-label="Election night bench">
+        <div class="map-panel">
+          <div class="panel-head">
+            <span><span class="num">01</span> THE MAP <span class="muted" id="map-sub">/ UNIVAC PROJECTION</span></span>
+            <div class="tabs" role="group" aria-label="Map view">
+              <button data-view="count" aria-pressed="false">Count so far</button>
+              <button data-view="proj" aria-pressed="true">Swing projection</button>
+            </div>
+          </div>
+          <svg id="map" viewBox="0 0 690 380" role="img" aria-label="Tile map of the 48 states"></svg>
+          <div class="legend">
+            <span><i class="sw sw-r"></i>Eisenhower</span>
+            <span><i class="sw sw-d"></i>Stevenson</span>
+            <span><i class="sw sw-none"></i>no returns</span>
+            <span><i class="sw sw-est"></i>estimated from other states</span>
+          </div>
+          <div class="transport">
+            <button id="play" aria-label="Play election night">▶</button>
+            <output id="clock">7:00 PM</output>
+            <input id="time" type="range" min="0" max="108" value="18" step="1" aria-label="Time of night">
+          </div>
+        </div>
+
+        <aside class="desk">
+          <div class="teletype" aria-live="polite">
+            <div class="tt-head">UNIVAC · CBS · <span id="tt-time">8:30 PM</span></div>
+            <div class="tt-line" id="tt-odds">CHANCES ARE 100 TO 1 IN FAVOR OF EISENHOWER</div>
+            <div class="tt-ev"><span>IKE <b id="p-r">364</b></span><span>STEVENSON <b id="p-d">167</b></span></div>
+          </div>
+
+          <div class="readouts">
+            <div class="readout"><span>Votes counted</span><strong id="r-counted">5.6 %</strong></div>
+            <div class="readout"><span>Ike, count so far</span><strong id="r-raw">48.1 %</strong></div>
+            <div class="readout"><span>States led so far</span><strong id="r-lead"><em class="r">45</em> · <em class="d">87</em></strong></div>
+            <div class="readout"><span>Swing to Ike since ’48</span><strong id="r-swing">+5.5 pts</strong></div>
+          </div>
+          <p class="verdict" id="verdict"></p>
+
+          <div class="switch-row">
+            <span class="sw-name">1948 baseline</span>
+            <div class="seg" role="group" aria-label="1948 baseline data">
+              <button data-typo="0" aria-pressed="true">Clean</button>
+              <button data-typo="1" aria-pressed="false">Typo</button>
+            </div>
+          </div>
+          <p class="hint">Typo: one New Jersey precinct’s 1948 Republican vote keyed in with an extra zero.</p>
+          <div class="presets">
+            <button data-jump="18">8:30 PM — the call</button>
+            <button data-jump="108">4:00 AM — the result</button>
+          </div>
+        </aside>
+
+        <div class="chart-panel">
+          <div class="panel-head"><span><span class="num">02</span> THE NIGHT <span class="muted">/ IKE’S ELECTORAL VOTES</span></span></div>
+          <svg id="chart" viewBox="0 0 1000 250" role="img" aria-label="Eisenhower electoral votes through the night">
+            <g id="grid"></g>
+            <line id="final" class="final" x1="50" x2="980"/>
+            <line id="need" class="need" x1="50" x2="980"/>
+            <line id="call" class="call" y1="14" y2="222"/>
+            <text id="call-label" class="axis-label call-label" y="12">UNIVAC CALL</text>
+            <path id="lead-line" class="lead-line"/>
+            <path id="proj-line" class="proj-line"/>
+            <line id="now" class="now" y1="14" y2="222"/>
+          </svg>
+          <div class="legend">
+            <span><i class="ln ln-proj"></i>swing projection</span>
+            <span><i class="ln ln-lead"></i>states Ike leads in the count</span>
+            <span><i class="ln ln-need"></i>266 to win</span>
+            <span><i class="ln ln-final"></i>442, the result</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="field-notes">
+        <div>
+          <h2>How the swing works</h2>
+          <p>Each state here has ten reporting units: four city units holding about two-thirds of the vote, and six rural ones. Cities count faster and lean Democratic, so the first returns make Stevenson look strong. The projection ignores that lean. For each reported unit it takes this year’s Republican share minus the same unit’s 1948 share, averages that swing, and adds it to the 1948 share of every unit not yet in. States with no returns borrow the average swing of their region.</p>
+        </div>
+        <div>
+          <h2>What’s invented</h2>
+          <p>Electoral votes are the real 1952 numbers, and state shares are rounded two-party figures for 1948 and 1952. The precincts, reporting times, odds formula and the typo’s location are made up for this page. UNIVAC’s real program, by Max Woodbury, compared returns with 1944 and 1948 and is not reproduced here.</p>
+        </div>
+      </section>
+    </main>
+    <footer>Teaching model with invented precincts · Built by Claude Opus 5.5</footer>
+  </div>
+</body>
+</html>
