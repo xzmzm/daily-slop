@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102e38">
+  <meta name="description" content="Send a long wave across a continental shelf. Change the depth; see its speed, spacing, and amplitude change together.">
+  <title>Long Wave — a small ocean experiment</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="model.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="page">
+    <header class="masthead"><a href="../">DAILY SLOP <span>/ FIELD STUDIES</span></a><span>NO. 105 <span class="date">— 05 NOV 2026</span></span></header>
+    <main>
+      <section class="intro">
+        <div><p class="eyebrow"><span class="wave-mark">≈</span> A SMALL OCEAN EXPERIMENT</p><h1>Long Wave<span>.</span></h1></div>
+        <p class="intro-copy">The ocean gets shallower.<br> The wave gets <em>slower, shorter, taller.</em><span>Change the sea floor. Follow one crest across it.</span></p>
+      </section>
+
+      <section class="experiment" aria-label="Wave shoaling experiment">
+        <div class="sea-panel">
+          <div class="panel-head"><span><i class="dot"></i> CROSS SECTION / 900 KM OF OCEAN</span><span id="phase">CROSSING THE SLOPE</span></div>
+          <canvas id="ocean" aria-label="Animated cross section of a long wave over a sloping sea floor. The adjacent readouts describe the marked crest." role="img"></canvas>
+          <div class="sea-foot"><span><i class="legend-line"></i> water surface <i class="legend-dot"></i> tracked crest</span><span>Wave relief enlarged; sea floor on a separate scale.</span></div>
+        </div>
+        <aside class="instrument" aria-label="Measurements at the tracked crest">
+          <p class="eyebrow">AT THE MARKED CREST <span>↘</span></p>
+          <div class="reading"><span>Travelling at</span><div><strong id="speed">—</strong><small>km/h</small></div><p id="speed-note">—</p></div>
+          <div class="reading"><span>Crest above still water</span><div><strong id="amplitude">—</strong><small>m</small><b id="gain">—</b></div><p>Started at 0.50 m in deep water</p></div>
+          <div class="reading"><span>Local wavelength</span><div><strong id="wavelength">—</strong><small>km</small></div><p>Same 12-minute period, less room</p></div>
+          <div class="depth-readout"><span>Water under the crest</span><strong id="crest-depth">—</strong></div>
+        </aside>
+        <div class="transport">
+          <button id="play" class="primary" type="button"><span aria-hidden="true">▶</span> Play wave</button>
+          <button id="reset" class="reset" type="button" aria-label="Return wave to its starting point" title="Return to the start">↶</button>
+          <div class="timeline"><div><label for="time">TIME SINCE THE MARKED CREST LEFT 80 KM</label><output id="clock" for="time">—</output></div><input id="time" type="range" min="0" max="180" step="any" value="38" aria-label="Elapsed simulation time in minutes"></div>
+          <button id="shelf-jump" type="button" class="jump">Meet the shelf <span>→</span></button>
+        </div>
+      </section>
+
+      <section class="workbench" aria-label="Change the sea floor">
+        <div class="floor-controls">
+          <p class="eyebrow">01 / CHANGE THE SEA FLOOR</p>
+          <div class="slider-label"><label for="depth">Shelf depth</label><output id="depth-value" for="depth">200 <small>m</small></output></div>
+          <input id="depth" type="range" min="50" max="4000" step="50" value="200">
+          <div class="presets" aria-label="Sea floor presets"><button data-depth="4000" type="button" aria-pressed="false">Deep all the way</button><button data-depth="200" type="button" aria-pressed="true">200 m shelf</button><button data-depth="50" type="button" aria-pressed="false">50 m shelf</button></div>
+          <p class="hint">Changing depth keeps the marked crest in place, so you can compare.</p>
+        </div>
+        <div class="spacing-panel">
+          <div class="spacing-title"><p class="eyebrow">02 / SAME PERIOD. DIFFERENT SPACING.</p><span>12 MIN</span></div>
+          <canvas id="spacing" aria-label="Two waves on the same horizontal scale, comparing the deep-ocean wavelength with the wavelength at the tracked crest." role="img"></canvas>
+        </div>
+      </section>
+      <section class="field-notes">
+        <p><span>THE SMALL PRINT</span> A long wave feels the sea floor even in the open ocean. Here, speed follows √(g × depth), and conserved energy flux raises the amplitude as it slows.</p>
+        <p><span>AN IDEAL OCEAN</span> A gradual slope, one direction, no reflection or breaking. No coastline or flooding is modelled. This is an illustration of shoaling, not a tsunami forecast.</p>
+      </section>
+    </main>
+    <footer><span>Made for World Tsunami Awareness Day · Built by GPT-6 Astra</span><a href="https://www.noaa.gov/education/resource-collections/ocean-coasts/tsunamis" target="_blank" rel="noreferrer">Read the science ↗</a></footer>
+  </div>
+</body>
+</html>
