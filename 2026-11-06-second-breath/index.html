@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3f0e7">
+  <meta name="description" content="Same reed, different leap. Hear why a cylindrical bore overblows a twelfth, and a conical bore an octave.">
+  <title>Second Breath — a little woodwind experiment</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="model.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main>
+    <header>
+      <a class="wordmark" href="./" aria-label="Second Breath home"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 5v22M12 5v22M20 5l-4 22M24 5l6 22"/></svg>SECOND BREATH</a>
+      <span class="edition">AN AIR COLUMN EXPERIMENT <span>№ 106 · 06 NOV 2026</span></span>
+    </header>
+
+    <section class="intro" aria-labelledby="title">
+      <div><p class="eyebrow">A SMALL CHANGE IN SHAPE. A BIG CHANGE IN REGISTER.</p><h1 id="title">Same reed.<br><em>Different leap.</em></h1></div>
+      <div class="intro-copy"><p>A clarinet jumps an octave <i>and a fifth.</i><br>A saxophone jumps an octave.</p><p class="muted">The secret is inside the tube.<br>Switch registers. Watch the air. Hear the jump.</p></div>
+    </section>
+
+    <section class="experiment" aria-label="Compare two ideal air columns">
+      <div class="controls">
+        <div class="register-control"><span class="control-label">01 / CHOOSE A REGISTER</span><div class="segmented" role="group" aria-label="Register"><button id="low" type="button" aria-pressed="true">Low note</button><button id="overblow" type="button" aria-pressed="false">Next resonance <span>↗</span></button></div></div>
+        <div class="length-control"><label class="control-label" for="length">02 / ACOUSTIC LENGTH <output id="length-value" for="length">65 cm</output></label><input id="length" type="range" min="40" max="100" step="1" value="65"><div class="range-labels"><span>40 cm</span><button id="reset" type="button">Reset to 65 cm ↺</button><span>100 cm</span></div></div>
+        <button id="motion" class="motion" type="button" aria-pressed="true">Ⅱ <span>Pause air</span></button>
+      </div>
+
+      <div class="instruments">
+        <article class="instrument cylinder" aria-labelledby="cylinder-title">
+          <div class="instrument-heading"><span class="specimen">A</span><div><p class="eyebrow">THE CLARINET IDEA</p><h2 id="cylinder-title">A straight bore</h2></div><span class="shape-tag">CYLINDER</span></div>
+          <div class="pitch"><span class="frequency" id="cylinder-hz">132</span><span class="unit">Hz</span><span id="cylinder-note" class="note">C3</span><div class="jump"><strong>×3</strong><span>an octave + a fifth</span></div></div>
+          <canvas id="cylinder-canvas" width="1000" height="350" role="img" aria-label="Cylindrical air column, closed at the reed and open at the far end"></canvas>
+          <div class="diagram-key"><span>● <span class="node-count" id="cylinder-nodes">0 interior pressure nodes</span></span><span>PRESSURE · SLOW MOTION</span></div>
+          <div class="harmonics"><div class="harmonic-heading"><span>RESONANCES / multiples of the low note</span><span id="cylinder-mode">1st mode</span></div><div class="ladder" id="cylinder-ladder" aria-label="Cylinder resonance ratios"></div></div>
+          <div class="instrument-bottom"><p id="cylinder-explanation">The reed end is closed; the far end is open. The lowest mode fits a quarter wavelength.</p><button class="listen" id="hear-cylinder" type="button" aria-label="Hear the cylinder low note followed by its next resonance"><span aria-hidden="true">▷</span> Hear the leap</button></div>
+        </article>
+
+        <article class="instrument cone" aria-labelledby="cone-title">
+          <div class="instrument-heading"><span class="specimen">B</span><div><p class="eyebrow">THE SAXOPHONE IDEA</p><h2 id="cone-title">A widening bore</h2></div><span class="shape-tag">CONE</span></div>
+          <div class="pitch"><span class="frequency" id="cone-hz">264</span><span class="unit">Hz</span><span id="cone-note" class="note">C4</span><div class="jump"><strong>×2</strong><span>one octave</span></div></div>
+          <canvas id="cone-canvas" width="1000" height="350" role="img" aria-label="Ideal conical air column from its virtual apex to the open end"></canvas>
+          <div class="diagram-key"><span>● <span class="node-count" id="cone-nodes">0 interior pressure nodes</span></span><span>PRESSURE · SLOW MOTION</span></div>
+          <div class="harmonics"><div class="harmonic-heading"><span>RESONANCES / multiples of the low note</span><span id="cone-mode">1st mode</span></div><div class="ladder" id="cone-ladder" aria-label="Cone resonance ratios"></div></div>
+          <div class="instrument-bottom"><p id="cone-explanation">The widening air column fits a half wavelength. At the same length, its low note is twice as high.</p><button class="listen" id="hear-cone" type="button" aria-label="Hear the cone low note followed by its next resonance"><span aria-hidden="true">▷</span> Hear the leap</button></div>
+        </article>
+      </div>
+
+      <div class="observation"><span class="observation-label">WHAT TO NOTICE</span><p id="observation" aria-live="polite">Same length, different low notes. Now try <button id="try-next" type="button">the next resonance ↗</button></p><span id="audio-status" role="status">Sound is off until you press play.</span></div>
+    </section>
+
+    <section class="footnotes" aria-label="About this experiment">
+      <div class="occasion"><span class="eyebrow">A BIRTHDAY IN THE WORKSHOP</span><p>For Adolphe Sax, born <br><strong>6 November 1814.</strong></p></div>
+      <p>Both instruments use a reed, but their bores support different patterns. A register vent helps a real player select a higher mode. Here, you select it directly.</p>
+      <p class="model-note">Ideal bores at 343 m/s, without tone holes, losses, or end corrections. Cone length includes the virtual apex. Widths are exaggerated; curves show pressure, not air displacement. Sound uses pure tones, not instrument recordings. <a href="https://phys.unsw.edu.au/jw/pipes.html" target="_blank" rel="noreferrer">Read the acoustics ↗</a></p>
+    </section>
+    <footer><span>DAILY SLOP / A LITTLE THING, EVERY DAY.</span><span>BUILT BY GPT-6.1 SOL</span></footer>
+  </main>
+</body>
+</html>

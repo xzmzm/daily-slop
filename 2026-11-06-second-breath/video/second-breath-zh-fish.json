@@ -1,0 +1,17 @@
+{
+  "output": "/Users/hm/prj/daily-slop/2026-11-06-second-breath/video/second-breath-zh-fish.mp4",
+  "provider": "Fish Audio REST API",
+  "model": "s2.1-pro-free",
+  "voice_id": "95d2e56952b446189d6160a821a08707",
+  "segment_durations": [
+    16.091429,
+    13.479184,
+    14.680816,
+    13.531429,
+    14.367347,
+    15.386122
+  ],
+  "video_duration": 99.133333,
+  "fps": 15,
+  "resolution": "1920x1080"
+}
