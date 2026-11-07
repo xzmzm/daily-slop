@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3f0e7">
+  <meta name="description" content="Set a fireball's speed, angle, mass and strength; watch it burn, burst, or land over Ensisheim.">
+  <title>Noon Fall — a little atmospheric entry experiment</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="model.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main>
+    <header>
+      <a class="wordmark" href="./" aria-label="Noon Fall home"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M3 4l14 12M17 16l-3-1M17 16l-1-3M17 16l4 1M17 16l1 4"/></svg>NOON FALL</a>
+      <span class="edition">AN ATMOSPHERIC ENTRY EXPERIMENT <span>№ 107 · 07 NOV 2026</span></span>
+    </header>
+
+    <section class="intro" aria-labelledby="title">
+      <div><p class="eyebrow">A STONE, THE AIR, AND FOUR DIALS.</p><h1 id="title">One rock.<br><em>Three endings.</em></h1></div>
+      <div class="intro-copy"><p>Burn to nothing. Burst with a flash.<br><i>Or land, and wait to be picked up.</i></p><p class="muted">Speed, angle, mass, strength — the four dials<br>decide which ending a fireball gets.<br>Drop it into the sky over Ensisheim.</p></div>
+    </section>
+
+    <section class="experiment" aria-label="Fly one fireball through the atmosphere">
+      <div class="controls">
+        <div class="material-control"><span class="control-label">01 / WHAT IT IS MADE OF</span><div class="segmented" role="group" aria-label="Material"><button id="material-dust" type="button" aria-pressed="false">Dust &amp; ice</button><button id="material-stony" type="button" aria-pressed="true">Stone</button><button id="material-iron" type="button" aria-pressed="false">Iron</button></div></div>
+        <div class="slider-control"><label class="control-label" for="speed">02 / ENTRY SPEED <output id="speed-value" for="speed">14 km/s</output></label><input id="speed" type="range" min="11" max="72" step="1" value="14"><div class="range-labels"><span>11 · slow</span><span>72 · hyper</span></div></div>
+        <div class="slider-control"><label class="control-label" for="angle">03 / ENTRY ANGLE <output id="angle-value" for="angle">62°</output></label><input id="angle" type="range" min="5" max="75" step="1" value="62"><div class="range-labels"><span>5° · grazing</span><span>75° · plunging</span></div></div>
+        <div class="slider-control"><label class="control-label" for="mass">04 / MASS <output id="mass-value" for="mass">600 kg</output></label><input id="mass" type="range" min="0" max="100" step="1" value="47"><div class="range-labels"><span>100 g</span><span>10,000 t</span></div></div>
+      </div>
+      <div class="launch-row">
+        <span class="control-label">05 / OR START FROM A REAL FALL</span>
+        <div class="presets" role="group" aria-label="Presets">
+          <button id="preset-taurid" type="button">Taurid fireball</button>
+          <button id="preset-ensisheim" type="button">Ensisheim 1492</button>
+          <button id="preset-chelyabinsk" type="button">Chelyabinsk 2013</button>
+          <button id="preset-iron" type="button">Iron bolide</button>
+        </div>
+        <div class="go">
+          <button id="drop" class="drop" type="button">Drop it ▸</button>
+          <button id="motion" class="motion" type="button" aria-pressed="true">Ⅱ <span>Pause flight</span></button>
+        </div>
+      </div>
+
+      <div class="sky">
+        <div class="canvas-wrap">
+          <canvas id="sky" width="1000" height="620" role="img" aria-label="Side view of the atmosphere from 100 km down to the ground, with the fireball's trail"></canvas>
+          <div class="diagram-key"><span>TRAIL · GLOW SCALED TO BRIGHTNESS</span><span>ALTITUDE 0–100 KM · NOT TO SCALE HORIZONTALLY</span></div>
+        </div>
+        <aside class="readouts" aria-label="Live flight readouts">
+          <div class="readout"><span class="readout-label">ALTITUDE</span><span class="readout-value"><b id="r-alt">—</b><i>km</i></span></div>
+          <div class="readout"><span class="readout-label">SPEED</span><span class="readout-value"><b id="r-speed">—</b><i>km/s</i></span></div>
+          <div class="readout"><span class="readout-label">MASS LEFT</span><span class="readout-value"><b id="r-mass">—</b></span></div>
+          <div class="readout"><span class="readout-label">BRIGHTNESS <em id="r-peak"></em></span><span class="readout-value"><b id="r-mag">—</b><i>mag</i></span></div>
+          <div class="readout"><span class="readout-label">AIR SQUEEZE</span><span class="readout-value"><b id="r-heat">—</b><i>MPa</i></span></div>
+          <div class="verdict" id="verdict">Four dials, three endings.<br><span>Press <b>Drop it</b> to fly.</span></div>
+        </aside>
+      </div>
+
+      <div class="observation"><span class="observation-label">WHAT TO NOTICE</span><p id="observation" aria-live="polite">Strength is the quiet dial: dust shatters high, stone bursts deep, iron punches through.</p><span id="flight-status" role="status">Nothing flies until you drop it.</span></div>
+    </section>
+
+    <section class="footnotes" aria-label="About this experiment">
+      <div class="occasion"><span class="eyebrow">A NOON IN ALSACE</span><p>For the Ensisheim stone, fallen <br><strong>7 November 1492.</strong></p></div>
+      <p>A fireball's fate is a race. Drag squeezes it — dynamic pressure grows with the square of speed while the air below thickens faster than the rock slows. Ablation eats it from the outside. Its strength holds it together, but big bodies are weaker than small ones: the flaws have more room to find each other. Whichever gives up first writes the ending.</p>
+      <p class="model-note">Exponential atmosphere (scale height 7.2 km), flat ground, one constant flight angle. Drag coefficient 0.7; 2 % of stagnation heat goes into ablation; 0.5 % of that energy glows; brightness is the apparent magnitude for a watcher 100 km away. Material strengths are 1-metre dynamic strengths with a quarter-power size effect. Dark flight is compressed to fit; the wind, spins and fragment showers are left out. <a href="https://www.lpi.usra.edu/meteor/metbull.php?code=12628" target="_blank" rel="noreferrer">Meteoritical Bulletin: Ensisheim ↗</a></p>
+    </section>
+    <footer><span>DAILY SLOP / A LITTLE THING, EVERY DAY.</span><span>BUILT BY GLM-5.3 FLASH</span></footer>
+  </main>
+</body>
+</html>

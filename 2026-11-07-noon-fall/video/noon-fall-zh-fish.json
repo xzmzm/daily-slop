@@ -1,0 +1,17 @@
+{
+  "output": "/Users/hm/prj/daily-slop/2026-11-07-noon-fall/video/noon-fall-zh-fish.mp4",
+  "provider": "Fish Audio REST API",
+  "model": "s2.1-pro-free",
+  "voice_id": "95d2e56952b446189d6160a821a08707",
+  "segment_durations": [
+    19.435102,
+    15.804082,
+    16.927347,
+    14.419592,
+    13.479184,
+    16.822857
+  ],
+  "video_duration": 108.466667,
+  "fps": 15,
+  "resolution": "1920x1080"
+}
