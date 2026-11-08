@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#15171a">
+  <meta name="description" content="Run a Crookes tube like Röntgen's: choose voltage and current, shoot a book, wood, a hand and a lead disc, and grade the plate.">
+  <title>Barium Glow — a little X-ray bench</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="model.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main>
+    <header>
+      <a class="wordmark" href="./" aria-label="Barium Glow home"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 16h7l3-8 4 16 3-8h7" fill="none"/></svg>BARIUM GLOW</a>
+      <span class="edition">AN X-RAY BENCH <span>№ 108 · 08 NOV 2026</span></span>
+    </header>
+
+    <section class="intro" aria-labelledby="title">
+      <div><p class="eyebrow">A DARKENED ROOM IN WÜRZBURG, 131 YEARS AGO TONIGHT.</p><h1 id="title">The screen glows.<br><em>Nothing is shining.</em></h1></div>
+      <div class="intro-copy"><p>8 November 1895: the tube sits boxed in black cardboard,<br><i>and a barium screen two metres away still glows.</i></p><p class="muted">Röntgen named the unknown rays X. This bench shoots a book, a plank, a hand and lead — then grades the plate.</p></div>
+    </section>
+
+    <section class="experiment" aria-label="Run the X-ray tube and take a plate">
+      <div class="controls">
+        <div class="material-control"><span class="control-label">01 / ON THE STAGE</span><div class="segmented" role="group" aria-label="Object under the beam"><button id="object-book" type="button" aria-pressed="true">Book</button><button id="object-wood" type="button" aria-pressed="false">Wood</button><button id="object-hand" type="button" aria-pressed="false">Hand</button><button id="object-lead" type="button" aria-pressed="false">Lead</button></div></div>
+        <div class="slider-control"><label class="control-label" for="kvp">02 / TUBE VOLTAGE <output id="kvp-value" for="kvp">40 kVp</output></label><input id="kvp" type="range" min="20" max="120" step="1" value="40"><div class="range-labels"><span>20 · soft</span><span>120 · hard</span></div></div>
+        <div class="slider-control"><label class="control-label" for="ma">03 / TUBE CURRENT <output id="ma-value" for="ma">4 mA</output></label><input id="ma" type="range" min="1" max="10" step="1" value="4"><div class="range-labels"><span>1 · trickle</span><span>10 · flood</span></div></div>
+        <div class="cover-control"><span class="control-label">04 / BLACK CARDBOARD OVER THE TUBE</span><button id="cover" type="button" aria-pressed="true">Cover on — no light gets out</button></div>
+        <div class="go"><span class="control-label">05 / TAKE THE PLATE</span><button id="expose" class="drop" type="button">Expose ▸</button><button id="newplate" class="motion" type="button" aria-pressed="false">Fresh plate</button></div>
+      </div>
+
+      <div class="sky">
+        <div class="canvas-wrap">
+          <canvas id="bench" width="1000" height="620" role="img" aria-label="The bench: a covered Crookes tube, the object on the stage, and a glowing barium screen"></canvas>
+          <div class="diagram-key"><span>TUBE → STAGE → BARIUM PLATINOCYANIDE SCREEN</span><span>THE SCREEN SHOWS THE SHADOW LIVE · THE PLATE KEEPS IT</span></div>
+        </div>
+        <aside class="readouts" aria-label="Plate and readouts">
+          <div class="plate-wrap"><canvas id="plate" width="192" height="144" role="img" aria-label="The photographic plate"></canvas><span class="plate-label" id="plate-label">UNEXPOSED PLATE</span></div>
+          <div class="readout"><span class="readout-label">EXPOSURE SO FAR</span><span class="readout-value"><b id="r-mas">0</b><i>mA·s</i></span></div>
+          <div class="readout"><span class="readout-label">SCREEN GLOW</span><span class="readout-value"><b id="r-glow">faint</b></span></div>
+          <div class="verdict" id="verdict">Choose a technique, then hold the beam on the plate.<br><span>Low voltage sees fine detail — if you can afford the photons.</span></div>
+        </aside>
+      </div>
+
+      <div class="observation"><span class="observation-label">WHAT TO NOTICE</span><p id="observation" aria-live="polite">The cardboard eats every ray of light, and the screen still glows: whatever crosses the room, it is not light.</p><span id="bench-status" role="status">Tube idle.</span></div>
+    </section>
+
+    <section class="footnotes" aria-label="About this experiment">
+      <div class="occasion"><span class="eyebrow">A GLOW IN THE DARK</span><p>For the night the rays were found,<br><strong>8 November 1895.</strong></p></div>
+      <p>Every shadow here is Lambert–Beer: each centimetre of matter multiplies the beam by e<sup>−μt</sup>, and μ falls as the rays harden — slowly for flesh, dramatically for bone and brass, because the photoelectric effect loves heavy atoms. Voltage buys penetration, current buys photons, and the plate only counts what arrives: too few and the grain never resolves, far too many and the film saturates black.</p>
+      <p class="model-note">Attenuation coefficients are set by hand at 60 kVp and stretched with a photoelectric (≈E<sup>−3</sup>) term over a Compton floor; tube output grows with kVp². Grain is Poisson: the plate samples real photon counts per pixel, so noise fades as 1/√count. The hand, the paperclip and the nail are procedural thickness maps. Röntgen's first medical radiograph — his wife's hand, 22 December 1895 — needed fifteen minutes of this same arithmetic. <a href="https://en.wikipedia.org/wiki/Wilhelm_R%C3%B6ntgen" target="_blank" rel="noreferrer">Wilhelm Röntgen ↗</a></p>
+    </section>
+    <footer><span>DAILY SLOP / A LITTLE THING, EVERY DAY.</span><span>BUILT BY GLM-5.3 FLASH</span></footer>
+  </main>
+</body>
+</html>

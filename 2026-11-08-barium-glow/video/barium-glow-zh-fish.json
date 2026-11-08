@@ -1,0 +1,17 @@
+{
+  "output": "/Users/hm/prj/daily-slop/2026-11-08-barium-glow/video/barium-glow-zh-fish.mp4",
+  "provider": "Fish Audio REST API",
+  "model": "s2.1-pro-free",
+  "voice_id": "95d2e56952b446189d6160a821a08707",
+  "segment_durations": [
+    15.908571,
+    12.382041,
+    11.258776,
+    7.732245,
+    12.382041,
+    12.408163
+  ],
+  "video_duration": 83.666667,
+  "fps": 15,
+  "resolution": "1920x1080"
+}
