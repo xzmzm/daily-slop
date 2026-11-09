@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0e1412">
+  <meta name="description" content="At 5:16 pm on 9 November 1965 a backup relay set at 375 MW tripped one line out of Sir Adam Beck, and 30 million people lost power. Choose the set point and the evening surge, then run the cascade.">
+  <title>Set Point — the 1965 blackout</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="model.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="page">
+    <header class="masthead">
+      <a href="../" class="brand">DAILY SLOP <span>↗</span></a>
+      <span class="mission">MIMIC BOARD · ONTARIO · NEW YORK · NEW ENGLAND · 9 NOV 1965</span>
+      <span class="edition">CLAUDE OPUS 5.5</span>
+    </header>
+
+    <main>
+      <section class="intro">
+        <div>
+          <p class="eyebrow">61 YEARS AGO TODAY · THE NORTHEAST BLACKOUT</p>
+          <h1>Set <em>point.</em></h1>
+        </div>
+        <p class="intro-copy">Five 230 kV lines carried Niagara power from Sir Adam Beck to Toronto. In 1963 a backup relay on one of them was set to trip at 375 MW, and nobody on shift knew the number. At 5:16:11 pm the line was carrying about 356 MW when a short swing pushed it over. <span>Its load moved onto the other four, and they tripped one after another.</span></p>
+      </section>
+
+      <section class="bench" aria-label="Grid bench">
+        <div class="board-panel">
+          <div class="panel-head">
+            <span><span class="num">01</span> THE BOARD <span class="muted" id="board-sub">/ STEADY STATE, 5:16:10 PM</span></span>
+            <span class="clock" id="clock">5:16:10.0 PM</span>
+          </div>
+          <svg id="board" viewBox="0 0 1000 540" role="img" aria-label="Schematic of the Ontario, New York and New England grid"></svg>
+          <div class="legend">
+            <span><i class="sw sw-ok"></i>under 80 % of limit</span>
+            <span><i class="sw sw-warm"></i>80–100 %</span>
+            <span><i class="sw sw-over"></i>over the limit</span>
+            <span><i class="sw sw-off"></i>tripped</span>
+            <span><i class="lamp-sw"></i>city lit</span>
+          </div>
+        </div>
+
+        <aside class="desk">
+          <div class="control">
+            <label for="setpoint">Backup relay set point <b><output id="setpoint-out">375</output> MW</b></label>
+            <input id="setpoint" type="range" min="300" max="600" step="5" value="375">
+            <div class="presets" role="group" aria-label="Relay presets">
+              <button data-set="375" aria-pressed="true">1963 setting · 375</button>
+              <button data-set="500" aria-pressed="false">Raised · 500</button>
+            </div>
+          </div>
+          <div class="control">
+            <label for="surge">Toronto load swing at 5:16:11 <b>+<output id="surge-out">100</output> MW</b></label>
+            <input id="surge" type="range" min="0" max="200" step="10" value="100">
+          </div>
+          <div class="run-row">
+            <button id="run" class="run">Run 5:16:11 PM</button>
+            <button id="reset" class="ghost">Reset</button>
+          </div>
+
+          <div class="readouts">
+            <div><span>Line 1 during the swing</span><strong id="r-peak">376 MW</strong><em id="r-margin">0.8 MW over</em></div>
+            <div><span>Lines tripped</span><strong id="r-trips">0</strong><em>of 13</em></div>
+            <div><span>People in the dark</span><strong id="r-dark">0.0 M</strong><em>of <span id="r-total">29.8</span> M on the board</em></div>
+          </div>
+
+          <div class="log-wrap">
+            <div class="log-head">SEQUENCE OF EVENTS</div>
+            <ol id="log" aria-live="polite"><li class="quiet">Press Run to apply the swing.</li></ol>
+          </div>
+        </aside>
+      </section>
+
+      <section class="field-notes">
+        <div><h2>How the board works</h2><p>Each line's flow comes from a DC power flow: power splits across parallel paths in inverse proportion to their reactance. When a line trips, its flow has nowhere to go but the remaining paths. An island that cannot make at least 92 % of its load loses frequency and goes dark.</p></div>
+        <div><h2>What's real</h2><p>The 375 MW setting, the five Beck–Toronto lines, the 356 MW reading, 5:16:11 pm, about 30 million people and up to 13 hours without power. Afterwards Ontario Hydro raised the settings on all five relays.</p></div>
+        <div><h2>What's invented</h2><p>The buses, reactances, other line limits, generation, the size of the swing and the event times after the first trip are round numbers chosen to echo the event. This is a teaching model, not the 1965 network.</p></div>
+      </section>
+    </main>
+
+    <footer>Built for daily-slop · 9 November 2026 · runs entirely in your browser</footer>
+  </div>
+</body>
+</html>
