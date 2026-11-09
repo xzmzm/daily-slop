@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0e1412">
+  <meta name="description" content="On 10 November 1983 Microsoft announced Windows, and its windows could not overlap — the desktop tiled itself. Drag the sashes, swap the current window, zoom, then break the rule with 1987's overlap.">
+  <title>No Overlap — Windows 1.0's tiling desktop</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="model.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="page">
+    <header class="masthead">
+      <a href="../" class="brand">DAILY SLOP <span>↗</span></a>
+      <span class="mission">PLAZA HOTEL · NEW YORK · 10 NOV 1983</span>
+      <span class="edition">GLM-5.3 FLASH</span>
+    </header>
+
+    <main>
+      <section class="intro">
+        <div>
+          <p class="eyebrow">43 YEARS AGO TODAY · THE WINDOWS 1.0 ANNOUNCEMENT</p>
+          <h1>No <em>overlap.</em></h1>
+        </div>
+        <p class="intro-copy">Microsoft picked 10 November 1983 to announce Windows at the Plaza Hotel, and gave its desktop one strict rule: windows tile, they never overlap. The current window takes the big tile; everyone else fills a column and a row around it. Drag the sashes, swap the current window, zoom — then break the rule with 1987's overlap. <span>That constraint was memory, not taste: clipped redraws of hidden windows were unaffordable in 1983.</span></p>
+      </section>
+
+      <section class="bench" aria-label="Windows 1.0 desktop bench">
+        <div class="screen-panel">
+          <div class="panel-head">
+            <span><span class="num">01</span> THE DESKTOP <span class="muted" id="desk-sub">/ 1.0 RULES · TILE</span></span>
+            <span class="hint">click a title bar to make it current</span>
+          </div>
+          <div id="screen">
+            <div id="tiles" aria-label="Tiling desktop"></div>
+            <div id="icon-strip" aria-label="Icon strip"></div>
+          </div>
+          <div class="legend">
+            <span><i class="sw sw-cur"></i>current window</span>
+            <span><i class="sw sw-idle"></i>tiled window</span>
+            <span><i class="sw sw-sash"></i>sash · drag to resize</span>
+            <span><i class="sw sw-clash"></i>overlapping · 1987</span>
+          </div>
+        </div>
+
+        <aside class="desk">
+          <div class="control">
+            <label>Desktop rules</label>
+            <div class="segmented" role="group" aria-label="Desktop rules">
+              <button id="mode-tile" aria-pressed="true">1.0 · 1983 — tile</button>
+              <button id="mode-overlap" aria-pressed="false">2.0 · 1987 — overlap</button>
+            </div>
+          </div>
+          <div class="run-row">
+            <button id="reset-sashes" class="ghost">Reset sashes</button>
+          </div>
+
+          <div class="readouts">
+            <div><span>Current window</span><strong id="r-current">MS-DOS Executive</strong></div>
+            <div><span>Windows</span><strong id="r-open">5 tiled · 0 at the icons</strong></div>
+            <div><span>Overlapping pairs</span><strong id="r-overlap">0 <em>— tiles never overlap</em></strong></div>
+            <div><span>Left column</span><strong id="r-col">62 %</strong></div>
+          </div>
+
+          <div class="log-wrap">
+            <div class="log-head">SEQUENCE OF EVENTS</div>
+            <ol id="log" aria-live="polite"></ol>
+          </div>
+        </aside>
+      </section>
+
+      <section class="field-notes">
+        <div><h2>How the tiling works</h2><p>The desktop splits into three zones: the current window takes the big top-left tile, a full-height column on the right holds half of the rest, and a row along the bottom-left holds the others. Sashes only move the zone boundaries — every window position comes from a few stored fractions, so no two windows can ever share a pixel. Zoom gives the current window the whole desktop and sends the others to the icon strip.</p></div>
+        <div><h2>Why no overlap</h2><p>Memory. Overlapping windows need clipping: every exposed region of every hidden window redrawn, in the right order, on machines with ~256 KB of RAM and text-mode graphics cards. Tiling meant the system only ever drew the current window, so Windows 1.0 shipped without overlap. Free overlapping windows arrived with Windows 2.0 in December 1987 — four years after the announcement and two years after 1.0 itself shipped.</p></div>
+        <div><h2>What's real</h2><p>The date and place (Plaza Hotel, New York, 10 November 1983), the $99 announced price, the 20 November 1985 ship date and the no-overlap rule are real, as are the apps used here — MS-DOS Executive, Clock, Notepad, Calculator and Calendar all shipped with 1.0. Windows 1.0's exact tiling math was never published in detail, so the three-zone layout here is an approximation.</p></div>
+      </section>
+
+      <footer>
+        <span>DAILY SLOP · 10 NOV 2026</span>
+        <span>BUILT BY GLM-5.3 FLASH</span>
+        <a href="../">ALL PROJECTS ↗</a>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>
