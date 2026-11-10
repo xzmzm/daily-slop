@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sound Ranging — Bragg's Acoustic Multilateration (1918)</title>
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page">
+    <header class="masthead">
+      <div class="masthead-left">
+        <img src="icon.svg" alt="Sound Ranging icon" class="project-icon" width="40" height="40">
+        <div>
+          <div class="eyebrow">Acoustic Multilateration · 11 November 1918</div>
+          <h1>Sound Ranging</h1>
+        </div>
+      </div>
+      <div class="preset-group" role="group" aria-label="Historical presets">
+        <button type="button" class="preset-btn active" data-preset="standard">Standard Front</button>
+        <button type="button" class="preset-btn" data-preset="crosswind">Arras Crosswind</button>
+        <button type="button" class="preset-btn" data-preset="frost">Winter Freeze</button>
+        <button type="button" class="preset-btn" data-preset="armistice">Armistice 11:00 AM</button>
+      </div>
+    </header>
+
+    <div class="intro">
+      <p class="tagline">
+        William Lawrence Bragg's acoustic multilateration, November 11, 1918: read the galvanometer tape, plot the arrival hyperbolas, and locate the hidden guns before the armistice silence.
+      </p>
+    </div>
+
+    <main class="workbench">
+      <section class="map-panel" aria-label="Tactical sound ranging map">
+        <div class="panel-header">
+          <span class="panel-title">Tactical Sound Ranging Map</span>
+          <span class="map-hint">Drag battery <span class="badge-red">●</span> or click anywhere to reposition</span>
+        </div>
+        <div class="canvas-wrapper">
+          <canvas id="map-canvas" width="860" height="520" aria-label="Surveyed front line, microphones, acoustic wavefronts, and intersecting hyperbolas"></canvas>
+          <div class="compass-overlay" id="compass-box">
+            <div class="compass-needle" id="compass-needle"></div>
+            <div class="compass-label" id="compass-text">Wind: 2 m/s NE</div>
+          </div>
+        </div>
+        <div class="map-toolbar">
+          <button type="button" class="btn btn-primary" id="fire-btn">
+            <span class="btn-icon">⚡</span> Fire Battery
+          </button>
+          <button type="button" class="btn" id="anim-btn">
+            <span class="btn-icon">▶</span> Animate Wave
+          </button>
+          <button type="button" class="btn" id="sound-btn" aria-pressed="false">
+            <span class="btn-icon">🔊</span> Audio: Off
+          </button>
+          <button type="button" class="btn" id="reset-btn">Reset Target</button>
+          <div class="legend">
+            <span class="legend-item"><span class="dot dot-battery"></span> German Battery</span>
+            <span class="legend-item"><span class="dot dot-mic"></span> Surveyed Mics</span>
+            <span class="legend-item"><span class="dot dot-hyperbola"></span> TDOA Hyperbolas</span>
+            <span class="legend-item"><span class="dot dot-fix"></span> Calculated Fix</span>
+          </div>
+        </div>
+      </section>
+
+      <aside class="control-panel" aria-label="Atmospheric controls and localization solution">
+        <div class="card correction-card">
+          <div class="card-header">
+            <h3>Bragg Atmospheric Correction</h3>
+            <label class="switch">
+              <input type="checkbox" id="correction-toggle" checked>
+              <span class="slider round"></span>
+            </label>
+          </div>
+          <p class="card-desc">
+            Correct sound velocity for air temperature <span class="formula">c ∝ √T</span> and wind drift vector <span class="formula">w · r̂</span>.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3>Atmospheric Conditions</h3>
+          <div class="control-row">
+            <div class="label-row">
+              <label for="temp-slider">Ambient Temperature</label>
+              <span class="val-badge" id="temp-val">10 °C (337.3 m/s)</span>
+            </div>
+            <input type="range" id="temp-slider" min="-15" max="35" step="1" value="10">
+          </div>
+
+          <div class="control-row">
+            <div class="label-row">
+              <label for="wind-speed-slider">Wind Speed</label>
+              <span class="val-badge" id="wind-speed-val">2 m/s (7.2 km/h)</span>
+            </div>
+            <input type="range" id="wind-speed-slider" min="0" max="18" step="1" value="2">
+          </div>
+
+          <div class="control-row">
+            <div class="label-row">
+              <label for="wind-dir-slider">Wind Direction</label>
+              <span class="val-badge" id="wind-dir-val">45° (NE)</span>
+            </div>
+            <input type="range" id="wind-dir-slider" min="0" max="355" step="5" value="45">
+          </div>
+        </div>
+
+        <div class="card solution-card">
+          <h3>Calculated Fix Solution</h3>
+          <div class="solution-grid">
+            <div class="solution-item">
+              <span class="sol-label">True Battery</span>
+              <span class="sol-val" id="true-pos">X: +450m, Y: +2800m</span>
+              <span class="sol-sub" id="true-range">Range: 2836m (09° NE)</span>
+            </div>
+            <div class="solution-item">
+              <span class="sol-label">Acoustic Fix</span>
+              <span class="sol-val" id="fix-pos">X: +450m, Y: +2800m</span>
+              <span class="sol-sub" id="fix-sub">Residual RMS: 0.00 ms</span>
+            </div>
+          </div>
+          <div class="error-banner" id="error-banner">
+            <div class="error-info">
+              <span class="error-title">Targeting Offset</span>
+              <span class="error-dist" id="error-dist">0.0 m</span>
+            </div>
+            <span class="error-status status-good" id="error-badge">PINPOINT FIX</span>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <section class="tape-section" aria-label="Galvanometer shadowgraph recording tape">
+      <div class="tape-header">
+        <div class="tape-title-group">
+          <h2>Bull 5-String Galvanometer Film Strip</h2>
+          <span class="tape-subtitle">Tucker hot-wire microphone traces with 100 Hz tuning fork time scale</span>
+        </div>
+        <div class="tape-callout" id="tape-status">
+          Battery Discharge Detected · 5 Traces Logged
+        </div>
+      </div>
+      <div class="tape-viewport">
+        <canvas id="tape-canvas" width="1280" height="150" aria-label="Moving photographic film strip showing 5 microphone signal traces and arrival impulses"></canvas>
+      </div>
+      <div class="tape-table-wrapper">
+        <table class="timing-table" id="timing-table">
+          <thead>
+            <tr>
+              <th>Listening Post</th>
+              <th>Microphone Position</th>
+              <th>Arrival Time (t)</th>
+              <th>Baseline Interval</th>
+              <th>Time Delta (Δt)</th>
+              <th>Hyperbolic Offset (c · Δt)</th>
+            </tr>
+          </thead>
+          <tbody id="timing-tbody">
+            <!-- populated by app.js -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="field-notes">
+      <h2>The Science Behind Bragg's Sound Ranging (1915–1918)</h2>
+      <div class="notes-grid">
+        <div class="note-box">
+          <h3>The Tucker Hot-Wire Microphone</h3>
+          <p>
+            Standard carbon microphones were deafened by rifle crack and wind. Captain William Sansome Tucker solved this with a tiny platinum wire heated red-hot by an electric battery, housed in an ammunition case neck. High-frequency rifle fire produced little air motion, but the deep ~10 Hz infrasonic pulse of heavy artillery pushed air across the wire, cooling it instantly and changing its electrical resistance.
+          </p>
+        </div>
+        <div class="note-box">
+          <h3>The Bull String Galvanometer</h3>
+          <p>
+            Developed by Lucien Bull in Paris, five thin silvered quartz strings were suspended in a strong magnetic field. Each connected through copper wire to a forward microphone. An arc lamp projected the shadow of the vibrating strings onto a motor-driven strip of photographic paper. A 100 Hz tuning fork cast time lines across the tape every 0.01 seconds.
+          </p>
+        </div>
+        <div class="note-box">
+          <h3>Hyperbolas & Wind Corrections</h3>
+          <p>
+            Sound travels outwards in a sphere. The time difference Δt between any pair of microphones defines a hyperbola of constant distance difference Δd = c · Δt. The intersection of three or more hyperbolas pinpoints the gun. William Lawrence Bragg developed field charts correcting for air temperature and wind vectors, turning artillery spotting from rough guesswork into 25-meter accuracy.
+          </p>
+        </div>
+        <div class="note-box">
+          <h3>The 11th Hour (Armistice Day)</h3>
+          <p>
+            At 11:00 AM on 11 November 1918, the Armistice took effect. The American and British sound ranging film strips recorded the frantic barrage in the minutes before 11:00, followed by the sudden, eerie flattening of all five traces into unbroken horizontal lines—the physical proof that the Great War had ended.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <p>Built for daily-slop · Self-contained vanilla client app</p>
+    </footer>
+  </div>
+
+  <script src="model.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
