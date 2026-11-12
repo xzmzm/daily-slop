@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Loop Tiles — little turns, long connections</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
+  <script defer src="model.js"></script><script defer src="app.js"></script>
+</head>
+<body>
+<main class="page">
+  <header class="masthead"><a class="wordmark" href="../">DAILY SLOP <span>/ 113</span></a><span class="edition">NOV 13, 2026 · A SMALL CONNECTION EXPERIMENT</span></header>
+  <section class="intro"><div><p class="eyebrow">TWO CURVES. TWO POSSIBILITIES.</p><h1>Loop Tiles<span class="title-dot">.</span></h1></div><p class="lede">Little turns, long connections.<br>Rotate a tile. Find the thread. Close the loop.</p></section>
+  <div class="workbench">
+    <section class="board-panel" aria-label="Tile workbench">
+      <div class="board-heading"><span><i class="live-dot"></i> THE CONNECTION FIELD</span><span>8 × 8 / 128 ARCS</span></div>
+      <div id="board" class="board" role="group" aria-label="Rotatable Truchet tiles"></div>
+      <div class="board-footer"><span><span class="legend-line"></span> open thread <span class="legend-line closed"></span> closed loop</span><span>CLICK TO TURN ↻</span></div>
+    </section>
+    <aside class="sidebar">
+      <section class="mission card"><p class="eyebrow">01 / THE LITTLE CHALLENGE</p><h2>One turn from a loop.</h2><p>Four center tiles almost connect. Turn the marked tile to close their circuit.</p><button id="challenge" class="primary">Start the little challenge <span>↗</span></button><p id="challenge-status" class="status" aria-live="polite">Free play · every turn changes the connections.</p></section>
+      <section class="stats card" aria-label="Board statistics"><div><strong id="loop-count">0</strong><span>CLOSED LOOPS</span></div><div><strong id="longest">0</strong><span>LONGEST / ARCS</span></div><div><strong id="turns">0</strong><span>YOUR TURNS</span></div></section>
+      <section class="thread card"><p class="eyebrow">02 / FOLLOW A THREAD</p><div class="segmented" role="group" aria-label="Interaction mode"><button id="rotate-mode" aria-pressed="true">↻ Rotate</button><button id="trace-mode" aria-pressed="false">⌁ Trace</button></div><h2 id="thread-title">Everything is connected.<br>Just not to everything.</h2><p id="thread-detail" aria-live="polite">Switch to Trace, then tap a curve. Its whole path lights up—even when it visits a tile twice.</p><button id="show-longest" class="text-button">Find the longest loop →</button></section>
+      <section class="seed-card card"><label for="seed">03 / A FIELD YOU CAN REVISIT</label><form id="seed-form"><input id="seed" value="november-13" maxlength="64" aria-label="Board seed" spellcheck="false"><button type="submit" aria-label="Load seed">↵</button></form><div class="small-actions"><button id="shuffle">Shuffle field ↗</button><button id="reset">Reset turns ↺</button></div></section>
+    </aside>
+  </div>
+  <footer class="footnotes"><p><strong>A tiny rule, a surprising result.</strong> Every edge meets another edge. Threads never branch: they either return home or leave the field.</p><p>Curved Truchet tiles · locally generated<br>Built by GPT-6.1 Sol</p></footer>
+</main>
+</body></html>

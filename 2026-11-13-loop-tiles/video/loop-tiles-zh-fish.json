@@ -1,0 +1,17 @@
+{
+  "output": "/Users/hm/prj/daily-slop/2026-11-13-loop-tiles/video/loop-tiles-zh-fish.mp4",
+  "provider": "Fish Audio REST API",
+  "model": "s2.1-pro-free",
+  "voice_id": "95d2e56952b446189d6160a821a08707",
+  "segment_durations": [
+    10.057143,
+    11.154286,
+    10.24,
+    9.299592,
+    10.788571,
+    11.075918
+  ],
+  "video_duration": 80.21551,
+  "fps": 15,
+  "resolution": "1920x1080"
+}
