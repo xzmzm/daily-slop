@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <radialGradient id="bgGrad" cx="50%" cy="50%" r="75%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
+    </radialGradient>
+    <linearGradient id="cometGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#64748b" />
+      <stop offset="50%" stop-color="#475569" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="arcGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="50%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#ef4444" />
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="100" height="100" rx="20" fill="url(#bgGrad)" />
+  <!-- Stars -->
+  <circle cx="15" cy="20" r="0.8" fill="#94a3b8" opacity="0.6" />
+  <circle cx="85" cy="15" r="1.0" fill="#f8fafc" opacity="0.8" />
+  <circle cx="25" cy="80" r="0.7" fill="#94a3b8" opacity="0.5" />
+  <circle cx="78" cy="82" r="0.9" fill="#94a3b8" opacity="0.7" />
+
+  <!-- Comet 67P Contact Binary Silhouette -->
+  <!-- Body lobe left, Neck middle, Head lobe right -->
+  <path d="M 32 46 C 22 46, 14 56, 15 68 C 16 80, 28 88, 44 87 C 54 86, 56 77, 60 74 C 64 72, 68 76, 75 78 C 84 80, 91 72, 90 62 C 89 52, 80 46, 70 48 C 63 50, 58 58, 54 58 C 50 58, 46 48, 38 46 Z" fill="url(#cometGrad)" stroke="#94a3b8" stroke-width="1.2" />
+
+  <!-- Rebound Trajectory Arc -->
+  <path d="M 72 49 Q 54 18 36 50" fill="none" stroke="url(#arcGrad)" stroke-width="2.5" stroke-dasharray="2 1" />
+
+  <!-- Touchdown 1 Starburst at Agilkia -->
+  <circle cx="72" cy="49" r="2.5" fill="#f59e0b" />
+  <path d="M 72 45 L 72 53 M 68 49 L 76 49" stroke="#fbbf24" stroke-width="1.2" />
+
+  <!-- Touchdown 2 / Rest at Abydos -->
+  <circle cx="36" cy="50" r="2.0" fill="#38bdf8" />
+
+  <!-- Philae Lander Sprite at Peak of Arc -->
+  <g transform="translate(54, 25) scale(0.65)">
+    <!-- Lander cube -->
+    <rect x="-6" y="-6" width="12" height="12" rx="1.5" fill="#38bdf8" stroke="#f8fafc" stroke-width="1.2" />
+    <!-- Solar panel cross -->
+    <line x1="-8" y1="0" x2="8" y2="0" stroke="#f59e0b" stroke-width="1.5" />
+    <line x1="0" y1="-8" x2="0" y2="8" stroke="#f59e0b" stroke-width="1.5" />
+    <!-- 3 Tripod Legs -->
+    <line x1="-5" y1="5" x2="-9" y2="11" stroke="#94a3b8" stroke-width="1.5" />
+    <line x1="5" y1="5" x2="9" y2="11" stroke="#94a3b8" stroke-width="1.5" />
+    <line x1="0" y1="6" x2="0" y2="12" stroke="#cbd5e1" stroke-width="1.5" />
+    <!-- Footpads -->
+    <circle cx="-9" cy="11" r="1.2" fill="#e2e8f0" />
+    <circle cx="9" cy="11" r="1.2" fill="#e2e8f0" />
+    <circle cx="0" cy="12" r="1.2" fill="#e2e8f0" />
+  </g>
+</svg>

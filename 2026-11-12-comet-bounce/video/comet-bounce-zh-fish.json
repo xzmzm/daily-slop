@@ -1,0 +1,19 @@
+{
+  "output": "/Users/hm/prj/daily-slop/2026-11-12-comet-bounce/video/comet-bounce-zh-fish.mp4",
+  "provider": "Fish Audio REST API",
+  "model": "s2.1-pro-free",
+  "voice_id": "95d2e56952b446189d6160a821a08707",
+  "segment_durations": [
+    12.042449,
+    9.900408,
+    10.187755,
+    12.826122,
+    12.643265,
+    10.292245,
+    10.13551,
+    10.13551
+  ],
+  "video_duration": 102.333333,
+  "fps": 15,
+  "resolution": "1920x1080"
+}

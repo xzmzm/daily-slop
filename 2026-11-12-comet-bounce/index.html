@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comet Bounce — Philae & Comet 67P (12 Nov 2014)</title>
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page">
+    <header class="masthead">
+      <div class="title-row">
+        <div class="brand">
+          <span class="mission-tag">ESA ROSETTA MISSION · 12 NOV 2014</span>
+          <h1>Comet Bounce</h1>
+        </div>
+        <div class="header-meta">
+          <span class="badge built-by">Built by Gemini-3.8 Flash</span>
+          <span class="badge relay-status" id="relay-status">ILLUSTRATIVE TOY · NOT LIVE TELEMETRY</span>
+        </div>
+      </div>
+      <p class="tagline">
+        An illustrative 2D toy inspired by Philae, not an exact trajectory or history. Landing coordinates are synthetic; settling is forced by the third contact.
+      </p>
+    </header>
+
+    <main class="workbench">
+      <!-- Left / Center: Interactive Comet Simulation Viewport -->
+      <section class="viewport-card">
+        <div class="viewport-toolbar">
+          <div class="playback-controls">
+            <button id="btn-play" class="btn btn-primary" title="Play / Pause simulation">
+              <span class="btn-icon" id="play-icon">▶</span>
+              <span id="play-text">Play</span>
+            </button>
+            <button id="btn-reset" class="btn btn-secondary" title="Reset simulation">⟲ Reset</button>
+            <div class="speed-selector">
+              <span class="label">Time Scale:</span>
+              <button class="btn-speed" data-speed="1">1×</button>
+              <button class="btn-speed" data-speed="5">5×</button>
+              <button class="btn-speed active" data-speed="25">25×</button>
+              <button class="btn-speed" data-speed="100">100×</button>
+            </div>
+          </div>
+          <div class="viewport-actions">
+            <button id="btn-drop-mode" class="btn btn-outline" title="Click anywhere on canvas to drop a test lander">
+              🎯 Custom Drop Mode
+            </button>
+            <button id="btn-recenter" class="btn btn-icon-only" title="Recenter on Philae">⌖</button>
+          </div>
+        </div>
+
+        <div class="canvas-container">
+          <canvas id="sim-canvas" width="1120" height="680"></canvas>
+          <div class="canvas-hud-overlay">
+            <div class="hud-item mission-clock">
+              <span class="hud-label">SIM TIME</span>
+              <span class="hud-value" id="hud-time">T+00:00:00</span>
+            </div>
+            <div class="hud-item lander-status">
+              <span class="hud-label">LANDER STATUS</span>
+              <span class="hud-value status-badge" id="hud-status">DESCENDING</span>
+            </div>
+            <div class="hud-item touch-counter">
+              <span class="hud-label">TOUCHDOWNS</span>
+              <span class="hud-value" id="hud-touches">0</span>
+            </div>
+          </div>
+          <div class="canvas-help-hint">
+            <span>🖱 Drag to pan · Scroll to zoom · Enable drop mode to launch</span>
+          </div>
+        </div>
+
+        <!-- Timeline scrubber -->
+        <div class="scrubber-bar">
+          <span class="scrub-label">Toy launch (T+0)</span>
+          <input type="range" id="time-scrubber" min="0" max="7200" value="0" step="1">
+          <span class="scrub-label" id="scrub-end-label">T+2 h (not a mission timeline)</span>
+        </div>
+      </section>
+
+      <!-- Right: Telemetry, Presets, Controls & Camera Preview -->
+      <aside class="control-panel">
+        <!-- Telemetry Gauges -->
+        <div class="panel-section telemetry-section">
+          <h2 class="section-title">Telemetry & Microgravity</h2>
+          <div class="telemetry-grid">
+            <div class="metric-card">
+              <span class="metric-label">ALTITUDE</span>
+              <span class="metric-value" id="val-altitude">540 <span class="unit">m</span></span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">REL SPEED</span>
+              <span class="metric-value" id="val-speed">0.99 <span class="unit">m/s</span></span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">LOCAL GRAVITY</span>
+              <span class="metric-value" id="val-gravity">320 <span class="unit">μm/s²</span></span>
+            </div>
+            <div class="metric-card">
+              <span class="metric-label">INERTIAL ESCAPE EST.</span>
+              <span class="metric-value" id="val-escape">0.86 <span class="unit">m/s</span></span>
+            </div>
+          </div>
+
+          <!-- Solar & Battery gauges -->
+          <div class="power-bars">
+            <div class="power-item">
+              <div class="power-header">
+                <span>Solar Array Generation</span>
+                <span id="val-solar-w" class="power-w">32.0 W</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill solar-fill" id="bar-solar" style="width: 100%;"></div>
+              </div>
+              <span class="sub-caption" id="caption-sunlight">Direct sunlight (2D toy)</span>
+            </div>
+
+            <div class="power-item">
+              <div class="power-header">
+                <span>Toy Rechargeable Reserve</span>
+                <span id="val-battery-wh" class="power-w">100.0 Wh</span>
+              </div>
+              <div class="progress-track">
+                <div class="progress-fill battery-fill" id="bar-battery" style="width: 100%;"></div>
+              </div>
+              <span class="sub-caption" id="caption-battery">Toy 100 Wh reserve; fixed 18 W load</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Presets -->
+        <div class="panel-section presets-section">
+          <h2 class="section-title">Mission Scenarios</h2>
+          <div class="preset-buttons">
+            <button class="preset-btn active" data-preset="historical">
+              <span class="preset-name">Philae-inspired Bounce (Toy)</span>
+              <span class="preset-desc">Unanchored synthetic flight, not the historical route</span>
+            </button>
+            <button class="preset-btn" data-preset="nominal">
+              <span class="preset-name">Idealized Latch</span>
+              <span class="preset-desc">Either hold-down switch stops motion on first contact (toy)</span>
+            </button>
+            <button class="preset-btn" data-preset="escape">
+              <span class="preset-name">Escape Velocity Exceeded</span>
+              <span class="preset-desc">Fast arrival may escape the comet, not the Solar System</span>
+            </button>
+            <button class="preset-btn" data-preset="trampoline">
+              <span class="preset-name">Hard Ice Trampoline</span>
+              <span class="preset-desc">Toy e=0.60, not a measured ice property; three-contact cutoff</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Subsystem Toggles & Sliders -->
+        <div class="panel-section hardware-section">
+          <h2 class="section-title">Hardware Subsystems</h2>
+          <div class="toggle-group">
+            <label class="toggle-item">
+              <input type="checkbox" id="check-harpoons">
+              <span class="toggle-slider"></span>
+              <span class="toggle-label">
+                <strong>Twin Anchoring Harpoons</strong>
+                <small>Pyrotechnic ice tethers to lock feet</small>
+              </span>
+            </label>
+            <label class="toggle-item">
+              <input type="checkbox" id="check-thruster">
+              <span class="toggle-slider"></span>
+              <span class="toggle-label">
+                <strong>Cold Gas Thruster</strong>
+                <small>Top nozzle downforce to halt vertical recoil</small>
+              </span>
+            </label>
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-item">
+              <div class="slider-header">
+                <span>Landing Gear Restitution (e)</span>
+                <span id="lbl-restitution">0.38</span>
+              </div>
+              <input type="range" id="slider-restitution" min="0.05" max="0.95" step="0.01" value="0.38">
+            </div>
+            <div class="slider-item">
+              <div class="slider-header">
+                <span>Tangential Speed Retained (factor)</span>
+                <span id="lbl-friction">0.85</span>
+              </div>
+              <input type="range" id="slider-friction" min="0.10" max="1.00" step="0.05" value="0.85">
+            </div>
+          </div>
+        </div>
+
+        <!-- CIVA Panoramic Mini-Cam Window -->
+        <div class="panel-section civa-section">
+          <div class="civa-header">
+            <h2 class="section-title">Illustrative Camera View</h2>
+            <span class="civa-badge">NOT MISSION IMAGERY</span>
+          </div>
+          <div class="civa-container">
+            <canvas id="civa-canvas" width="360" height="150"></canvas>
+            <div class="civa-caption" id="civa-caption">
+              Stylized toy scene, not a reconstruction of the landing site.
+            </div>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <!-- Historical Briefing / Educational Notes -->
+    <footer class="field-notes">
+      <div class="notes-grid">
+        <div class="note-card">
+          <h3>The Whisper of Microgravity</h3>
+          <p>
+            Comet 67P has a mass of roughly 10 billion metric tons. Surface gravity varies;
+            <strong>0.3 mm/s² = 300 μm/s² = 0.0003 m/s²</strong> is an illustrative scale,
+            about 1/30,000 of Earth's gravity. Escape speed is position-dependent, of order 1 m/s;
+            direction and rotation matter. Leaving the comet does not mean leaving the Solar System.
+          </p>
+        </div>
+        <div class="note-card">
+          <h3>The Thruster & Harpoon Failure</h3>
+          <p>
+            Philae carried a cold-gas hold-down system and anchoring harpoons. The hold-down system
+            was unavailable and the harpoons did not deploy at first contact. This toy does not diagnose
+            the hardware failures; either enabled switch simply stops all motion at contact.
+          </p>
+        </div>
+        <div class="note-card">
+          <h3>Restitution Is a Speed Ratio</h3>
+          <p>
+            The toy uses normal restitution <strong>e = 0.38</strong>: normal rebound speed is 38% of
+            incident normal speed, retaining e² = 0.1444 (14.44%) of normal kinetic energy and losing
+            85.56%. Total energy also depends on tangential motion. This is not a measured historical
+            coefficient. The synthetic path and forced third-contact settling do not reproduce Philae's flight.
+          </p>
+        </div>
+        <div class="note-card">
+          <h3>Abydos: Darkness & Science</h3>
+          <p>
+            Philae ultimately rested at the poorly illuminated Abydos site and completed its initial
+            science sequence before primary-battery exhaustion roughly 60 hours after landing.
+            Its primary battery was not rechargeable. Here, a deliberately simplified rechargeable
+            100 Wh reserve receives 32 W in light or 1.5 W in shadow against a fixed 18 W load;
+            it does not reproduce that lifetime or the real power system.
+          </p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script src="model.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
