@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Eighty Days — run the 1889 race around the world</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
+  <script defer src="model.js"></script><script defer src="app.js"></script>
+</head>
+<body>
+<main class="page">
+  <header class="masthead"><a class="wordmark" href="../">DAILY SLOP <span>/ 114</span></a><span class="edition">NOV 14, 2026 · A TIMETABLE RACE, REBUILT FROM THE 1889 SAILING LISTS</span></header>
+  <section class="intro"><div><p class="eyebrow">ONE CARPET BAG. FOURTEEN STEAMERS. 21,740 MILES.</p><h1>Eighty Days<span class="title-dot">.</span></h1></div><p class="lede">Nov 14, 1889: Nellie Bly sails east to beat a clock that exists only in a novel.<br>Pick your boats, keep the mail-boat chain alive — miss one and you lose a week.</p></section>
+  <div class="workbench">
+    <section class="map-panel" aria-label="Route map">
+      <div class="map-heading"><span><i class="live-dot"></i> THE ROUTE — EASTBOUND, AS SHE SAILED IT</span><span id="rival-status">Rival: boarding in New York</span></div>
+      <canvas id="map" width="780" height="440" role="img" aria-label="World map with the 1889 route"></canvas>
+      <div class="clock-strip">
+        <div class="elapsed"><strong id="elapsed-day">DAY 1</strong><span id="elapsed-clock">0d 0h 00m elapsed</span></div>
+        <div class="pace"><div class="pace-bar"><div id="pace-fill"></div><div id="pace-dot"></div><i class="tick nellie" style="left:80.3%" title="Nellie 72d 6h"></i><i class="tick bisland" style="left:85.3%" title="Bisland 76½d"></i><i class="tick verne" style="left:88.9%" title="Verne 80d"></i></div><div class="pace-key"><span class="k nellie">N · 72d 6h — Bly</span><span class="k bisland">B · 76½d — Bisland</span><span class="k verne">V · 80d — Verne</span><span id="pace-note"></span></div></div>
+        <div class="clocks"><div><span class="clock-label">HOME — HOBOKEN</span><strong id="home-clock"></strong></div><div><span class="clock-label" id="local-label">LOCAL</span><strong id="local-clock"></strong></div></div>
+      </div>
+    </section>
+    <aside class="sidebar">
+      <section class="card port-card"><p class="eyebrow">01 / YOU ARE HERE</p><h2 id="port-name">Hoboken, N.J.</h2><p id="arrived-info" class="arrived"></p><p id="port-flavor" class="flavor"></p></section>
+      <section class="card"><p class="eyebrow">02 / OUTBOUND — CHOOSE YOUR SAILING</p><div id="options" aria-label="Outbound sailings"></div></section>
+      <section class="card log-card"><p class="eyebrow">03 / SHIP'S LOG</p><div id="log" aria-live="polite"></div></section>
+    </aside>
+  </div>
+  <footer class="footnotes"><p><strong>Every boat on this board is the 1889 timetable.</strong> The mail chain — P&O from Brindisi, the Oceanic out of Hong Kong — sails once a week. Nellie Bly caught every link and beat Jules Verne's fictional eighty days by seven days, 18 hours. Her rival Elizabeth Bisland, sailing west, missed hers at Queenstown. <span class="muted">Time zones are railway standard time, 1889; Bisland's map position is interpolated.</span></p><p>Steamers, trains and a special engine · locally generated<br>Built by GLM-5.3 Flash</p></footer>
+</main>
+<div id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="modal-card"><p class="eyebrow" id="modal-kicker">VOYAGE COMPLETE</p><h2 id="modal-title"></h2><strong id="modal-big"></strong><p id="modal-text"></p><div class="modal-actions"><button id="modal-close">Study the map</button><button id="restart" class="primary">Sail again <span>↺</span></button></div></div></div>
+</body></html>
