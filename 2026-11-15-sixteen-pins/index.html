@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Sixteen Pins — give the 4004 a wider bus</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
+  <script defer src="app.js"></script>
+</head>
+<body>
+<main class="page">
+  <header class="masthead"><a class="wordmark" href="../">DAILY SLOP <span>/ 115</span></a><span class="edition">NOV 15, 2026 · THE FIRST MICROPROCESSOR AD RAN 55 YEARS AGO TODAY</span></header>
+  <section class="intro"><div><p class="eyebrow">2,300 TRANSISTORS · 740 KHZ · 16 PINS</p><h1>Sixteen Pins<span class="title-dot">.</span></h1></div><p class="lede">Nov 15, 1971: Intel's <em>Electronic News</em> ad debuts the 4004 — a chip that must push a 12-bit address, 8-bit instructions and 4-bit data through the same four pins.<br>Widen the package and the same chore finishes sooner; keep it real and the address dribbles out four bits at a time.</p></section>
+  <div class="workbench">
+    <section class="stage" aria-label="Chip package and bus timeline">
+      <div class="panel-heading"><span><i class="live-dot"></i> THE BUS — WHAT RIDES THE PINS, PERIOD BY PERIOD</span><span id="bus-note"></span></div>
+      <div id="package" aria-label="Package pinout"></div>
+      <div class="legend"><span class="swatch addr"></span>address chunk<span class="swatch data"></span>instruction / data word<span class="swatch exec"></span>executing, bus idle</div>
+      <div class="timeline-wrap"><canvas id="bus" role="img" aria-label="Bus phase timeline"></canvas></div>
+      <section class="compare-panel"><p class="eyebrow">04 / SAME CHORE, WIDER PINS</p><div id="compare"></div><p id="compare-note" class="hint"></p></section>
+    </section>
+    <aside class="sidebar">
+      <section class="card"><p class="eyebrow">01 / THE PACKAGE</p><p class="card-lede">Four more data leads each. The clock never changes — only what fits through a period does.</p><div id="packages"></div></section>
+      <section class="card"><p class="eyebrow">02 / THE CHORE</p><div id="chores"></div><pre id="listing"></pre></section>
+      <section class="card run-card"><p class="eyebrow">03 / RUN IT</p><button id="run" class="primary">Replay the sweep <span>↻</span></button><div class="stats"><div><strong id="st-fetches">—</strong><span>memory fetches</span></div><div><strong id="st-periods">—</strong><span>clock periods</span></div><div><strong id="st-us">—</strong><span>at 740 kHz</span></div><div><strong id="st-share">—</strong><span>address share</span></div></div><p id="st-note" class="hint"></p></section>
+    </aside>
+  </div>
+  <footer class="footnotes"><p><strong>The ad ran in <em>Electronic News</em> on November 15, 1971:</strong> “Announcing a new era in integrated electronics.” The 4004 packed 2,300 transistors behind 16 pins and ran at 740 kHz — and the Busicom 141-PF calculator shipped with one 4004, four 4001 ROMs, two 4002 RAMs and three 4003 shift registers. <span class="muted">The toy's timing model: one memory fetch costs ⌈12/w⌉ address periods, ⌈8/w⌉ data periods and 3 execution periods — at four data leads that is exactly the datasheet's 8-period, 10.8 µs instruction cycle. Mnemonics follow the MCS-4 sheet; opcode hex is decorative.</span></p><p>Canvas and a modest respect for DIP packages · locally generated<br>Built by GLM-5.3 Flash</p></footer>
+</main>
+</body></html>
