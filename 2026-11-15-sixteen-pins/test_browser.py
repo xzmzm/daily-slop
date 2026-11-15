@@ -20,23 +20,23 @@ def main():
         page.goto((HERE / 'index.html').as_uri())
         page.wait_for_selector('#bus canvas, #bus')
 
-        # As built: 9 fetches x 8 periods = the datasheet cycle.
+        # As built: 8 fetches x 8 periods = the datasheet cycle.
         s = page.evaluate('SixteenPins.getState()')
         assert (s['width'], s['chore']) == (4, 'add'), s
-        assert (s['fetches'], s['periods']) == (9, 72), s
-        assert math.isclose(s['microseconds'], 72 * PERIOD_US, rel_tol=1e-12), s
-        assert math.isclose(s['addrShare'], 27 / 72), s
+        assert (s['fetches'], s['periods']) == (8, 64), s
+        assert math.isclose(s['microseconds'], 64 * PERIOD_US, rel_tol=1e-12), s
+        assert math.isclose(s['addrShare'], 24 / 64), s
 
         # Wider fantasy packages shrink only the address chunks.
-        for width, periods, addr_periods in [(8, 54, 18), (12, 45, 9), (16, 45, 9)]:
+        for width, periods, addr_periods in [(8, 48, 16), (12, 40, 8), (16, 40, 8)]:
             page.click(f'.pkg[data-width="{width}"] button')
             s = page.evaluate('SixteenPins.getState()')
-            assert (s['fetches'], s['periods']) == (9, periods), (width, s)
+            assert (s['fetches'], s['periods']) == (8, periods), (width, s)
             assert math.isclose(s['addrShare'], addr_periods / periods), (width, s)
 
         # Chore sizes at the real 16-pin package.
         page.click('.pkg[data-width="4"] button')
-        for chore, periods in [('mul', 120), ('scan', 144)]:
+        for chore, periods in [('mul', 112), ('scan', 144)]:
             page.click(f'.chore[data-chore="{chore}"] button')
             s = page.evaluate('SixteenPins.getState()')
             assert s['periods'] == periods, (chore, s)
@@ -46,7 +46,7 @@ def main():
         page.click('#run')
         page.wait_for_function('!SixteenPins.getState().sweeping', timeout=15000)
         s = page.evaluate('SixteenPins.getState()')
-        assert (s['revealed'], s['periods']) == (72, 72), s
+        assert (s['revealed'], s['periods']) == (64, 64), s
         assert s['runCount'] == 1, s
 
         # Timeline, package and compare strip all rendered something.

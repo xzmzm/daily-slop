@@ -25,8 +25,9 @@ const PACKAGES = [
   { width: 16, pins: 28, name: '28 pins', tag: 'FANTASY', blurb: 'A word per period — but the fetch floor stays put.' },
 ];
 
-/* Two-word MCS-4 instructions (JUN, JMS, FIM, BBL, JCN) take two ROM words.
-   Mnemonics follow the MCS-4 sheet; opcode hex is decorative. */
+/* Two-word MCS-4 instructions — JCN, FIM, JUN, JMS — take two ROM words.
+   BBL looks like a fifth but isn't: 1100 DDDD carries its data in the OPA
+   nibble of the single word. Encodings per the MCS-40 User's Manual (Nov 74). */
 const CHORES = [
   {
     id: 'add', name: 'Add two numbers', tag: '6 INSTR',
@@ -36,8 +37,8 @@ const CHORES = [
       { text: 'FIM 1P,$17', opcode: 0x22, operand: 0x17 },
       { text: 'LD 0', opcode: 0xA0 },
       { text: 'ADD 1', opcode: 0x81 },
-      { text: 'WRR', opcode: 0xE4 },
-      { text: 'BBL 0', opcode: 0x30, operand: 0x00 },
+      { text: 'WRR', opcode: 0xE2 },
+      { text: 'BBL 0', opcode: 0xC0 },
     ],
   },
   {
@@ -47,13 +48,13 @@ const CHORES = [
       { text: 'FIM 0P,$07', opcode: 0x20, operand: 0x07 },
       { text: 'FIM 1P,$05', opcode: 0x22, operand: 0x05 },
       { text: 'LDM 0', opcode: 0xD0 },
-      { text: 'JMS mul', opcode: 0x50, operand: 0x0A },
-      { text: 'WMP', opcode: 0xE0 },
-      { text: 'BBL 0', opcode: 0x30, operand: 0x00 },
+      { text: 'JMS mul', opcode: 0x52, operand: 0x09 },
+      { text: 'WMP', opcode: 0xE1 },
+      { text: 'BBL 0', opcode: 0xC0 },
       { text: 'mul: INC 1', opcode: 0x61 },
       { text: 'ADD 0', opcode: 0x80 },
-      { text: 'RAL', opcode: 0xF0 },
-      { text: 'JUN mul', opcode: 0x40, operand: 0x0A },
+      { text: 'RAL', opcode: 0xF5 },
+      { text: 'JUN mul', opcode: 0x42, operand: 0x09 },
     ],
   },
   {
@@ -63,19 +64,19 @@ const CHORES = [
       { text: 'FIM 0P,$A0', opcode: 0x20, operand: 0xA0 },
       { text: 'LDM 3', opcode: 0xD3 },
       { text: 'SRC 0', opcode: 0x21 },
-      { text: 'WRM', opcode: 0xE1 },
+      { text: 'WRM', opcode: 0xE0 },
       { text: 'INC 0', opcode: 0x60 },
       { text: 'LDM 3', opcode: 0xD3 },
       { text: 'SRC 0', opcode: 0x21 },
-      { text: 'WRM', opcode: 0xE1 },
+      { text: 'WRM', opcode: 0xE0 },
       { text: 'INC 0', opcode: 0x60 },
       { text: 'LDM 3', opcode: 0xD3 },
       { text: 'SRC 0', opcode: 0x21 },
-      { text: 'WRM', opcode: 0xE1 },
+      { text: 'WRM', opcode: 0xE0 },
       { text: 'INC 0', opcode: 0x60 },
       { text: 'LDM 3', opcode: 0xD3 },
       { text: 'SRC 0', opcode: 0x21 },
-      { text: 'WRM', opcode: 0xE1 },
+      { text: 'WRM', opcode: 0xE0 },
       { text: 'INC 0', opcode: 0x60 },
     ],
   },

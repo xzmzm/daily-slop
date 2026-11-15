@@ -36,16 +36,20 @@ Visit <http://localhost:8765>. From the repository root, use
 - The ad ("Announcing a new era in integrated electronics") ran in
   *Electronic News* on November 15, 1971 — 55 years ago today.
 - 740 kHz two-phase clock, 8 clock periods per instruction cycle, 10.8 µs —
-  the toy reproduces both exactly at four data leads (9 fetches × 8 periods
-  = 72 periods = 97.3 µs for the add chore).
+  the toy reproduces both exactly at four data leads (8 fetches × 8 periods
+  = 64 periods = 86.5 µs for the add chore).
 - The 4004 sent the 12-bit address in three 4-bit chunks and read each 8-bit
   ROM word in two: three address periods, two data periods, three to execute.
-- Two-word MCS-4 instructions (JUN, JMS, FIM, BBL, JCN) occupy two ROM words,
-  and the chores use them that way.
+- Two-word MCS-4 instructions — JCN, FIM, JUN, JMS — occupy two ROM words.
+  BBL looks like a fifth but isn't: `1100 DDDD` carries its data in the OPA
+  nibble of the single word (MCS-40 User's Manual, Nov 1974), and the chores
+  branch back with one fetch. (FIN is the opposite quirk: one word, but two
+  memory cycles to execute.)
 
-Mnemonics follow the MCS-4 assembly sheet; the opcode hex is decorative. The
-execution pad is modeled as a constant 3 periods, so wider buses shrink only
-the address and word chunks — that is the toy's one honest simplification.
+Opcode hex follows the Nov-74 MCS-40 manual (WRM = 0xE0, WMP = 0xE1,
+WRR = 0xE2, RAL = 0xF5, BBL = 0xC0). The execution pad is modeled as a
+constant 3 periods, so wider buses shrink only the address and word chunks —
+that is the toy's one honest simplification.
 
 ## Verification
 

@@ -35,10 +35,10 @@ does **not** shrink when the bus widens, which is what makes the comparison
 bars honest.
 
 **Fetches, not instructions.** A 1-word instruction is one fetch; a 2-word
-instruction (the five MCS-4 two-worders: JUN, JMS, FIM, BBL, JCN) is two
-fetches at consecutive ROM word addresses. The add chore is 9 fetches →
-72 periods at 16 pins, 54 at 20 pins, 45 at 24 and 28 pins — the last two
-tie because the address already fits in one period.
+instruction (the MCS-4 two-worders: JCN, FIM, JUN, JMS) is two fetches at
+consecutive ROM word addresses. The add chore is 8 fetches → 64 periods at
+16 pins, 48 at 20 pins, 40 at 24 and 28 pins — the last two tie because the
+address already fits in one period.
 
 **Chunking.** Each phase's hex label is the fetch's address or word, masked
 to `w` bits, low chunk first — the real chip sent A1 (bits 0–3) first. On
@@ -52,6 +52,22 @@ package existed.
 
 ## Interesting notes
 
+- **Erratum (same day, reader-spotted):** the first shipped version counted
+  `BBL 0` as two ROM fetches, inflating the add chore to 9 fetches / 72
+  periods / 97.3 µs. The MCS-40 User's Manual (Nov 1974, section 1) specifies
+  BBL as `1100 DDDD` — one word, with the return data in the OPA nibble —
+  so the add chore is 8 fetches / 64 periods / 86.5 µs, and the whole video
+  was re-rendered with the corrected numbers. The wider-bus story was never
+  affected: ratios between packages are unchanged, since the fix removes one
+  fetch from every package equally.
+- The same manual check corrected my decorative hex for free: WRM = 0xE0,
+  WMP = 0xE1 (I had them swapped), WRR = 0xE2, RAL = 0xF5, BBL = 0xC0. Every
+  opcode in the chores is now manual-verified.
+- FIN is the mirror-image quirk of BBL: `0011 RRR0` is one word, but the
+  manual notes its execution "requires two memory cycles (21.6 Msec)" —
+  encoding width and cycle count are genuinely independent facts. The
+  MCS-4's two-word instructions are JCN, FIM, JUN, JMS — four, not the five
+  Wikipedia's phrasing suggested to me on day one.
 - The model fell out of one datasheet sentence: "addressing ROM required
   three clock cycles, and another two to read it from memory." Three + two
   leaves **three** periods — I had first modeled the pad as 4, which broke
@@ -60,11 +76,8 @@ package existed.
   3/8 = 37.5%.
 - The 24-pin vs 28-pin tie was accidental and became the best beat in the
   piece: beyond 12 data leads, extra pins are pure silicon. It's the payoff
-  line in card 04.
-- Opcode hex is decorative where I couldn't verify it. I'm confident about
-  the 0x2x FIM/SRC space, LDM = 0xDx, and the 1-word/2-word split; WRR, WRM,
-  RAL values are plausible but not checked against the datasheet. The toy's
-  claim is about timing, not encodings — README says so.
+  line in card 04. It survives the BBL fix (40 = 40 for add, 70 = 70 for
+  multiply).
 - Sources disagree on the 4004's supply rail (−10 V vs −15 V); I left the
   voltage out rather than guess.
 - The Busicom 141-PF shipped with one 4004, four 4001 ROMs, two 4002 RAMs
@@ -76,6 +89,6 @@ package existed.
   test was wrong. Also learned that `Locator.inner_text()` refuses SVG
   nodes — `evaluate('el.textContent')` instead.
 - Left out on purpose: looping chores (the timeline is one straight pass),
-  RAM-port phases (SRC/WPM have their own protocol), and any notion that
-  wider buses could fetch opcode+operand in one period — sequential fetches
-  keep the floor.
+  RAM-port phases (SRC/WPM have their own protocol), FIN's double-cycle
+  execution, and any notion that wider buses could fetch opcode+operand in
+  one period — sequential fetches keep the floor.

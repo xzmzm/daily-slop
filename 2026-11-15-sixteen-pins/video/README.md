@@ -33,14 +33,14 @@ on a state the adapter asserts (`SixteenPins.getState()` — width, chore,
 periods).
 
 1. Introduce the premise on the as-built package (16 pins, four amber data
-   leads, 72 periods for the add chore).
+   leads, 64 periods for the add chore — 8 fetches, BBL counting once).
 2. Click *Replay the sweep* → the full timeline: A1 A2 A3 address chunks,
    M1 M2 word fetches, X1–X3 execution; 3 of every 8 periods are address.
-3. Click *20 pins* → address in two chunks, 54 periods, 73.0 µs.
-4. Click *24 pins* → the whole address in one period, 60.8 µs, fantasy bay
+3. Click *20 pins* → address in two chunks, 48 periods, 64.9 µs.
+4. Click *24 pins* → the whole address in one period, 54.1 µs, fantasy bay
    drawn.
 5. Click *28 pins*, then *Multiply 7 × 5* → the 24/28 tie; the word fetch
-   sets the floor (101.4 µs).
+   sets the floor (94.6 µs).
 6. Click *Refresh the register display*, then back to *16 pins* → 144
    periods, 194.6 µs, a third of them address — the closing beat.
 
