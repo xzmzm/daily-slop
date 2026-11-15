@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Twenty-Three Wide — the Arecibo message, wrapped right</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
+  <script defer src="app.js"></script>
+</head>
+<body>
+<main class="page">
+  <header class="masthead"><a class="wordmark" href="../">DAILY SLOP <span>/ 116</span></a><span class="edition">NOV 16, 2026 · THE ARECIBO MESSAGE WENT OUT 52 YEARS AGO TODAY</span></header>
+  <section class="intro"><div><p class="eyebrow">1,679 BITS · 23 × 73 · 2,380 MHZ · 450 KW · 10 BIT/S</p><h1>Twenty-Three Wide<span class="title-dot">.</span></h1></div><p class="lede">Nov 16, 1974: the Arecibo dish beamed humanity's first deliberate interstellar message at globular cluster M13 — 1,679 bits at 10 bits/s, under three minutes of airtime.<br>1,679 is a semiprime, 23 × 73: re-wrap the tape and exactly one width draws a picture. Flip bits, paint the sections, replay the broadcast.</p></section>
+  <div class="workbench">
+    <section class="stage" aria-label="Arecibo message feed, grid and transmitter">
+      <div class="stage-row">
+        <div class="feed-wrap">
+          <div class="panel-heading"><span><i class="live-dot"></i> THE FEED — AS BEAMED</span><span>23 LINES × 73</span></div>
+          <pre id="feed" aria-label="The raw 1,679-bit transmission, 73 bits per line"></pre>
+          <p class="feed-note">The tape as recorded, broken every 73 bits — <strong>these line breaks are not the message</strong>. 1,679 divides only by 23 and 73, so one other rectangle exists. Find it.</p>
+        </div>
+        <div class="grid-wrap">
+          <div class="panel-heading"><span><i class="live-dot"></i> THE GRID — WRAPPED AT <span id="stride-label">23</span></span><span id="grid-note">HOVER A CELL</span></div>
+          <div class="canvas-holder"><canvas id="grid" role="img" aria-label="The message bits re-wrapped"></canvas></div>
+          <div class="legend" id="legend">
+            <span class="swatch"></span><span id="legend-on">a 1 bit</span>
+            <span class="swatch dim"></span>a 0 bit
+          </div>
+        </div>
+      </div>
+      <section class="tx-panel" aria-label="Transmit">
+        <div class="tx-controls">
+          <p class="eyebrow">04 / REPLAY THE BROADCAST</p>
+          <div class="btn-row">
+            <button id="run" class="primary">Transmit <span>▸</span></button>
+            <div class="chips" id="speeds">
+              <button class="chip" data-speed="1">×1</button>
+              <button class="chip" data-speed="10">×10</button>
+              <button class="chip on" data-speed="100">×100</button>
+            </div>
+            <button class="chip" id="sound" aria-pressed="false">SOUND OFF</button>
+          </div>
+        </div>
+        <div class="tx-stats">
+          <div><strong id="st-bits">0 / 1,679</strong><span>bits sent</span></div>
+          <div><strong id="st-air">0.0 s</strong><span>airtime at 10 bit/s</span></div>
+          <div><strong id="st-front">—</strong><span>signal front</span></div>
+        </div>
+        <div class="tx-status"><p id="tx-line">450 kW into the dish, pointed at M13 in Hercules. Press Transmit — the real beam ran 167.9 s and never repeated.</p><button id="skip" class="chip" hidden>SKIP TO ARRIVAL →</button></div>
+      </section>
+    </section>
+    <aside class="sidebar">
+      <section class="card"><p class="eyebrow">01 / THE WIDTH</p><p class="card-lede">Same bits, any wrap. Only one says hello.</p>
+        <div class="slider-row"><input id="stride" type="range" min="12" max="90" value="23" step="1" aria-label="Grid width in columns"><strong id="stride-val">23</strong></div>
+        <div class="btn-row">
+          <button class="chip snap" data-stride="23">23 · THE MESSAGE</button>
+          <button class="chip snap" data-stride="73">73 · THE SLAB</button>
+        </div>
+        <p id="factor" class="hint"></p>
+      </section>
+      <section class="card"><p class="eyebrow">02 / WHAT IT SAYS</p><p class="card-lede">Seven sections, top to bottom. The colors are a modern courtesy — the beam carried no color.</p>
+        <button id="colorize" class="chip wide" aria-pressed="false">PAINT THE STANDARD COLORS</button>
+        <div id="picks"></div>
+        <p id="detail" class="hint"></p>
+      </section>
+      <section class="card"><p class="eyebrow">03 / PAINT YOUR ANSWER</p><p class="card-lede">The 1974 crowd never asked permission. Neither should you.</p>
+        <button id="paint" class="chip wide" aria-pressed="false">LIFT THE PEN</button>
+        <div class="stats two"><div><strong id="st-ones">397</strong><span>ones on the plate</span></div><div><strong id="st-total">1,679</strong><span>cells — always 23 × 73</span></div></div>
+        <p id="paint-note" class="hint">Re-wrap at 23, lift the pen, click any cell. The rectangle survives every edit — that is the semiprime trick.</p>
+        <button id="reset" class="chip wide" hidden>RESTORE THE 1974 BITS</button>
+      </section>
+    </aside>
+  </div>
+  <footer class="footnotes"><p><strong>The broadcast:</strong> November 16, 1974, at the rededication of the Arecibo telescope. Frank Drake, James C. G. Walker, Linda M. French and Richard Isaacman designed the message; Carl Sagan helped. 1,679 bits went out once, at 2,380 MHz shifted ±10 Hz, 450 kW, 10 bits/s — 167.9 seconds of airtime, aimed at M13, 25,000 light-years away in Hercules. The front reaches M13's 1974 position around the year 26,974; the cluster will have moved on, but its core still catches most of the beam. <span class="muted">The grid above carries the real transmitted bits; the section colors and boxes are this page's annotation, not part of the signal.</span></p><p>Canvas, one semiprime and 52 years of patience · locally generated<br>Built by GLM-5.3 Flash</p></footer>
+</main>
+</body></html>
