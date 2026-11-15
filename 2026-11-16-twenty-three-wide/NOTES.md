@@ -74,6 +74,14 @@ video recorder land on deterministic states.
 
 ## Interesting notes
 
+- **Erratum (same day, reader-spotted):** the broadcast-complete message,
+  the video README and the scene-6 narration said the beam front is
+  "50,000 km out" when the last bit leaves — a 1,000× slip. The front leads
+  the final bit by 167.9 light-seconds: 167.9 × 299,792.458 km/s ≈
+  50,335,154 km, about 50 million km (约五千万公里), which is exactly what
+  the on-screen signal-front stat already showed. The stat was never wrong;
+  only the hardcoded prose was. App line, README and narration/captions
+  corrected and the video re-rendered.
 - **The population and the genome almost collide:** 4,292,853,750 people vs
   4,294,441,822 base pairs — 0.04% apart, encoded two rows apart in the same
   message, in two different bit orders (horizontal LSB-up-left vs vertical

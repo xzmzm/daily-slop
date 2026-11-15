@@ -210,7 +210,7 @@ function tick(now) {
       state.flightKm = (N / BIT_RATE) * C_KMS;   // the front leads the last bit out by 167.9 light-seconds
       $('#run').textContent = 'Transmit '; $('#run').disabled = false;
       $('#skip').hidden = false;
-      line('<strong>Broadcast complete.</strong> 1,679 bits, 167.9 seconds of airtime, one shot, never repeated. The beam front is already 50,000 km out and climbing at lightspeed — the flight clock is scaled ×' + state.speed + '.');
+      line('<strong>Broadcast complete.</strong> 1,679 bits, 167.9 seconds of airtime, one shot, never repeated. The beam front is already about 50 million km out and climbing at lightspeed — the flight clock is scaled ×' + state.speed + '.');
     }
   } else if (state.phase === 'flight') {
     if (!state.frozen) state.flightKm = (N / BIT_RATE) * C_KMS + ((now - flight0) / 1000) * state.speed * C_KMS;

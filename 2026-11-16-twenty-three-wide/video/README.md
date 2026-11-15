@@ -44,8 +44,8 @@ on a state the adapter asserts (`Arecibo.getState()`).
    3.2.
 5. Click *LIFT THE PEN*, add one hat pixel above the figure's head, then
    *RESTORE* — the rectangle survives every edit; the 1974 bits come back.
-6. Click *Transmit* (×100) — the tape fills, the front parks at 50,353 km,
-   the flight phase waits.
+6. Click *Transmit* (×100) — the tape fills, the front parks at ≈50,335,000 km
+   (167.9 light-seconds, about 50 million km), the flight phase waits.
 7. Click *SKIP TO ARRIVAL* — the year-26,974 card; closing beat.
 
 Scene transitions happen in 3.2-second silent gaps (1.6 s after the last).
