@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Drive by Stills — Lunokhod 1, one picture every 20 seconds</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
+  <script defer src="app.js"></script>
+</head>
+<body>
+<main class="page">
+  <header class="masthead"><a class="wordmark" href="../">DAILY SLOP <span>/ 117</span></a><span class="edition">NOV 17, 2026 · LUNOKHOD 1 REACHED THE MOON 56 YEARS AGO TODAY</span></header>
+  <section class="intro">
+    <div><p class="eyebrow">MARE IMBRIUM · 8 WHEELS · 0.8 AND 2.0 KM/H · 1.28 LIGHT-SECONDS</p><h1>Drive by Stills<span class="title-dot">.</span></h1></div>
+    <p class="lede">Nov 17, 1970: Luna 17 set the first rover on another world, and a five-man crew in Crimea drove it by television. The television was slow-scan: one still picture at a time, by the usual account about every 20 seconds.<br>Take the driver's seat. The picture is always old, the rover is never where it shows, and a crater sits on the direct line to the waypoint.</p>
+  </section>
+
+  <div class="workbench">
+    <section class="panel" aria-label="Television picture and command pad">
+      <div class="panel-heading"><span><i class="live-dot"></i> THE PICTURE — <span id="frame-label">FRAME 000</span></span><span id="rx-label">CAMERA IDLE</span></div>
+      <div class="tv-holder"><canvas id="tv" width="640" height="480" role="img" aria-label="The rover's last complete television picture, with the next one scanning in from the top"></canvas></div>
+      <div class="gauges">
+        <div class="hot"><strong id="st-age">0.0 s</strong><span>picture age</span></div>
+        <div class="hot"><strong id="st-stale">0.0 m</strong><span>driven since it was taken</span></div>
+        <div><strong id="st-heading">000°</strong><span>gyro heading</span></div>
+        <div><strong id="st-odo">0.0 m</strong><span>ninth-wheel odometer</span></div>
+        <div class="wide"><strong id="st-wp">—</strong><span>navigator: waypoint bears</span></div>
+      </div>
+      <div class="pad" role="group" aria-label="Rover commands">
+        <button class="cmd" data-cmd="LEFT">TURN LEFT<span>A · ←</span></button>
+        <button class="cmd" data-cmd="F1">FORWARD 1<span>0.8 km/h · W</span></button>
+        <button class="cmd" data-cmd="F2">FORWARD 2<span>2.0 km/h · 2</span></button>
+        <button class="cmd" data-cmd="RIGHT">TURN RIGHT<span>D · →</span></button>
+        <button class="cmd stop" data-cmd="STOP">STOP<span>SPACE</span></button>
+        <button class="cmd" data-cmd="REV">REVERSE<span>0.8 km/h · S</span></button>
+      </div>
+      <p id="uplink" class="uplink" aria-live="polite"></p>
+    </section>
+
+    <section class="panel" aria-label="Navigator's chart">
+      <div class="panel-heading"><span><i class="live-dot"></i> THE NAVIGATOR'S CHART</span><span id="seed">GROUND 1970</span></div>
+      <canvas id="chart" role="img" aria-label="Top-down chart built only from delivered pictures and telemetry"></canvas>
+      <div class="legend">
+        <span><i class="key rover"></i>rover, by telemetry</span>
+        <span><i class="key wedge"></i>where the picture was taken</span>
+        <span><i class="key seen"></i>ground a picture has covered</span>
+      </div>
+    </section>
+
+    <aside class="sidebar">
+      <section class="card"><p class="eyebrow">01 / THE CAMERA</p><p class="card-lede">One frame takes this long to scan and send. Changing it starts a new drive.</p>
+        <div class="chips" id="periods">
+          <button class="chip" data-period="21.1">21.1 s</button>
+          <button class="chip" data-period="10.9">10.9 s</button>
+          <button class="chip" data-period="5.7">5.7 s</button>
+          <button class="chip" data-period="3.2">3.2 s</button>
+        </div>
+        <p class="hint">These are the four settings documented for Lunokhod 2's cameras (1973). Lunokhod 1 is usually said to have managed about one picture every 20 s — the slow end.</p>
+      </section>
+      <section class="card"><p class="eyebrow">02 / THE CLOCK</p><p class="card-lede">Moon time per second of yours. The real shift ran at ×1.</p>
+        <div class="chips" id="warps">
+          <button class="chip" data-warp="1">×1</button>
+          <button class="chip" data-warp="4">×4</button>
+          <button class="chip" data-warp="8">×8</button>
+        </div>
+        <div class="stats"><div><strong id="st-clock">T+00:00</strong><span>mission clock</span></div><div><strong id="st-frames">0</strong><span>pictures in</span></div><div><strong id="st-stops">0</strong><span>automatic stops</span></div></div>
+      </section>
+      <section class="card"><p class="eyebrow">03 / THE GROUND</p><p class="card-lede">The chart only knows what a delivered picture has shown.</p>
+        <button id="truth" class="chip wide" aria-pressed="false">SHOW THE GROUND TRUTH</button>
+        <div class="btn-row"><button id="restart" class="chip">BACK TO THE LANDER</button><button id="newground" class="chip">NEW GROUND</button></div>
+      </section>
+      <section class="card"><p class="eyebrow">04 / THE LOG</p>
+        <ul id="log" class="log" aria-live="polite"></ul>
+        <p class="eyebrow sub">FINISHED DRIVES</p>
+        <ul id="runs" class="log runs"></ul>
+      </section>
+    </aside>
+  </div>
+
+  <footer class="footnotes"><p><strong>The mission:</strong> Luna 17 landed in Mare Imbrium on November 17, 1970, and Lunokhod 1 rolled down its ramps a few hours later — 756 kg, eight wire-mesh wheels, two forward speeds. Five-man crews drove it in shifts from the deep-space station near Simferopol, off slow-scan television. It worked for 322 days and covered about 10.5 km. <span class="muted">The terrain, turn rate, camera height and hazard distances here are this page's model, not mission data; the two speeds, the light time and the four frame periods are real, the periods being Lunokhod 2's documented settings.</span></p><p>Two canvases, one stale picture and 1.28 light-seconds · locally generated<br>Built by Claude Fable 5.2</p></footer>
+</main>
+</body></html>
