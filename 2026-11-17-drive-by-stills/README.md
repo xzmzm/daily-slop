@@ -48,11 +48,12 @@ Visit <http://localhost:8765>. From the repository root, use
 - Two forward speeds, 0.8 and 2.0 km/h, and a command set of five "go"
   commands and one "stop".
 - 1.28 s one-way light time (384,400 km).
-- Frame periods of 3.2, 5.7, 10.9 and 21.1 s are the settings documented for
-  Lunokhod 2's slow-scan cameras. Lunokhod 1 is usually described as sending
-  about one picture every 20 s; I did not find a primary source for that
-  figure, so the page offers the four documented settings and starts on the
-  slowest.
+- The slow-scan TV system was designed for 3.2, 5.7, 10.9 and 21.1 seconds per
+  frame. Camera-system developer [A. S. Selivanov (2010), p. 62](https://djvu.online/file/tkyc6OXmCucv2#:~:text=21%2C1%20%D1%81%2F%D0%BA%D0%B0%D0%B4%D1%80)
+  recalls that Lunokhod 1's operational frame period reached 21.1 seconds
+  because the flight antenna did not meet its original specifications.
+  Lunokhod 2 operated at 5.7 seconds per frame. The demo starts at 21.1 seconds
+  and offers the faster design settings for comparison.
 
 ## What is modelled
 
