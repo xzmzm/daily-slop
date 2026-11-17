@@ -1,0 +1,17 @@
+{
+  "output": "/Users/hm/prj/daily-slop/2026-11-18-two-noons/video/two-noons-zh-fish.mp4",
+  "provider": "Fish Audio REST API",
+  "model": "s2.1-pro-free",
+  "voice_id": "95d2e56952b446189d6160a821a08707",
+  "segment_durations": [
+    19.591837,
+    18.364082,
+    12.042449,
+    14.419592,
+    11.676735,
+    15.986939
+  ],
+  "video_duration": 105.681633,
+  "fps": 15,
+  "resolution": "1920x1080"
+}

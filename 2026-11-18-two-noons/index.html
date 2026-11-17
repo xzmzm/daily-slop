@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Two Noons — the day the railroads reset North America's clocks</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
+  <script defer src="app.js"></script>
+</head>
+<body>
+<main class="page">
+  <header class="masthead"><a class="wordmark" href="../">DAILY SLOP <span>/ 118</span></a><span class="edition">NOV 18, 2026 · STANDARD TIME BEGAN ON THE RAILROADS 143 YEARS AGO TODAY</span></header>
+  <section class="intro">
+    <div><p class="eyebrow">SUNDAY, NOVEMBER 18, 1883 · FIVE MERIDIANS · 4 MINUTES PER DEGREE</p><h1>Two Noons<span class="title-dot">.</span></h1></div>
+    <p class="lede">Until this Sunday every town kept its own noon, the moment the sun crossed its own meridian. At standard noon the railroads of the United States and Canada reset their station clocks to one of five meridians.<br>Run the day. Towns east of their meridian were already past noon and set their clocks back, so noon struck twice. Towns west of it jumped forward and lost those minutes.</p>
+  </section>
+
+  <div class="workbench">
+    <section class="panel map-panel" aria-label="Map of station clocks">
+      <div class="panel-heading"><span>THE STATION CLOCKS · CLICK ANYWHERE TO PIN YOUR OWN TOWN</span><span id="gmt-label">15:30:00 GMT</span></div>
+      <svg id="map" viewBox="0 0 1000 560" role="img" aria-label="Longitude map with the five standard-time meridians, the line of local noon, and station clocks"></svg>
+      <div class="scrub">
+        <button id="play" class="chip play" aria-pressed="false">▶ RUN THE DAY</button>
+        <input id="time" type="range" min="930" max="1230" step="0.25" value="930" aria-label="Greenwich time">
+        <div class="chips" id="speeds">
+          <button class="chip" data-speed="1">1 min/s</button>
+          <button class="chip" data-speed="5">5 min/s</button>
+          <button class="chip" data-speed="15">15 min/s</button>
+        </div>
+      </div>
+      <div class="legend">
+        <span><i class="key sunline"></i>local noon, sweeping west at 15° an hour</span>
+        <span><i class="key back"></i>set back · noon struck twice</span>
+        <span><i class="key fwd"></i>jumped forward · minutes lost</span>
+      </div>
+    </section>
+
+    <aside class="sidebar">
+      <section class="card town">
+        <p class="eyebrow">01 / <span id="town-name">NEW YORK</span> <span id="town-lon" class="muted"></span></p>
+        <div class="faces">
+          <figure><svg id="face-sun" viewBox="0 0 120 120"></svg><figcaption><strong id="sun-time">—</strong><span>sun time (local mean)</span></figcaption></figure>
+          <figure><svg id="face-station" viewBox="0 0 120 120"></svg><figcaption><strong id="station-time">—</strong><span>station clock</span></figcaption></figure>
+        </div>
+        <p id="verdict" class="verdict"></p>
+        <svg id="trace" viewBox="0 0 400 170" role="img" aria-label="Station clock reading against Greenwich time around standard noon"></svg>
+        <p class="trace-key"><i class="k ink"></i>station clock <i class="k sun"></i>sun time <i class="k dot"></i>the clock reads 12:00:00</p>
+      </section>
+      <section class="card"><p class="eyebrow">02 / THE TALLY</p>
+        <div class="stats"><div><strong id="st-reset">0 / 0</strong><span>stations reset</span></div><div><strong id="st-twice" class="red">0</strong><span>heard noon twice</span></div><div><strong id="st-skip" class="blue">0</strong><span>jumped forward</span></div></div>
+        <ul id="towns" class="towns"></ul>
+      </section>
+    </aside>
+  </div>
+
+  <footer class="footnotes"><p><strong>The day:</strong> On Sunday, November 18, 1883, the railroads of the United States and Canada replaced dozens of railroad times with five standard times based on the meridians 60°, 75°, 90°, 105° and 120° west of Greenwich. Station clocks were set to standard noon as it occurred. Congress did not make standard time law until the Standard Time Act of 1918. <span class="muted">This page treats each zone as ±7.5° around its meridian, starts every clock on its town's local mean time, and uses city-centre longitudes, not the observatories that actually sent the signals. Real 1883 zone edges followed railroad division points, and some towns (Detroit most famously) kept local time for years.</span></p><p>One sweeping meridian and twenty-one station clocks · all computed locally<br>Built by Claude Opus 5.5</p></footer>
+</main>
+</body></html>
