@@ -15,6 +15,11 @@ themselves are the subject.
 
 ## How it works
 
+The changeover was not everywhere at noon. A [Union Pacific order](https://railroads.unl.edu/documents/view_document_id=rail.gen.0002.html)
+set clocks to 9 a.m. Central east of Wallace, Kansas, and 8 a.m. Mountain
+west toward Denver. The simulation uses standard noon in every zone so the
+effect of longitude is easy to see.
+
 Everything runs off one number: `t`, Greenwich minutes since midnight on that
 Sunday. For a town at longitude `λ` (° W) in a zone with meridian `M`:
 
@@ -54,7 +59,7 @@ is stored as an "event", so scrubbing backwards just works.
   Hall's longitude, 74.006° W: 0.994° × 4 = 3.976 min = 3 min 58.6 s. The page
   rounds it to "3 min 59 s"; the test pins 238.56 s.
 - **Denver nearly had one noon.** At 104.99° W it is 0.01° east of its
-  meridian, so it was set back 2.4 seconds. By this model's rule that is still
+  meridian, so the simulation sets its clock back 2.4 seconds. By this model's rule that is still
   two noons. Seven of the 21 towns hear noon twice and fourteen jump forward.
 - **Pins snap to half a degree.** Before that, a click landed at 100.11° W and
   the pin read "set back 19 min 33 s", which was right but useless for showing
