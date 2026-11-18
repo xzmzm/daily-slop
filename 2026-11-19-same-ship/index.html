@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3eee3">
+  <meta name="description" content="Work through the Ship of Theseus, one plank at a time.">
+  <title>Same Ship?</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="page">
+    <header class="masthead">
+      <p><span class="mark" aria-hidden="true">✳</span> The Theseus shipyard</p>
+      <p><time datetime="2026-11-19">19 Nov 2026</time><span class="date-detail"> · World Philosophy Day</span></p>
+    </header>
+
+    <section class="intro" aria-labelledby="title">
+      <h1 id="title">Same ship<span>?</span></h1>
+      <p>Theseus’s ship needs new planks. Save every one you take out and use it to build a second hull. When you’re done, which ship is his?</p>
+    </section>
+
+    <section class="workbench" aria-label="The Ship of Theseus experiment">
+      <div class="yard">
+        <div class="yard-heading">
+          <h2>Dry dock</h2>
+          <div class="legend" aria-label="Plank colors">
+            <span><i class="original"></i> Original</span>
+            <span><i class="fresh"></i> Replacement</span>
+          </div>
+        </div>
+        <div class="docks">
+          <figure>
+            <figcaption>
+              <span class="dock-label">BERTH A</span>
+              <h3>Repaired ship</h3>
+            </figcaption>
+            <canvas id="repaired" aria-hidden="true"></canvas>
+            <div class="inventory"><strong id="repaired-count">8 / 8</strong> original planks</div>
+          </figure>
+          <figure>
+            <figcaption>
+              <span class="dock-label">BERTH B</span>
+              <h3>Rebuilt hull</h3>
+            </figcaption>
+            <canvas id="rebuilt" aria-hidden="true"></canvas>
+            <div class="inventory"><strong id="rebuilt-count">0 / 8</strong> original planks</div>
+          </figure>
+        </div>
+        <div class="timeline">
+          <div class="timeline-head">
+            <label for="progress">Refit progress</label>
+            <output id="stage" for="progress">0 of 8 replaced</output>
+          </div>
+          <input id="progress" type="range" min="0" max="8" step="1" value="0" aria-valuetext="0 of 8 planks replaced">
+          <div class="tick-labels" aria-hidden="true"><span>First berth</span><span>Refit complete</span></div>
+          <div class="actions">
+            <button id="next" type="button">Replace a plank <span aria-hidden="true">→</span></button>
+            <button id="back" class="quiet" type="button" disabled>Undo</button>
+            <button id="reset" class="quiet" type="button" disabled>Reset</button>
+          </div>
+        </div>
+      </div>
+
+      <aside class="reading" aria-labelledby="criteria">
+        <p class="eyebrow">The identity question</p>
+        <h2 id="criteria">What makes it<br>Theseus’s ship?</h2>
+        <fieldset>
+          <legend>Choose a criterion</legend>
+          <label class="option">
+            <input type="radio" name="criterion" value="history" checked>
+            <span><strong>Its history</strong><small>Follow the ship that kept its place through every repair.</small></span>
+          </label>
+          <label class="option">
+            <input type="radio" name="criterion" value="wood">
+            <span><strong>Its original wood</strong><small>See which hull has more of the eight initial planks.</small></span>
+          </label>
+        </fieldset>
+        <div class="conclusion" role="status" aria-atomic="true">
+          <p id="verdict-label" class="eyebrow">History points to</p>
+          <p id="verdict">Berth A</p>
+          <p id="reason">The ship in A is still the one undergoing repairs.</p>
+        </div>
+      </aside>
+    </section>
+
+    <footer>
+      <p>Based on Plutarch’s ship of Theseus and Hobbes’s second hull.</p>
+      <p><a href="https://plato.stanford.edu/entries/material-constitution/">Read about the paradox <span aria-hidden="true">↗</span></a></p>
+    </footer>
+  </main>
+</body>
+</html>

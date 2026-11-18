@@ -1,0 +1,16 @@
+{
+  "output": "/Users/hm/prj/daily-slop/2026-11-19-same-ship/video/same-ship-zh-fish.mp4",
+  "provider": "Fish Audio REST API",
+  "model": "s2.1-pro-free",
+  "voice_id": "95d2e56952b446189d6160a821a08707",
+  "segment_durations": [
+    9.900408,
+    8.333061,
+    5.694694,
+    6.060408,
+    7.627755
+  ],
+  "video_duration": 47.116327,
+  "fps": 15,
+  "resolution": "1920x1080"
+}
