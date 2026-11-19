@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#203d37">
+  <meta name="description" content="Walk a pair of dividers around Wren Island and measure how the length of its coast changes with the span.">
+  <title>Cape Measure</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="coast.js"></script>
+  <script defer src="chart.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <main class="sheet">
+    <header class="masthead">
+      <div>
+        <h1>Cape <em>Measure</em></h1>
+        <p>How long is a coastline? Set your dividers and walk the shore of Wren Island.</p>
+      </div>
+      <button type="button" class="notes-link" id="open-notes">
+        <span class="book" aria-hidden="true"></span>Field notes
+      </button>
+    </header>
+
+    <div class="workbench">
+      <figure class="chart">
+        <div class="map-stage">
+          <canvas id="terrain" aria-hidden="true"></canvas>
+          <canvas id="route" role="img" aria-label="Chart of Wren Island with the divider walk marked along its shore."></canvas>
+        </div>
+        <figcaption>
+          <span class="legend"><i class="key shore-key"></i>Shoreline</span>
+          <span class="legend"><i class="key walk-key"></i>Divider steps</span>
+          <span class="legend" id="reference-key" hidden><i class="key reference-key"></i>24 km walk</span>
+          <span class="chart-note">Fictional survey chart</span>
+        </figcaption>
+      </figure>
+
+      <section class="instrument" aria-label="Coast measurement">
+        <fieldset>
+          <legend>Divider span</legend>
+          <div class="spans">
+            <label><input type="radio" name="span" value="24"><span>24 km</span></label>
+            <label><input type="radio" name="span" value="12" checked><span>12 km</span></label>
+            <label><input type="radio" name="span" value="6"><span>6 km</span></label>
+            <label><input type="radio" name="span" value="3"><span>3 km</span></label>
+          </div>
+        </fieldset>
+
+        <div class="reading">
+          <h2>Measured shore</h2>
+          <p class="distance"><strong id="total">—</strong> <span>km</span></p>
+          <p id="breakdown" class="breakdown"></p>
+        </div>
+
+        <div class="reference-control">
+          <label><input id="reference" type="checkbox"><span>Overlay the 24 km walk</span></label>
+          <p id="comparison"></p>
+        </div>
+        <div class="transport">
+          <div class="actions">
+            <button type="button" id="play"><i class="play-icon" aria-hidden="true"></i><span>Walk the coast</span></button>
+            <button type="button" id="step" aria-label="Take one divider step">Step</button>
+          </div>
+          <div class="progress" aria-hidden="true"><i id="progress-fill"></i></div>
+          <p id="progress-text">Start at Gull Point</p>
+        </div>
+        <p class="sr-only" id="announcement" role="status"></p>
+      </section>
+    </div>
+    <footer>
+      <time datetime="2026-11-20">20 November 2026</time>
+      <span>Benoît Mandelbrot’s birthday</span>
+    </footer>
+  </main>
+
+  <dialog id="notes" aria-labelledby="notes-title">
+    <div class="dialog-body">
+      <h2 id="notes-title">Field notes</h2>
+      <p>Plant one point of the dividers at Gull Point. Follow the coast until the other point can land a full span away. Pivot there and keep going. A short final step takes you back to the start.</p>
+      <p>Try 3 km and switch on the 24 km overlay. Where the long steps cut across a bay, the short steps can follow its sides. Both readings use the same tide line.</p>
+      <p>Benoît Mandelbrot was born on 20 November 1924. His 1967 paper revisited Lewis Fry Richardson’s measurements and asked how long Britain’s coast is. Wren Island is an invented, finite outline you can use to try the experiment.</p>
+      <a href="https://doi.org/10.1126/science.156.3775.636" target="_blank" rel="noreferrer">Read Mandelbrot’s paper</a>
+      <form method="dialog"><button class="close-notes" autofocus>Back to the chart</button></form>
+    </div>
+  </dialog>
+</body>
+</html>
