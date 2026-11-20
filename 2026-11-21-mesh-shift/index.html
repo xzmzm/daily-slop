@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#e9eee8">
+  <title>Mesh Shift — Fisheries survey simulator</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="survey.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="sheet">
+    <header class="masthead">
+      <div class="eyebrow"><span class="mark" aria-hidden="true">◈</span> Fisheries survey simulator</div>
+      <time datetime="2026-11-21">21 Nov · World Fisheries Day</time>
+    </header>
+    <section class="intro" aria-labelledby="title">
+      <h1 id="title">Mesh Shift<span>.</span></h1>
+      <p>Change the net’s mesh and tow through the same school. See which fish your survey misses.</p>
+    </section>
+
+    <div class="workspace">
+      <section class="water" aria-labelledby="transect-title">
+        <div class="water-head">
+          <div><h2 id="transect-title">Survey transect</h2><p>Seeded school · <span id="school-size"></span> fish</p></div>
+          <span id="phase" role="status">Ready to tow</span>
+        </div>
+        <canvas id="transect" aria-hidden="true"></canvas>
+        <div class="water-foot">
+          <span><i class="swatch" aria-hidden="true"></i> Retained</span>
+          <span><i class="swatch escape" aria-hidden="true"></i> Escapes</span>
+          <span class="direction" aria-hidden="true">Tow direction →</span>
+        </div>
+      </section>
+
+      <section class="control" aria-labelledby="control-title">
+        <h2 id="control-title">Set the mesh</h2>
+        <p class="hint" id="mesh-hint">Wider openings make it easier for small fish to slip through.</p>
+        <fieldset aria-describedby="mesh-hint">
+          <legend>Mesh opening</legend>
+          <div class="options">
+            <label><input type="radio" name="mesh" value="5" checked><span>5 cm</span></label>
+            <label><input type="radio" name="mesh" value="7"><span>7 cm</span></label>
+            <label><input type="radio" name="mesh" value="9"><span>9 cm</span></label>
+          </div>
+        </fieldset>
+        <button id="tow" type="button">Run tow <span aria-hidden="true">→</span></button>
+        <div class="readout">
+          <div id="readout-label">Projected sample</div>
+          <div class="metrics" aria-live="polite" aria-atomic="true">
+            <div><strong id="retained"></strong><span>fish retained</span></div>
+            <div><strong id="mean"></strong><span>mean sampled length</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="distribution" aria-labelledby="chart-title">
+        <div class="chart-head">
+          <div><h2 id="chart-title">Length distribution</h2><p>Counts show sample / whole school for each 10 cm length band.</p></div>
+          <div class="chart-key" aria-hidden="true"><span><i class="swatch school"></i> Whole school</span><span><i class="swatch"></i> Sample</span></div>
+        </div>
+        <div id="chart" role="list" aria-label="Counts by fish length"></div>
+      </section>
+    </div>
+    <footer>Illustrative model · One fictional school, three net openings.</footer>
+  </main>
+</body>
+</html>

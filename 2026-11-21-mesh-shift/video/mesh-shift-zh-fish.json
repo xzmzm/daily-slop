@@ -1,0 +1,15 @@
+{
+  "output": "/Users/hm/prj/daily-slop/2026-11-21-mesh-shift/video/mesh-shift-zh-fish.mp4",
+  "provider": "Fish Audio REST API",
+  "model": "s2.1-pro-free",
+  "voice_id": "95d2e56952b446189d6160a821a08707",
+  "segment_durations": [
+    10.292245,
+    11.859592,
+    12.878367,
+    7.497143
+  ],
+  "video_duration": 47.227347,
+  "fps": 15,
+  "resolution": "1920x1080"
+}
