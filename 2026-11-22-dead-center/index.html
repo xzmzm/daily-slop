@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#271b30">
+  <meta name="description" content="A Ferris wheel loading puzzle. Swap cabins and balance the axle through a whole turn.">
+  <title>Dead Center · Ferris wheel puzzle</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="sheet">
+    <header class="masthead">
+      <p class="edition">Chicago <span>✦</span> 1893</p>
+      <p class="occasion">Inspired by the original Ferris wheel</p>
+      <h1>Dead Center</h1>
+      <p class="intro">Swap two cabins to balance the wheel through a full turn.</p>
+    </header>
+
+    <div class="workbench">
+      <section class="stage" aria-labelledby="wheel-title">
+        <div class="stage-head">
+          <h2 id="wheel-title">The wheel</h2>
+          <span>8 cabins &middot; 36 riders</span>
+        </div>
+        <div class="wheel">
+          <canvas id="rig" width="1040" height="800" aria-hidden="true"></canvas>
+          <div id="cabins" role="group" aria-label="Cabins in wheel order"></div>
+        </div>
+        <p class="instruction" id="selection" aria-live="polite">Select two cabins to swap their riders.</p>
+      </section>
+
+      <section class="console" aria-labelledby="console-title">
+        <div class="console-head">
+          <h2 id="console-title">Axle load</h2>
+          <button class="reset" id="reset" type="button">Reset</button>
+        </div>
+        <div class="readings">
+          <div>
+            <p class="label">At this angle</p>
+            <strong id="torque">0.0</strong>
+            <span class="reading-note" id="direction">No turning force</span>
+          </div>
+          <div>
+            <p class="label">Peak over a turn</p>
+            <strong id="peak">8.5</strong>
+            <span class="reading-note">rider × radius units</span>
+          </div>
+        </div>
+        <div class="chart">
+          <canvas id="plot" width="800" height="224" role="img" aria-label="Turning moment across a full revolution"></canvas>
+          <div class="chart-labels" aria-hidden="true"><span>0°</span><span>90°</span><span>180°</span><span>270°</span><span>360°</span></div>
+        </div>
+        <div class="rotation">
+          <label for="angle">Wheel angle</label>
+          <output id="degrees" for="angle">0°</output>
+          <input id="angle" type="range" min="0" max="360" value="0" aria-valuetext="0 degrees">
+        </div>
+        <button id="turn" type="button">Run one turn</button>
+        <p class="verdict" id="verdict" role="status">Balanced here. The axle still pulls during a turn.</p>
+      </section>
+    </div>
+
+    <footer>
+      <span>Equal rider weights. Identical cabins.</span>
+      <span>George Ferris &middot; 1859–1896</span>
+    </footer>
+  </main>
+</body>
+</html>
