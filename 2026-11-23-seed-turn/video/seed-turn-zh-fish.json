@@ -1,0 +1,15 @@
+{
+  "output": "/Users/hm/prj/daily-slop/2026-11-23-seed-turn/video/seed-turn-zh-fish.mp4",
+  "provider": "Fish Audio REST API",
+  "model": "s2.1-pro-free",
+  "voice_id": "95d2e56952b446189d6160a821a08707",
+  "segment_durations": [
+    14.132245,
+    9.874286,
+    8.411429,
+    10.919184
+  ],
+  "video_duration": 47.437143,
+  "fps": 15,
+  "resolution": "1920x1080"
+}

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3ecdc">
+  <title>Seed Turn</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <main class="sheet">
+    <header class="masthead">
+      <p class="date"><time datetime="2026-11-23">23 November 2026</time> <span>·</span> Fibonacci Day</p>
+      <h1>Seed <em>Turn</em></h1>
+      <p class="intro">Give every new seed the same turn. A few degrees can change the whole sunflower.</p>
+    </header>
+
+    <div class="experiment">
+      <figure>
+        <div class="plate">
+          <canvas id="head" role="img" aria-label="Simulated sunflower seed pattern"></canvas>
+          <span class="plate-label">Seed head</span>
+          <span class="plate-count">480 seeds</span>
+        </div>
+        <figcaption id="reading">At the golden angle, seeds spread across the disk. Trace a seed interval to see how the curves form.</figcaption>
+      </figure>
+
+      <section class="controls" aria-label="Seed pattern controls">
+        <div class="angle">
+          <label for="angle">Turn per seed</label>
+          <output id="degrees" for="angle">137.5078°</output>
+          <input id="angle" type="range" min="130" max="145" step="0.01" value="137.51">
+          <div class="range-ends" aria-hidden="true"><span>130°</span><span>145°</span></div>
+        </div>
+
+        <div class="presets" aria-label="Preset angles" role="group">
+          <button type="button" data-preset="eight" aria-pressed="false"><b>135°</b><span>8 spokes</span></button>
+          <button type="button" data-preset="golden" aria-pressed="true"><b>137.508°</b><span>Golden angle</span></button>
+          <button type="button" data-preset="five" aria-pressed="false"><b>144°</b><span>5 spokes</span></button>
+        </div>
+
+        <fieldset class="traces">
+          <legend>Trace the curves</legend>
+          <p>Join seeds that are that many places apart in planting order.</p>
+          <label class="trace teal"><input type="checkbox" value="21"><span class="swatch"></span><span>Every 21st seed</span></label>
+          <label class="trace lavender"><input type="checkbox" value="34"><span class="swatch"></span><span>Every 34th seed</span></label>
+        </fieldset>
+      </section>
+    </div>
+
+    <footer>Based on H. Vogel’s sunflower model <span>·</span> <a href="https://doi.org/10.1016/0025-5564(79)90080-4">Read the paper</a></footer>
+  </main>
+</body>
+</html>
