@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ece4d2">
+  <title>Peck Order</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="sim.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <main class="sheet">
+    <header class="masthead">
+      <p class="date"><time datetime="2026-11-24">24 November 2026</time> · 167 years of <cite>On the Origin of Species</cite></p>
+      <h1>Peck <em>Order</em></h1>
+      <p class="intro">You are the bird. Eat the moths you can see. The ones you miss become the next generation.</p>
+    </header>
+
+    <div class="layout">
+      <figure class="tree">
+        <canvas id="bark" width="900" height="600" aria-label="Tree bark with moths resting on it. Click a moth to eat it."></canvas>
+        <figcaption><span id="status" role="status">Generation 0. 20 pecks left.</span></figcaption>
+      </figure>
+
+      <aside class="panel">
+        <fieldset>
+          <legend>Bark</legend>
+          <div class="segmented">
+            <button type="button" data-bark="lichen" aria-pressed="true">Pale lichen</button>
+            <button type="button" data-bark="soot" aria-pressed="false">Factory soot</button>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Stand-in bird</legend>
+          <div class="segmented">
+            <button type="button" data-hunter="sharp" aria-pressed="true">Sharp-eyed</button>
+            <button type="button" data-hunter="blind" aria-pressed="false">Pecks at random</button>
+          </div>
+        </fieldset>
+        <div class="actions">
+          <button type="button" id="one">Hunt 1 generation</button>
+          <button type="button" id="ten">Hunt 10</button>
+          <button type="button" id="reset" class="quiet">New flock</button>
+        </div>
+
+        <dl class="readout">
+          <div><dt>Generation</dt><dd id="gen">0</dd></div>
+          <div><dt>Gap to bark</dt><dd id="gap">0.00</dd></div>
+        </dl>
+
+        <figure class="history">
+          <canvas id="chart" width="440" height="230" aria-label="Moth shade in each generation compared with the bark shade."></canvas>
+          <figcaption><i class="key mean"></i>flock average <i class="key bark"></i>bark shade</figcaption>
+        </figure>
+      </aside>
+    </div>
+
+    <footer>A toy model of selection. Real peppered moth colour is set mainly by one gene, and this flock blends shades instead.</footer>
+  </main>
+</body>
+</html>
