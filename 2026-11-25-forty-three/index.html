@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10131c">
+  <title>Forty-Three</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="sim.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <main class="sheet">
+    <header class="masthead">
+      <p class="date"><time datetime="2026-11-25">25 November 2026</time> · 111 years of Einstein’s field equations</p>
+      <h1>Forty-<em>Three</em></h1>
+      <p class="intro">Mercury’s closest point to the Sun creeps around by 574″ a century. Newton’s planets explain 532″. Find the rest.</p>
+    </header>
+
+    <div class="layout">
+      <figure class="sky">
+        <canvas id="orbit" width="760" height="760" aria-label="Mercury's orbit around the Sun, with the observed and predicted directions of its perihelion."></canvas>
+        <figcaption>
+          <div class="time">
+            <button type="button" id="play">▶ Run 1 million years</button>
+            <input type="range" id="years" min="0" max="1000000" step="1000" value="0" aria-label="Years elapsed">
+            <output id="years-out">0 years</output>
+          </div>
+          <p class="legend"><i class="key seen"></i>observed perihelion <i class="key model"></i>your model’s perihelion</p>
+        </figcaption>
+      </figure>
+
+      <aside class="panel">
+        <dl class="readout">
+          <div><dt>Observed</dt><dd id="observed">574.10″</dd></div>
+          <div><dt>Your model</dt><dd id="predicted">531.53″</dd></div>
+          <div class="gap"><dt>Still missing</dt><dd id="gap">42.57″</dd></div>
+        </dl>
+        <p class="unit">arcseconds per century · observation ±0.65″</p>
+
+        <fieldset>
+          <legend>Newtonian pulls</legend>
+          <ul id="sources" class="sources"></ul>
+        </fieldset>
+
+        <fieldset>
+          <legend>The leftover is caused by…</legend>
+          <div class="segmented" id="fixes">
+            <button type="button" data-fix="none" aria-pressed="true">Nothing</button>
+            <button type="button" data-fix="vulcan" aria-pressed="false">Vulcan</button>
+            <button type="button" data-fix="entwurf" aria-pressed="false">Einstein 1913</button>
+            <button type="button" data-fix="gr" aria-pressed="false">Einstein 1915</button>
+          </div>
+          <div id="vulcan-controls" class="vulcan" hidden>
+            <label>Distance <input type="range" id="v-dist" min="0.10" max="0.33" step="0.01" value="0.20"> <output id="v-dist-out">0.20 AU</output></label>
+            <label>Mass <input type="range" id="v-mass" min="0" max="4" step="0.01" value="0.50"> <output id="v-mass-out">0.50 Mercury</output></label>
+          </div>
+          <p id="fix-note" class="note"></p>
+        </fieldset>
+      </aside>
+    </div>
+
+    <footer>Planetary terms from Clemence (1947). Vulcan uses a first-order secular approximation, which runs 3–8% high against Clemence for Venus, Earth and Jupiter.</footer>
+  </main>
+</body>
+</html>
