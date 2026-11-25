@@ -1,0 +1,60 @@
+:root {
+  --bg: #241710;
+  --paper: #fbf3e6;
+  --ink: #2b1d14;
+  --muted: #7a6656;
+  --rule: #e4d3bd;
+  --accent: #c2541f;
+  --probe: #1f6fb2;
+  --cold: #7b3fa0;
+  --good: #2f7d3c;
+  --bad: #b3261e;
+  font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; background: radial-gradient(circle at 30% 0, #3a2418, var(--bg)); color: var(--ink); min-height: 100vh; }
+.sheet { max-width: 1200px; margin: 24px auto; background: var(--paper); border-radius: 14px; padding: 22px 28px 18px; box-shadow: 0 20px 60px #0008; }
+.masthead { margin-bottom: 14px; }
+.date { margin: 0; text-transform: uppercase; letter-spacing: .14em; font-size: 12px; color: var(--accent); font-family: system-ui, sans-serif; }
+h1 { margin: 4px 0 6px; font-size: 44px; font-weight: 600; }
+h1 em { color: var(--accent); }
+.intro { margin: 0; max-width: 760px; color: var(--muted); font-size: 17px; line-height: 1.45; }
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 26px; align-items: start; }
+.stage canvas { display: block; width: 100%; height: auto; }
+.bird-wrap { position: relative; background: #1c120c; border-radius: 10px; }
+#bird { cursor: crosshair; }
+.hint { position: absolute; left: 14px; bottom: 8px; max-width: 360px; margin: 0; color: #f3e3cf; font: 13px system-ui, sans-serif; opacity: .8; }
+.scale { position: absolute; right: 12px; bottom: 10px; display: flex; gap: 4px; font: 11px system-ui, sans-serif; color: #f3e3cf; align-items: center; }
+.scale i { display: inline-block; width: 14px; height: 10px; border-radius: 2px; }
+#chart { margin-top: 10px; background: #fff; border: 1px solid var(--rule); border-radius: 8px; }
+.legend { margin: 6px 0 0; font: 13px system-ui, sans-serif; color: var(--muted); }
+.key { display: inline-block; width: 18px; height: 0; border-top: 3px solid; vertical-align: middle; margin: 0 4px 0 12px; }
+.key.probe { border-color: var(--probe); margin-left: 0; }
+.key.cold { border-color: var(--cold); border-top-style: dashed; }
+.key.line165 { border-color: var(--accent); border-top-style: dotted; }
+.readout { margin: 0 0 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; }
+.readout div { border-bottom: 1px solid var(--rule); padding-bottom: 6px; }
+.readout div:first-child { grid-column: 1 / -1; display: flex; align-items: baseline; gap: 12px; }
+dt { font: 12px system-ui, sans-serif; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+dd { margin: 2px 0 0; font-size: 28px; font-variant-numeric: tabular-nums; }
+#probe { color: var(--probe); }
+#cold { color: var(--cold); }
+.phase { font: 14px system-ui, sans-serif; color: var(--accent); margin-left: auto; }
+.sub { display: block; font: 11px system-ui, sans-serif; color: var(--muted); }
+fieldset { border: 1px solid var(--rule); border-radius: 8px; margin: 0 0 12px; padding: 8px 12px 10px; }
+legend { font: 12px system-ui, sans-serif; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); padding: 0 4px; }
+fieldset label { display: grid; grid-template-columns: 64px 1fr 64px; align-items: center; gap: 8px; font-size: 16px; margin: 6px 0; }
+output { font-variant-numeric: tabular-nums; text-align: right; }
+input[type=range] { accent-color: var(--accent); width: 100%; }
+.actions { display: flex; gap: 10px; }
+button { font: 600 16px system-ui, sans-serif; padding: 10px 18px; border-radius: 8px; border: 0; background: var(--accent); color: #fff; cursor: pointer; }
+button:disabled { opacity: .45; cursor: default; }
+button.quiet { background: transparent; color: var(--ink); border: 1px solid var(--rule); }
+.verdict { margin-top: 14px; padding: 10px 14px; background: #fff; border: 1px solid var(--rule); border-radius: 8px; }
+.verdict p { margin: 4px 0; font-size: 16px; line-height: 1.35; }
+.verdict .good { color: var(--good); }
+.verdict .bad { color: var(--bad); }
+.verdict .small { font-size: 14px; color: var(--muted); }
+footer { margin-top: 16px; font: 12px system-ui, sans-serif; color: var(--muted); line-height: 1.45; }
+@media (max-width: 900px) { .layout { grid-template-columns: 1fr; } .sheet { margin: 0; border-radius: 0; } }

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#2a1a12">
+  <title>Carryover</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="sim.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <main class="sheet">
+    <header class="masthead">
+      <p class="date"><time datetime="2026-11-26">Thanksgiving · 26 November 2026</time></p>
+      <h1>Carry<em>over</em></h1>
+      <p class="intro">Roast a turkey, pick the number on the thermometer where you pull it, and let it rest. Safe meat comes from time at temperature, and the bird keeps cooking on the counter.</p>
+    </header>
+
+    <div class="layout">
+      <section class="stage">
+        <div class="bird-wrap">
+          <canvas id="bird" width="720" height="500" aria-label="Cross-section of the turkey, coloured by temperature. Click to move the thermometer."></canvas>
+          <p class="hint" id="hint">Click the meat to move the thermometer.</p>
+          <div class="scale" id="scale"></div>
+        </div>
+        <canvas id="chart" width="720" height="210" aria-label="Thermometer and slowest-spot temperatures over time."></canvas>
+        <p class="legend"><i class="key probe"></i>thermometer <i class="key cold"></i>slowest spot <i class="key line165"></i>165 °F</p>
+      </section>
+
+      <aside class="panel">
+        <dl class="readout">
+          <div><dt>Clock</dt><dd id="clock">0:00</dd><span id="phase" class="phase">In the fridge</span></div>
+          <div><dt>Thermometer</dt><dd id="probe">40°F</dd></div>
+          <div><dt>Slowest spot</dt><dd id="cold">40°F</dd></div>
+          <div><dt>Salmonella kill</dt><dd id="kill">0.0 log</dd><span class="sub">at the least-cooked spot · need 7</span></div>
+          <div><dt>Juice lost</dt><dd id="loss">0%</dd><span class="sub">average over the meat</span></div>
+        </dl>
+
+        <fieldset id="settings">
+          <legend>The plan</legend>
+          <label>Bird <input type="range" id="pounds" min="10" max="22" step="1" value="14"> <output id="pounds-out">14 lb</output></label>
+          <label>Oven <input type="range" id="oven" min="275" max="450" step="25" value="325"> <output id="oven-out">325°F</output></label>
+          <label>Pull at <input type="range" id="pull" min="140" max="175" step="1" value="165"> <output id="pull-out">165°F</output></label>
+          <label>Rest <input type="range" id="rest" min="0" max="45" step="5" value="30"> <output id="rest-out">30 min</output></label>
+        </fieldset>
+
+        <div class="actions">
+          <button type="button" id="go">Roast it</button>
+          <button type="button" id="reset" class="quiet">New bird</button>
+        </div>
+
+        <div id="verdict" class="verdict" hidden>
+          <p id="v-safe"></p>
+          <p id="v-juicy"></p>
+          <p id="v-carry" class="small"></p>
+        </div>
+      </aside>
+    </div>
+
+    <footer>Toy model: a 2D cross-section with 5 mm cells, oven heat tuned to about 13 minutes per pound at 325°F, and wet skin held at 90°C while it roasts. Kill rate uses a 7-log time of 2.7 min at 150°F with z = 10°F. Juice loss is a rough 0.4% per °F above 120°F. It is not cooking advice.</footer>
+  </main>
+</body>
+</html>
