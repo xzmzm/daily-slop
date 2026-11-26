@@ -16,11 +16,11 @@ assert.ok(minPerLb > 11 && minPerLb < 15, minPerLb);
 const rise = usda.restPeakF - 165;
 assert.ok(rise > 5 && rise < 12, rise);
 
-// Pulling early and resting is safe and juicier than the 165°F pull.
+// Pulling early and resting meets the model's 7-log target and loses less juice than the 165°F pull.
 const early = P.cook({ pullF: 150, restMin: 30 });
 assert.ok(early.leastKill >= P.TARGET_LOG && early.loss < usda.loss - 0.02, early);
 
-// Pulling early and carving at once is not safe.
+// Pulling early and carving at once misses the model's 7-log target.
 assert.ok(P.cook({ pullF: 145, restMin: 0 }).leastKill < P.TARGET_LOG);
 
 // Bigger birds and cooler ovens take longer.

@@ -1,6 +1,6 @@
 # Carryover video
 
-The 1920×1080 Chinese demo roasts three turkeys. The first is pulled at 165°F and rested 30 minutes (safe, but dry, with a 9°F carryover). The second is pulled at 150°F with the same rest (safe and juicier). The third is pulled at 145°F and carved at once (not safe). Captions are burned into the MP4, and the same captions ship as a separate `.srt`.
+The 1920×1080 Chinese demo roasts three turkeys. The first is pulled at 165°F and rested 30 minutes (model kill target met, but dry, with a 9°F carryover). The second is pulled at 150°F with the same rest (model target met and juicier, but the page flags the reading as below the USDA's 165°F). The third is pulled at 145°F and carved at once (model target missed). It closes by saying the 2D model can't show a real turkey is safe, and restating the USDA's 165°F check for the breast, thigh and wing. Captions are burned into the MP4, and the same captions ship as a separate `.srt`.
 
 From the workspace root, with the Fish Audio key in the root `.env` or shell environment:
 
