@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#202f82">
+  <title>Cart Math · Black Friday checkout puzzle</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <p class="edition">Black Friday <span></span> Nov 27, 2026</p>
+      <h1>Cart Math<span>.</span></h1>
+      <p>Find the cheapest checkout. A bigger discount can bring back the shipping fee.</p>
+    </header>
+
+    <div class="board">
+      <section class="workbench" aria-label="Checkout options">
+        <div class="round">
+          <label for="basket">Shopping basket</label>
+          <select id="basket">
+            <option value="desk">Desk drawer</option>
+            <option value="weekend">Weekend away</option>
+            <option value="studio">Studio shelf</option>
+          </select>
+        </div>
+
+        <fieldset>
+          <legend>Pick one coupon</legend>
+          <div class="coupons">
+            <label class="coupon"><input type="radio" name="coupon" value="none" checked><span><strong>None</strong><small>Full price</small></span></label>
+            <label class="coupon"><input type="radio" name="coupon" value="flat"><span><strong>$8 off</strong><small>TAKE8</small></span></label>
+            <label class="coupon"><input type="radio" name="coupon" value="percent"><span><strong>15% off</strong><small>TAKE15</small></span></label>
+          </div>
+        </fieldset>
+
+        <label class="extra">
+          <input type="checkbox" id="filler">
+          <span><strong>Add <span id="filler-name"></span></strong><small>Optional item</small></span>
+          <span id="filler-price" class="amount"></span>
+        </label>
+
+        <div class="solver">
+          <button type="button" id="compare" aria-expanded="false" aria-controls="solutions">Compare all 6 totals</button>
+        </div>
+        <section id="solutions" aria-label="All checkout totals" hidden>
+          <ol id="results"></ol>
+        </section>
+      </section>
+
+      <section class="receipt" aria-labelledby="receipt-title">
+        <div class="receipt-head">
+          <h2 id="receipt-title">Your receipt</h2>
+          <span>USD</span>
+        </div>
+        <ul id="items" class="items"></ul>
+        <dl class="totals">
+          <div><dt>Subtotal</dt><dd id="subtotal"></dd></div>
+          <div><dt>Coupon</dt><dd id="discount"></dd></div>
+          <div><dt>Shipping</dt><dd id="shipping"></dd></div>
+        </dl>
+        <div id="status" role="status" aria-atomic="true">
+          <div class="grand"><span>Total</span><strong id="total"></strong></div>
+          <p id="shipping-note" class="shipping-note"></p>
+        </div>
+        <p class="rule">Free shipping at $55 after the coupon. Otherwise $9.</p>
+      </section>
+    </div>
+  </main>
+</body>
+</html>
