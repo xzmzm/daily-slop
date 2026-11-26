@@ -167,8 +167,13 @@
     const loss = s.loss * 100;
     $('v-safe').className = safe ? 'good' : 'bad';
     $('v-safe').textContent = safe
-      ? `Safe. The least-cooked spot got a ${fmtLog(s.leastKill)} Salmonella kill (7 needed).`
-      : `Not safe. The least-cooked spot only got a ${fmtLog(s.leastKill)} kill. It needs 7.`;
+      ? `Model target met. In this simulation the least-cooked spot got a ${fmtLog(s.leastKill)} Salmonella kill (target 7).`
+      : `Model target missed. In this simulation the least-cooked spot only got a ${fmtLog(s.leastKill)} kill (target 7).`;
+    const below = state.pullProbeF < 165 && state.restPeakF < 165 ? 'and never reached' : state.pullProbeF < 165 ? 'which is below' : '';
+    $('v-usda').hidden = !below;
+    $('v-usda').textContent = below
+      ? `Not a real-world check: the thermometer read ${deg(state.pullProbeF)} at the pull, ${below} the USDA's 165°F. A model result doesn't make a real turkey safe.`
+      : '';
     const juicy = loss <= 24, fine = loss <= 25.5;
     $('v-juicy').className = juicy ? 'good' : fine ? '' : 'bad';
     $('v-juicy').textContent = `${juicy ? 'Juicy' : fine ? 'Fine' : 'Dry'}. It lost ${loss.toFixed(1)}% of its juice.`;
@@ -187,7 +192,7 @@
     $('probe').textContent = deg(s.probeF);
     $('cold').textContent = deg(s.slowF);
     $('kill').textContent = fmtLog(s.leastKill);
-    $('kill').style.color = s.leastKill >= P.TARGET_LOG ? 'var(--good)' : '';
+    $('kill').style.color = '';
     $('loss').textContent = `${(s.loss * 100).toFixed(1)}%`;
     const busy = state.phase === 'oven' || state.phase === 'rest';
     $('settings').disabled = state.phase !== 'fridge';

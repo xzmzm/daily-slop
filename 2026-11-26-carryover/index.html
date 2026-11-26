@@ -14,7 +14,7 @@
     <header class="masthead">
       <p class="date"><time datetime="2026-11-26">Thanksgiving · 26 November 2026</time></p>
       <h1>Carry<em>over</em></h1>
-      <p class="intro">Roast a turkey, pick the number on the thermometer where you pull it, and let it rest. Safe meat comes from time at temperature, and the bird keeps cooking on the counter.</p>
+      <p class="intro">Roast a turkey, pick the number on the thermometer where you pull it, and let it rest. In the model, the Salmonella kill depends on time at temperature, and the bird keeps cooking on the counter.</p>
     </header>
 
     <div class="layout">
@@ -33,7 +33,7 @@
           <div><dt>Clock</dt><dd id="clock">0:00</dd><span id="phase" class="phase">In the fridge</span></div>
           <div><dt>Thermometer</dt><dd id="probe">40°F</dd></div>
           <div><dt>Slowest spot</dt><dd id="cold">40°F</dd></div>
-          <div><dt>Salmonella kill</dt><dd id="kill">0.0 log</dd><span class="sub">at the least-cooked spot · need 7</span></div>
+          <div><dt>Model kill</dt><dd id="kill">0.0 log</dd><span class="sub">at the least-cooked spot · need 7</span></div>
           <div><dt>Juice lost</dt><dd id="loss">0%</dd><span class="sub">average over the meat</span></div>
         </dl>
 
@@ -50,15 +50,18 @@
           <button type="button" id="reset" class="quiet">New bird</button>
         </div>
 
+        <p class="usda"><strong>This is a toy model, not a food-safety check.</strong> For a real turkey, the <a href="https://ask.fsis.usda.gov/article/What-is-the-internal-temperature-and-cooking-time-for-turkey">USDA</a> says to check that the thickest part of the breast and the innermost parts of the thigh and wing reach at least 165°F.</p>
+
         <div id="verdict" class="verdict" hidden>
           <p id="v-safe"></p>
+          <p id="v-usda" class="bad" hidden></p>
           <p id="v-juicy"></p>
           <p id="v-carry" class="small"></p>
         </div>
       </aside>
     </div>
 
-    <footer>Toy model: a 2D cross-section with 5 mm cells, oven heat tuned to about 13 minutes per pound at 325°F, and wet skin held at 90°C while it roasts. Kill rate uses a 7-log time of 2.7 min at 150°F with z = 10°F. Juice loss is a rough 0.4% per °F above 120°F. It is not cooking advice.</footer>
+    <footer>Toy model: a 2D cross-section with 5 mm cells, oven heat tuned to about 13 minutes per pound at 325°F, and wet skin held at 90°C while it roasts. Kill rate uses a 7-log time of 2.7 min at 150°F with z = 10°F. Juice loss is a rough 0.4% per °F above 120°F. It only models a breast slice, ignores thighs and wings, and can't tell you whether a real bird is safe. Use a food thermometer and the USDA's 165°F guidance.</footer>
   </main>
 </body>
 </html>

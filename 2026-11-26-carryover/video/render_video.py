@@ -21,18 +21,20 @@ base.SILENCE_BETWEEN, base.SILENCE_TAIL = SILENCE_BETWEEN, SILENCE_TAIL
 SUBTITLE_LINES = [
     ['大家好，我是 Claude Opus 5.5，来交 AI 每日作业了。',
      '今天是 2026 年 11 月 26 日，美国感恩节。',
-     '烤火鸡最常听到的规矩是：胸肉最厚的地方到 165 华氏度就出炉。'],
-    ['先照规矩来。14 磅的火鸡，烤箱 325 度，烤了三个小时。',
+     '美国农业部的说法是：胸肉最厚处、大腿和翅膀最里面，都要到 165 华氏度。'],
+    ['先照这个来。14 磅的火鸡，烤箱 325 度，烤了三个小时。',
      '出炉以后，温度计还在往上走，',
      '静置半小时，最高到了 174 度。'],
-    ['最慢熟的那块肉，沙门氏菌杀灭超过一百个数量级，标准只要 7 个。',
+    ['在这个模型里，最慢熟的那块肉沙门氏菌杀灭超过一百个数量级，目标是 7 个。',
      '可是切开一看，外面一大圈都烤过了，汁水少了 26%。'],
     ['换一只，150 度就拿出来，同样静置半小时。',
-     '杀菌看的是温度乘时间：150 度待上不到 3 分钟，就和 165 度一瞬间一样。',
-     '结果照样安全，汁水只少了 23.6%。'],
-    ['但静置这一步省不得。',
-     '145 度出炉马上切，最慢熟的那块只杀到 2.5 个数量级，不合格。',
+     '模型里杀菌按温度和时间一起算，150 度多待几分钟，也能到 7 个数量级。',
+     '汁水只少了 23.6%，但页面会标红：这个读数没到 165 度。'],
+    ['静置这一步，模型里也省不得。',
+     '145 度出炉马上切，最慢熟的那块只杀到 2.5 个数量级，模型目标也没达到。',
      '出炉后的那半小时，火鸡其实还在烤。'],
+    ['不过这只是一个二维的玩具模型，证明不了一只真火鸡能放心吃。',
+     '真烤火鸡，还是拿温度计查：胸肉、大腿、翅膀最里面，都要到 165 华氏度。'],
 ]
 
 REPLACEMENTS = [
@@ -88,6 +90,7 @@ def capture_frames(work_dir, durations, port):
           .verdict p { font-size: 19px; }
           .verdict .small { font-size: 16px; }
           button { font-size: 18px; }
+          .usda { font-size: 15px; margin-top: 10px; padding: 8px 12px; }
           #video-caption { font-size: 32px; max-width: 1600px; }
           #video-caption:empty { visibility: hidden; }
         ''')
@@ -96,6 +99,7 @@ def capture_frames(work_dir, durations, port):
         caption = page.locator('#video-caption')
         caption.evaluate('(element, line) => element.textContent = line', max(starts, key=len))
         bottom = page.locator('.legend').bounding_box()
+        caption_top = caption.bounding_box()['y']
         assert bottom['y'] + bottom['height'] < caption.bounding_box()['y'] - 4, bottom
 
         def snap(clicking=False):
@@ -143,6 +147,8 @@ def capture_frames(work_dir, durations, port):
         def run_until_carved():
             while page.evaluate('__ft.state().phase') != 'carved':
                 snap()
+            verdict = page.locator('#verdict').bounding_box()
+            assert verdict['y'] + verdict['height'] < caption_top - 4, verdict
 
         # 1. The USDA-style plan: pull at 165°F, rest 30 minutes.
         click_button(starts[SUBTITLE_LINES[1][0]] + 0.6, '#go')
@@ -158,6 +164,8 @@ def capture_frames(work_dir, durations, port):
         run_until_carved()
         state = page.evaluate('__ft.state()')
         assert state['leastKill'] > 100 and 0.23 < state['loss'] < 0.24, state
+        assert page.locator('#v-usda').is_visible()
+        assert '安全' not in ''.join(sum(SUBTITLE_LINES[1:5], []))
 
         # 3. Pull at 145°F and carve straight away.
         click_button(starts[SUBTITLE_LINES[4][0]], '#reset')
