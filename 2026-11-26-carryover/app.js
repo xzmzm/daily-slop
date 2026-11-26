@@ -165,7 +165,8 @@
     const s = P.stats(state.bird), p = plan();
     const safe = s.leastKill >= P.TARGET_LOG;
     const loss = s.loss * 100;
-    $('v-safe').className = safe ? 'good' : 'bad';
+    // Neutral on purpose: a model result is not a food-safety verdict.
+    $('v-safe').className = '';
     $('v-safe').textContent = safe
       ? `Model target met. In this simulation the least-cooked spot got a ${fmtLog(s.leastKill)} Salmonella kill (target 7).`
       : `Model target missed. In this simulation the least-cooked spot only got a ${fmtLog(s.leastKill)} kill (target 7).`;

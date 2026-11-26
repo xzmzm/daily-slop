@@ -149,6 +149,7 @@ def capture_frames(work_dir, durations, port):
                 snap()
             verdict = page.locator('#verdict').bounding_box()
             assert verdict['y'] + verdict['height'] < caption_top - 4, verdict
+            assert page.locator('#v-safe').get_attribute('class') == '', 'model verdict must stay neutral'
 
         # 1. The USDA-style plan: pull at 165°F, rest 30 minutes.
         click_button(starts[SUBTITLE_LINES[1][0]] + 0.6, '#go')
