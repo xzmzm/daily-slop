@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f1d1c">
+  <title>Star Hop</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="sim.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <main class="sheet">
+    <header class="masthead">
+      <p class="date"><time datetime="2026-11-28">28 November 2026 · Mariner 4 launched 62 years ago today</time></p>
+      <h1>Star <em>Hop</em></h1>
+      <p class="intro">Mariner 4 points one axis at the Sun and rolls around it until its Canopus sensor finds a star to hold. The sensor only knows brightness. You read the roll map, pick the brightness gate and send roll overrides, and you need a steady lock on Canopus before the midcourse burn on 4 December 1964.</p>
+    </header>
+
+    <div class="layout">
+      <section class="stage">
+        <canvas id="sky" width="720" height="440" aria-label="Sky around the Sun line, with the sensor's ring and slit"></canvas>
+        <canvas id="map" width="720" height="230" aria-label="Roll map: sensor signal against roll angle"></canvas>
+        <p class="legend"><i class="key meas"></i>measured signal <i class="key pred"></i>catalog star in the ring <i class="key gate"></i>brightness gate <i class="key roll"></i>sensor now</p>
+      </section>
+
+      <aside class="panel">
+        <dl class="readout">
+          <div><dt>UTC, 1964</dt><dd id="clock">28 Nov 14:22</dd><span class="sub" id="elapsed">launch + 0.0 d</span></div>
+          <div><dt>Sensor</dt><dd id="mode">Waiting</dd><span class="sub" id="locked">Sun acquisition first</span></div>
+          <div><dt>Signal</dt><dd id="signal">0.00×</dd><span class="sub">× Canopus</span></div>
+          <div><dt>Midcourse burn</dt><dd id="burn">4 Dec 16:46</dd><span class="sub" id="steady">needs 9.6 h of steady Canopus lock</span></div>
+        </dl>
+
+        <fieldset class="controls">
+          <legend>Brightness gate</legend>
+          <div class="gates" role="radiogroup" aria-label="Brightness gate">
+            <button data-gate="tight" type="button">Tight<br><small>0.77–1.3×</small></button>
+            <button data-gate="normal" type="button" class="on">Normal<br><small>0.4–2.5×</small></button>
+            <button data-gate="wide" type="button">Wide<br><small>0.13–8×</small></button>
+            <button data-gate="off" type="button">Off<br><small>any ≥ 0.06×</small></button>
+          </div>
+          <p class="small">With the gate on, a lock that drifts outside the window is dropped and the roll search starts again.</p>
+          <div class="row">
+            <button id="hop" type="button">Roll override: next object</button>
+          </div>
+          <div class="row">
+            <button id="pause" type="button">Pause</button>
+            <button id="speed" type="button">Speed ×1</button>
+            <button id="reset" type="button">New launch</button>
+          </div>
+          <p class="small" id="uplink">Commands reach the spacecraft about 30 minutes after you send them.</p>
+        </fieldset>
+
+        <div class="verdict" id="verdict" hidden></div>
+        <ol class="log" id="log" aria-live="polite"></ol>
+      </aside>
+    </div>
+
+    <footer>
+      <p>Toy model. Star positions are real (bright stars, J2000, Sun of 30 November 1964). The sensor's field, gate widths, Earth-shine and dust flecks are made up to match the shape of the story: after launch on 28 November 1964, Mariner 4's Canopus sensor locked onto other objects, including stray light from the near Earth, before ground commands got it onto Canopus; bright flecks drifting with the spacecraft kept breaking the lock, and the midcourse burn planned for 4 December was flown on 5 December.</p>
+    </footer>
+  </main>
+</body>
+</html>
