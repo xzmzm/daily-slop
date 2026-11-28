@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101a24">
+  <title>Overboard</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="sim.js"></script>
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <main class="sheet">
+    <header class="masthead">
+      <p class="date"><time datetime="2026-11-29">29 November 2026 · Byrd's South Pole flight, 97 years ago today</time></p>
+      <h1>Over<em>board</em></h1>
+      <p class="intro">The Ford Trimotor <i>Floyd Bennett</i> is too heavy to climb out of the glacier to the polar plateau. The dashed line shows where it will be at the pass if nothing else goes overboard. Throw out food sacks or gasoline, keep as much as you can, and clear the ice.</p>
+    </header>
+
+    <div class="layout">
+      <section class="stage">
+        <canvas id="view" width="1000" height="470" aria-label="Side view of the glacier, the aircraft and its projected climb"></canvas>
+        <p class="legend"><i class="key path"></i>flown <i class="key proj"></i>projected, nothing dropped <i class="key next"></i>projected, one more sack now <i class="key sink"></i>air spilling down the glacier</p>
+      </section>
+
+      <aside class="panel">
+        <dl class="readout">
+          <div><dt>Altitude</dt><dd id="alt">7,400 ft</dd><span class="sub" id="above">above ice</span></div>
+          <div><dt>Climb</dt><dd id="climb">+0 ft/min</dd><span class="sub" id="where">mile 0</span></div>
+          <div><dt>At the pass</dt><dd id="pass">–</dd><span class="sub" id="passSub">projected clearance</span></div>
+          <div><dt>Gross weight</dt><dd id="weight">15,000 lb</dd><span class="sub" id="ceil">ceiling</span></div>
+          <div><dt>Food aboard</dt><dd id="food">5 sacks</dd><span class="sub" id="foodSub">days for four if forced down</span></div>
+          <div><dt>Fuel at depot</dt><dd id="fuel">+214 lb</dd><span class="sub">spare, on the way home</span></div>
+        </dl>
+
+        <fieldset class="controls">
+          <legend>Overboard</legend>
+          <div class="row">
+            <button id="dropFood" type="button">Food sack <small>150 lb</small></button>
+            <button id="dropFuel" type="button">Gasoline <small>25 gal · 150 lb</small></button>
+          </div>
+          <div class="row">
+            <button id="pause" type="button">Pause</button>
+            <button id="speed" type="button">Speed ×1</button>
+            <button id="turn" type="button">Turn back</button>
+            <button id="reset" type="button">New flight</button>
+          </div>
+          <p class="small">Weight thrown out early has longer to turn into height. The air sinks hardest in the last miles below the pass.</p>
+        </fieldset>
+
+        <div class="verdict" id="verdict" hidden></div>
+        <ol class="log" id="log" aria-live="polite"></ol>
+      </aside>
+    </div>
+
+    <footer>
+      <p>Toy model. On 28–29 November 1929 Bernt Balchen, Harold June, Ashley McKinley and Richard Byrd flew from Little America to the South Pole and back. Climbing the glacier to the plateau, the overloaded Trimotor could not gain height, and the crew threw food overboard until it did. Byrd's dispatches and later accounts disagree on the bag weights (125 to 250 lb), but most put the total at about two sacks. The ceiling formula, sink, fuel figures and terrain profile here are made up to fit that story, not measured.</p>
+    </footer>
+  </main>
+</body>
+</html>
